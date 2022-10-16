@@ -27,6 +27,6 @@ jobs:
           pip install coverage
       - name: Run Tests
         run: |
-          python manage.py tests
+          python manage.py test
         # coverage run manage.py test
         # coverage report --sort=miss -m
