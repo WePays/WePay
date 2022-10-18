@@ -1,5 +1,5 @@
 [flake8]
-; extend-ignore = 
+extend-ignore = DJ08
 exclude =
     # No need to traverse our git directory
     .git,
