@@ -11,6 +11,11 @@ class Bills(models.Model):
     name = models.CharField(max_length=100)
     pub_date = models.DateTimeField(default=timezone.localtime)
 
+    class Meta:
+        verbose_name = 'Bill'
+        verbose_name_plural = 'Bills'
+        app_name = 'user_bill' 
+
     def __repr__(self) -> str:
         return f'Bills(header={self.header}, name={self.name}, pub_date={self.pub_date})'
     __str__ = __repr__

@@ -20,6 +20,7 @@ from .views import Home
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('bill/', include('WePay.urls')),
     path('accounts/', include('allauth.urls')),
     # path('', RedirectView.as_view(url='/accounts/login/')),
     path('', Home.as_view(), name='index'),  # new

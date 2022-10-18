@@ -83,6 +83,7 @@ AUTHENTICATION_BACKENDS = [
     # `allauth` specific authentication methods, such as login by e-mail
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
+
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
 SITE_ID = 1
