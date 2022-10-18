@@ -11,6 +11,10 @@ class Bills(models.Model):
     name = models.CharField(max_length=100)
     pub_date = models.DateTimeField(default=timezone.localtime)
 
+    def __repr__(self) -> str:
+        return f'Bills(header={self.header}, name={self.name}, pub_date={self.pub_date})'
+    __str__ = __repr__
+
 
 class Food(models.Model):
     """Topic model"""
@@ -37,10 +41,15 @@ class Payment(models.Model):
         choices=Status_choice.choices,
         default=Status_choice.UNPAID,
         max_length=10)
-    image = models.ImageField(upload_to='images/', blank=True)
+    # image = models.ImageField(upload_to='images/', blank=True)
 
     class Meta:
         abstract = True
+
+    def __repr__(self) -> str:
+        return f'{self.__class__.__name__}(user={self.user}, date={self.date},\
+    bill={self.bill}, status={self.status})'
+    __str__ = __repr__
 
 
 class BankPayment(Payment):
@@ -55,6 +64,7 @@ class BankPayment(Payment):
         TMB = 'TTB'
         BAY = 'BAY'
         REDCIT = 'CREDIT'
+        PROMPTPAY = 'PROMPTPAY'
         other = 'other'
 
     bank_name = models.CharField(
@@ -62,11 +72,15 @@ class BankPayment(Payment):
         default=Bank_choice.other,
         max_length=10)
 
+    def __repr__(self) -> str:
+        return super().__repr__()[:-1] + f' Paid by {self.Bank_choice})'
+
 
 class CashPayment(Payment):
-    image = models.NOT_PROVIDED
+    # image = models.NOT_PROVIDED
+    pass
 
 
-class PromptPayPayment(Payment):
-    phone_number = models.CharField(max_length=10)
-    name = models.CharField(max_length=100)
+# class PromptPayPayment(Payment):
+#     phone_number = models.CharField(max_length=10)
+#     name = models.CharField(max_length=100)
