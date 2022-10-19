@@ -3,4 +3,4 @@ from django.views.generic import TemplateView
 
 
 class Home(TemplateView):
-    template_name = 'Wepay/index.html'
+    template_name = "Wepay/index.html"
