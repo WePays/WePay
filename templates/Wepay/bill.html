@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{%block title%}
+{{ super }}
+yours bill
+{% endblock title%}
+{% block body%}
+<h1>Polls list</h1>
+{{super}}
+{% if my_bill %}
+  <ul>
+    {% for bill in my_bill %}
+    <list>{{forloop.counter0|add:"1"}}
+    {% comment %} {% if question.can_vote %}
+ <a href="{% url 'polls:results' question.id %}">
+      <button type="button">{{"results"}}</button>
+  </a>  <a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a>
+  </a> {% endcomment %}
+{% comment %} 
+    {%else%}
+    <a href="{% url 'polls:results' question.id %}">
+      <button type="button">{{"results"}}</button>
+  </a>
+    {%endif%} {% endcomment %}
+    {{ bill.title }}
+</list><br>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No Bill are available.</p>
+{% endif %}
+
+{% if user.is_authenticated %}&nbsp;&nbsp;&nbsp;<label>{{"login as "}}</label><user>{{user.username}}</user> <a href="{% url 'logout' %}"><button type="button">Log Out</button></a>
+{% else %}<a href="{% url 'login' %}"><button type="button">Log in?</button></a>
+{% endif %}
+{% endblock body%}
+{% block button %}{% endblock button %}
