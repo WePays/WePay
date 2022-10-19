@@ -1,0 +1,982 @@
+[
+{
+  "model": "admin.logentry",
+  "pk": 1,
+  "fields": {
+    "action_time": "2022-10-18T07:40:03.672Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "1",
+    "object_repr": "127.0.0.1",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Domain name\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 2,
+  "fields": {
+    "action_time": "2022-10-18T07:41:52.601Z",
+    "user": 1,
+    "content_type": 11,
+    "object_id": "1",
+    "object_repr": "GitHub",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 3,
+  "fields": {
+    "action_time": "2022-10-18T07:53:46.764Z",
+    "user": 1,
+    "content_type": 11,
+    "object_id": "1",
+    "object_repr": "GitHub",
+    "action_flag": 2,
+    "change_message": "[]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 4,
+  "fields": {
+    "action_time": "2022-10-19T14:04:10.609Z",
+    "user": 1,
+    "content_type": 11,
+    "object_id": "2",
+    "object_repr": "Google",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 1,
+  "fields": {
+    "name": "Can add log entry",
+    "content_type": 1,
+    "codename": "add_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 2,
+  "fields": {
+    "name": "Can change log entry",
+    "content_type": 1,
+    "codename": "change_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 3,
+  "fields": {
+    "name": "Can delete log entry",
+    "content_type": 1,
+    "codename": "delete_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 4,
+  "fields": {
+    "name": "Can view log entry",
+    "content_type": 1,
+    "codename": "view_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 5,
+  "fields": {
+    "name": "Can add permission",
+    "content_type": 2,
+    "codename": "add_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 6,
+  "fields": {
+    "name": "Can change permission",
+    "content_type": 2,
+    "codename": "change_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 7,
+  "fields": {
+    "name": "Can delete permission",
+    "content_type": 2,
+    "codename": "delete_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 8,
+  "fields": {
+    "name": "Can view permission",
+    "content_type": 2,
+    "codename": "view_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 9,
+  "fields": {
+    "name": "Can add group",
+    "content_type": 3,
+    "codename": "add_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 10,
+  "fields": {
+    "name": "Can change group",
+    "content_type": 3,
+    "codename": "change_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 11,
+  "fields": {
+    "name": "Can delete group",
+    "content_type": 3,
+    "codename": "delete_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 12,
+  "fields": {
+    "name": "Can view group",
+    "content_type": 3,
+    "codename": "view_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 13,
+  "fields": {
+    "name": "Can add user",
+    "content_type": 4,
+    "codename": "add_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 14,
+  "fields": {
+    "name": "Can change user",
+    "content_type": 4,
+    "codename": "change_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 15,
+  "fields": {
+    "name": "Can delete user",
+    "content_type": 4,
+    "codename": "delete_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 16,
+  "fields": {
+    "name": "Can view user",
+    "content_type": 4,
+    "codename": "view_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 17,
+  "fields": {
+    "name": "Can add content type",
+    "content_type": 5,
+    "codename": "add_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 18,
+  "fields": {
+    "name": "Can change content type",
+    "content_type": 5,
+    "codename": "change_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 19,
+  "fields": {
+    "name": "Can delete content type",
+    "content_type": 5,
+    "codename": "delete_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 20,
+  "fields": {
+    "name": "Can view content type",
+    "content_type": 5,
+    "codename": "view_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 21,
+  "fields": {
+    "name": "Can add session",
+    "content_type": 6,
+    "codename": "add_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 22,
+  "fields": {
+    "name": "Can change session",
+    "content_type": 6,
+    "codename": "change_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 23,
+  "fields": {
+    "name": "Can delete session",
+    "content_type": 6,
+    "codename": "delete_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 24,
+  "fields": {
+    "name": "Can view session",
+    "content_type": 6,
+    "codename": "view_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 25,
+  "fields": {
+    "name": "Can add site",
+    "content_type": 7,
+    "codename": "add_site"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 26,
+  "fields": {
+    "name": "Can change site",
+    "content_type": 7,
+    "codename": "change_site"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 27,
+  "fields": {
+    "name": "Can delete site",
+    "content_type": 7,
+    "codename": "delete_site"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 28,
+  "fields": {
+    "name": "Can view site",
+    "content_type": 7,
+    "codename": "view_site"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 29,
+  "fields": {
+    "name": "Can add email address",
+    "content_type": 8,
+    "codename": "add_emailaddress"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 30,
+  "fields": {
+    "name": "Can change email address",
+    "content_type": 8,
+    "codename": "change_emailaddress"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 31,
+  "fields": {
+    "name": "Can delete email address",
+    "content_type": 8,
+    "codename": "delete_emailaddress"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 32,
+  "fields": {
+    "name": "Can view email address",
+    "content_type": 8,
+    "codename": "view_emailaddress"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 33,
+  "fields": {
+    "name": "Can add email confirmation",
+    "content_type": 9,
+    "codename": "add_emailconfirmation"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 34,
+  "fields": {
+    "name": "Can change email confirmation",
+    "content_type": 9,
+    "codename": "change_emailconfirmation"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 35,
+  "fields": {
+    "name": "Can delete email confirmation",
+    "content_type": 9,
+    "codename": "delete_emailconfirmation"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 36,
+  "fields": {
+    "name": "Can view email confirmation",
+    "content_type": 9,
+    "codename": "view_emailconfirmation"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 37,
+  "fields": {
+    "name": "Can add social account",
+    "content_type": 10,
+    "codename": "add_socialaccount"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 38,
+  "fields": {
+    "name": "Can change social account",
+    "content_type": 10,
+    "codename": "change_socialaccount"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 39,
+  "fields": {
+    "name": "Can delete social account",
+    "content_type": 10,
+    "codename": "delete_socialaccount"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 40,
+  "fields": {
+    "name": "Can view social account",
+    "content_type": 10,
+    "codename": "view_socialaccount"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 41,
+  "fields": {
+    "name": "Can add social application",
+    "content_type": 11,
+    "codename": "add_socialapp"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 42,
+  "fields": {
+    "name": "Can change social application",
+    "content_type": 11,
+    "codename": "change_socialapp"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 43,
+  "fields": {
+    "name": "Can delete social application",
+    "content_type": 11,
+    "codename": "delete_socialapp"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 44,
+  "fields": {
+    "name": "Can view social application",
+    "content_type": 11,
+    "codename": "view_socialapp"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 45,
+  "fields": {
+    "name": "Can add social application token",
+    "content_type": 12,
+    "codename": "add_socialtoken"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 46,
+  "fields": {
+    "name": "Can change social application token",
+    "content_type": 12,
+    "codename": "change_socialtoken"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 47,
+  "fields": {
+    "name": "Can delete social application token",
+    "content_type": 12,
+    "codename": "delete_socialtoken"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 48,
+  "fields": {
+    "name": "Can view social application token",
+    "content_type": 12,
+    "codename": "view_socialtoken"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 49,
+  "fields": {
+    "name": "Can add cash payment",
+    "content_type": 13,
+    "codename": "add_cashpayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 50,
+  "fields": {
+    "name": "Can change cash payment",
+    "content_type": 13,
+    "codename": "change_cashpayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 51,
+  "fields": {
+    "name": "Can delete cash payment",
+    "content_type": 13,
+    "codename": "delete_cashpayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 52,
+  "fields": {
+    "name": "Can view cash payment",
+    "content_type": 13,
+    "codename": "view_cashpayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 53,
+  "fields": {
+    "name": "Can add Bill",
+    "content_type": 14,
+    "codename": "add_bills"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 54,
+  "fields": {
+    "name": "Can change Bill",
+    "content_type": 14,
+    "codename": "change_bills"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 55,
+  "fields": {
+    "name": "Can delete Bill",
+    "content_type": 14,
+    "codename": "delete_bills"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 56,
+  "fields": {
+    "name": "Can view Bill",
+    "content_type": 14,
+    "codename": "view_bills"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 57,
+  "fields": {
+    "name": "Can add bank payment",
+    "content_type": 15,
+    "codename": "add_bankpayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 58,
+  "fields": {
+    "name": "Can change bank payment",
+    "content_type": 15,
+    "codename": "change_bankpayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 59,
+  "fields": {
+    "name": "Can delete bank payment",
+    "content_type": 15,
+    "codename": "delete_bankpayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 60,
+  "fields": {
+    "name": "Can view bank payment",
+    "content_type": 15,
+    "codename": "view_bankpayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 61,
+  "fields": {
+    "name": "Can add prompt pay payment",
+    "content_type": 16,
+    "codename": "add_promptpaypayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 62,
+  "fields": {
+    "name": "Can change prompt pay payment",
+    "content_type": 16,
+    "codename": "change_promptpaypayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 63,
+  "fields": {
+    "name": "Can delete prompt pay payment",
+    "content_type": 16,
+    "codename": "delete_promptpaypayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 64,
+  "fields": {
+    "name": "Can view prompt pay payment",
+    "content_type": 16,
+    "codename": "view_promptpaypayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 65,
+  "fields": {
+    "name": "Can add food",
+    "content_type": 17,
+    "codename": "add_food"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 66,
+  "fields": {
+    "name": "Can change food",
+    "content_type": 17,
+    "codename": "change_food"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 67,
+  "fields": {
+    "name": "Can delete food",
+    "content_type": 17,
+    "codename": "delete_food"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 68,
+  "fields": {
+    "name": "Can view food",
+    "content_type": 17,
+    "codename": "view_food"
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$390000$7TLFuJtGRUKNtyJNxGI2it$5ApnwGFVmIV4BDuG4GMFXMBaB4RiKsA99PtDCBFswOE=",
+    "last_login": "2022-10-19T14:30:08.747Z",
+    "is_superuser": true,
+    "username": "test_wepay",
+    "first_name": "",
+    "last_name": "",
+    "email": "godjangg@gmail.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2022-10-18T07:35:32.073Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 2,
+  "fields": {
+    "password": "!Pw82CIwoFD3D6VWn5K5kT039c1GN6vms2e8QfK9i",
+    "last_login": "2022-10-19T14:51:03.070Z",
+    "is_superuser": false,
+    "username": "Tezigudo",
+    "first_name": "Preawpan",
+    "last_name": "Thamapipol",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2022-10-18T07:55:13.663Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 3,
+  "fields": {
+    "password": "!o73paUZzWklFabBsn5z0Msll7aO5qnR4HP9fILlp",
+    "last_login": "2022-10-19T14:48:33.662Z",
+    "is_superuser": false,
+    "username": "preawpan",
+    "first_name": "Preawpan",
+    "last_name": "THAMAPIPOL",
+    "email": "preawpan.t@ku.th",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2022-10-19T14:27:18.660Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 1,
+  "fields": {
+    "app_label": "admin",
+    "model": "logentry"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 2,
+  "fields": {
+    "app_label": "auth",
+    "model": "permission"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 3,
+  "fields": {
+    "app_label": "auth",
+    "model": "group"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 4,
+  "fields": {
+    "app_label": "auth",
+    "model": "user"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 5,
+  "fields": {
+    "app_label": "contenttypes",
+    "model": "contenttype"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 6,
+  "fields": {
+    "app_label": "sessions",
+    "model": "session"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 7,
+  "fields": {
+    "app_label": "sites",
+    "model": "site"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 8,
+  "fields": {
+    "app_label": "account",
+    "model": "emailaddress"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 9,
+  "fields": {
+    "app_label": "account",
+    "model": "emailconfirmation"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 10,
+  "fields": {
+    "app_label": "socialaccount",
+    "model": "socialaccount"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 11,
+  "fields": {
+    "app_label": "socialaccount",
+    "model": "socialapp"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 12,
+  "fields": {
+    "app_label": "socialaccount",
+    "model": "socialtoken"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 13,
+  "fields": {
+    "app_label": "WePay",
+    "model": "cashpayment"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 14,
+  "fields": {
+    "app_label": "WePay",
+    "model": "bills"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 15,
+  "fields": {
+    "app_label": "WePay",
+    "model": "bankpayment"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 16,
+  "fields": {
+    "app_label": "WePay",
+    "model": "promptpaypayment"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 17,
+  "fields": {
+    "app_label": "WePay",
+    "model": "food"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "oi3l51oqx72njyz5o1jxfayeg4r44dxu",
+  "fields": {
+    "session_data": "e30:1okhSF:ZSrzTg_fGvPlhmIqFNP_a5vFUDB1a-crCDbg7ZJai_E",
+    "expire_date": "2022-11-01T07:56:03.120Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "pcma39ax80aq531z709652jn95esv51n",
+  "fields": {
+    "session_data": "eyJhY2NvdW50X3ZlcmlmaWVkX2VtYWlsIjpudWxsfQ:1olA2Q:mzKR4eTTqN7xrdIBDLKIBeZegSOmPnt4Tn8qcUL758I",
+    "expire_date": "2022-11-02T14:27:18.680Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "q72k71xm8t0vtoj6luh46ztz2zsdkm24",
+  "fields": {
+    "session_data": "eyJhY2NvdW50X3ZlcmlmaWVkX2VtYWlsIjpudWxsfQ:1okhRR:JHSYHd5L68UfoVy7biqUZLld6ARjsDXGNiNdTvprtlo",
+    "expire_date": "2022-11-01T07:55:13.683Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "q78r0k1snbbsnc7tserjvwcahyrm6kqa",
+  "fields": {
+    "session_data": "e30:1ol4PR:_u_IgEBhBunqIhp-Qe0IlMkLlTbTXShunJaPu6Ifb4U",
+    "expire_date": "2022-11-02T08:26:41.682Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "qj4adx33hkk8smdpe8qehpigx21jrd1o",
+  "fields": {
+    "session_data": "eyJzb2NpYWxhY2NvdW50X3N0YXRlIjpbeyJwcm9jZXNzIjoibG9naW4iLCJzY29wZSI6IiIsImF1dGhfcGFyYW1zIjoiIn0sIm9hRHNhT1NSc05vRiJdfQ:1okhQJ:w2e_7kMhdjs_L3lXDI5Pb9DMKwAh8kBhyH5L_gIQOdk",
+    "expire_date": "2022-11-01T07:54:03.967Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "s7efcfk15c4q7e6dm3c6xk9rwdk1k5bz",
+  "fields": {
+    "session_data": "e30:1ol4Q5:-2eVNVsR8GbWVScapHsXEH1PTjv4Sh2L4TtQDCBXsf8",
+    "expire_date": "2022-11-02T08:27:21.206Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "zzmbvde7imnuijuum7rnf4j0wke5gr2l",
+  "fields": {
+    "session_data": "e30:1oki2S:pEULBgtetq7HNdUyi7OLVxru58LA5QEVsQnTR9azZZA",
+    "expire_date": "2022-11-01T08:33:28.557Z"
+  }
+},
+{
+  "model": "sites.site",
+  "pk": 1,
+  "fields": {
+    "domain": "127.0.0.1",
+    "name": "example.com"
+  }
+},
+{
+  "model": "account.emailaddress",
+  "pk": 1,
+  "fields": {
+    "user": 3,
+    "email": "preawpan.t@ku.th",
+    "verified": true,
+    "primary": true
+  }
+},
+{
+  "model": "socialaccount.socialapp",
+  "pk": 1,
+  "fields": {
+    "provider": "github",
+    "name": "GitHub",
+    "client_id": "aa42db2facbb11ebe3d7",
+    "secret": "5517f1fdd1ff700fdf441714a3effe130e96f4ba",
+    "key": "",
+    "sites": [
+      1
+    ]
+  }
+},
+{
+  "model": "socialaccount.socialapp",
+  "pk": 2,
+  "fields": {
+    "provider": "google",
+    "name": "Google",
+    "client_id": "914149665651-4c4nmo3h9m04lapo12b837tja9jba8jl.apps.googleusercontent.com",
+    "secret": "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",
+    "key": "",
+    "sites": [
+      1
+    ]
+  }
+},
+{
+  "model": "socialaccount.socialaccount",
+  "pk": 1,
+  "fields": {
+    "user": 2,
+    "provider": "github",
+    "uid": "80502090",
+    "last_login": "2022-10-19T14:51:03.064Z",
+    "date_joined": "2022-10-18T07:55:13.678Z",
+    "extra_data": "{\"login\": \"Tezigudo\", \"id\": 80502090, \"node_id\": \"MDQ6VXNlcjgwNTAyMDkw\", \"avatar_url\": \"https://avatars.githubusercontent.com/u/80502090?v=4\", \"gravatar_id\": \"\", \"url\": \"https://api.github.com/users/Tezigudo\", \"html_url\": \"https://github.com/Tezigudo\", \"followers_url\": \"https://api.github.com/users/Tezigudo/followers\", \"following_url\": \"https://api.github.com/users/Tezigudo/following{/other_user}\", \"gists_url\": \"https://api.github.com/users/Tezigudo/gists{/gist_id}\", \"starred_url\": \"https://api.github.com/users/Tezigudo/starred{/owner}{/repo}\", \"subscriptions_url\": \"https://api.github.com/users/Tezigudo/subscriptions\", \"organizations_url\": \"https://api.github.com/users/Tezigudo/orgs\", \"repos_url\": \"https://api.github.com/users/Tezigudo/repos\", \"events_url\": \"https://api.github.com/users/Tezigudo/events{/privacy}\", \"received_events_url\": \"https://api.github.com/users/Tezigudo/received_events\", \"type\": \"User\", \"site_admin\": false, \"name\": \"Preawpan Thamapipol\", \"company\": null, \"blog\": \"\", \"location\": \"Bangkok, Thailand\", \"email\": null, \"hireable\": null, \"bio\": \"KU - SKE19\\r\\nInterested in AI and machine learning\", \"twitter_username\": null, \"public_repos\": 22, \"public_gists\": 0, \"followers\": 45, \"following\": 97, \"created_at\": \"2021-03-12T04:00:19Z\", \"updated_at\": \"2022-10-19T12:46:49Z\"}"
+  }
+},
+{
+  "model": "socialaccount.socialaccount",
+  "pk": 2,
+  "fields": {
+    "user": 3,
+    "provider": "google",
+    "uid": "102104040772931581028",
+    "last_login": "2022-10-19T14:48:33.656Z",
+    "date_joined": "2022-10-19T14:27:18.675Z",
+    "extra_data": "{\"id\": \"102104040772931581028\", \"email\": \"preawpan.t@ku.th\", \"verified_email\": true, \"name\": \"Preawpan THAMAPIPOL\", \"given_name\": \"Preawpan\", \"family_name\": \"THAMAPIPOL\", \"picture\": \"https://lh3.googleusercontent.com/a/ALm5wu0rEvngsMVcCZdRhTo-1vzjnmZ5Lugfw--rEar2=s96-c\", \"locale\": \"en\", \"hd\": \"ku.th\"}"
+  }
+}
+]
