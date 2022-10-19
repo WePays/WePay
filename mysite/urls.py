@@ -17,12 +17,12 @@ from django.contrib import admin
 from django.urls import path, include
 
 # from django.views.generic import RedirectView
-from .views import Home
+from .views import Home, signup
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("bill/", include("WePay.urls")),
     path("accounts/", include("allauth.urls")),
+        path('signup/', signup, name='signup')
     # path('', RedirectView.as_view(url='/accounts/login/')),
     path("", Home.as_view(), name="index"),  # new
-]
