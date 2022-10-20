@@ -32,7 +32,7 @@ echo pulling $iteration
 git pull origin $iteration
 echo installing requirements...
 pip install -r requirements.txt
-python manage.py migrate
 python manage.py loaddata data/*.json
+python manage.py migrate
 echo
 echo everything finished
