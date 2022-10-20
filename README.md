@@ -1,7 +1,8 @@
 ![logo](pics/docs/Wepay-logo.png)
 
 # WePay
-
+![Test](https://github.com/WePays/WePay/actions/workflows/django.yml/badge.svg)
+![Lint](https://github.com/WePays/WePay/actions/workflows/linting.yml/badge.svg)
  a web application for those who need to coordinate paying for a group. 
 
 ## Project Document
