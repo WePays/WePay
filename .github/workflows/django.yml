@@ -28,5 +28,9 @@ jobs:
       - name: Run Tests
         run: |
           python manage.py tests
-        # coverage run manage.py test
-        # coverage report --sort=miss -m
+      - name: Code Coverage Test
+        run: |
+          coverage run manage.py test polls
+      - name: Upload Coverage
+        uses: codecov/codecov-action@v3
+
