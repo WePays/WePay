@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     "allauth.socialaccount.providers.facebook",
     "allauth.socialaccount.providers.github",
     "allauth.socialaccount.providers.google",
-    'allauth.socialaccount.providers.discord',
+    "allauth.socialaccount.providers.discord",
 ]
 
 MIDDLEWARE = [

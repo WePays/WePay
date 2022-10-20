@@ -5,7 +5,7 @@ from . import views
 
 app_name = "bills"
 urlpatterns = [
-    path("", views.BillView.as_view(), name="bill"),
+    # path("", views.BillView.as_view(), name="bill"),
     # path("time/", views.showtime, name="time"),
     # path("<int:pk>/", views.DetailView.as_view(), name="detail"),
     # # /polls/5/results/
