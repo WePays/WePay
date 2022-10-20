@@ -37,3 +37,6 @@ def create(request):
 
 def detail(request):
     return HttpResponse('<h1>detail</h1>')
+
+def payment(request):
+    return HttpResponse('<h1>payments</h1>')

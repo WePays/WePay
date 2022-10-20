@@ -8,6 +8,7 @@ urlpatterns = [
     path("", views.bill, name="bill"),
     path("create/", views.create, name="create"),
     path("detail/", views.detail, name="detail"),
+    path("payments/", views.payment, name="payment")
     # path("", views.BillView.as_view(), name="bill"),
     # path("<int:pk>", views.CreateBillView.as_view(), name="create")
     # path("time/", views.showtime, name="time"),
