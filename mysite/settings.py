@@ -125,9 +125,9 @@ SOCIALACCOUNT_PROVIDERS = {
                      'link',
                      'updated_time'],
                  'EXCHANGE_TOKEN': True,
-                 'LOCALE_FUNC': lambda request: 'kr_KR',
+                 'LOCALE_FUNC': lambda request: 'th_TH',
                  'VERIFIED_EMAIL': False,
-                 'VERSION': 'v13.0'}
+                 'VERSION': 'v15.0'}
 }
 
 # Database
