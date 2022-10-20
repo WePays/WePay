@@ -14,6 +14,25 @@ class Bills(models.Model):
         verbose_name = "Bill"
         verbose_name_plural = "Bills"
 
+    def calculate_price(self, person: User) -> float:
+        """calculate price for each person"""
+        food = Food.objects.filter(bill=self)
+        return sum(
+            each_food.each_price for each_food in food if person in each_food.user
+        )
+
+    @property
+    def total_price(self):
+        """calculate total price"""
+        food = Food.objects.filter(bill=self)
+        return sum(each_food.price for each_food in food)
+
+    @property
+    def all_user(self) -> List[User]:
+        """return list of all user"""
+        food = Food.objects.filter(bill=self)
+        return list(set([each_food.user for each_food in food]))
+
     def __repr__(self) -> str:
         return (
             f"Bills(header={self.header}, name={self.name}, pub_date={self.pub_date})"
@@ -29,6 +48,9 @@ class Food(models.Model):
     price = models.IntegerField("price")
     bill = models.ForeignKey(Bills, on_delete=models.CASCADE)
     user: List[User] = []
+
+    def each_price(self):
+        return self.price / len(self.user)
 
     def add_user(self, user):
         self.user.append(user)
@@ -52,6 +74,10 @@ class Payment(models.Model):
 
     class Meta:
         abstract = True
+
+    @property
+    def header(self):
+        return self.bill.header
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}(user={self.user}, date={self.date},\
