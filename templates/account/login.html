@@ -1,0 +1,64 @@
+{% load static %}
+{% load socialaccount %}
+
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Login Page in HTML with CSS Code</title>
+  <link rel="stylesheet" media="screen" href="https://fontlibrary.org//face/hk-grotesk" type="text/css"/>
+  <link rel="stylesheet" href="{% static 'WePay/login.css' %}">
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" 
+rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" 
+crossorigin="anonymous"><link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<div class="box-form">
+	<div class="left">
+		<div class="overlay">
+      <a href="https://files.fm/f/26tptj9uz"><img src="https://files.fm/thumb_show.php?i=26tptj9uz" width="180px" height="180px"></a>
+		<h1>WePay</h1>
+		<p>WePay is a web application for those <br>who need to coordinate paying for a group.<br>
+      WePay can help by charging or splitting bills, <br> which makes it easier to collect money.</p>
+		<span>
+			<p>Login with</p>
+      <a href="{% provider_login_url 'github' %}"> <i class="fa fa-github" aria-hidden="true"></i>  GitHub </a>
+			<a href="#"><i class="fa fa-google" aria-hidden="true"></i>  Google  </a>
+			<a href="#"><i class="fa fa-facebook" aria-hidden="true"></i>  Facebook  </a>
+		</span>
+		</div>
+	</div>
+	
+	
+		<div class="right">
+		<h5>Login</h5>
+		<p>Don't have an account? <a href="#">Creat Your Account</a> it takes less than a minute</p>
+		<div class="inputs">
+			<input type="text" placeholder="user name">
+			<br>
+			<input type="password" placeholder="password">
+		</div>
+			
+			<br><br>
+			
+		<div class="remember-me--forget-password">
+				<!-- Angular -->
+	<label>
+		<input type="checkbox" name="item" checked/>
+		<span class="text-checkbox">Remember me</span>
+	</label>
+			<p>forget password?</p>
+		</div>
+			
+			<br>
+			<button>Login</button>
+	</div>
+	
+</div>
+<!-- partial -->
+  
+</body>
+</html>
