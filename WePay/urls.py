@@ -5,7 +5,11 @@ from . import views
 
 app_name = "bills"
 urlpatterns = [
+    path("", views.bill, name="bill"),
+    path("create/", views.create, name="create"),
+    path("detail/", views.detail, name="detail"),
     # path("", views.BillView.as_view(), name="bill"),
+    # path("<int:pk>", views.CreateBillView.as_view(), name="create")
     # path("time/", views.showtime, name="time"),
     # path("<int:pk>/", views.DetailView.as_view(), name="detail"),
     # # /polls/5/results/
