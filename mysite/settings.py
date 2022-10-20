@@ -45,8 +45,8 @@ INSTALLED_APPS = [
     "allauth.socialaccount",
     "allauth.socialaccount.providers.facebook",
     "allauth.socialaccount.providers.github",
-    "allauth.socialaccount.providers.yahoo",
     "allauth.socialaccount.providers.google",
+    'allauth.socialaccount.providers.discord',
 ]
 
 MIDDLEWARE = [
@@ -112,6 +112,22 @@ SOCIALACCOUNT_PROVIDERS = {
             "access_type": "online",
         },
     },
+    'facebook': {'METHOD': 'oauth2',
+                 'SCOPE': ['email', 'user_friends'],
+                 'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+                 'FIELDS': [
+                     'id',
+                     'email',
+                     'name',
+                     'first_name',
+                     'last_name',
+                     'timezone',
+                     'link',
+                     'updated_time'],
+                 'EXCHANGE_TOKEN': True,
+                 'LOCALE_FUNC': lambda request: 'kr_KR',
+                 'VERIFIED_EMAIL': False,
+                 'VERSION': 'v13.0'}
 }
 
 # Database

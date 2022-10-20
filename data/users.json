@@ -668,7 +668,7 @@
   "pk": 1,
   "fields": {
     "password": "pbkdf2_sha256$390000$7TLFuJtGRUKNtyJNxGI2it$5ApnwGFVmIV4BDuG4GMFXMBaB4RiKsA99PtDCBFswOE=",
-    "last_login": "2022-10-19T14:30:08.747Z",
+    "last_login": "2022-10-20T00:20:11.652Z",
     "is_superuser": true,
     "username": "test_wepay",
     "first_name": "",
@@ -686,7 +686,7 @@
   "pk": 2,
   "fields": {
     "password": "!Pw82CIwoFD3D6VWn5K5kT039c1GN6vms2e8QfK9i",
-    "last_login": "2022-10-19T14:51:03.070Z",
+    "last_login": "2022-10-20T03:06:11.604Z",
     "is_superuser": false,
     "username": "Tezigudo",
     "first_name": "Preawpan",
@@ -962,7 +962,7 @@
     "user": 2,
     "provider": "github",
     "uid": "80502090",
-    "last_login": "2022-10-19T14:51:03.064Z",
+    "last_login": "2022-10-20T03:06:11.596Z",
     "date_joined": "2022-10-18T07:55:13.678Z",
     "extra_data": "{\"login\": \"Tezigudo\", \"id\": 80502090, \"node_id\": \"MDQ6VXNlcjgwNTAyMDkw\", \"avatar_url\": \"https://avatars.githubusercontent.com/u/80502090?v=4\", \"gravatar_id\": \"\", \"url\": \"https://api.github.com/users/Tezigudo\", \"html_url\": \"https://github.com/Tezigudo\", \"followers_url\": \"https://api.github.com/users/Tezigudo/followers\", \"following_url\": \"https://api.github.com/users/Tezigudo/following{/other_user}\", \"gists_url\": \"https://api.github.com/users/Tezigudo/gists{/gist_id}\", \"starred_url\": \"https://api.github.com/users/Tezigudo/starred{/owner}{/repo}\", \"subscriptions_url\": \"https://api.github.com/users/Tezigudo/subscriptions\", \"organizations_url\": \"https://api.github.com/users/Tezigudo/orgs\", \"repos_url\": \"https://api.github.com/users/Tezigudo/repos\", \"events_url\": \"https://api.github.com/users/Tezigudo/events{/privacy}\", \"received_events_url\": \"https://api.github.com/users/Tezigudo/received_events\", \"type\": \"User\", \"site_admin\": false, \"name\": \"Preawpan Thamapipol\", \"company\": null, \"blog\": \"\", \"location\": \"Bangkok, Thailand\", \"email\": null, \"hireable\": null, \"bio\": \"KU - SKE19\\r\\nInterested in AI and machine learning\", \"twitter_username\": null, \"public_repos\": 22, \"public_gists\": 0, \"followers\": 45, \"following\": 97, \"created_at\": \"2021-03-12T04:00:19Z\", \"updated_at\": \"2022-10-19T12:46:49Z\"}"
   }
