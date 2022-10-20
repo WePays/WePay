@@ -2,6 +2,7 @@ from django.urls import path
 
 from . import views
 
+
 app_name = "bills"
 urlpatterns = [
     path("", views.BillView.as_view(), name="bill"),

@@ -1,0 +1,28 @@
+{% load static %}
+
+<html>
+
+<head>
+    {% block head %}
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="{% static 'WePay/login.css' %}">
+  <title>{% block title%}{% endblock title%}</title>
+  {% endblock head %}
+</head>
+
+<body>
+    <div class="login_page">
+
+    {% block body %}
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+      {% block content %} {% endblock content%}
+    {% endblock body %}
+
+    {% block button %}<a href="{% url 'WePay:index' %}">
+    <button type="button">Home</button></a> 
+    {% endblock button%}
+
+    </div>
+</body>
+
+</html>

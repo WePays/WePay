@@ -1,8 +1,8 @@
 # from django.contrib import admin
+from typing import List
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
-from typing import List
 
 
 class Bills(models.Model):

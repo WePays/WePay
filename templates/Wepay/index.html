@@ -1,9 +1,11 @@
-<!-- templates/home.html -->
+{% comment %} <!-- templates/home.html -->
 {% load socialaccount %}
+{% comment %} {% endcomment %}
 
 <h1>Django Allauth Tutorial</h1>
 {% if user.is_authenticated %}
 <p>Welcome {{ user.username }} !!!</p>
+<p><a href='/accounts/logout'><button type="button">Log Out</button></a></p>
 {% else %}
-<a href="{% provider_login_url 'github' %}">Sign Up</a>
+<a href="/accounts/login/">Sign Up</a>
 {% endif %}

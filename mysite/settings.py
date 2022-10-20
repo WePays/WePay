@@ -45,8 +45,8 @@ INSTALLED_APPS = [
     "allauth.socialaccount",
     "allauth.socialaccount.providers.facebook",
     "allauth.socialaccount.providers.github",
-    "allauth.socialaccount.providers.yahoo",
     "allauth.socialaccount.providers.google",
+    'allauth.socialaccount.providers.discord',
 ]
 
 MIDDLEWARE = [
@@ -91,7 +91,7 @@ SITE_ID = 1
 
 ACCOUNT_EMAIL_VERIFICATION = "none"
 
-LOGIN_REDIRECT_URL = ""
+LOGIN_REDIRECT_URL = "/"
 
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
@@ -112,6 +112,22 @@ SOCIALACCOUNT_PROVIDERS = {
             "access_type": "online",
         },
     },
+    'facebook': {'METHOD': 'oauth2',
+                 'SCOPE': ['email', 'user_friends'],
+                 'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+                 'FIELDS': [
+                     'id',
+                     'email',
+                     'name',
+                     'first_name',
+                     'last_name',
+                     'timezone',
+                     'link',
+                     'updated_time'],
+                 'EXCHANGE_TOKEN': True,
+                 'LOCALE_FUNC': lambda request: 'kr_KR',
+                 'VERIFIED_EMAIL': False,
+                 'VERSION': 'v13.0'}
 }
 
 # Database
@@ -167,4 +183,4 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-# LOGOUT_REDIRECT_URL = 'accounts/login/'
+LOGOUT_REDIRECT_URL = "/accounts/login/"
