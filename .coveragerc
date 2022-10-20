@@ -1,0 +1,7 @@
+[run]
+branch = True
+omit =
+    mysite/*
+    manage.py
+    WePay/migrations/*
+    WePay/__init__.py
