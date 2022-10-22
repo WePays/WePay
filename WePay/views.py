@@ -27,7 +27,6 @@ class CreateView(LoginRequiredMixin, generic.DetailView):
     model = Food
 
     def get(self, request):
-        user = request.user
         return render(request, "Wepay/create_bills.html")
 
 

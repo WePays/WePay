@@ -51,8 +51,8 @@ class BillModelTest(TestCase):
     def test_total_price(self):
         """test total price"""
         bill = Bills.objects.create(header=self.header, name='Food Bill')
-        pepsi = Food.objects.create(title='Pepsi', price=20, bill=bill)
-        coke = Food.objects.create(title='Coke', price=15, bill=bill)
+        Food.objects.create(title='Pepsi', price=20, bill=bill)
+        Food.objects.create(title='Coke', price=15, bill=bill)
         self.assertEqual(bill.total_price, 35)
 
     def test_all_user(self):
@@ -77,4 +77,7 @@ class BillModelTest(TestCase):
 
 
 class FoodModelTest(TestCase):
-    pass
+
+    @skip('Unfinished test')
+    def some_test(self):
+        pass
