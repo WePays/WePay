@@ -10,15 +10,15 @@ body {
 }
 
 .box-form {
-  margin: 0 auto;
-  size: 50px;
+  margin-top: 10%;
+  margin-left: 10%;
   width: 80%;
   background: #FFFFFF;
   border-radius: 10px;
   overflow: hidden;
   display: flex;
   flex: 1 1 100%;
-  align-items: stretch;
+  align-items: center;
   justify-content: space-between;
   box-shadow: 0 0 20px 6px #090b6f85;
 }
@@ -36,43 +36,42 @@ body {
 }
 .box-form .left {
   color: #FFFFFF;
-  size: auto;
   background: #171f99;
-  background-size: 20px;
   background-repeat: no-repeat;
-  overflow: hidden;
+  align-items: center;
+  overflow: scroll;
 }
 .box-form .left .overlay {
-  padding: 30px;
-  width: 100%;
+  padding: 10%;
+  width: 80%;
   height: 100%;
   background: #171f99;
   overflow: hidden;
   box-sizing: border-box;
 }
-.box-form .left .overlay h1 {
+.class .left .overlay h1 {
   font-size: 3vmax;
   line-height: 1;
   font-weight: 700;
-  margin-top: 30px;
-  margin-bottom: 10px;
+  margin-top: 5%;
+  margin-bottom: 5%;
 }
-.box-form .left .overlay p{
+.class .left .overlay p{
   margin-top: 30px;
   font-weight: 900;
 }
 
-.box-form .left .overlay a{
+.class .left .overlay a{
   margin-top: 0px;
   margin-left: 300px;
-
   font-weight: 900;
 }
 
-.box-form .left .overlay span p {
+.class .left .overlay span p {
   margin-bottom: 30px;
   font-weight: 900;
 }
+
 .box-form .left .overlay span a {
   background-color: #333333;
   color: #FFFFFF;
@@ -142,17 +141,17 @@ body {
   margin-right: 7px;
   width: auto;
 }
-.box-form .right button {
+.box-form .right button{
   float: right;
-  color: #fff;
+  color: rgb(6, 37, 149);
   font-size: 16px;
   padding: 12px 35px;
   border-radius: 50px;
   display: inline-block;
   border: 0;
   outline: 0;
-  box-shadow: 0px 4px 20px 0px #5CAD5C;
-  background-image: linear-gradient(135deg, #5CAD5C 10%, #3E893E 100%);
+  box-shadow: 0px 4px 20px 0px #fafcfa;
+  background-image: linear-gradient(135deg, #fafdfa 10%, #bae2fb 100%);
 }
 
 label {
@@ -166,7 +165,7 @@ label::before {
   position: absolute;
   font-family: FontAwesome;
   background: transparent;
-  border: 3px solid #5CAD5C;
+  border: 3px solid #101210;
   border-radius: 4px;
   color: transparent;
   left: -30px;
