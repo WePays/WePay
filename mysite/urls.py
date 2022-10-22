@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 from django.views.generic import RedirectView
-from .views import Home, signup
+from .views import signup
 
 urlpatterns = [
     path("admin/", admin.site.urls),
