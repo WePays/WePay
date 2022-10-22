@@ -42,13 +42,16 @@ class BillModelTest(TestCase):
     def test_calculate_price(self):
         """test calculate price"""
         bill = Bills.objects.create(header=self.header, name='Food Bill')
-        pepsi = Food.objects.create(title='Pepsi', price=12, bill=bill)
+        pepsi = Food.objects.create(title='Pepsi', price=20, bill=bill)
         pepsi.add_user(user=self.user1)
         pepsi.add_user(user=self.user2)
         coke = Food.objects.create(title='Coke', price=15, bill=bill)
         coke.add_user(user=self.user2)
-        self.assertEqual(bill.calculate_price(person=self.user1), pepsi.each_price())
-        self.assertEqual(bill.calculate_price(person=self.user2), coke.each_price())
+        # for user in pepsi.user:
+        #     print(user == self.user1)
+        # print(self.user1)
+        self.assertEqual(bill.calculate_price(person=self.user1), 10.0)
+        self.assertEqual(bill.calculate_price(person=self.user2), 25.0)
 
     @skip("unfinished test")
     def test_total_price(self):
