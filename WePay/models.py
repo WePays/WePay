@@ -1,9 +1,9 @@
 # from django.contrib import admin
+import logging
 from typing import List, Any
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
-import logging
 
 
 class Bills(models.Model):
@@ -18,8 +18,11 @@ class Bills(models.Model):
     def calculate_price(self, person: User) -> float:
         """calculate price for each person"""
         food = Food.objects.filter(bill=self)
-        print(food[0].user.all())
-        return sum(each_food.each_price() for each_food in food if person in each_food.user.all())
+        return sum(
+            each_food.each_price()
+            for each_food in food
+            if person in each_food.user.all()
+        )
 
     @property
     def total_price(self):
@@ -53,7 +56,11 @@ class Food(models.Model):
         return self.price / len(self.user.all())
 
     def add_user(self, user):
-        self.user.add(user)
+        if user not in self.user.all():
+            self.user.add(user)
+        else:
+            logging.info("user already in this food")
+
 
 class Payment(models.Model):
     """Entry model"""

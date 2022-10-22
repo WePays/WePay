@@ -26,5 +26,5 @@ urlpatterns = [
     path("signup/", signup, name="signup"),
     # path('', RedirectView.as_view(url='/accounts/login/')),
     # path("", Home.as_view(), name="index"),
-    path("", RedirectView.as_view(url='/bill/')),
+    path("", RedirectView.as_view(url="/bill/")),
 ]
