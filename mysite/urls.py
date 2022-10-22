@@ -22,9 +22,8 @@ from .views import signup
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("bill/", include("WePay.urls")),
-    path("accounts/", include("allauth.urls")),
-    path("signup/", signup, name="signup"),
+    path("account/", include("allauth.urls")),
+path("signup/", signup, name="signup"),
     # path('', RedirectView.as_view(url='/accounts/login/')),
-    # path("", Home.as_view(), name="index"),
     path("", RedirectView.as_view(url="/bill/")),
 ]
