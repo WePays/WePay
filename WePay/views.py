@@ -39,7 +39,7 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
     def get(self, request, pk):
         user = request.user
         try:
-            bills = Bills.objects.get(pk=pk, user=user)
+            bills = Bills.objects.get(pk=pk)
         except Bills.DoesNotExist:
             messages.error(request, "Bill dosen't exist")
             return HttpResponseRedirect(reverse('bills:bill'))
