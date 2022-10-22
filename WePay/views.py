@@ -3,20 +3,21 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import generic
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Bills, Food  # , Food, BankPayment, CashPayment, PromptPayPayment
 
 # from django.http import HttpRequest, HttpResponse
 # from django.db import models
 
 
-# class BillView(generic.ListView):
-#     """views for bill.html"""
+class BillView(LoginRequiredMixin, generic.ListView):
+    """views for bill.html"""
 
-#     template_name = "Wepay/bill.html"
-#     context_object_name = "my_bill"
+    template_name = "Wepay/bill.html"
+    context_object_name = "my_bill"
 
-#     def get_queryset(self):
-#         return Bills.objects.filter(header=self.request.user).order_by("-pub_date")
+    def get_queryset(self):
+        return Bills.objects.filter(header=self.request.user).order_by("-pub_date")
 
 # class DetailBillView(generic.DetailView):
 #     """Views for detail_bill"""
@@ -29,8 +30,8 @@ from .models import Bills, Food  # , Food, BankPayment, CashPayment, PromptPayPa
 
 #     return HttpResponse("")
 
-def bill(request):
-    return HttpResponse('<h1>Bill</h1>')
+# def bill(request):
+#     return HttpResponse('<h1>Bill</h1>')
 
 def create(request):
     return HttpResponse('<h1>create</h1>')
