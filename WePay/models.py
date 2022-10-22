@@ -18,7 +18,7 @@ class Bills(models.Model):
         """calculate price for each person"""
         food = Food.objects.filter(bill=self)
         return sum(
-            each_food.each_price for each_food in food if person in each_food.user
+            each_food.each_price() for each_food in food if person in each_food.user
         )
 
     @property
