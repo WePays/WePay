@@ -1,0 +1,29 @@
+{% load static %}
+{% load socialaccount %}
+
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+{% block head %}
+  <meta charset="UTF-8">
+  <title>{% block title %} {% endblock title%}</title>
+{% endblock head%}
+</head>
+<body>
+    {% block body%}
+<!-- partial:index.partial.html -->
+<div class="box-form">
+    <div class="left">
+        {% block boxleft%}
+
+        {% endblock boxleft%}
+	</div>
+	
+		<div class="right">
+            {% block boxright%}
+    {% endblock boxright%}
+	
+</div>
+{% endblock body %}
+</body>
+</html>
