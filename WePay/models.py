@@ -1,5 +1,5 @@
 # from django.contrib import admin
-from typing import List
+from typing import List, Any
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
@@ -31,7 +31,7 @@ class Bills(models.Model):
     def all_user(self) -> List[User]:
         """return list of all user"""
         food = Food.objects.filter(bill=self)
-        return list(set([each_food.user for each_food in food]))
+        return list({each_food.user for each_food in food})
 
     def __repr__(self) -> str:
         return (
@@ -70,10 +70,18 @@ class Payment(models.Model):
     status = models.CharField(
         choices=Status_choice.choices, default=Status_choice.UNPAID, max_length=10
     )
-    # image = models.ImageField(upload_to='images/', blank=True)
 
     class Meta:
         abstract = True
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+        if self.user == self.bill.header:
+            self.user.status = self.Status_choice.PAID
+
+    def __init_subclass__(cls) -> None:
+        super().__init_subclass__()
+        cls.__str__ = cls.__repr__
 
     @property
     def header(self):
@@ -82,8 +90,6 @@ class Payment(models.Model):
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}(user={self.user}, date={self.date},\
     bill={self.bill}, status={self.status})"
-
-    __str__ = __repr__
 
 
 class OmisePayment(Payment):
@@ -111,7 +117,7 @@ class BankPayment(OmisePayment):
     )
 
     def __repr__(self) -> str:
-        return super().__repr__()[:-1] + f" Paid by {self.Bank_choice})"
+        return f"{super().__repr__()[:-1]} Paid by {self.Bank_choice})"
 
 
 class PromptPayPayment(OmisePayment):
@@ -119,7 +125,7 @@ class PromptPayPayment(OmisePayment):
     name = models.CharField(max_length=100)
 
     def __repr__(self) -> str:
-        return super().__repr__()[:-1] + f"PhoneNumber={self.phone_number})"
+        return f"{super().__repr__()[:-1]}PhoneNumber={self.phone_number})"
 
 
 class CashPayment(Payment):
