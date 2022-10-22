@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-# from django.views.generic import RedirectView
+from django.views.generic import RedirectView
 from .views import Home, signup
 
 urlpatterns = [
@@ -25,5 +25,6 @@ urlpatterns = [
     path("accounts/", include("allauth.urls")),
     path("signup/", signup, name="signup"),
     # path('', RedirectView.as_view(url='/accounts/login/')),
-    path("", Home.as_view(), name="index"),  # new
+    # path("", Home.as_view(), name="index"),
+    path("", RedirectView.as_view(url='/bill/')),
 ]
