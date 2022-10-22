@@ -44,19 +44,44 @@ class BillModelTest(TestCase):
         bill = Bills.objects.create(header=self.header, name='Food Bill')
         pepsi = Food.objects.create(title='Pepsi', price=20, bill=bill)
         pepsi.add_user(user=self.user1)
-        pepsi.add_user(user=self.user2)
         coke = Food.objects.create(title='Coke', price=15, bill=bill)
         coke.add_user(user=self.user2)
-        # for user in pepsi.user:
-        #     print(user == self.user1)
-        # print(self.user1)
         self.assertEqual(bill.calculate_price(person=self.user1), 10.0)
         self.assertEqual(bill.calculate_price(person=self.user2), 25.0)
 
-    @skip("unfinished test")
+    # @skip("unfinished test")
     def test_total_price(self):
         """test total price"""
+        bill = Bills.objects.create(header=self.header, name='Food Bill')
+        pepsi = Food.objects.create(title='Pepsi', price=20, bill=bill)
+        coke = Food.objects.create(title='Coke', price=15, bill=bill)
+        self.assertEqual(bill.total_price, 35)
 
-    @skip("unfinished test")
+    # @skip("unfinished test")
     def test_all_user(self):
         """test all user"""
+        bill = Bills.objects.create(header=self.header, name='Food Bill')
+        pepsi = Food.objects.create(title='Pepsi', price=20, bill=bill)
+        pepsi.add_user(user=self.user1)
+        coke = Food.objects.create(title='Coke', price=15, bill=bill)
+        coke.add_user(user=self.user2)
+        # print(pepsi.user)
+        # print(coke.user)
+        # print(bill.all_user)
+        self.assertListEqual(bill.all_user, [pepsi.user, coke.user])
+
+    # @skip("unfinished test")
+    def test_duplicate_user(self):
+        """test duplicate user"""
+        bill = Bills.objects.create(header=self.header, name='Food Bill')
+        pepsi = Food.objects.create(title='Pepsi', price=20, bill=bill)
+        pepsi.add_user(user=self.user1)
+        pepsi.add_user(user=self.user2)
+        coke = Food.objects.create(title='Coke', price=15, bill=bill)
+        coke.add_user(user=self.user2)
+        self.assertEqual(bill.calculate_price(person=self.user1), 10.0)
+        self.assertEqual(bill.calculate_price(person=self.user2), 12.5)
+
+
+class FoodModelTest(TestCase):
+    pass
