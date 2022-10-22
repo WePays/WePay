@@ -47,7 +47,10 @@ class Food(models.Model):
     title = models.CharField(max_length=100)
     price = models.IntegerField("price")
     bill = models.ForeignKey(Bills, on_delete=models.CASCADE)
-    user: List[User] = []
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+        self.user: List[User] = []
 
     def each_price(self):
         return self.price / len(self.user)
