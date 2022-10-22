@@ -25,6 +25,5 @@ urlpatterns = [
     path("accounts/", include("allauth.urls")),
     path("signup/", signup, name="signup"),
     # path('', RedirectView.as_view(url='/accounts/login/')),
-    # path("", Home.as_view(), name="index"),
     path("", RedirectView.as_view(url="/bill/")),
 ]
