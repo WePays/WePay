@@ -18,7 +18,7 @@ class Bills(models.Model):
         """calculate price for each person"""
         food = Food.objects.filter(bill=self)
         return sum(
-            each_food.each_price for each_food in food if person in each_food.user
+            each_food.each_price() for each_food in food if person in each_food.user
         )
 
     @property
@@ -47,7 +47,10 @@ class Food(models.Model):
     title = models.CharField(max_length=100)
     price = models.IntegerField("price")
     bill = models.ForeignKey(Bills, on_delete=models.CASCADE)
-    user: List[User] = []
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+        self.user: List[User] = []
 
     def each_price(self):
         return self.price / len(self.user)

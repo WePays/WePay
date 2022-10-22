@@ -19,15 +19,17 @@ class BillView(LoginRequiredMixin, generic.ListView):
     def get_queryset(self):
         return Bills.objects.filter(header=self.request.user).order_by("-pub_date")
 
+
 class CreateView(LoginRequiredMixin, generic.DetailView):
     """views for create some bills."""
-    
+
     template_name = "Wepay/create_bills.html"
     model = Food
 
     def get(self, request):
         user = request.user
-        return render(request, 'Wepay/create_bills.html')
+        return render(request, "Wepay/create_bills.html")
+
 
 def payment(request):
-    return HttpResponse('<h1>payments</h1>')
+    return HttpResponse("<h1>payments</h1>")
