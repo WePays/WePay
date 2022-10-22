@@ -3,6 +3,7 @@ from typing import List, Any
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+import logging
 
 
 class Bills(models.Model):
@@ -17,9 +18,8 @@ class Bills(models.Model):
     def calculate_price(self, person: User) -> float:
         """calculate price for each person"""
         food = Food.objects.filter(bill=self)
-        return sum(
-            each_food.each_price() for each_food in food if person in each_food.user
-        )
+        print(food[0].user.all())
+        return sum(each_food.each_price() for each_food in food if person in each_food.user.all())
 
     @property
     def total_price(self):
@@ -47,17 +47,13 @@ class Food(models.Model):
     title = models.CharField(max_length=100)
     price = models.IntegerField("price")
     bill = models.ForeignKey(Bills, on_delete=models.CASCADE)
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
-        super().__init__(*args, **kwargs)
-        self.user: List[User] = []
+    user = models.ManyToManyField(User, related_name="food")
 
     def each_price(self):
-        return self.price / len(self.user)
+        return self.price / len(self.user.all())
 
     def add_user(self, user):
-        self.user.append(user)
-
+        self.user.add(user)
 
 class Payment(models.Model):
     """Entry model"""
