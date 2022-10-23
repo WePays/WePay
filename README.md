@@ -1,11 +1,14 @@
 ![logo](pics/docs/Wepay-logo.png)
 
 # WePay
- a web application for those who need to coordinate paying for a group. 
+![Test](https://github.com/WePays/WePay/actions/workflows/django.yml/badge.svg)
+![Lint](https://github.com/WePays/WePay/actions/workflows/linting.yml/badge.svg)
+[![codecov](https://codecov.io/gh/WePays/WePay/branch/main/graph/badge.svg?token=0GC9E68Y6B)](https://codecov.io/gh/WePays/WePay)  
+a web application for those who need to coordinate paying for a group. 
 
 ## Project Document
-* [Proposal](https://docs.google.com/document/d/1bsi3gLzUyEuyW62uFA_SIM7EPbNrkHV0ZZQ_QkNMisQ/edit#)
-* [home](https://github.com/WePays/WePay/wiki/home)
+You can view Project Documentation [here](https://github.com/WePays/WePay/wiki/home)
 
 ## License
+
 The MIT License (MIT). Please see [License File](LICENSE) File for more information.

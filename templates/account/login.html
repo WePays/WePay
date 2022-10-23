@@ -1,0 +1,124 @@
+{% comment %} {% extends 'account/base.html' %}
+{% load static %}
+{% load socialaccount %}
+
+{% block head%}
+{{super}}
+<link rel="stylesheet" media="screen" href="https://fontlibrary.org//face/hk-grotesk" type="text/css"/>
+<script src="https://kit.fontawesome.com/17ced14600.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="{% static 'WePay/login.css' %}">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" 
+rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" 
+crossorigin="anonymous"><link rel="stylesheet" href="./style.css">
+{% endblock head%}
+
+{% block title %} Login Page in HTML with CSS Code{% endblock title %}
+
+{% block boxleft %}
+<div class="overlay">
+    
+	<h1>WePay</h1>
+	<p>WePay is a web application for those <br>who need to coordinate paying for a group.<br>
+  WePay can help by charging or splitting bills, <br> which makes it easier to collect money.</p>
+	<span>
+		<p>Login with</p>
+		  <a href="{% provider_login_url 'github' %}"> <i class="fa fa-github" aria-hidden="true"></i>  GitHub </a>
+		<a href="{% provider_login_url 'google' %}"><i class="fa fa-google" aria-hidden="true"></i>  Google  </a>
+		<a href="{% provider_login_url 'facebook' %}"><i class="fa fa-facebook" aria-hidden="true"></i>  Facebook</a>
+		<a href="{% provider_login_url 'discord' %}"><i class="fa-brands fa-discord" aria-hidden="true"></i>  Discord</a>
+	</span>
+	</div>
+{% endblock boxleft %}
+
+{% block boxright%}
+		<h5>Login</h5>
+		<p>Don't have an account? <a href="#">Creat Your Account</a> it takes less than a minute</p>
+		<div class="inputs">
+			<input type="text" placeholder="user name">
+			<br>
+			<input type="password" placeholder="password">
+		</div>
+			
+			<br><br>
+			
+		<div class="remember-me--forget-password">
+
+	<label>
+		<input type="checkbox" name="item" checked/>
+		<span class="text-checkbox">Remember me</span>
+	</label>
+	<a href="{% url 'account_reset_password' %}">Forgot Password?</button>
+		</div>
+			
+			<br>
+				<button type="button">Signup</button>
+				<button type="button">Login</button>
+	</div>
+    {% endblock boxright%} {% endcomment %}
+{% load static %}
+{% load socialaccount %}
+
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Login Page in HTML with CSS Code</title>
+  <link rel="stylesheet" media="screen" href="https://fontlibrary.org//face/hk-grotesk" type="text/css"/>
+  <script src="https://kit.fontawesome.com/17ced14600.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="{% static 'WePay/login.css' %}">
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" 
+rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" 
+crossorigin="anonymous"><link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<div class="box-form">
+	<div class="left">
+		<div class="overlay">
+    
+		<h1>WePay</h1>
+		<p>WePay is a web application for those <br>who need to coordinate paying for a group.<br>
+      WePay can help by charging or splitting bills, <br> which makes it easier to collect money.</p>
+		<span>
+			<p>Login with</p>
+      		<a href="{% provider_login_url 'github' %}"> <i class="fa fa-github" aria-hidden="true"></i>  GitHub </a>
+			<a href="{% provider_login_url 'google' %}"><i class="fa fa-google" aria-hidden="true"></i>  Google  </a>
+			<a href="{% provider_login_url 'facebook' %}"><i class="fa fa-facebook" aria-hidden="true"></i>  Facebook</a>
+			<a href="{% provider_login_url 'discord' %}"><i class="fa-brands fa-discord" aria-hidden="true"></i>  Discord</a>
+		</span>
+		</div>
+	</div>
+	
+	
+		<div class="right">
+		<h5>Login</h5>
+		<p>Don't have an account? <a href="#">Creat Your Account</a> it takes less than a minute</p>
+		<div class="inputs">
+			<input type="text" placeholder="user name">
+			<br>
+			<input type="password" placeholder="password">
+		</div>
+			
+			<br><br>
+			
+		<div class="remember-me--forget-password">
+				<!-- Angular -->
+	<label>
+		<input type="checkbox" name="item" checked/>
+		<span class="text-checkbox">Remember me</span>
+	</label>
+			<p>forget password?</p>
+		</div>
+			
+			<br>
+			<button>Sign Up</button>
+			<button>Login</button>
+	</div>
+	
+</div>
+<!-- partial -->
+  
+</body>
+</html>

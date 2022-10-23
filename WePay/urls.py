@@ -1,14 +1,20 @@
-# from django.urls import path
+from django.urls import path
 
-# from . import views
+from . import views
 
-# app_name = "WePay"
-# urlpatterns = [
-#     # path("", views.IndexView.as_view(), name="index"),
-#     # path("time/", views.showtime, name="time"),
-#     # path("<int:pk>/", views.DetailView.as_view(), name="detail"),
-#     # # /polls/5/results/
-#     # path("<int:pk>/results/", views.ResultsView.as_view(), name="results"),
-#     # # /polls/5/vote/
-#     # path("<int:question_id>/vote/", views.vote, name="vote"),
-# ]
+
+app_name = "bills"
+urlpatterns = [
+    # path("", views.bill, name="bill"),
+    path("", views.BillView.as_view(), name="bill"),
+    path("create/", views.CreateView.as_view(), name="create"),
+    path("<int:pk>/", views.DetailView.as_view(), name="detail"),
+    path("payments/", views.payment, name="payment"),
+    # path("<int:pk>", views.CreateBillView.as_view(), name="create")
+    # path("time/", views.showtime, name="time"),
+    # path("<int:pk>/", views.DetailView.as_view(), name="detail"),
+    # # /polls/5/results/
+    # path("<int:pk>/results/", views.ResultsView.as_view(), name="results"),
+    # # /polls/5/vote/
+    # path("<int:question_id>/vote/", views.vote, name="vote"),
+]
