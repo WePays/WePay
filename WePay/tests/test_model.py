@@ -6,9 +6,7 @@ from ..models import Bills, Food  # , Payment, BankPayment
 # Create your tests here.
 
 
-class BillModelTest(TestCase):
-    """test for Bill model"""
-
+class BaseSetUp(TestCase):
     def setUp(self):
         """Setup before running a tests."""
         self.header = User.objects.create_user(username="header",
@@ -30,6 +28,18 @@ class BillModelTest(TestCase):
         self.bill = Bills.objects.create(header=self.header, name='Food Bill')
         self.pepsi = Food.objects.create(title='Pepsi', price=20, bill=self.bill)
         self.coke = Food.objects.create(title='Coke', price=15, bill=self.bill)
+
+
+# class ModelTest(TestCase):
+#     def setUP(self):
+#         super(BaseSetUp, self).setUp()
+
+
+class BillModelTest(BaseSetUp):
+    """test for Bill model"""
+
+    def SetUp(self):
+        super(BaseSetUp, self).setUp()
 
     def test_calculate_price(self):
         """test calculate price for each user."""
@@ -58,30 +68,11 @@ class BillModelTest(TestCase):
         self.assertEqual(self.bill.calculate_price(person=self.user2), 15)
 
 
-class FoodModelTest(TestCase):
+class FoodModelTest(BaseSetUp):
     """test for Food model."""
 
-    def setUp(self):
-        """Setup before running a tests."""
-        self.header = User.objects.create_user(username="header",
-                                               email="header@example.com", password="header123"
-                                               )
-        self.header.save()
-        self.user1 = User.objects.create_user(username="test_user1",
-                                              email="user1@example.com", password="user1"
-                                              )
-        self.user1.save()
-        self.user2 = User.objects.create_user(username="test_user2",
-                                              email="user2@example.com", password="user2"
-                                              )
-        self.user2.save()
-        self.client.login(username="header", password="header123")
-        self.client.login(username="test_user1", password="user1")
-        self.client.login(username="test_user2", password="user2")
-
-        self.bill = Bills.objects.create(header=self.header, name='Food Bill')
-        self.pepsi = Food.objects.create(title='Pepsi', price=20, bill=self.bill)
-        self.coke = Food.objects.create(title='Coke', price=15, bill=self.bill)
+    def SetUp(self):
+        super(BaseSetUp, self).setUp()
 
     def test_each_price(self):
         """test food price for each user."""

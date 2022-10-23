@@ -1,13 +1,12 @@
-# from django.shortcuts import render
+from typing import Any
 from django.contrib import messages
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpRequest
 from django.shortcuts import render
 from django.urls import reverse
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Bills, Food  # , Food, BankPayment, CashPayment, PromptPayPayment
 
-# from django.http import HttpRequest, HttpResponse
 # from django.db import models
 
 
@@ -27,7 +26,7 @@ class CreateView(LoginRequiredMixin, generic.DetailView):
     template_name = "Wepay/create_bills.html"
     model = Bills, Food
 
-    def get(self, request):
+    def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
         return render(request, "Wepay/create_bills.html")
 
 
@@ -36,8 +35,8 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
     template_name = "Wepay/detail.html"
     model = Bills, Food
 
-    def get(self, request, pk):
-        user = request.user
+    def get(self, request: HttpRequest, pk: int) -> HttpResponse:
+        # user = request.user
         try:
             bills = Bills.objects.get(pk=pk)
         except Bills.DoesNotExist:
@@ -46,5 +45,5 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
         return render(request, "Wepay/detail.html", {'bills': bills})
 
 
-def payment(request):
+def payment(request: HttpRequest):
     return HttpResponse("<h1>payments</h1>")
