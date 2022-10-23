@@ -1,4 +1,4 @@
-![logo](pics/docs/Wepay-logo.png)
+[![logo](pics/docs/Wepay-logo.png)](https://github.com/WePays/WePay)
 
 # WePay
 ![Test](https://github.com/WePays/WePay/actions/workflows/django.yml/badge.svg)
