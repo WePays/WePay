@@ -7,8 +7,8 @@ from ..models import Bills  # ,Food
 class BaseViewTest(TestCase):
     def setUp(self):
         """Setup before running a tests."""
-        self.user1 = User.objects.create_user(username="test_user1",
-                                                email="user1@example.com", password="user1")
+        self.user1 = User.objects.create_user(
+            username="test_user1", email="user1@example.com", password="user1")
         self.user1.save()
         self.client.login(username="test_user1", password="user1")
 
@@ -32,6 +32,7 @@ class BaseViewTest(TestCase):
 
 class BillViewTest(BaseViewTest):
     """Test for BillView"""
+
     def setUp(self):
         """Setup before running a tests."""
         super(BaseViewTest, self).setUp()
