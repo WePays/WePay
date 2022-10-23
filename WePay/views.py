@@ -32,6 +32,7 @@ class CreateView(LoginRequiredMixin, generic.DetailView):
 
 class DetailView(LoginRequiredMixin, generic.DetailView):
     """views for detail of each bill."""
+
     template_name = "Wepay/detail.html"
     model = Bills, Food
 
@@ -41,8 +42,8 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
             bills = Bills.objects.get(pk=pk)
         except Bills.DoesNotExist:
             messages.error(request, "Bill dosen't exist")
-            return HttpResponseRedirect(reverse('bills:bill'))
-        return render(request, "Wepay/detail.html", {'bills': bills})
+            return HttpResponseRedirect(reverse("bills:bill"))
+        return render(request, "Wepay/detail.html", {"bills": bills})
 
 
 def payment(request: HttpRequest):

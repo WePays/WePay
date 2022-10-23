@@ -1,7 +1,7 @@
 from django.urls import reverse
 from django.test import TestCase
 from django.contrib.auth.models import User
-from ..models import Bills  #, Food
+from ..models import Bills  # ,Food
 
 
 class BaseViewTest(TestCase):
