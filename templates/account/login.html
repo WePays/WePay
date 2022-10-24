@@ -1,8 +1,12 @@
-{% comment %} {% extends 'account/base.html' %}
+{% extends 'account/base.html' %}
+
 {% load static %}
 {% load socialaccount %}
+{% load i18n %}
 
-{% block head%}
+{% block head_title %} Sign in{% endblock head_title %}
+
+{% block extra_head%}
 {{super}}
 <link rel="stylesheet" media="screen" href="https://fontlibrary.org//face/hk-grotesk" type="text/css"/>
 <script src="https://kit.fontawesome.com/17ced14600.js" crossorigin="anonymous"></script>
@@ -10,9 +14,7 @@
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" 
 rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" 
 crossorigin="anonymous"><link rel="stylesheet" href="./style.css">
-{% endblock head%}
-
-{% block title %} Login Page in HTML with CSS Code{% endblock title %}
+{% endblock extra_head%}
 
 {% block boxleft %}
 <div class="overlay">
@@ -30,7 +32,7 @@ crossorigin="anonymous"><link rel="stylesheet" href="./style.css">
 	</div>
 {% endblock boxleft %}
 
-{% block boxright%}
+{% block content %}
 		<h5>Login</h5>
 		<p>Don't have an account? <a href="#">Creat Your Account</a> it takes less than a minute</p>
 		<div class="inputs">
@@ -54,7 +56,9 @@ crossorigin="anonymous"><link rel="stylesheet" href="./style.css">
 				<button type="button">Signup</button>
 				<button type="button">Login</button>
 	</div>
-    {% endblock boxright%} {% endcomment %}
+    {% endblock content%}
+
+{% comment %} 
 {% load static %}
 {% load socialaccount %}
 
@@ -121,4 +125,4 @@ crossorigin="anonymous"><link rel="stylesheet" href="./style.css">
 <!-- partial -->
   
 </body>
-</html>
+</html> {% endcomment %}

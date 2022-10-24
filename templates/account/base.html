@@ -1,0 +1,40 @@
+{% load static %}
+{% load socialaccount %}
+
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>{% block head_title %} {% endblock head_title%}</title>
+  {% block extra_head %}{% endblock extra_head%}
+</head>
+<body>
+    {% block body%}
+    {% if messages %}
+    <div>
+      <strong>Messages:</strong>
+      <ul>
+        {% for message in messages %}
+        <li>{{message}}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+<!-- partial:index.partial.html -->
+<div class="box-form">
+    <div class="left">
+        {% block boxleft%}
+
+        {% endblock boxleft%}
+	</div>
+	
+		<div class="right">
+            {% block content %}
+        {% endblock content %}
+	
+        </div>
+{% endblock body %}
+{% block extra_body %}
+{% endblock extra_body %}
+</body>
+</html>
