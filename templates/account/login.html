@@ -7,21 +7,16 @@
 {% block head_title %} Sign in{% endblock head_title %}
 
 {% block extra_head%}
-{{super}}
-<link rel="stylesheet" media="screen" href="https://fontlibrary.org//face/hk-grotesk" type="text/css"/>
+{{block.super}}
 <script src="https://kit.fontawesome.com/17ced14600.js" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="{% static 'WePay/login.css' %}">
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" 
 rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" 
 crossorigin="anonymous"><link rel="stylesheet" href="./style.css">
 {% endblock extra_head%}
 
 {% block boxleft %}
-<div class="overlay">
-    
-	<h1>WePay</h1>
-	<p>WePay is a web application for those <br>who need to coordinate paying for a group.<br>
-  WePay can help by charging or splitting bills, <br> which makes it easier to collect money.</p>
+{{ block.super }}
+
 	<span>
 		<p>Login with</p>
 		  <a href="{% provider_login_url 'github' %}"> <i class="fa fa-github" aria-hidden="true"></i>  GitHub </a>
@@ -29,7 +24,7 @@ crossorigin="anonymous"><link rel="stylesheet" href="./style.css">
 		<a href="{% provider_login_url 'facebook' %}"><i class="fa fa-facebook" aria-hidden="true"></i>  Facebook</a>
 		<a href="{% provider_login_url 'discord' %}"><i class="fa-brands fa-discord" aria-hidden="true"></i>  Discord</a>
 	</span>
-	</div>
+
 {% endblock boxleft %}
 
 {% block content %}

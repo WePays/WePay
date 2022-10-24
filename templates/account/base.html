@@ -6,6 +6,9 @@
 <head>
   <meta charset="UTF-8">
   <title>{% block head_title %} {% endblock head_title%}</title>
+  <link rel="stylesheet" href="{% static 'WePay/login.css' %}">
+  <link rel="stylesheet" media="screen" href="https://fontlibrary.org//face/hk-grotesk" type="text/css"/>
+
   {% block extra_head %}{% endblock extra_head%}
 </head>
 <body>
@@ -24,14 +27,19 @@
 <div class="box-form">
     <div class="left">
         {% block boxleft%}
+        <div class="overlay">
+          <h1>WePay</h1>
+          <p>WePay is a web application for those <br>who need to coordinate paying for a group.<br>
+          WePay can help by charging or splitting bills, <br> which makes it easier to collect money.</p>
+        </div>
 
         {% endblock boxleft%}
 	</div>
 	
-		<div class="right">
-            {% block content %}
-        {% endblock content %}
-	
+  <div class="right">
+  {% block content %}
+      
+      {% endblock content %}
         </div>
 {% endblock body %}
 {% block extra_body %}
