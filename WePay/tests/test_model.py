@@ -2,7 +2,7 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
 
-from ..models import Bills, Food  # , Payment, BankPayment
+from ..models.payment import Bills, Topic  # , Payment, BankPayment
 # Create your tests here.
 
 
@@ -26,8 +26,8 @@ class BaseSetUp(TestCase):
         self.client.login(username="test_user2", password="user2")
 
         self.bill = Bills.objects.create(header=self.header, name='Food Bill')
-        self.pepsi = Food.objects.create(title='Pepsi', price=20, bill=self.bill)
-        self.coke = Food.objects.create(title='Coke', price=15, bill=self.bill)
+        self.pepsi = Topic.objects.create(title='Pepsi', price=20, bill=self.bill)
+        self.coke = Topic.objects.create(title='Coke', price=15, bill=self.bill)
 
 
 # class ModelTest(TestCase):
@@ -68,7 +68,7 @@ class BillModelTest(BaseSetUp):
         self.assertEqual(self.bill.calculate_price(person=self.user2), 15)
 
 
-class FoodModelTest(BaseSetUp):
+class TopicModelTest(BaseSetUp):
     """test for Food model."""
 
     def SetUp(self):
