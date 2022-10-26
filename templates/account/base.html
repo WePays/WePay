@@ -12,6 +12,16 @@
   {% block extra_head %}{% endblock extra_head%}
 </head>
 <body>
+  <nav class="top background">
+			<div class="logo">
+				<img src="logo_wepay.png">
+			</div>
+
+
+    <div class="right-top">
+      <p>username<a href="#">Home</a></p>
+    </div>
+
     {% block body%}
     {% if messages %}
     <div>
@@ -23,6 +33,7 @@
       </ul>
     </div>
     {% endif %}
+
 <!-- partial:index.partial.html -->
 <div class="box-form">
     <div class="left">

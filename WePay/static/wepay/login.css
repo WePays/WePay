@@ -10,7 +10,8 @@ body {
 }
 
 .box-form {
-  margin: 0 auto;
+  margin-top: 10%;
+  margin-left: 10%;
   width: 80%;
   background: #FFFFFF;
   border-radius: 10px;
@@ -30,7 +31,7 @@ body {
   }
 }
 .box-form div {
-  height: auto;
+  height: 100%;
 }
 .box-form .left {
   color: #FFFFFF;
