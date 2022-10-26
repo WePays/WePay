@@ -7,12 +7,11 @@ from django.contrib.auth.models import User
 from .bill import Bills
 
 
-            
 class BasePayment(models.Model):
     """Entry model"""
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    date = models.DateTimeField(default=timezone.localtime)
+    date = models.DateTiฝโmeField(default=timezone.localtime)
     bill = models.ForeignKey(Bills, on_delete=models.CASCADE)
 
     @abstractmethod
