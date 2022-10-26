@@ -1,5 +1,5 @@
 [flake8]
-extend-ignore = DJ08
+extend-ignore = DJ08, F403, F405
 exclude =
     # No need to traverse our git directory
     .git,
@@ -12,5 +12,6 @@ exclude =
     # This contains builds of flake8 that we don't want to check
     dist,
     "*/migrations/*"
+    "*/__init__.py"
 max-complexity = 10
 max-line-length = 100
