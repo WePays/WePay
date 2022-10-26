@@ -10,20 +10,18 @@ body {
 }
 
 .box-form {
-  margin-top: 10%;
-  margin-left: 10%;
+  margin: 0 auto;
   width: 80%;
   background: #FFFFFF;
   border-radius: 10px;
   overflow: hidden;
   display: flex;
   flex: 1 1 100%;
-  align-items: center;
+  align-items: stretch;
   justify-content: space-between;
   box-shadow: 0 0 20px 6px #090b6f85;
 }
-
-@media (max-width: 500px) {
+@media (max-width: 980px) {
   .box-form {
     flex-flow: wrap;
     text-align: center;
@@ -49,29 +47,17 @@ body {
   overflow: hidden;
   box-sizing: border-box;
 }
-.class .left .overlay h1 {
+.box-form .left .overlay h1 {
   font-size: 3vmax;
   line-height: 1;
   font-weight: 700;
   margin-top: 5%;
   margin-bottom: 5%;
 }
-.class .left .overlay p{
+.box-form .left .overlay span p {
   margin-top: 30px;
   font-weight: 900;
 }
-
-.class .left .overlay a{
-  margin-top: 0px;
-  margin-left: 300px;
-  font-weight: 900;
-}
-
-.class .left .overlay span p {
-  margin-bottom: 30px;
-  font-weight: 900;
-}
-
 .box-form .left .overlay span a {
   background-color: #333333;
   color: #FFFFFF;
@@ -86,22 +72,26 @@ body {
 .box-form .left .overlay span a:nth-child(2){
   color: white;
   background: #333333;
-  margin-left: 30px;
+  margin-left: 10%;
 }
 
 .box-form .left .overlay span a:nth-child(3){
   color: #333333;
   background: #fdffff;
-  margin-left: 30px;
+  margin-left: 10%;
 }
 
 .box-form .left .overlay span a:nth-child(4){
   color: white;
   background: #0a6dde;
-  margin-left: 30px;
+  margin-left: 10%;
 }
 
-
+.box-form .left .overlay span a:nth-child(5){
+  color: white;
+  background: #54a4ff;
+  margin-left: 10%;
+}
 .box-form .right {
   padding: 40px;
   overflow: hidden;
@@ -141,7 +131,7 @@ body {
   margin-right: 7px;
   width: auto;
 }
-.box-form .right button{
+.box-form .right button {
   float: right;
   color: rgb(6, 37, 149);
   font-size: 16px;
@@ -165,7 +155,7 @@ label::before {
   position: absolute;
   font-family: FontAwesome;
   background: transparent;
-  border: 3px solid #101210;
+  border: 3px solid #1b1e1b;
   border-radius: 4px;
   color: transparent;
   left: -30px;
@@ -177,11 +167,11 @@ label:hover::before {
   content: ' \f00c';
   color: #fff;
   cursor: pointer;
-  background: #5CAD5C;
+  background: #2c312c;
 }
 
 label:hover::before .text-checkbox {
-  background: #5CAD5C;
+  background: #081208;
 }
 
 label span.text-checkbox {
@@ -195,4 +185,3 @@ label span.text-checkbox {
 label input[type="checkbox"] {
   display: none;
 }
-

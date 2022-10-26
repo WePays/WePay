@@ -14,18 +14,6 @@ rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNE
 crossorigin="anonymous"><link rel="stylesheet" href="./style.css">
 {% endblock extra_head%}
 
-{% block boxleft %}
-{{ block.super }}
-
-	<span>
-		<p>Login with</p>
-		  <a href="{% provider_login_url 'github' %}"> <i class="fa fa-github" aria-hidden="true"></i>  GitHub </a>
-		<a href="{% provider_login_url 'google' %}"><i class="fa fa-google" aria-hidden="true"></i>  Google  </a>
-		<a href="{% provider_login_url 'facebook' %}"><i class="fa fa-facebook" aria-hidden="true"></i>  Facebook</a>
-		<a href="{% provider_login_url 'discord' %}"><i class="fa-brands fa-discord" aria-hidden="true"></i>  Discord</a>
-	</span>
-
-{% endblock boxleft %}
 
 {% block content %}
 		<h5>Login</h5>
@@ -117,7 +105,6 @@ crossorigin="anonymous"><link rel="stylesheet" href="./style.css">
 	</div>
 	
 </div>
-<!-- partial -->
   
 </body>
-</html> {% endcomment %}
+</html> 
