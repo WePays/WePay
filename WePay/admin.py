@@ -1,13 +1,13 @@
 from django.contrib import admin
 
-from .models import Bills, Food, BankPayment, CashPayment, PromptPayPayment
+from .models import *  #  Bills, Topic, BankPayment, CashPayment, PromptPayPayment
 
 
 class BillsAdmin(admin.ModelAdmin):
     list_display = ("header", "name", "pub_date")
 
 
-class FoodAdmin(admin.ModelAdmin):
+class TopicAdmin(admin.ModelAdmin):
     list_display = ("title", "price", "bill")
 
 
@@ -32,7 +32,7 @@ class PromptPayPaymentAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Bills, BillsAdmin)
-admin.site.register(Food, FoodAdmin)
+admin.site.register(Topic, TopicAdmin)
 admin.site.register(BankPayment, BankPaymentAdmin)
 admin.site.register(CashPayment, CashPaymentAdmin)
 admin.site.register(PromptPayPayment, PromptPayPaymentAdmin)
