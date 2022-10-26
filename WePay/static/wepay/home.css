@@ -14,12 +14,6 @@
 		cursor: pointer;
 	}
 
-	.background {
-		background: black;
-		background-blend-mode: darken;
-		background-size: cover;
-	}
-
 	.nav-list {
 		width: 70%;
 		display: flex;

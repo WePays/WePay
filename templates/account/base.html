@@ -12,15 +12,17 @@
   {% block extra_head %}{% endblock extra_head%}
 </head>
 <body>
-  <nav class="top background">
+  <section class="firstsection">
+    <nav class="top background">
 			<div class="logo">
 				<img src="logo_wepay.png">
 			</div>
 
-
     <div class="right-top">
-      <p>username<a href="#">Home</a></p>
+      <p> username <a href="#"> Home </a> </p>
     </div>
+    <br>
+  </section>
 
     {% block body%}
     {% if messages %}

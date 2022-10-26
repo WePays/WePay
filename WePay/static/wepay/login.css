@@ -9,8 +9,21 @@ body {
   color: #333333;
 }
 
+.firstsection {
+  background-color: #171f99;
+  top: 0;
+}
+
+.right-top {
+  text-align: right;
+  margin: auto;
+  font-size: 1vmax;
+  color: #bae2fb;
+}
+
+
 .box-form {
-  margin-top: 10%;
+  margin-top: 5%;
   margin-left: 10%;
   width: 80%;
   background: #FFFFFF;
