@@ -1,42 +1,72 @@
-{% load static %}
-
 <!DOCTYPE html>
+
 <html>
-  <head>
-    <title>{% block head_title %}{% endblock %}</title>
-    {% block extra_head %}
-    {% endblock %}
-  </head>
-  <body>
-    {% block body %}
 
-    {% if messages %}
-    <div>
-      <strong>Messages:</strong>
-      <ul>
-        {% for message in messages %}
-        <li>{{message}}</li>
-        {% endfor %}
-      </ul>
-    </div>
-    {% endif %}
+<head>
+	<title>
+		Web Template
+	</title>
+</head>
 
-    <div>
-      <strong>Menu:</strong>
-      <ul>
-        {% if user.is_authenticated %}
-        <li><a href="{% url 'account_email' %}">Change E-mail</a></li>
-        <li><a href="{% url 'account_logout' %}">Sign Out</a></li>
-        {% else %}
-        <li><a href="{% url 'account_login' %}">Sign In</a></li>
-        <li><a href="{% url 'account_signup' %}">Sign Up</a></li>
-        {% endif %}
-      </ul>
-    </div>
-    {% block content %}
-    {% endblock %}
-    {% endblock %}
-    {% block extra_body %}
-    {% endblock %}
-  </body>
+<body>
+	<nav class="navbar background">
+		<ul class="nav-list">
+			<div class="logo">
+				<img src="logo.png">
+			</div>
+			<li><a href="#">WePay1</a></li>
+			<li><a href="#">WePay2</a></li>
+			<li><a href="#">WePay3</a></li>
+		</ul>
+
+		<div class="rightNav">
+			<p>username<a href="#">Home</a></p>
+		</div>
+	</nav>
+
+	<section class="firstsection">
+		<div class="box-main">
+			<div class="firstHalf">
+				<h1 class="text-big" id="web">
+					Top big text 
+				</h1>
+				
+				<p class="text1">
+          test text 1
+				</p>
+
+
+			</div>
+		</div>
+	</section>
+
+	<section class="secondsection">
+		<div class="box-main">
+			<div class="secondHalf">
+				<h1 class="text-big" id="program">
+					Top big text 2
+				</h1>
+				<p class="text-small">
+          test text 2
+				</p>
+
+
+			</div>
+		</div>
+	</section>
+
+
+		<div class="thumbnail">
+			<img src="img.png" alt="laptop image">
+		</div>
+	</section>
+
+	<footer class="background">
+		<p class="text-footer">
+			bottom text
+		</p>
+
+	</footer>
+</body>
+
 </html>
