@@ -11,7 +11,7 @@ class BasePayment(models.Model):
     """Entry model"""
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    date = models.DateTiฝโmeField(default=timezone.localtime)
+    date = models.DateTimeField(default=timezone.localtime)
     bill = models.ForeignKey(Bills, on_delete=models.CASCADE)
 
     @abstractmethod
