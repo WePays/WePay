@@ -130,6 +130,13 @@ SOCIALACCOUNT_PROVIDERS = {
         "VERIFIED_EMAIL": False,
         "VERSION": "v15.0",
     },
+    "line": {
+        "APP":{
+            'client_id': '1657597545',
+            'secret': '74cb495ffafa2b03be77699de5714ac7'
+        },
+        "SCOPE": ['profile', 'openid', 'email']
+    },
 }
 
 # Database
