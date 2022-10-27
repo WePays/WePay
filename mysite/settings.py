@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     "allauth.socialaccount.providers.github",
     "allauth.socialaccount.providers.google",
     "allauth.socialaccount.providers.discord",
-    'auth_remember',
 ]
 
 MIDDLEWARE = [
@@ -57,7 +56,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    'auth_remember.middleware.AuthRememberMiddleware',
 ]
 
 ROOT_URLCONF = "mysite.urls"
@@ -84,7 +82,6 @@ AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
     # `allauth` specific authentication methods, such as login by e-mail
     "allauth.account.auth_backends.AuthenticationBackend",
-    'auth_remember.backend.AuthRememberBackend',
 ]
 
 WSGI_APPLICATION = "mysite.wsgi.application"
