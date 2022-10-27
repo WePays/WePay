@@ -132,8 +132,8 @@ SOCIALACCOUNT_PROVIDERS = {
     },
     "line": {
         "APP":{
-            'client_id': 'LINE_LOGIN_CHANNEL_ID',
-            'secret': 'LINE_LOGIN_CHANNEL_SECRET'
+            'client_id': '1657597545',
+            'secret': '74cb495ffafa2b03be77699de5714ac7'
         },
         "SCOPE": ['profile', 'openid', 'email']
     },
