@@ -8,22 +8,10 @@ yours bill
 <h1>Bills list</h1>
 {{super}}
 {% if my_bill %}
-{{my_bill}}
   <ul>
     {% for bill in my_bill %}
     <list>{{forloop.counter0|add:"1"}}
-    {% comment %} {% if question.can_vote %}
- <a href="{% url 'polls:results' question.id %}">
-      <button type="button">{{"results"}}</button>
-  </a>  <a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a>
-  </a> {% endcomment %}
-{% comment %} 
-    {%else%}
-    <a href="{% url 'polls:results' question.id %}">
-      <button type="button">{{"results"}}</button>
-  </a>
-    {%endif%} {% endcomment %}
-    {{ bill.title }}
+    {{ bill.name }}
 </list><br>
     {% endfor %}
   </ul>
