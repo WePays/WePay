@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Bills, Topic  # , Food, BankPayment, CashPayment, PromptPayPayment
+from .models import Bills, Topic, UserProfile  # , Food, BankPayment, CashPayment, PromptPayPayment
 
 # from django.db import models
 
@@ -17,7 +17,11 @@ class BillView(LoginRequiredMixin, generic.ListView):
     context_object_name = "my_bill"
 
     def get_queryset(self):
-        return Bills.objects.filter(header=self.request.user).order_by("-pub_date")
+        # user, created = UserProfile.objects.get_or_create(user=self.request.user)
+        user = self.request.user
+        if user.is_authenticated and not UserProfile.objects.filter(user=user).exists():
+            UserProfile.objects.create(user=user)
+        return Bills.objects.filter(header=user).order_by("-pub_date")
 
 
 class CreateView(LoginRequiredMixin, generic.DetailView):

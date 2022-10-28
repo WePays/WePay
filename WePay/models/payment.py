@@ -3,14 +3,14 @@ from abc import abstractmethod
 from typing import Any
 from django.db import models
 from django.utils import timezone
-from django.contrib.auth.models import User
+from .userprofile import UserProfile
 from .bill import Bills
 
 
 class BasePayment(models.Model):
     """Entry model"""
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     date = models.DateTimeField(default=timezone.localtime)
     bill = models.ForeignKey(Bills, on_delete=models.CASCADE)
 
@@ -48,44 +48,63 @@ class BasePayment(models.Model):
 
 
 class OmisePayment(BasePayment):
-    class Meta:
-        abstract = True
 
-    def pay(self):
-        pass
+    class PaymentChoice(models.TextChoices):
+        PROMPT_PAY = "promptpay"
+        SCB = "internet_banking_scb"
+        STB = "internet_banking_ktb"
+        BBL = "internet_banking_bbl"
+        BAY = "internet_banking_bay"
 
-
-class BankPayment(OmisePayment):
-    bank_account = models.CharField(max_length=10)
-    name = models.CharField(max_length=100)
-
-    class Bank_choice(models.TextChoices):
-        KTB = "KTB"
-        BBL = "BBL"
-        SCB = "SCB"
-        KRUNGTHAI = "KRUNGTHAI"
-        TMB = "TTB"
-        BAY = "BAY"
-        REDCIT = "CREDIT"
-        PROMPTPAY = "PROMPTPAY"
-        other = "other"
-
-    bank_name = models.CharField(
-        choices=Bank_choice.choices, default=Bank_choice.other, max_length=10
+    payment_type = models.CharField(
+        choices=PaymentChoice.choices, max_length=20, default=PaymentChoice.PROMPT_PAY
     )
 
-    def __repr__(self) -> str:
-        return f"{super().__repr__()[:-1]} Paid by {self.Bank_choice})"
-
-
-class PromptPayPayment(OmisePayment):
-    phone_number = models.CharField(max_length=10)
-    name = models.CharField(max_length=100)
+    def pay(self):
+        """pay by omise"""
+        pass
 
     def __repr__(self) -> str:
-        return f"{super().__repr__()[:-1]}PhoneNumber={self.phone_number})"
+        return f"{super().__repr__()[:-1]} Paid by {self.payment_type})"
 
 
 class CashPayment(BasePayment):
-    # image = models.NOT_PROVIDED
-    pass
+    def pay(self):
+        if self.status == self.Status_choice.PAID:
+            return 'Already paid'
+
+        self.status = self.Status_choice.PAID
+        return 'success'
+
+
+
+
+# class BankPayment(OmisePayment):
+#     bank_account = models.CharField(max_length=10)
+#     name = models.CharField(max_length=100)
+
+#     class Bank_choice(models.TextChoices):
+#         KTB = "KTB"
+#         BBL = "BBL"
+#         SCB = "SCB"
+#         KRUNGTHAI = "KRUNGTHAI"
+#         TMB = "TTB"
+#         BAY = "BAY"
+#         REDCIT = "CREDIT"
+#         PROMPTPAY = "PROMPTPAY"
+#         other = "other"
+
+#     bank_name = models.CharField(
+#         choices=Bank_choice.choices, default=Bank_choice.other, max_length=10
+#     )
+
+#     def __repr__(self) -> str:
+#         return f"{super().__repr__()[:-1]} Paid by {self.Bank_choice})"
+
+
+# class PromptPayPayment(OmisePayment):
+#     phone_number = models.CharField(max_length=10)
+#     name = models.CharField(max_length=100)
+
+#     def __repr__(self) -> str:
+#         return f"{super().__repr__()[:-1]}PhoneNumber={self.phone_number})"

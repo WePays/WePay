@@ -3,10 +3,11 @@ from typing import List
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from .userprofile import UserProfile
 
 
 class Bills(models.Model):
-    header = models.ForeignKey(User, on_delete=models.CASCADE)
+    header = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     pub_date = models.DateTimeField(default=timezone.localtime)
 
@@ -30,7 +31,7 @@ class Bills(models.Model):
         return sum(each_food.price for each_food in food)
 
     @property
-    def all_user(self) -> List[User]:
+    def all_user(self) -> List[UserProfile]:
         """return list of all user"""
         food = Topic.objects.filter(bill=self)
         return list({each_food.user for each_food in food})
@@ -49,7 +50,7 @@ class Topic(models.Model):
     title = models.CharField(max_length=100)
     price = models.IntegerField("price")
     bill = models.ForeignKey(Bills, on_delete=models.CASCADE)
-    user = models.ManyToManyField(User, related_name="food")
+    user = models.ManyToManyField(UserProfile, related_name="food")
 
     def each_price(self):
         return self.price / len(self.user.all())

@@ -26,13 +26,11 @@ class BankPaymentAdmin(admin.ModelAdmin):
 class CashPaymentAdmin(admin.ModelAdmin):
     list_display = ("user", "date", "bill", "status")
 
-
-class PromptPayPaymentAdmin(admin.ModelAdmin):
-    list_display = ("user", "date", "bill", "status", "phone_number", "name")
+class OmisePaymentAdmin(admin.ModelAdmin):
+    list_display = ("user", "date", "bill", "status", "payment_type")
 
 
 admin.site.register(Bills, BillsAdmin)
 admin.site.register(Topic, TopicAdmin)
-admin.site.register(BankPayment, BankPaymentAdmin)
+admin.site.register(OmisePayment, OmisePaymentAdmin)
 admin.site.register(CashPayment, CashPaymentAdmin)
-admin.site.register(PromptPayPayment, PromptPayPaymentAdmin)
