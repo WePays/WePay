@@ -18,7 +18,7 @@ omise.api_secret = OMISE_SECRET
 class BasePayment(models.Model):
     """Entry model"""
 
-    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True, blank=True)
     date = models.DateTimeField(default=timezone.localtime)
     bill = models.ForeignKey(Bills, on_delete=models.CASCADE)
 
