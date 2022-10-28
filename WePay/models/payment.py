@@ -6,6 +6,14 @@ from django.utils import timezone
 from .userprofile import UserProfile
 from .bill import Bills
 
+import omise
+
+OMISE_PUBLIC = 'pkey_test_5tgganhu45npoycv190'
+OMISE_SECRET = 'skey_test_5tecjczxmlxrbtfxhw9'
+
+omise.api_public = OMISE_PUBLIC
+omise.api_secret = OMISE_SECRET
+
 
 class BasePayment(models.Model):
     """Entry model"""
@@ -20,6 +28,7 @@ class BasePayment(models.Model):
 
     class Status_choice(models.TextChoices):
         PAID = "PAID"
+        PENDING = 'PENDING'
         UNPAID = "UNPAID"
 
     status = models.CharField(
@@ -38,6 +47,9 @@ class BasePayment(models.Model):
         super().__init_subclass__()
         cls.__str__ = cls.__repr__
 
+    def get_status(self):
+        return self.status
+
     @property
     def header(self):
         return self.bill.header
@@ -48,6 +60,7 @@ class BasePayment(models.Model):
 
 
 class OmisePayment(BasePayment):
+    charge_id = models.CharField(max_length=100, null=True, blank=True)
 
     class PaymentChoice(models.TextChoices):
         PROMPT_PAY = "promptpay"
@@ -62,7 +75,36 @@ class OmisePayment(BasePayment):
 
     def pay(self):
         """pay by omise"""
-        pass
+        if self.user.status == self.Status_choice.UNPAID:
+            source = omise.Source.create(
+                type=self.payment_type,
+                amount=self.bill.calculate_price(self.user),
+                currency="thb",
+            )
+
+            charge = omise.Charge.create(
+                amount=int(self.bill.calculate_price(self.user) * 100),
+                currency="thb",
+                customer=self.user.chain_key,
+                source=source.id,
+                return_uri="http://localhost:8000/bill/",
+            )
+            self.charge_id = charge.id
+
+            self.user.status = self.Status_choice.PAID
+            self.user.save()
+
+    def get_status(self):
+        status = omise.Charge.retrieve(self.charge_id).status
+        if status == "successful":
+            self.status = self.Status_choice.PAID
+        elif status == "pending":
+            self.status = self.Status_choice.PENDING
+        else:
+            self.status = self.Status_choice.UNPAID
+        self.save()
+        return super().get_status()
+
 
     def __repr__(self) -> str:
         return f"{super().__repr__()[:-1]} Paid by {self.payment_type})"

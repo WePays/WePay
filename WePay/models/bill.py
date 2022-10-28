@@ -15,6 +15,14 @@ class Bills(models.Model):
         verbose_name = "Bill"
         verbose_name_plural = "Bills"
 
+    @property
+    def header_chain(self):
+        if self.header.chain is None:
+            # implement later
+            logging.warning('YOU MUST have a chain by click this link and verify your account')
+            raise ValueError('YOU MUST have a chain by click this link and verify your account')
+        return self.header.chain
+
     def calculate_price(self, person: User) -> float:
         """calculate price for each person"""
         food = Topic.objects.filter(bill=self)
@@ -23,6 +31,8 @@ class Bills(models.Model):
             for each_food in food
             if person in each_food.user.all()
         )
+
+
 
     @property
     def total_price(self):

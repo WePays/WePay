@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from typing import Union
 import omise
 
 
@@ -8,8 +9,9 @@ class UserProfile(models.Model):
     chain_key = models.CharField(max_length=100, default='')
 
     @property
-    def chain(self) -> omise.Chain:
-        return omise.Chain.retrieve(self.chain_key)
+    def chain(self) -> Union[omise.Chain, None]:
+        return omise.Chain.retrieve(self.chain_key) if self.chain_key else None
+
 
     def __str__(self):
         return self.user.username
