@@ -48,3 +48,6 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
 
 def payment(request: HttpRequest):
     return HttpResponse("<h1>payments</h1>")
+
+def add_topics(request):
+    pass
