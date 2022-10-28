@@ -58,12 +58,12 @@
 	}
 
 	.background {
-		background-color: green;
+		background : none;
 		height: 400px;
 	}
 
 	.secondsection {
-		background-color: blue;
+		background: none;
 		height: 400px;
 	}
 
