@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Bills, Topic, UserProfile  # , Food, BankPayment, CashPayment, PromptPayPayment
+from .models import Bills, Topic, UserProfile
 
 # from django.db import models
 
@@ -25,7 +25,6 @@ class BillView(LoginRequiredMixin, generic.ListView):
     def get_queryset(self):
 
         return Bills.objects.filter(header__user=self.request.user).order_by("-pub_date")
-
 
 class CreateView(LoginRequiredMixin, generic.DetailView):
     """views for create some bills."""
@@ -55,6 +54,7 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
 
 def payment(request: HttpRequest):
     return HttpResponse("<h1>payments</h1>")
+
 
 def add_topics(request):
     pass

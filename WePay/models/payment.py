@@ -18,7 +18,7 @@ omise.api_secret = OMISE_SECRET
 class BasePayment(models.Model):
     """Entry model"""
 
-    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True, blank=True)
     date = models.DateTimeField(default=timezone.localtime)
     bill = models.ForeignKey(Bills, on_delete=models.CASCADE)
 
@@ -105,7 +105,6 @@ class OmisePayment(BasePayment):
         self.save()
         return super().get_status()
 
-
     def __repr__(self) -> str:
         return f"{super().__repr__()[:-1]} Paid by {self.payment_type})"
 
@@ -116,9 +115,6 @@ class CashPayment(BasePayment):
             return 'Already paid'
 
         self.status = self.Status_choice.PAID
-        return 'success'
-
-
 
 
 # class BankPayment(OmisePayment):
