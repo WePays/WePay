@@ -24,7 +24,7 @@ class BillView(LoginRequiredMixin, generic.ListView):
 
     def get_queryset(self):
 
-        return Bills.objects.filter(header=self.request.user).order_by("-pub_date")
+        return Bills.objects.filter(header__user=self.request.user).order_by("-pub_date")
 
 
 class CreateView(LoginRequiredMixin, generic.DetailView):
