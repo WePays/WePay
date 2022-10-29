@@ -1,3 +1,12 @@
+body {
+    background-image: linear-gradient(0deg, rgba(23,31,153,1) 0%, rgba(210,231,254,1) 100%);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    font-family: 'HKGroteskRegular';
+    font-weight: normal;
+    font-style: normal;
+    color: #333333;
+  }
 
 .styled-table {
 border-collapse: collapse;
@@ -9,7 +18,7 @@ box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
 .styled-table thead tr {
-background-color: #D2E7FE;
+background-color: #171f99;
 color: #ffffff;
 text-align: left;
 }
@@ -30,7 +39,12 @@ background-color: #f3f3f3;
 border-bottom: 2px solid #D2E7FE;
 }
 
-.styled-table tbody tr.active-row {
+.styled-table tbody tr.paid {
 font-weight: bold;
-color: #171f99;
+color: #1ba569;
 }
+
+.styled-table tbody tr.not-paid {
+    font-weight: bold;
+    color: #eb0c0c;
+    }

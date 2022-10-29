@@ -1,6 +1,5 @@
 body {
-  background-image: linear-gradient(135deg, #D2E7FE 10%, #D2E7FE 100%);
-  background-size: cover;
+  background-image: linear-gradient(0deg, rgba(23,31,153,1) 0%, rgba(210,231,254,1) 100%);
   background-repeat: no-repeat;
   background-attachment: fixed;
   font-family: 'HKGroteskRegular';
