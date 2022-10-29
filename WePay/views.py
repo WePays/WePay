@@ -16,12 +16,15 @@ class BillView(LoginRequiredMixin, generic.ListView):
     template_name = "Wepay/bill.html"
     context_object_name = "my_bill"
 
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        if user.is_authenticated and not UserProfile.objects.filter(user_id=user.id).exists():
+            UserProfile.objects.create(user_id=user.id)
+        return render(request, self.template_name)
+
     def get_queryset(self):
-        # user, created = UserProfile.objects.get_or_create(user=self.request.user)
-        user = self.request.user
-        if user.is_authenticated and not UserProfile.objects.filter(user=user).exists():
-            UserProfile.objects.create(user=user)
-        return Bills.objects.filter(header=user).order_by("-pub_date")
+
+        return Bills.objects.filter(header=request.user).order_by("-pub_date")
 
 
 class CreateView(LoginRequiredMixin, generic.DetailView):
