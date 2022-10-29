@@ -115,34 +115,3 @@ class CashPayment(BasePayment):
             return 'Already paid'
 
         self.status = self.Status_choice.PAID
-
-
-# class BankPayment(OmisePayment):
-#     bank_account = models.CharField(max_length=10)
-#     name = models.CharField(max_length=100)
-
-#     class Bank_choice(models.TextChoices):
-#         KTB = "KTB"
-#         BBL = "BBL"
-#         SCB = "SCB"
-#         KRUNGTHAI = "KRUNGTHAI"
-#         TMB = "TTB"
-#         BAY = "BAY"
-#         REDCIT = "CREDIT"
-#         PROMPTPAY = "PROMPTPAY"
-#         other = "other"
-
-#     bank_name = models.CharField(
-#         choices=Bank_choice.choices, default=Bank_choice.other, max_length=10
-#     )
-
-#     def __repr__(self) -> str:
-#         return f"{super().__repr__()[:-1]} Paid by {self.Bank_choice})"
-
-
-# class PromptPayPayment(OmisePayment):
-#     phone_number = models.CharField(max_length=10)
-#     name = models.CharField(max_length=100)
-
-#     def __repr__(self) -> str:
-#         return f"{super().__repr__()[:-1]}PhoneNumber={self.phone_number})"

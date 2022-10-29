@@ -5,9 +5,8 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Bills, Topic, UserProfile  # , Food, BankPayment, CashPayment, PromptPayPayment
+from .models import Bills, Topic, UserProfile
 
-# from django.db import models
 
 
 class BillView(LoginRequiredMixin, generic.ListView):
