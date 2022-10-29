@@ -47,8 +47,6 @@ INSTALLED_APPS = [
     "allauth.socialaccount.providers.github",
     "allauth.socialaccount.providers.google",
     "allauth.socialaccount.providers.discord",
-    "allauth.socialaccount.providers.line",
-
 ]
 
 MIDDLEWARE = [
@@ -134,6 +132,13 @@ SOCIALACCOUNT_PROVIDERS = {
         "LOCALE_FUNC": lambda request: "th_TH",
         "VERIFIED_EMAIL": False,
         "VERSION": "v15.0",
+    },
+    "line": {
+        "APP": {
+            'client_id': '1657597545',
+            'secret': '74cb495ffafa2b03be77699de5714ac7'
+        },
+        "SCOPE": ['profile', 'openid', 'email']
     },
 }
 
