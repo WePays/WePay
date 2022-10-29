@@ -1,5 +1,6 @@
 body {
-  background-image: linear-gradient(0deg, rgba(23,31,153,1) 0%, rgba(210,231,254,1) 100%);
+  background: rgb(210,231,254);
+  background: linear-gradient(0deg, rgba(210,231,254,1) 0%, rgba(210,231,254,1) 56%, rgba(23,31,153,1) 100%);
   background-repeat: no-repeat;
   background-attachment: fixed;
   font-family: 'HKGroteskRegular';
@@ -8,10 +9,10 @@ body {
   color: #333333;
 }
 
-.firstsection {
-  background-color: #171f99;
-  top: 0;
-}
+/* .firstsection {
+  background-color: #f7f7f8;
+  margin: 0%;
+} */
 
 .right-top {
   text-align: right;
@@ -22,7 +23,7 @@ body {
 
 
 .box-form {
-  margin-top: 5%;
+  margin-top: 10%;
   margin-left: 10%;
   width: 80%;
   background: #FFFFFF;
