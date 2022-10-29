@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Bills, Food  # , Food, BankPayment, CashPayment, PromptPayPayment
+from .models import Bills, Topic, UserProfile  # , Food, BankPayment, CashPayment, PromptPayPayment
 
 # from django.db import models
 
@@ -16,7 +16,14 @@ class BillView(LoginRequiredMixin, generic.ListView):
     template_name = "Wepay/bill.html"
     context_object_name = "my_bill"
 
+    def get(self, request, *arg, **kwargs):
+        user = request.user
+        if user.is_authenticated and not UserProfile.objects.filter(user_id=user.id).exists():
+            UserProfile.objects.create(user_id=user.id)
+        return super().get(request, *arg, **kwargs)
+
     def get_queryset(self):
+
         return Bills.objects.filter(header=self.request.user).order_by("-pub_date")
 
 
@@ -24,7 +31,7 @@ class CreateView(LoginRequiredMixin, generic.DetailView):
     """views for create some bills."""
 
     template_name = "Wepay/create_bills.html"
-    model = Bills, Food
+    model = Bills
 
     def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
         return render(request, "Wepay/create_bills.html")
@@ -34,7 +41,7 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
     """views for detail of each bill."""
 
     template_name = "Wepay/detail.html"
-    model = Bills, Food
+    model = Bills, Topic
 
     def get(self, request: HttpRequest, pk: int) -> HttpResponse:
         # user = request.user
