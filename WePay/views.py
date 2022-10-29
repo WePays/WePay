@@ -1,12 +1,12 @@
 from typing import Any
 from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect, HttpRequest
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from .models import Bills, Topic, UserProfile
-
 
 
 class BillView(LoginRequiredMixin, generic.ListView):
@@ -24,6 +24,7 @@ class BillView(LoginRequiredMixin, generic.ListView):
     def get_queryset(self):
 
         return Bills.objects.filter(header__user=self.request.user).order_by("-pub_date")
+
 
 class CreateView(LoginRequiredMixin, generic.DetailView):
     """views for create some bills."""
@@ -55,5 +56,11 @@ def payment(request: HttpRequest):
     return HttpResponse("<h1>payments</h1>")
 
 
-def add_topics(request):
+@login_required(login_url='accounts/login')
+def add_topics(request, bills_id):
+    bill = get_object_or_404(Bills, pk=bills_id)
+    user = request.user
+
+@login_required(login_url='accounts/login')
+def add_user(request, user_id):
     pass
