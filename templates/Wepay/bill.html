@@ -11,7 +11,11 @@ yours bill
   <ul>
     {% for bill in my_bill %}
     <list>{{forloop.counter0|add:"1"}}
+<<<<<<< HEAD
     {{ bill.title }}
+=======
+    {{ bill.name }}
+>>>>>>> create_bill-backend2
 </list><br>
     <p><a href="accounts/logout"><button tyoe="button">logout</button></a></p>
     {% endfor %}

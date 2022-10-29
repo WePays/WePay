@@ -1,3 +1,4 @@
 django
 django-allauth
 python-decouple
+omise
