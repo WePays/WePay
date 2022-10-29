@@ -15,16 +15,15 @@ class BillView(LoginRequiredMixin, generic.ListView):
     template_name = "Wepay/bill.html"
     context_object_name = "my_bill"
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request, *arg, **kwargs):
         user = request.user
         if user.is_authenticated and not UserProfile.objects.filter(user_id=user.id).exists():
             UserProfile.objects.create(user_id=user.id)
-        return render(request, self.template_name)
+        return super().get(request, *arg, **kwargs)
 
     def get_queryset(self):
 
-        return Bills.objects.filter(header=request.user).order_by("-pub_date")
-
+        return Bills.objects.filter(header__user=self.request.user).order_by("-pub_date")
 
 class CreateView(LoginRequiredMixin, generic.DetailView):
     """views for create some bills."""
@@ -54,6 +53,7 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
 
 def payment(request: HttpRequest):
     return HttpResponse("<h1>payments</h1>")
+
 
 def add_topics(request):
     pass
