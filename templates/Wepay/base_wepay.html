@@ -6,71 +6,55 @@
 <html>
 
 <head>
+	<meta charset="UTF-8">
 	<title> Web Template </title>
-  <link rel="stylesheet" href="{% static 'WePay/home.css' %}">
-  <link rel="stylesheet" media="screen" href="https://fontlibrary.org//face/hk-grotesk" type="text/css"/>
+	<link rel="stylesheet" href="{% static 'wepay/home.css' %}" type="text/css" media="all">
+	<link rel="stylesheet" media="screen" href="https://fontlibrary.org//face/hk-grotesk" type="text/css"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
 </head>
 
 <body>
-	<nav class="navbar background">
-		<ul class="nav-list">
-			<div class="logo">
-				<img src="logo_wepay.png">
-			</div>
-			<li><a href="#">WePay1</a></li>
-			<li><a href="#">WePay2</a></li>
-			<li><a href="#">WePay3</a></li>
-		</ul>
 
-		<div class="rightNav">
-			<p>username<a href="#">Home</a></p>
-		</div>
-	</nav>
+	<!-- <section class="top_bar">
+		<header class="wepay">
+			<p> Wepay </p>
+		</header>
+	</section> -->
 
-	<section class="background">
-		<div class="box-main">
-			<div class="firstHalf">
-				<h1 class="text-big" id="web">
-					Top big text 
-				</h1>
-				
-				<p class="text1">
-          			test text 1
-				</p>
+	<ul>
+	<table class="styled-table">
+		<thead>
+			<tr>
+				<th> No. </th>
+				<th> Bills Topics </th>
+				<th> Prices </th>
+				<th> Status </th>
+				<th> Header of Bills </th>
+			</tr>
+		</thead>
 
+		<tbody>
+			<tr>
+				<td> 1 </td>
+				<td> Shabu </td>
+				<td> 500.00 </td>
+				<td> Not paid </td>
+				<td> tha </td>
+			</tr>
+			<tr class="active-row">
+				<td> 2 </td>
+				<td> Bingsu </td>
+				<td> 70.00 </td>
+				<td> Paid </td>
+				<td> tha </td>
+			</tr>
+		</tbody>
 
-			</div>
-		</div>
-	</section>
+	</table>
+	</ul>
 
-	<section class="secondsection">
-		<div class="box-main">
-			<div class="secondHalf">
-				<h1 class="text-big" id="program">
-					Top big text 2
-				</h1>
-				<p class="text-small">
-          test text 2
-				</p>
-
-
-			</div>
-		</div>
-	</section>
-
-
-		<div class="thumbnail">
-			<img src="img.png" alt="laptop image">
-		</div>
-	</section>
-
-	<footer class="background">
-		<p class="text-footer">
-			bottom text
-		</p>
-
-
-	</footer>
 </body>
 
 </html>
