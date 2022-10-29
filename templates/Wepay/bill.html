@@ -1,4 +1,4 @@
-{% extends 'WePay/base.html' %}
+{% extends 'WePay/base_wepay.html' %}
 
 {%block title%}
 {{ super }}
@@ -11,13 +11,19 @@ yours bill
   <ul>
     {% for bill in my_bill %}
     <list>{{forloop.counter0|add:"1"}}
+<<<<<<< HEAD
+    {{ bill.title }}
+=======
     {{ bill.name }}
+>>>>>>> create_bill-backend2
 </list><br>
+    <p><a href="accounts/logout"><button tyoe="button">logout</button></a></p>
     {% endfor %}
   </ul>
 {% else %}
   <p>No Bill are available.</p>
   <p><a href='/bill/create/'><button type="button">create</button></a></p>
+  <p><a href="accounts/logout"><button tyoe="button">logout</button></a></p>
 {% endif %}
 
 {% if user.is_authenticated %}&nbsp;&nbsp;&nbsp;<label>{{"login as "}}</label><user>{{user.username}}</user> <a href='/accounts/logout'><button type="button">Log Out</button></a>
@@ -25,3 +31,5 @@ yours bill
 {% endif %}
 {% endblock body%}
 {% block button %}{% endblock button %}
+
+

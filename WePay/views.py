@@ -5,9 +5,8 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Bills, Topic, UserProfile  # , Food, BankPayment, CashPayment, PromptPayPayment
+from .models import Bills, Topic, UserProfile
 
-# from django.db import models
 
 
 class BillView(LoginRequiredMixin, generic.ListView):
@@ -16,13 +15,15 @@ class BillView(LoginRequiredMixin, generic.ListView):
     template_name = "Wepay/bill.html"
     context_object_name = "my_bill"
 
-    def get_queryset(self):
-        # user, created = UserProfile.objects.get_or_create(user=self.request.user)
-        user = self.request.user
-        if user.is_authenticated and not UserProfile.objects.filter(user=user).exists():
-            UserProfile.objects.create(user=user)
-        return Bills.objects.filter(header=user).order_by("-pub_date")
+    def get(self, request, *arg, **kwargs):
+        user = request.user
+        if user.is_authenticated and not UserProfile.objects.filter(user_id=user.id).exists():
+            UserProfile.objects.create(user_id=user.id)
+        return super().get(request, *arg, **kwargs)
 
+    def get_queryset(self):
+
+        return Bills.objects.filter(header__user=self.request.user).order_by("-pub_date")
 
 class CreateView(LoginRequiredMixin, generic.DetailView):
     """views for create some bills."""
@@ -52,6 +53,7 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
 
 def payment(request: HttpRequest):
     return HttpResponse("<h1>payments</h1>")
+
 
 def add_topics(request):
     pass

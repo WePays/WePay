@@ -14,22 +14,10 @@ rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNE
 crossorigin="anonymous"><link rel="stylesheet" href="./style.css">
 {% endblock extra_head%}
 
-{% block boxleft %}
-{{ block.super }}
-
-	<span>
-		<p>Login with</p>
-		  <a href="{% provider_login_url 'github' %}"> <i class="fa fa-github" aria-hidden="true"></i>  GitHub </a>
-		<a href="{% provider_login_url 'google' %}"><i class="fa fa-google" aria-hidden="true"></i>  Google  </a>
-		<a href="{% provider_login_url 'facebook' %}"><i class="fa fa-facebook" aria-hidden="true"></i>  Facebook</a>
-		<a href="{% provider_login_url 'discord' %}"><i class="fa-brands fa-discord" aria-hidden="true"></i>  Discord</a>
-	</span>
-
-{% endblock boxleft %}
 
 {% block content %}
 		<h5>Login</h5>
-		<p>Don't have an account? <a href="#">Creat Your Account</a> it takes less than a minute</p>
+		<p>Don't have an account? <a href="#">Creat Your Account</a> Click Signup for create account</p>
 		<div class="inputs">
 			<input type="text" placeholder="user name">
 			<br>
@@ -53,7 +41,7 @@ crossorigin="anonymous"><link rel="stylesheet" href="./style.css">
 	</div>
     {% endblock content%}
 
-{% comment %} 
+
 {% load static %}
 {% load socialaccount %}
 
@@ -80,20 +68,13 @@ crossorigin="anonymous"><link rel="stylesheet" href="./style.css">
 		<h1>WePay</h1>
 		<p>WePay is a web application for those <br>who need to coordinate paying for a group.<br>
       WePay can help by charging or splitting bills, <br> which makes it easier to collect money.</p>
-		<span>
-			<p>Login with</p>
-      		<a href="{% provider_login_url 'github' %}"> <i class="fa fa-github" aria-hidden="true"></i>  GitHub </a>
-			<a href="{% provider_login_url 'google' %}"><i class="fa fa-google" aria-hidden="true"></i>  Google  </a>
-			<a href="{% provider_login_url 'facebook' %}"><i class="fa fa-facebook" aria-hidden="true"></i>  Facebook</a>
-			<a href="{% provider_login_url 'discord' %}"><i class="fa-brands fa-discord" aria-hidden="true"></i>  Discord</a>
-		</span>
 		</div>
 	</div>
 	
 	
 		<div class="right">
 		<h5>Login</h5>
-		<p>Don't have an account? <a href="#">Creat Your Account</a> it takes less than a minute</p>
+		<p>Don't have an account?<a href="#">Creat Your Account</a></p>
 		<div class="inputs">
 			<input type="text" placeholder="user name">
 			<br>
@@ -117,7 +98,6 @@ crossorigin="anonymous"><link rel="stylesheet" href="./style.css">
 	</div>
 	
 </div>
-<!-- partial -->
   
 </body>
-</html> {% endcomment %}
+</html> 
