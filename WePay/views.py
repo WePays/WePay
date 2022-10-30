@@ -70,6 +70,7 @@ def payment(request: HttpRequest):
 def add_topics(request, bills_id):
     bill = get_object_or_404(Bills, pk=bills_id)
     user = request.user
+    return HttpResponseRedirect(reverse('bills:bill', args=(bill.id)))
 
 @login_required(login_url='accounts/login')
 def add_user(request, user_id):
