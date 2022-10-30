@@ -9,9 +9,21 @@
   <link rel="stylesheet" href="{% static 'WePay/login.css' %}">
   <link rel="stylesheet" media="screen" href="https://fontlibrary.org//face/hk-grotesk" type="text/css"/>
 
-  {% block extra_head %}{% endblock extra_head%}
+  {% block extra_head %}{% endblock extra_head %}
 </head>
 <body>
+  <!-- <section class="firstsection">
+    <nav class="top background">
+			<div class="logo">
+				<img src="account/logo_wepay.png">
+			</div>
+
+    <div class="right-top">
+      <p> username <a href="/bill/"> Home </a> </p>
+    </div>
+    <br>
+  </section> -->
+
     {% block body%}
     {% if messages %}
     <div>
@@ -23,6 +35,7 @@
       </ul>
     </div>
     {% endif %}
+
 <!-- partial:index.partial.html -->
 <div class="box-form">
     <div class="left">
@@ -31,6 +44,15 @@
           <h1>WePay</h1>
           <p>WePay is a web application for those <br>who need to coordinate paying for a group.<br>
           WePay can help by charging or splitting bills, <br> which makes it easier to collect money.</p>
+          {% if not user.is_authenticated %}
+          <span>
+            <p>Login with</p>
+            <a href="{% provider_login_url 'github' %}"> <i class="fa fa-github" aria-hidden="true"></i>  GitHub </a>
+            <a href="{% provider_login_url 'google' %}"><i class="fa fa-google" aria-hidden="true"></i>  Google  </a>
+            <a href="{% provider_login_url 'line' %}"><i class="fa fa-line" aria-hidden="true"></i>  Line</a>
+            <a href="{% provider_login_url 'discord' %}"><i class="fa-brands fa-discord" aria-hidden="true"></i>  Discord</a>
+          </span>
+          {% endif %}
         </div>
 
         {% endblock boxleft%}
