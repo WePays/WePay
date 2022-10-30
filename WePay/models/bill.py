@@ -18,7 +18,7 @@ class Bills(models.Model):
     @property
     def header_chain(self):
         if self.header.chain is None:
-            # * implement error message in UIlater
+            # implement later
             logging.warning('YOU MUST have a chain by click this link and verify your account')
             raise ValueError('YOU MUST have a chain by click this link and verify your account')
         return self.header.chain
@@ -31,6 +31,8 @@ class Bills(models.Model):
             for each_food in food
             if person in each_food.user.all()
         )
+
+
 
     @property
     def total_price(self):
