@@ -5,16 +5,28 @@
 yours bill
 {% endblock title%}
 {% block body%}
+
 <h1>Bills list</h1>
 {{super}}
+
 {% if my_bill %}
   <ul>
-    {% for bill in my_bill %}
-    <list>{{forloop.counter0|add:"1"}}
-    {{ bill.title }}
-    {{ bill.price }}
-    {{ bill.header }}
-    {{ bill.each }}
+    <table class="first-table">
+      <tr>
+          <th>name</th>
+          <th>price</th>
+          <th>status</th>
+          <th>verify</th>
+      </tr>
+      {% for bill in my_bill %}
+      <list>{{forloop.counter0|add:"1"}} </list>
+      <tr>
+          <td>{{ bill.name }}</td>
+          <!-- <td>{{ bill.price }}</td>
+          <td>{{ bill.status }}</td>
+          <td>{{ bill.verify }}</td> -->
+      </tr>
+      {% endfor %}
     </list>
     {% endfor %}
   </ul>
@@ -32,6 +44,7 @@ yours bill
 {% if user.is_authenticated %}&nbsp;&nbsp;&nbsp;<label>{{"login as "}}</label><user>{{user.username}}</user> <a href='/accounts/logout'><button type="button">Log Out</button></a>
 {% else %}<a href='/accounts/logout'><button type="button">Log in?</button></a>
 {% endif %}
+
 {% endblock body%}
 {% block button %}{% endblock button %}
 
