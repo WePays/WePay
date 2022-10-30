@@ -19,7 +19,7 @@ class BasePayment(models.Model):
     """Entry model"""
 
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True, blank=True)
-    date = models.DateTimeField(default=timezone.localtime)
+    date = models.DateTimeField(default=timezone.localtime())
     bill = models.ForeignKey(Bills, on_delete=models.CASCADE)
 
     @abstractmethod
@@ -77,10 +77,12 @@ class OmisePayment(BasePayment):
         """pay by omise"""
         if self.user.status == self.Status_choice.UNPAID:
             source = omise.Source.create(
-                type=self.payment_type,
-                amount=self.bill.calculate_price(self.user),
-                currency="thb",
-            )
+            type=self.payment_type,
+            amount=self.bill.calculate_price(self.user)*100,
+            currency="thb",
+        )
+
+            omise.api_secret = self.user.chain.key
 
             charge = omise.Charge.create(
                 amount=int(self.bill.calculate_price(self.user) * 100),
@@ -93,6 +95,7 @@ class OmisePayment(BasePayment):
 
             self.user.status = self.Status_choice.PAID
             self.user.save()
+            omise.api_secret = OMISE_SECRET
 
     def get_status(self):
         status = omise.Charge.retrieve(self.charge_id).status

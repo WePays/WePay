@@ -1,12 +1,15 @@
 from typing import Any
 from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect, HttpRequest
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Bills, Topic, UserProfile
 
+from WePay.models import bill
+from .models import Bills, Topic, UserProfile
+from WePay.models.upload import UploadBillForm, UploadTopicForm
 
 
 class BillView(LoginRequiredMixin, generic.ListView):
@@ -25,6 +28,7 @@ class BillView(LoginRequiredMixin, generic.ListView):
 
         return Bills.objects.filter(header__user=self.request.user).order_by("-pub_date")
 
+
 class CreateView(LoginRequiredMixin, generic.DetailView):
     """views for create some bills."""
 
@@ -32,7 +36,21 @@ class CreateView(LoginRequiredMixin, generic.DetailView):
     model = Bills
 
     def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
-        return render(request, "Wepay/create_bills.html")
+        # if request.POST:
+        #     print('SuoOOOOOooOoOooOoOOoOoOo')
+        #     form = UploadTopicForm(request.POST)
+        #     if form.is_valid():
+        #         form.save()
+        #     return HttpResponseRedirect(reverse("bills:bill"))
+        return render(request, "Wepay/create_bills.html", {'form_topic': UploadTopicForm, 'form_bill': UploadBillForm})
+
+    def post(self, request, *args, **kwargs):
+        form_topic = UploadTopicForm(request.POST)
+        form_bill = UploadBillForm(request.POST)
+        if form_topic.is_valid() and form_bill.is_valid:
+            form_topic.save()
+            form_bill.save()
+        return HttpResponseRedirect(reverse("bills:bill"))
 
 
 class DetailView(LoginRequiredMixin, generic.DetailView):
@@ -54,6 +72,12 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
 def payment(request: HttpRequest):
     return HttpResponse("<h1>payments</h1>")
 
+# @login_required(login_url='accounts/login')
+# def add_topics(request, bills_id):
+#     bill = get_object_or_404(Bills, pk=bills_id)
+#     user = request.user
+#     return HttpResponseRedirect(reverse('bills:bill', args=(bill.id)))
 
-def add_topics(request):
-    pass
+# @login_required(login_url='accounts/login')
+# def add_user(request, user_id):
+#     pass
