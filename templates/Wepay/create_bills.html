@@ -1,20 +1,45 @@
 <form action="" method ="post" class="add-topics">
-{% csrf_token %}
-<h1>Create_bills</h1>
-{% if user.is_authenticated %}
-<p>Create Bills</p>
-<div class="add-topics">
-    <label for="Topics">Topic: </label>
-    <input type="text", name="Topics", id="Topics">
-    <label for="Users">Users: </label>
-    <input type="text", name="Users", id="Users">
-    <input type="submit" value="Create">
-</div>
-</form>
-<p><a href='/accounts/logout'><button type="button">Log Out</button></a></p>
-<p><a href='/bill/'><button type="button">back</button></a></p>
-<!-- <p><a href='/create_bills/save'><button type="button">save</button></a></p> -->
+    {% csrf_token %}
+    <h1>Create_bills</h1>
+    <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" name="title" id="title" class="form-control" placeholder="Title" required>
+    </div>
+    {% if user.is_authenticated %}
+    <p>Create Bills</p>
 
-{% else %}
-<a href="/accounts/login/">Sign Up</a>
-{% endif %}
+    <div class="add-topics">
+        <label for="Topics">Topic: </label>
+        <input type="text", name="Topics", id="Topics">
+    </div>
+
+    <div class="add-prices">
+        <label for="Prices">Price</label>
+        <input type="number" name="price" id="price" class="form-control" placeholder="Price" required>
+    </div>
+
+    <div class="add-user">
+        <label for="User">User</label>
+        <input type="text" name="User" id="User" class="form-control" placeholder="User" required>
+    </div>
+    <div class="submit-user">
+        <input type="submit" value="Add-user" class="form-control">
+    </div>
+
+    <div class="add-each-price">
+        <label for="Each">Each Price</label>
+        <input type="text" name="Each" id="Each" class="form-control" placeholder="Each" required>
+
+    <div class="add-create">
+        <button type="submit" class="btn btn-primary">Create Bills</button>
+    </div>
+
+    </form>
+    
+    <p><a href='/accounts/logout'><button type="button">Log Out</button></a></p>
+    <p><a href='/bill/'><button type="button">back</button></a></p>
+    <!-- <p><a href='/create_bills/save'><button type="button">save</button></a></p> -->
+    
+    {% else %}
+    <a href="/accounts/login/">Sign Up</a>
+    {% endif %}
