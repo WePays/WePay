@@ -61,6 +61,7 @@ class BasePayment(models.Model):
 
 class OmisePayment(BasePayment):
     charge_id = models.CharField(max_length=100, null=True, blank=True)
+    source_id = models.CharField(max_length=100, null=True, blank=True)
 
     class PaymentChoice(models.TextChoices):
         PROMPT_PAY = "promptpay"
@@ -73,14 +74,19 @@ class OmisePayment(BasePayment):
         choices=PaymentChoice.choices, max_length=20, default=PaymentChoice.PROMPT_PAY
     )
 
+    def create_source(self):
+        source = omise.Source.create(
+            type=self.payment_type,
+            amount=self.bill.calculate_price(self.user)*100,
+            currency="thb",
+        )
+        self.source_id = source.id
+        self.save()
+
     def pay(self):
         """pay by omise"""
         if self.user.status == self.Status_choice.UNPAID:
-            source = omise.Source.create(
-                type=self.payment_type,
-                amount=self.bill.calculate_price(self.user)*100,
-                currency="thb",
-            )
+            self.create_source()
 
             omise.api_secret = self.user.chain.key
 
@@ -88,7 +94,7 @@ class OmisePayment(BasePayment):
                 amount=int(self.bill.calculate_price(self.user) * 100),
                 currency="thb",
                 customer=self.user.chain_key,
-                source=source.id,
+                source=self.source.id,
                 return_uri="http://localhost:8000/bill/",
             )
             self.charge_id = charge.id

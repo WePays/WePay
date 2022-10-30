@@ -15,11 +15,11 @@ class BillView(LoginRequiredMixin, generic.ListView):
     template_name = "Wepay/bill.html"
     context_object_name = "my_bill"
 
-    # def get(self, request, *arg, **kwargs):
-    #     user = request.user
-    #     if user.is_authenticated and not UserProfile.objects.filter(user_id=user.id).exists():
-    #         UserProfile.objects.create(user_id=user.id)
-    #     return super().get(request, *arg, **kwargs)
+    def get(self, request, *arg, **kwargs):
+        user = request.user
+        if user.is_authenticated and not UserProfile.objects.filter(user_id=user.id).exists():
+            UserProfile.objects.create(user_id=user.id)
+        return super().get(request, *arg, **kwargs)
 
     def get_queryset(self):
 
@@ -60,6 +60,7 @@ def payment(request: HttpRequest):
 def add_topics(request, bills_id):
     bill = get_object_or_404(Bills, pk=bills_id)
     user = request.user
+    return HttpResponseRedirect(reverse('bills:bill', args=(bill.id)))
 
 @login_required(login_url='accounts/login')
 def add_user(request, user_id):
