@@ -1,13 +1,12 @@
 from typing import Any
 from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect, HttpRequest
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Bills, Topic  # , Food, BankPayment, CashPayment, PromptPayPayment
-
-# from django.db import models
+from django.contrib.auth.decorators import login_required
+from .models import Bills, Topic, UserProfile
 
 
 class BillView(LoginRequiredMixin, generic.ListView):
@@ -16,8 +15,15 @@ class BillView(LoginRequiredMixin, generic.ListView):
     template_name = "Wepay/bill.html"
     context_object_name = "my_bill"
 
+    # def get(self, request, *arg, **kwargs):
+    #     user = request.user
+    #     if user.is_authenticated and not UserProfile.objects.filter(user_id=user.id).exists():
+    #         UserProfile.objects.create(user_id=user.id)
+    #     return super().get(request, *arg, **kwargs)
+
     def get_queryset(self):
-        return Bills.objects.filter(header=self.request.user).order_by("-pub_date")
+
+        return Bills.objects.filter(header__user=self.request.user).order_by("-pub_date")
 
 
 class CreateView(LoginRequiredMixin, generic.DetailView):
@@ -48,3 +54,13 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
 
 def payment(request: HttpRequest):
     return HttpResponse("<h1>payments</h1>")
+
+
+@login_required(login_url='accounts/login')
+def add_topics(request, bills_id):
+    bill = get_object_or_404(Bills, pk=bills_id)
+    user = request.user
+
+@login_required(login_url='accounts/login')
+def add_user(request, user_id):
+    pass

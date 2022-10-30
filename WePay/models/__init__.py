@@ -1,12 +1,12 @@
 from .bill import Bills, Topic
-from .payment import BasePayment, BankPayment, OmisePayment, CashPayment, PromptPayPayment
+from .payment import BasePayment, OmisePayment, CashPayment
+from .userprofile import UserProfile
 
 __all__ = [
     "Bills",
     "Topic",
     "BasePayment",
-    "BankPayment",
     "OmisePayment",
     "CashPayment",
-    "PromptPayPayment",
+    "UserProfile",
 ]

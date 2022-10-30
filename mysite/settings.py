@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 import os
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -56,6 +57,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    # 'auth_remember.middleware.AuthRememberMiddleware',
 ]
 
 ROOT_URLCONF = "mysite.urls"
@@ -82,6 +84,7 @@ AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
     # `allauth` specific authentication methods, such as login by e-mail
     "allauth.account.auth_backends.AuthenticationBackend",
+    # 'auth_remember.backend.AuthRememberBackend',
 ]
 
 WSGI_APPLICATION = "mysite.wsgi.application"
@@ -111,25 +114,7 @@ SOCIALACCOUNT_PROVIDERS = {
             "access_type": "online",
         },
     },
-    "facebook": {
-        "METHOD": "oauth2",
-        "SCOPE": ["email", "user_friends"],
-        "AUTH_PARAMS": {"auth_type": "reauthenticate"},
-        "FIELDS": [
-            "id",
-            "email",
-            "name",
-            "first_name",
-            "last_name",
-            "timezone",
-            "link",
-            "updated_time",
-        ],
-        "EXCHANGE_TOKEN": True,
-        "LOCALE_FUNC": lambda request: "th_TH",
-        "VERIFIED_EMAIL": False,
-        "VERSION": "v15.0",
-    },
+
     "line": {
         "APP":{
             'client_id': '1657597545',
@@ -137,6 +122,7 @@ SOCIALACCOUNT_PROVIDERS = {
         },
         "SCOPE": ['profile', 'openid', 'email']
     },
+
 }
 
 # Database
