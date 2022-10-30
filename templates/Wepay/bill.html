@@ -11,22 +11,57 @@ yours bill
 
 {% if my_bill %}
   <ul>
-    <table class="first-table">
-      <tr>
-          <th>name</th>
-          <th>price</th>
-          <th>status</th>
-          <th>verify</th>
-      </tr>
+    <table class="first-table" style="width: 60%; height: 50%;">
+      <thead>
+        <tr>
+          <th> No. </th>
+          <th> Bills Topics </th>
+          <th> Prices </th>
+          <th> Status </th>
+          <th> Verify </th>
+        </tr>
+      </thead>
+
       {% for bill in my_bill %}
       <list>{{forloop.counter0|add:"1"}} </list>
-      <tr>
-          <td>{{ bill.name }}</td>
-          <!-- <td>{{ bill.price }}</td>
-          <td>{{ bill.status }}</td>
-          <td>{{ bill.verify }}</td> -->
-      </tr>
-      {% endfor %}
+        <tr>
+            <td>{{ bill.name }}</td>
+            <!-- <td>{{ bill.price }}</td>
+            <td>{{ bill.status }}</td>
+            <td>{{ bill.verify }}</td> -->
+        </tr>
+        <tbody>
+          <tr class="not-paid">
+            <td> 1 </td>
+            <td> Shabu </td>
+            <td> 500.00 </td>
+            <td> Not paid </td>
+            <td>  </td>
+          </tr>
+          <tr class="paid">
+            <td> 2 </td>
+            <td> Bingsu </td>
+            <td> 70.00 </td>
+            <td> Paid </td>
+            <td>  </td>
+
+          <tr class="not-paid">
+            <td> 3 </td>
+            <td> Pool </td>
+            <td> 40.00 </td>
+            <td> Not Paid </td>
+            <td>  </td>
+          </tr>
+    
+          <tr class="paid">
+            <td> 4 </td>
+            <td> MoMo </td>
+            <td> 650.00 </td>
+            <td> Paid </td>
+            <td>  </td>
+          </tr>
+        </tbody>
+        {% endfor %}
     </list>
   </ul>
 
