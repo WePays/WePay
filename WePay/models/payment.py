@@ -78,9 +78,11 @@ class OmisePayment(BasePayment):
         if self.user.status == self.Status_choice.UNPAID:
             source = omise.Source.create(
                 type=self.payment_type,
-                amount=self.bill.calculate_price(self.user),
+                amount=self.bill.calculate_price(self.user)*100,
                 currency="thb",
             )
+
+            omise.api_secret = self.user.chain.key
 
             charge = omise.Charge.create(
                 amount=int(self.bill.calculate_price(self.user) * 100),
@@ -93,6 +95,7 @@ class OmisePayment(BasePayment):
 
             self.user.status = self.Status_choice.PAID
             self.user.save()
+            omise.api_secret = OMISE_SECRET
 
     def get_status(self):
         status = omise.Charge.retrieve(self.charge_id).status
