@@ -4,9 +4,10 @@ from django.http import HttpResponse, HttpResponseRedirect, HttpRequest
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Bills, Topic, UserProfile
+from WePay.models.upload import UploadTopicForm
 
 
 class BillView(LoginRequiredMixin, generic.ListView):
@@ -33,8 +34,8 @@ class CreateView(LoginRequiredMixin, generic.DetailView):
     model = Bills
 
     def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
-        return render(request, "Wepay/create_bills.html")
-
+        form = UploadTopicForm(request.POST, request.POST, request.POST,  request.POST)
+        return render(request, "Wepay/create_bills.html", {'form': form})
 
 class DetailView(LoginRequiredMixin, generic.DetailView):
     """views for detail of each bill."""
@@ -55,14 +56,13 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
 def payment(request: HttpRequest):
     return HttpResponse("<h1>payments</h1>")
 
+# @login_required(login_url='accounts/login')
+# def add_topics(request, bills_id):
+#     bill = get_object_or_404(Bills, pk=bills_id)
+#     user = request.user
+#     return HttpResponseRedirect(reverse('bills:bill', args=(bill.id)))
 
-@login_required(login_url='accounts/login')
-def add_topics(request, bills_id):
-    bill = get_object_or_404(Bills, pk=bills_id)
-    user = request.user
-    return HttpResponseRedirect(reverse('bills:bill', args=(bill.id)))
-
-@login_required(login_url='accounts/login')
-def add_user(request, user_id):
-    # Combine with addtopics later
-    pass
+# @login_required(login_url='accounts/login')
+# def add_user(request, user_id):
+#     # Combine with addtopics later
+#     pass
