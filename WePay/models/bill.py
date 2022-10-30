@@ -32,8 +32,6 @@ class Bills(models.Model):
             if person in each_food.user.all()
         )
 
-
-
     @property
     def total_price(self):
         """calculate total price"""
