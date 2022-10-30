@@ -18,7 +18,7 @@ class Bills(models.Model):
     @property
     def header_chain(self):
         if self.header.chain is None:
-            # implement later
+            # * implement error message in UIlater
             logging.warning('YOU MUST have a chain by click this link and verify your account')
             raise ValueError('YOU MUST have a chain by click this link and verify your account')
         return self.header.chain
