@@ -1,5 +1,3 @@
-from email.policy import default
-from attr import field
 from django.forms import ModelForm
 from django import forms
 from django.utils import timezone

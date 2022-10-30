@@ -20,7 +20,7 @@ class BasePayment(models.Model):
 
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True, blank=True)
     date = models.DateTimeField(default=timezone.localtime)
-    bill = models.ForeignKey(Bills, on_delete=models.CASCADE)
+    bill = models.ForeignKey(Bills, on_delete=models.CASCADE, default=timezone.localtime())
 
     @abstractmethod
     def pay(self):

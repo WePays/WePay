@@ -1,10 +1,11 @@
 from django.urls import reverse
-from django.test import TestCase
+from .setUp import BaseSetUp
 from django.contrib.auth.models import User
 from ..models.payment import Bills  # ,Food
+from WePay.models.upload import UploadBillForm, UploadTopicForm
+from datetime import timezone
 
-
-class BaseViewTest(TestCase):
+class BaseViewTest(BaseSetUp):
     def setUp(self):
         """Setup before running a tests."""
         self.user1 = User.objects.create_user(
@@ -41,3 +42,27 @@ class BillViewTest(BaseViewTest):
         """After login its will goes to bill page."""
         response = self.client.get(reverse("bills:bill"))
         self.assertEqual(response.status_code, 302)
+
+
+class BillCreateViewTest(BaseViewTest):
+    """Test for BillCreateView"""
+
+    def setUp(self):
+        """Setup before running a tests."""
+        super(BaseViewTest, self).setUp()
+
+    def test_create_page(self):
+        """test navigate to create bill page."""
+        response = self.client.get("/bill/create/")
+        self.assertEqual(response.status_code, 302)
+
+    def test_form_topic_data(self):
+        """Test for form_topic data"""
+        form_topic_data = {"title": "Chicken", "price": 2000, "bill": self.bill, "user": self.user1}
+        form = UploadTopicForm(data=form_topic_data)
+        self.assertTrue(form.is_valid())
+
+    def test_form_bill_data(self):
+        form_bill_data = {"header": self.header, "name": "blabla", "pub_date":timezone.localtime}
+        form = UploadBillForm(data=form_bill_data)
+        self.assertTrue(form.is_valid())
