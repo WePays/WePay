@@ -1,6 +1,37 @@
+/* Add a black background color to the top navigation */
+.topnav {
+  background-color: #333;
+  overflow: hidden;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+/* Add a color to the active/current link */
+.topnav a.active {
+  background-color: #04AA6D;
+  color: white;
+}
+
+
+
+
 body {
-  background-image: linear-gradient(135deg, #D2E7FE 10%, #D2E7FE 100%);
-  background-size: cover;
+  background: rgb(210,231,254);
+  background: linear-gradient(0deg, rgba(210,231,254,1) 0%, rgba(210,231,254,1) 56%, rgba(23,31,153,1) 100%);
   background-repeat: no-repeat;
   background-attachment: fixed;
   font-family: 'HKGroteskRegular';
@@ -8,6 +39,19 @@ body {
   font-style: normal;
   color: #333333;
 }
+
+/* .firstsection {
+  background-color: #f7f7f8;
+  margin: 0%;
+} */
+
+.right-top {
+  text-align: right;
+  margin: auto;
+  font-size: 1vmax;
+  color: #bae2fb;
+}
+
 
 .box-form {
   margin-top: 10%;
@@ -18,12 +62,11 @@ body {
   overflow: hidden;
   display: flex;
   flex: 1 1 100%;
-  align-items: center;
+  align-items: stretch;
   justify-content: space-between;
   box-shadow: 0 0 20px 6px #090b6f85;
 }
-
-@media (max-width: 500px) {
+@media (max-width: 980px) {
   .box-form {
     flex-flow: wrap;
     text-align: center;
@@ -32,7 +75,7 @@ body {
   }
 }
 .box-form div {
-  height: auto;
+  height: 100%;
 }
 .box-form .left {
   color: #FFFFFF;
@@ -49,29 +92,17 @@ body {
   overflow: hidden;
   box-sizing: border-box;
 }
-.class .left .overlay h1 {
+.box-form .left .overlay h1 {
   font-size: 3vmax;
   line-height: 1;
   font-weight: 700;
   margin-top: 5%;
   margin-bottom: 5%;
 }
-.class .left .overlay p{
+.box-form .left .overlay span p {
   margin-top: 30px;
   font-weight: 900;
 }
-
-.class .left .overlay a{
-  margin-top: 0px;
-  margin-left: 300px;
-  font-weight: 900;
-}
-
-.class .left .overlay span p {
-  margin-bottom: 30px;
-  font-weight: 900;
-}
-
 .box-form .left .overlay span a {
   background-color: #333333;
   color: #FFFFFF;
@@ -86,22 +117,26 @@ body {
 .box-form .left .overlay span a:nth-child(2){
   color: white;
   background: #333333;
-  margin-left: 30px;
+  margin-left: 10%;
 }
 
 .box-form .left .overlay span a:nth-child(3){
   color: #333333;
   background: #fdffff;
-  margin-left: 30px;
+  margin-left: 10%;
 }
 
 .box-form .left .overlay span a:nth-child(4){
   color: white;
-  background: #0a6dde;
-  margin-left: 30px;
+  background: #06C755;
+  margin-left: 10%;
 }
 
-
+.box-form .left .overlay span a:nth-child(5){
+  color: white;
+  background: #54a4ff;
+  margin-left: 10%;
+}
 .box-form .right {
   padding: 40px;
   overflow: hidden;
@@ -141,7 +176,7 @@ body {
   margin-right: 7px;
   width: auto;
 }
-.box-form .right button{
+.box-form .right button {
   float: right;
   color: rgb(6, 37, 149);
   font-size: 16px;
@@ -165,7 +200,7 @@ label::before {
   position: absolute;
   font-family: FontAwesome;
   background: transparent;
-  border: 3px solid #101210;
+  border: 3px solid #1b1e1b;
   border-radius: 4px;
   color: transparent;
   left: -30px;
@@ -177,11 +212,11 @@ label:hover::before {
   content: ' \f00c';
   color: #fff;
   cursor: pointer;
-  background: #5CAD5C;
+  background: #2c312c;
 }
 
 label:hover::before .text-checkbox {
-  background: #5CAD5C;
+  background: #081208;
 }
 
 label span.text-checkbox {
@@ -195,4 +230,3 @@ label span.text-checkbox {
 label input[type="checkbox"] {
   display: none;
 }
-

@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 import os
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -42,11 +43,10 @@ INSTALLED_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
-    "allauth.socialaccount.providers.facebook",
+    "allauth.socialaccount.providers.line",
     "allauth.socialaccount.providers.github",
     "allauth.socialaccount.providers.google",
     "allauth.socialaccount.providers.discord",
-    # 'auth_remember',
 ]
 
 MIDDLEWARE = [
@@ -114,25 +114,15 @@ SOCIALACCOUNT_PROVIDERS = {
             "access_type": "online",
         },
     },
-    "facebook": {
-        "METHOD": "oauth2",
-        "SCOPE": ["email", "user_friends"],
-        "AUTH_PARAMS": {"auth_type": "reauthenticate"},
-        "FIELDS": [
-            "id",
-            "email",
-            "name",
-            "first_name",
-            "last_name",
-            "timezone",
-            "link",
-            "updated_time",
-        ],
-        "EXCHANGE_TOKEN": True,
-        "LOCALE_FUNC": lambda request: "th_TH",
-        "VERIFIED_EMAIL": False,
-        "VERSION": "v15.0",
+
+    "line": {
+        "APP":{
+            'client_id': '1657597545',
+            'secret': '74cb495ffafa2b03be77699de5714ac7'
+        },
+        "SCOPE": ['profile', 'openid', 'email']
     },
+
 }
 
 # Database

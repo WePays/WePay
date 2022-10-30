@@ -1,13 +1,15 @@
 from typing import Any
 from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect, HttpRequest
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Bills, Topic, UserProfile  # , Food, BankPayment, CashPayment, PromptPayPayment
 
-# from django.db import models
+from WePay.models import bill
+from .models import Bills, Topic, UserProfile
+from WePay.models.upload import UploadBillForm, UploadTopicForm
 
 
 class BillView(LoginRequiredMixin, generic.ListView):
@@ -16,12 +18,15 @@ class BillView(LoginRequiredMixin, generic.ListView):
     template_name = "Wepay/bill.html"
     context_object_name = "my_bill"
 
+    def get(self, request, *arg, **kwargs):
+        user = request.user
+        if user.is_authenticated and not UserProfile.objects.filter(user_id=user.id).exists():
+            UserProfile.objects.create(user_id=user.id)
+        return super().get(request, *arg, **kwargs)
+
     def get_queryset(self):
-        # user, created = UserProfile.objects.get_or_create(user=self.request.user)
-        user = self.request.user
-        if user.is_authenticated and not UserProfile.objects.filter(user=user).exists():
-            UserProfile.objects.create(user=user)
-        return Bills.objects.filter(header=user).order_by("-pub_date")
+
+        return Bills.objects.filter(header__user=self.request.user).order_by("-pub_date")
 
 
 class CreateView(LoginRequiredMixin, generic.DetailView):
@@ -31,7 +36,21 @@ class CreateView(LoginRequiredMixin, generic.DetailView):
     model = Bills
 
     def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
-        return render(request, "Wepay/create_bills.html")
+        # if request.POST:
+        #     print('SuoOOOOOooOoOooOoOOoOoOo')
+        #     form = UploadTopicForm(request.POST)
+        #     if form.is_valid():
+        #         form.save()
+        #     return HttpResponseRedirect(reverse("bills:bill"))
+        return render(request, "Wepay/create_bills.html", {'form_topic': UploadTopicForm, 'form_bill': UploadBillForm})
+
+    def post(self, request, *args, **kwargs):
+        form_topic = UploadTopicForm(request.POST)
+        form_bill = UploadBillForm(request.POST)
+        if form_topic.is_valid() and form_bill.is_valid:
+            form_topic.save()
+            form_bill.save()
+        return HttpResponseRedirect(reverse("bills:bill"))
 
 
 class DetailView(LoginRequiredMixin, generic.DetailView):
@@ -52,3 +71,13 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
 
 def payment(request: HttpRequest):
     return HttpResponse("<h1>payments</h1>")
+
+# @login_required(login_url='accounts/login')
+# def add_topics(request, bills_id):
+#     bill = get_object_or_404(Bills, pk=bills_id)
+#     user = request.user
+#     return HttpResponseRedirect(reverse('bills:bill', args=(bill.id)))
+
+# @login_required(login_url='accounts/login')
+# def add_user(request, user_id):
+#     pass
