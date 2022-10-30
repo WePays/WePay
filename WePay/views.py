@@ -6,8 +6,10 @@ from django.urls import reverse
 from django.views import generic
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+
+from WePay.models import bill
 from .models import Bills, Topic, UserProfile
-from WePay.models.upload import UploadTopicForm
+from WePay.models.upload import UploadBillForm, UploadTopicForm
 
 
 class BillView(LoginRequiredMixin, generic.ListView):
@@ -40,12 +42,14 @@ class CreateView(LoginRequiredMixin, generic.DetailView):
         #     if form.is_valid():
         #         form.save()
         #     return HttpResponseRedirect(reverse("bills:bill"))
-        return render(request, "Wepay/create_bills.html", {'form': UploadTopicForm})
+        return render(request, "Wepay/create_bills.html", {'form_topic': UploadTopicForm, 'form_bill': UploadBillForm})
 
     def post(self, request, *args, **kwargs):
-        form = UploadTopicForm(request.POST)
-        if form.is_valid():
-            form.save()
+        form_topic = UploadTopicForm(request.POST)
+        form_bill = UploadBillForm(request.POST)
+        if form_topic.is_valid() and form_bill.is_valid:
+            form_topic.save()
+            form_bill.save()
         return HttpResponseRedirect(reverse("bills:bill"))
 
 

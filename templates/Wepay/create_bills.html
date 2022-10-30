@@ -3,7 +3,12 @@
     <h1>Create_bills</h1>
     {% if user.is_authenticated %}
     <p>Create Bills</p>
-    {{form}}
+    <div>
+        {{form_bill}}
+    </div>
+    <div>
+        {{form_topic}}
+    </div>
     <button>create</button>
 </form>
     
