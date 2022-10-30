@@ -1,9 +1,7 @@
 # from unittest import skip
 from django.test import TestCase
 from django.contrib.auth.models import User
-
 from WePay.models.userprofile import UserProfile
-
 from ..models import Bills, Topic
 # Create your tests here.
 
@@ -28,7 +26,7 @@ class BaseSetUp(TestCase):
                                         )
         self.user2 = UserProfile.objects.create(user=user2)
         self.user2.save()
-        
+
         self.client.login(user="header", password="header123")
         self.client.login(user="test_user1", password="user1")
         self.client.login(user="test_user2", password="user2")
