@@ -34,12 +34,19 @@ class CreateView(LoginRequiredMixin, generic.DetailView):
     model = Bills
 
     def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
-        if request.POST:
-            form = UploadTopicForm(request.POST, request.POST, request.POST,  request.POST)
-            if form.is_valid():
-                form.save()
-            return HttpResponseRedirect(reverse("bills:bill"))
+        # if request.POST:
+        #     print('SuoOOOOOooOoOooOoOOoOoOo')
+        #     form = UploadTopicForm(request.POST)
+        #     if form.is_valid():
+        #         form.save()
+        #     return HttpResponseRedirect(reverse("bills:bill"))
         return render(request, "Wepay/create_bills.html", {'form': UploadTopicForm})
+
+    def post(self, request, *args, **kwargs):
+        form = UploadTopicForm(request.POST)
+        if form.is_valid():
+            form.save()
+        return HttpResponseRedirect(reverse("bills:bill"))
 
 
 class DetailView(LoginRequiredMixin, generic.DetailView):

@@ -12,4 +12,4 @@ class UploadTopicForm(ModelForm):
 
     class Meta:
         model = Topic
-        fields = ['title', 'price', 'bill', 'user']
+        fields = ('title', 'price', 'bill', 'user')
