@@ -20,10 +20,18 @@ body {
 	margin: .5rem;
 }
 
-.nav-title {
+/* .nav-title {
 	font-size: 50%;
 	color: white;
 	font-family: "HKGroteskRegular";
+} */
+
+.logo-image{
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-top: -6px;
 }
 
 .nav-menu ul{
