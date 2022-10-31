@@ -52,6 +52,23 @@ class CreateView(LoginRequiredMixin, generic.DetailView):
             form_bill.save()
         return HttpResponseRedirect(reverse("bills:bill"))
 
+class AddTopicView(LoginRequiredMixin, generic.DetailView):
+    """views for add topic to bills."""
+    template_name = "Wepay/add_topic.html"
+    model = Bills, Topic
+
+    def get(self, request: HttpRequest, pk: int) -> HttpResponse:
+        try:
+            bills = Bills.objects.get(pk=pk)
+        except Bills.DoesNotExist:
+            return HttpResponseRedirect(reverse("bills:bill"))
+        return render(request, "Wepay/add_topic.html", {"bills":bills, 'form_topic': UploadTopicForm})
+
+    def post(self, request, *args, **kwargs):
+        form_topic = UploadTopicForm(request.POST)
+        if form_topic.is_valid():
+            form_topic.save()
+        return HttpResponseRedirect(reverse("bills:bill"))
 
 class DetailView(LoginRequiredMixin, generic.DetailView):
     """views for detail of each bill."""
@@ -71,13 +88,3 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
 
 def payment(request: HttpRequest):
     return HttpResponse("<h1>payments</h1>")
-
-# @login_required(login_url='accounts/login')
-# def add_topics(request, bills_id):
-#     bill = get_object_or_404(Bills, pk=bills_id)
-#     user = request.user
-#     return HttpResponseRedirect(reverse('bills:bill', args=(bill.id)))
-
-# @login_required(login_url='accounts/login')
-# def add_user(request, user_id):
-#     pass
