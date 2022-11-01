@@ -1,6 +1,5 @@
 {% load static %}
 
-
 <!DOCTYPE html>
 
 <html>
@@ -14,13 +13,22 @@
 
 </head>
 
-<nav>
-	<div class="topnav">
-		<a href="#home">Home</a>
-		<a href="#news">News</a>
-		<a href="#contact">Contact</a>
-		<a href="#about" class="split">Help</a>
-	</div>
-</nav>
+<body>
+	<nav class="navbar">
+		<a href="/"><div class="logo-image"><img src="wepay/webpages/logo_square.png"></div></a>
+		<!-- <a href="" class="nav-title" style="font-size:larger; font-family: HKGroteskRegular; font-weight: bolder; align-items: center;">Home</a> -->
+		<a href="#" class="nav-item">
+			<span class="nav-item-bar"></span>
+			<span class="nav-item-bar"></span>
+			<span class="nav-item-bar"></span>
+		</a>
+		<div class="nav-menu">
+			<ul>
+				<li><a href="#" style="font-size:medium ; font-family:  HKGroteskRegular; font-weight: bold; align-items: center;">Username</a></li>
+				<li><a href='/accounts/logout' style="font-size: medium; font-family: HKGroteskRegular; align-items: center;">Log Out</a></li>
+			</ul>
+		</div>
+	</nav>
+</body>
 
 </html>
