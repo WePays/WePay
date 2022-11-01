@@ -1,6 +1,6 @@
 body {
 	background: rgb(210,231,254);
-	background: linear-gradient(0deg, rgba(210,231,254,1) 0%, rgba(210,231,254,1) 56%, rgba(23,31,153,1) 100%);
+	background: linear-gradient(0deg, rgba(210,231,254,1) 0%, rgba(210,231,254,1) 56%, rgba(34,42,155,1) 100%);
 	background-repeat: no-repeat;
 	background-attachment: fixed;
 	margin: 0;
@@ -53,7 +53,7 @@ body {
 }
 
 .nav-menu li:hover{
-	background: #171f99;
+	background: #222A9B;
 }
 
 .nav-item {
