@@ -27,6 +27,13 @@ class BillView(LoginRequiredMixin, generic.ListView):
 
         return Bills.objects.filter(header__user=self.request.user).order_by("-pub_date")
 
+class AboutUsView(generic.ListView):
+    """views for aboutus.html"""
+
+    template_name = "Wepay/aboutus.html"
+
+    def get_queryset(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
+        return super().get(request, *args, **kwargs)
 
 class CreateView(LoginRequiredMixin, generic.DetailView):
     """views for create some bills."""

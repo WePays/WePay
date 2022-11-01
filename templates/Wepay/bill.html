@@ -1,13 +1,13 @@
 {% extends 'WePay/base_wepay.html' %}
 
 {%block title%}
-{{ super }}
+{{ block.super }}
 yours bill
 {% endblock title%}
 {% block body%}
 
 <h1>Bills list</h1>
-{{super}}
+{{ block.super }}
 
 
 {% if my_bill %}
