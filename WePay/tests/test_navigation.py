@@ -2,7 +2,7 @@ from django.urls import reverse
 from .setUp import BaseSetUp
 from django.contrib.auth.models import User
 from ..models.payment import Bills  # ,Food
-from WePay.models.upload import UploadBillForm, UploadTopicForm
+from WePay.models.form import UploadBillForm, UploadTopicForm
 from django.utils import timezone
 from unittest import skip
 
@@ -59,10 +59,10 @@ class BillCreateViewTest(BaseViewTest):
         response = self.client.get("/bill/create/")
         self.assertEqual(response.status_code, 302)
 
-    @skip("unfinished")
+
     def test_form_topic_data(self):
         """Test for form_topic data"""
-        form_topic_data = {"title": "Chicken", "price": 2000, "bill": self.bill, "user": self.user1}
+        form_topic_data = {"title": "Chicken", "price": 2000, "bill": str(self.bill), "user": self.user1.user.username}
         form = UploadTopicForm(data=form_topic_data)
         self.assertTrue(form.is_valid())
 

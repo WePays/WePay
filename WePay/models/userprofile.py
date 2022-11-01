@@ -12,5 +12,6 @@ class UserProfile(models.Model):
     def chain(self) -> Union[omise.Chain, None]:
         return omise.Chain.retrieve(self.chain_key) if self.chain_key else None
 
-    def __str__(self) -> str:
+    def __repr__(self) -> str:
         return self.user.username
+    __str__ = __repr__
