@@ -11,7 +11,7 @@ body {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	background: #171f99;
+	background: #222A9B;
 	color: white;
 }
 
@@ -20,15 +20,16 @@ body {
 	margin: .5rem;
 }
 
-/* .nav-title {
-	font-size: 50%;
+.nav-title {
 	color: white;
 	font-family: "HKGroteskRegular";
-} */
+	margin-left: 1%;
+}
+
 
 .logo-image {
-	width: 100px;
-	height: 100px;
+	width: 7%;
+	height: 7%;
 }
 
 .nav-menu ul{
