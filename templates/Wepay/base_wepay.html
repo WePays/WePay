@@ -1,12 +1,10 @@
 {% load static %}
 
-<!DOCTYPE html>
-
 <html>
 
 <head>
 	<meta charset="UTF-8">
-	<title> Web Template </title>
+	<title> {% block title %} {% endblock %} </title>
 	<link rel="stylesheet" href="{% static 'wepay/home.css' %}" type="text/css" media="all">
 	<link rel="stylesheet" media="screen" href="https://fontlibrary.org//face/hk-grotesk" type="text/css"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,6 +27,8 @@
 			</ul>
 		</div>
 	</nav>
+	{% block body %}
+	{% endblock %}
 </body>
 
 </html>
