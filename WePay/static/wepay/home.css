@@ -1,6 +1,6 @@
 body {
 	background: rgb(210,231,254);
-	background: linear-gradient(0deg, rgba(210,231,254,1) 0%, rgba(210,231,254,1) 56%, rgba(23,31,153,1) 100%);
+	background: linear-gradient(0deg, rgba(210,231,254,1) 0%, rgba(210,231,254,1) 56%, rgba(34,42,155,1) 100%);
 	background-repeat: no-repeat;
 	background-attachment: fixed;
 	margin: 0;
@@ -11,7 +11,7 @@ body {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	background: #171f99;
+	background: #222A9B;
 	color: white;
 }
 
@@ -20,18 +20,16 @@ body {
 	margin: .5rem;
 }
 
-/* .nav-title {
-	font-size: 50%;
+.nav-title {
 	color: white;
 	font-family: "HKGroteskRegular";
-} */
+	margin-left: 1%;
+}
 
-.logo-image{
-    width: 46px;
-    height: 46px;
-    border-radius: 50%;
-    overflow: hidden;
-    margin-top: -6px;
+
+.logo-image {
+	width: 7%;
+	height: 7%;
 }
 
 .nav-menu ul{
@@ -55,7 +53,7 @@ body {
 }
 
 .nav-menu li:hover{
-	background: #171f99;
+	background: #222A9B;
 }
 
 .nav-item {
