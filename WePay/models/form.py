@@ -26,12 +26,12 @@ class UploadTopicForm(ModelForm):
 
 class UploadBillForm(ModelForm):
 
-    def __init__(self, *args, **kwargs):
-        self.request = kwargs.pop('request')
-        super(UploadBillForm, self).__init__(*args, **kwargs)
-        self.fields['header'].queryset = UserProfile.objects.filter(user=self.request.user)
+    # def __init__(self, *args, **kwargs):
+    #     # self.request = kwargs.pop('request')
+    #     super(UploadBillForm, self).__init__(*args, **kwargs)
+    #     self.fields['header'].queryset = UserProfile.objects.filter(user=self.request.user)
 
-    header = forms.CharField()
+    header = forms.TextInput()
     name = forms.TextInput()
     pub_date = forms.DateTimeField(initial=timezone.localtime())
 
@@ -41,6 +41,8 @@ class UploadBillForm(ModelForm):
 
 
 class PaymentForm(ModelForm):
+
+    payment_type = forms.ChoiceField(choices=OmisePayment.PaymentChoice)
 
     class Meta:
         model = OmisePayment

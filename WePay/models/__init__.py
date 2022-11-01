@@ -1,7 +1,7 @@
 from .bill import Bills, Topic
 from .payment import BasePayment, OmisePayment, CashPayment
 from .userprofile import UserProfile
-from .form import UploadTopicForm, UploadBillForm
+from .form import UploadTopicForm, UploadBillForm, PaymentForm
 
 __all__ = [
     "Bills",
@@ -11,5 +11,6 @@ __all__ = [
     "CashPayment",
     "UserProfile",
     "UploadTopicForm",
-    "UploadBillForm"
+    "UploadBillForm",
+    "PaymentForm",
 ]

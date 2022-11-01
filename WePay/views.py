@@ -8,8 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from WePay.models import bill
-from .models import Bills, Topic, UserProfile
-from WePay.models.upload import UploadBillForm, UploadTopicForm
+from .models import Bills, Topic, UserProfile, UploadBillForm, UploadTopicForm, PaymentForm, BasePayment, OmisePayment, CashPayment
 
 
 class BillView(LoginRequiredMixin, generic.ListView):
@@ -36,20 +35,17 @@ class CreateView(LoginRequiredMixin, generic.DetailView):
     model = Bills
 
     def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
-        # if request.POST:
-        #     print('SuoOOOOOooOoOooOoOOoOoOo')
-        #     form = UploadTopicForm(request.POST)
-        #     if form.is_valid():
-        #         form.save()
-        #     return HttpResponseRedirect(reverse("bills:bill"))
+
         return render(request, "Wepay/create_bills.html", {'form_topic': UploadTopicForm, 'form_bill': UploadBillForm})
 
     def post(self, request, *args, **kwargs):
         form_topic = UploadTopicForm(request.POST)
         form_bill = UploadBillForm(request.POST)
-        if form_topic.is_valid() and form_bill.is_valid:
+        form_payment = PaymentForm(request.POST)
+        if form_topic.is_valid() and form_bill.is_valid() and form_payment.is_valid():
             form_topic.save()
             form_bill.save()
+            form_payment.save()
         return HttpResponseRedirect(reverse("bills:bill"))
 
 class AddTopicView(LoginRequiredMixin, generic.DetailView):
