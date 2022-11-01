@@ -13,7 +13,7 @@ class UploadTopicForm(ModelForm):
     #     are given as options"""
 
     title = forms.TextInput()
-    price = forms.DecimalField()
+    price = forms.models.PositiveIntegerField()
     bill = forms.TextInput()
     user = forms.TextInput()
     # # user = forms.ModelChoiceField(queryset=UserProfile.objects.all())
@@ -45,5 +45,6 @@ class PaymentForm(ModelForm):
     payment_type = forms.ChoiceField(choices=OmisePayment.PaymentChoice)
 
     class Meta:
+
         model = OmisePayment
         fields = ('user', 'payment_type')
