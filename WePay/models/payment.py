@@ -61,17 +61,10 @@ class BasePayment(models.Model):
 
 class OmisePayment(BasePayment):
     charge_id = models.CharField(max_length=100, null=True, blank=True)
+    payment_type = models.CharField(max_length=100, null=True, blank=True)
 
-    class PaymentChoice(models.TextChoices):
-        PROMPT_PAY = "promptpay"
-        SCB = "internet_banking_scb"
-        STB = "internet_banking_ktb"
-        BBL = "internet_banking_bbl"
-        BAY = "internet_banking_bay"
-
-    payment_type = models.CharField(
-        choices=PaymentChoice.choices, max_length=20, default=PaymentChoice.PROMPT_PAY
-    )
+    class Meta:
+        abstract = True
 
     def pay(self):
         """pay by omise"""
@@ -112,9 +105,44 @@ class OmisePayment(BasePayment):
         return f"{super().__repr__()[:-1]} Paid by {self.payment_type})"
 
 
+class PromptPayPayment(OmisePayment):
+    payment_type = "promptpay"
+
+    def __repr__(self) -> str:
+        return f"{super().__repr__()[:-1]} Paid by {self.payment_type})"
+
+
+class SCBPayment(OmisePayment):
+    payment_type = "internet_banking_scb"
+
+    def __repr__(self) -> str:
+        return f"{super().__repr__()[:-1]} Paid by {self.payment_type})"
+
+
+class STBPayment(OmisePayment):
+    payment_type = "internet_banking_ktb"
+
+    def __repr__(self) -> str:
+        return f"{super().__repr__()[:-1]} Paid by {self.payment_type})"
+
+
+class BBLPayment(OmisePayment):
+    payment_type = "internet_banking_bbl"
+
+    def __repr__(self) -> str:
+        return f"{super().__repr__()[:-1]} Paid by {self.payment_type})"
+
+
+class BAYPayment(OmisePayment):
+    payment_type = "internet_banking_bay"
+
+    def __repr__(self) -> str:
+        return f"{super().__repr__()[:-1]} Paid by {self.payment_type})"
+
+
 class CashPayment(BasePayment):
     def pay(self):
         if self.status == self.Status_choice.PAID:
-            return 'Already paid'
+            return
 
         self.status = self.Status_choice.PAID

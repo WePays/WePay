@@ -8,7 +8,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from WePay.models import bill
-from .models import Bills, Topic, UserProfile, UploadBillForm, UploadTopicForm, PaymentForm, BasePayment, OmisePayment, CashPayment
+from .models import Bills, Topic, UserProfile, UploadBillForm, UploadTopicForm, \
+        CashPayment, PromptPayPayment, SCBPayment, STBPayment, BBLPayment, BAYPayment
 
 
 class BillView(LoginRequiredMixin, generic.ListView):
