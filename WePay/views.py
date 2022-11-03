@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.views import generic
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import QuerySet
 
 from WePay.models import bill
 from .models import Bills, Topic, UserProfile, UploadBillForm, UploadTopicForm, \
@@ -49,6 +50,7 @@ class CreateView(LoginRequiredMixin, generic.DetailView):
             form_payment.save()
         return HttpResponseRedirect(reverse("bills:bill"))
 
+
 class AddTopicView(LoginRequiredMixin, generic.DetailView):
     """views for add topic to bills."""
     template_name = "Wepay/add_topic.html"
@@ -67,6 +69,7 @@ class AddTopicView(LoginRequiredMixin, generic.DetailView):
             form_topic.save()
         return HttpResponseRedirect(reverse("bills:bill"))
 
+
 class DetailView(LoginRequiredMixin, generic.DetailView):
     """views for detail of each bill."""
 
@@ -83,5 +86,27 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
         return render(request, "Wepay/detail.html", {"bills": bills})
 
 
-def payment(request: HttpRequest):
-    return HttpResponse("<h1>payments</h1>")
+class PaymentView(LoginRequiredMixin, generic.ListView):
+    """views for payment of each bill."""
+    template_name = "Wepay/payment.html"
+    context_object_name = "my_payment"
+
+    # def get(self, request, *arg, **kwargs):
+    #     user = request.user
+    #     if user.is_authenticated and not UserProfile.objects.filter(user_id=user.id).exists():
+    #         UserProfile.objects.create(user_id=user.id)
+    #     return super().get(request, *arg, **kwargs)
+
+    def get_queryset(self) -> QuerySet:
+        promptpay = PromptPayPayment.objects.filter(user__user=self.request.user, status="Unpaid")
+        scb = SCBPayment.objects.filter(user__user=self.request.user, status="Unpaid")
+        stb = STBPayment.objects.filter(user__user=self.request.user, status="Unpaid")
+        bbl = BBLPayment.objects.filter(user__user=self.request.user, status="Unpaid")
+        bay = BAYPayment.objects.filter(user__user=self.request.user, status="Unpaid")
+        cash = CashPayment.objects.filter(user__user=self.request.user, status="Unpaid")
+        all_payment = promptpay | scb | stb | bbl | bay | cash
+        return all_payment
+        
+
+# def payment(request: HttpRequest):
+#     return HttpResponse("<h1>payments</h1>")

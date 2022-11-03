@@ -18,7 +18,7 @@ omise.api_public = OMISE_PUBLIC
 omise.api_secret = OMISE_SECRET
 
 
-class BasePayment(PolymorphicModel):
+class BasePayment(models.Model):
     """Entry model"""
 
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True, blank=True)
