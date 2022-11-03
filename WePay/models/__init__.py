@@ -1,5 +1,5 @@
 from .bill import Bills, Topic
-from .payment import CashPayment, PromptPayPayment, SCBPayment, STBPayment, BBLPayment, BAYPayment
+from .payment import CashPayment, PromptPayPayment, SCBPayment, KTBPayment, BBLPayment, BAYPayment, Payment
 from .userprofile import UserProfile
 from .form import UploadTopicForm, UploadBillForm
 
@@ -9,11 +9,11 @@ __all__ = [
     "CashPayment",
     "PromptPayPayment",
     "SCBPayment",
-    "STBPayment",
+    "KTBPayment",
     "BBLPayment",
     "BAYPayment",
     "UserProfile",
     "UploadTopicForm",
     "UploadBillForm",
-    # "PaymentForm",
+    "Payment"
 ]

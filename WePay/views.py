@@ -9,7 +9,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import QuerySet
 
 from .models import Bills, Topic, UserProfile, UploadBillForm, UploadTopicForm, \
-    CashPayment, PromptPayPayment, SCBPayment, STBPayment, BBLPayment, BAYPayment
+    CashPayment, PromptPayPayment, SCBPayment, KTBPayment, BBLPayment, BAYPayment
 
 
 class BillView(LoginRequiredMixin, generic.ListView):
@@ -99,7 +99,7 @@ class PaymentView(LoginRequiredMixin, generic.ListView):
             user__user=self.request.user, status=PromptPayPayment.Status_choice.UNPAID)
         scb = SCBPayment.objects.filter(user__user=self.request.user,
                                         status=SCBPayment.Status_choice.UNPAID)
-        stb = STBPayment.objects.filter(user__user=self.request.user,
+        stb = KTBPayment.objects.filter(user__user=self.request.user,
                                         status=STBPayment.Status_choice.UNPAID)
         bbl = BBLPayment.objects.filter(user__user=self.request.user,
                                         status=BBLPayment.Status_choice.UNPAID)
