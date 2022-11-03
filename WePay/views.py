@@ -9,7 +9,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import QuerySet
 
 from .models import Bills, Topic, UserProfile, UploadBillForm, UploadTopicForm, \
-    CashPayment, PromptPayPayment, SCBPayment, KTBPayment, BBLPayment, BAYPayment
+    Payment, CashPayment, PromptPayPayment, SCBPayment, KTBPayment, BBLPayment, BAYPayment
 
 
 class BillView(LoginRequiredMixin, generic.ListView):
@@ -95,18 +95,5 @@ class PaymentView(LoginRequiredMixin, generic.ListView):
     context_object_name = "my_payment"
 
     def get_queryset(self) -> QuerySet:
-        promptpay = PromptPayPayment.objects.filter(
-            user__user=self.request.user, status=PromptPayPayment.Status_choice.UNPAID)
-        scb = SCBPayment.objects.filter(user__user=self.request.user,
-                                        status=SCBPayment.Status_choice.UNPAID)
-        stb = KTBPayment.objects.filter(user__user=self.request.user,
-                                        status=STBPayment.Status_choice.UNPAID)
-        bbl = BBLPayment.objects.filter(user__user=self.request.user,
-                                        status=BBLPayment.Status_choice.UNPAID)
-        bay = BAYPayment.objects.filter(user__user=self.request.user,
-                                        status=BAYPayment.Status_choice.UNPAID)
-        cash = CashPayment.objects.filter(
-            user__user=self.request.user, status=CashPayment.Status_choice.UNPAID)
-
-        all_payment = promptpay | scb | stb | bbl | bay | cash
-        return all_payment
+        return Payment.objects.filter(user__user=self.request.user, 
+            status=Payment.Status_choice.UNPAID).pay()
