@@ -7,12 +7,22 @@ Create Bills
 {% block header %}
 <link rel=¨stylesheet¨ type=¨text/css¨ href=¨wepay/create_bils.css¨>
 <script src="wepay/create_bill.js"></script>
+<script>
+  var demo = new Vue({
+      el: '#demo',
+      data: {
+          message: 'create_bill.js!'
+      }
+  });
+</script>
+
 {% endblock header %}
 
 {% block body%}
 
 {{ block.super }}
 
+<script src="wepay/create_bill.js"></script>
 {% if user.is_authenticated %}
 <form action="" method="POST">
     {% csrf_token %}
