@@ -1,4 +1,4 @@
-from django.contrib import admin
+# from django.contrib import admin
 from abc import abstractmethod
 from typing import Any
 
@@ -22,7 +22,7 @@ class BasePayment(PolymorphicModel):
     """Entry model"""
 
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True, blank=True)
-    date = models.DateTimeField(default=timezone.localtime())
+    date = models.DateTimeField(default=timezone.localtime)
     bill = models.ForeignKey(Bills, on_delete=models.CASCADE)
 
     @abstractmethod
