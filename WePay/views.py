@@ -6,10 +6,10 @@ from django.urls import reverse
 from django.views import generic
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import QuerySet
 
-from WePay.models import bill
 from .models import Bills, Topic, UserProfile, UploadBillForm, UploadTopicForm, \
-        CashPayment, PromptPayPayment, SCBPayment, STBPayment, BBLPayment, BAYPayment
+    CashPayment, PromptPayPayment, SCBPayment, STBPayment, BBLPayment, BAYPayment
 
 
 class BillView(LoginRequiredMixin, generic.ListView):
@@ -28,10 +28,12 @@ class BillView(LoginRequiredMixin, generic.ListView):
 
         return Bills.objects.filter(header__user=self.request.user).order_by("-pub_date")
 
+
 class AboutUsView(generic.TemplateView):
     """views for aboutus.html"""
 
     template_name = "Wepay/aboutus.html"
+
 
 class CreateView(LoginRequiredMixin, generic.DetailView):
     """views for create some bills."""
@@ -46,12 +48,11 @@ class CreateView(LoginRequiredMixin, generic.DetailView):
     def post(self, request, *args, **kwargs):
         form_topic = UploadTopicForm(request.POST)
         form_bill = UploadBillForm(request.POST)
-        # form_payment = PaymentForm(request.POST)
         if form_topic.is_valid() and form_bill.is_valid():
             form_topic.save()
             form_bill.save()
-            # form_payment.save()
         return HttpResponseRedirect(reverse("bills:bill"))
+
 
 class AddTopicView(LoginRequiredMixin, generic.DetailView):
     """views for add topic to bills."""
@@ -63,13 +64,14 @@ class AddTopicView(LoginRequiredMixin, generic.DetailView):
             bills = Bills.objects.get(pk=pk)
         except Bills.DoesNotExist:
             return HttpResponseRedirect(reverse("bills:bill"))
-        return render(request, "Wepay/add_topic.html", {"bills":bills, 'form_topic': UploadTopicForm})
+        return render(request, "Wepay/add_topic.html", {"bills": bills, 'form_topic': UploadTopicForm})
 
     def post(self, request, *args, **kwargs):
         form_topic = UploadTopicForm(request.POST)
         if form_topic.is_valid():
             form_topic.save()
         return HttpResponseRedirect(reverse("bills:bill"))
+
 
 class DetailView(LoginRequiredMixin, generic.DetailView):
     """views for detail of each bill."""
@@ -87,5 +89,24 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
         return render(request, "Wepay/detail.html", {"bills": bills})
 
 
-def payment(request: HttpRequest):
-    return HttpResponse("<h1>payments</h1>")
+class PaymentView(LoginRequiredMixin, generic.ListView):
+    """views for payment of each bill."""
+    template_name = "Wepay/payment.html"
+    context_object_name = "my_payment"
+
+    def get_queryset(self) -> QuerySet:
+        promptpay = PromptPayPayment.objects.filter(
+            user__user=self.request.user, status=PromptPayPayment.Status_choice.UNPAID)
+        scb = SCBPayment.objects.filter(user__user=self.request.user,
+                                        status=SCBPayment.Status_choice.UNPAID)
+        stb = STBPayment.objects.filter(user__user=self.request.user,
+                                        status=STBPayment.Status_choice.UNPAID)
+        bbl = BBLPayment.objects.filter(user__user=self.request.user,
+                                        status=BBLPayment.Status_choice.UNPAID)
+        bay = BAYPayment.objects.filter(user__user=self.request.user,
+                                        status=BAYPayment.Status_choice.UNPAID)
+        cash = CashPayment.objects.filter(
+            user__user=self.request.user, status=CashPayment.Status_choice.UNPAID)
+
+        all_payment = promptpay | scb | stb | bbl | bay | cash
+        return all_payment

@@ -18,7 +18,7 @@ omise.api_public = OMISE_PUBLIC
 omise.api_secret = OMISE_SECRET
 
 
-class BasePayment(PolymorphicModel):
+class BasePayment(models.Model):
     """Entry model"""
 
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True, blank=True)
@@ -78,7 +78,7 @@ class OmisePayment(BasePayment):
                 currency="thb",
             )
 
-            omise.api_secret = self.user.chain.key
+            omise.api_secret = self.bill.header.chain.key
 
             charge = omise.Charge.create(
                 amount=int(self.bill.calculate_price(self.user) * 100),
@@ -148,38 +148,4 @@ class CashPayment(BasePayment):
         if self.status == self.Status_choice.PAID:
             return
 
-        self.status = self.Status_choice.PAID
-
-
-# class PaymentInline(StackedPolymorphicInline):
-#     class CashPaymentInline(StackedPolymorphicInline.Child):
-#         model = CashPayment
-
-#     class PromptPayPaymentInline(StackedPolymorphicInline.Child):
-#         model = PromptPayPayment
-
-#     class SCBPaymentInline(StackedPolymorphicInline.Child):
-#         model = SCBPayment
-
-#     class STBPaymentInline(StackedPolymorphicInline.Child):
-#         model = STBPayment
-
-#     class BBLPaymentInline(StackedPolymorphicInline.Child):
-#         model = BBLPayment
-
-#     class BAYPaymentInline(StackedPolymorphicInline.Child):
-#         model = BAYPayment
-
-#     model = BasePayment
-#     child_inlines = (
-#         CashPaymentInline,
-#         PromptPayPaymentInline,
-#         SCBPaymentInline,
-#         STBPaymentInline,
-#         BBLPaymentInline,
-#         BAYPaymentInline,
-#     )
-
-# @admin.register(pay)
-# class PaymentAdmin(PolymorphicInlineSupportMixin, admin.ModelAdmin):
-#     inlines = (PaymentInline,)
+        self.status = self.Status_choice.2
