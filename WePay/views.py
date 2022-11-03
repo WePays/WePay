@@ -8,9 +8,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import QuerySet
 
-from WePay.models import bill
 from .models import Bills, Topic, UserProfile, UploadBillForm, UploadTopicForm, \
-        CashPayment, PromptPayPayment, SCBPayment, STBPayment, BBLPayment, BAYPayment
+    CashPayment, PromptPayPayment, SCBPayment, STBPayment, BBLPayment, BAYPayment
 
 
 class BillView(LoginRequiredMixin, generic.ListView):
@@ -43,11 +42,9 @@ class CreateView(LoginRequiredMixin, generic.DetailView):
     def post(self, request, *args, **kwargs):
         form_topic = UploadTopicForm(request.POST)
         form_bill = UploadBillForm(request.POST)
-        form_payment = PaymentForm(request.POST)
-        if form_topic.is_valid() and form_bill.is_valid() and form_payment.is_valid():
+        if form_topic.is_valid() and form_bill.is_valid():
             form_topic.save()
             form_bill.save()
-            form_payment.save()
         return HttpResponseRedirect(reverse("bills:bill"))
 
 
@@ -61,7 +58,7 @@ class AddTopicView(LoginRequiredMixin, generic.DetailView):
             bills = Bills.objects.get(pk=pk)
         except Bills.DoesNotExist:
             return HttpResponseRedirect(reverse("bills:bill"))
-        return render(request, "Wepay/add_topic.html", {"bills":bills, 'form_topic': UploadTopicForm})
+        return render(request, "Wepay/add_topic.html", {"bills": bills, 'form_topic': UploadTopicForm})
 
     def post(self, request, *args, **kwargs):
         form_topic = UploadTopicForm(request.POST)
@@ -91,22 +88,19 @@ class PaymentView(LoginRequiredMixin, generic.ListView):
     template_name = "Wepay/payment.html"
     context_object_name = "my_payment"
 
-    # def get(self, request, *arg, **kwargs):
-    #     user = request.user
-    #     if user.is_authenticated and not UserProfile.objects.filter(user_id=user.id).exists():
-    #         UserProfile.objects.create(user_id=user.id)
-    #     return super().get(request, *arg, **kwargs)
-
     def get_queryset(self) -> QuerySet:
-        promptpay = PromptPayPayment.objects.filter(user__user=self.request.user, status="Unpaid")
-        scb = SCBPayment.objects.filter(user__user=self.request.user, status="Unpaid")
-        stb = STBPayment.objects.filter(user__user=self.request.user, status="Unpaid")
-        bbl = BBLPayment.objects.filter(user__user=self.request.user, status="Unpaid")
-        bay = BAYPayment.objects.filter(user__user=self.request.user, status="Unpaid")
-        cash = CashPayment.objects.filter(user__user=self.request.user, status="Unpaid")
+        promptpay = PromptPayPayment.objects.filter(
+            user__user=self.request.user, status=PromptPayPayment.Status_choice.UNPAID)
+        scb = SCBPayment.objects.filter(user__user=self.request.user,
+                                        status=SCBPayment.Status_choice.UNPAID)
+        stb = STBPayment.objects.filter(user__user=self.request.user,
+                                        status=STBPayment.Status_choice.UNPAID)
+        bbl = BBLPayment.objects.filter(user__user=self.request.user,
+                                        status=BBLPayment.Status_choice.UNPAID)
+        bay = BAYPayment.objects.filter(user__user=self.request.user,
+                                        status=BAYPayment.Status_choice.UNPAID)
+        cash = CashPayment.objects.filter(
+            user__user=self.request.user, status=CashPayment.Status_choice.UNPAID)
+
         all_payment = promptpay | scb | stb | bbl | bay | cash
         return all_payment
-        
-
-# def payment(request: HttpRequest):
-#     return HttpResponse("<h1>payments</h1>")
