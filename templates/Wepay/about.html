@@ -1,0 +1,44 @@
+{% extends 'WePay/base_wepay.html' %}
+
+
+{%block title%}
+{{ block.super }}
+About us
+{% endblock title%}
+
+
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="wepay/about.css">
+	<link rel="stylesheet" media="screen" href="https://fontlibrary.org//face/hk-grotesk" type="text/css"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block header %} {% endblock header%}
+
+</head>
+
+{% block body%}
+
+{{ block.super }}
+
+{% if user.is_authenticated %}
+
+<body>
+
+<div class="person">
+    <div class="container">
+      <div class="container-inner">
+        <img class="circle" src="wepay/logo2_wepay.png" style="width: auto; height:auto"/>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="name">tha</div>
+        <div class="title">Thanida Chaiwongnon</div>
+      </div>
+
+</body>
+
+{% else %}
+<a href="/accounts/login/">Sign Up</a>
+{% endif %}
+
+{% endblock body%}
