@@ -46,11 +46,11 @@ class CreateView(LoginRequiredMixin, generic.DetailView):
     def post(self, request, *args, **kwargs):
         form_topic = UploadTopicForm(request.POST)
         form_bill = UploadBillForm(request.POST)
-        form_payment = PaymentForm(request.POST)
-        if form_topic.is_valid() and form_bill.is_valid() and form_payment.is_valid():
+        # form_payment = PaymentForm(request.POST)
+        if form_topic.is_valid() and form_bill.is_valid():
             form_topic.save()
             form_bill.save()
-            form_payment.save()
+            # form_payment.save()
         return HttpResponseRedirect(reverse("bills:bill"))
 
 class AddTopicView(LoginRequiredMixin, generic.DetailView):

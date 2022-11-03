@@ -24,12 +24,9 @@ yours bill
       </thead>
 
       {% for bill in my_bill %}
-      <list>{{forloop.counter0|add:"1"}} </list>
         <tr>
-            <td>{{ bill }}</td>
-            <!-- <td>{{ bill.price }}</td>
-            <td>{{ bill.status }}</td>
-            <td>{{ bill.verify }}</td> -->
+            <td>{{forloop.counter0|add:"1"}} </td>
+            <td>{{ bill.name }}</td>
         </tr>
         <tbody>
           <tr class="not-paid">
