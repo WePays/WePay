@@ -47,6 +47,7 @@ class CreateView(LoginRequiredMixin, generic.DetailView):
 
     def post(self, request, *args, **kwargs):
         form_topic = UploadTopicForm(request.POST)
+        # request.POST['bill']
         form_bill = UploadBillForm(request.POST)
         if form_topic.is_valid() and form_bill.is_valid():
             form_topic.save()
