@@ -1,1 +1,15 @@
 {% extends 'WePay/base_wepay.html' %}
+
+{% block body %}
+
+{% if my_payment %}
+
+{% for payment in my_payment %}
+
+{{payment}}
+
+{% endfor %}
+
+{% endif %}
+
+{% endblock body%}

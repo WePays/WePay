@@ -4,12 +4,15 @@
 {{ block.super }}
 Create Bills
 {% endblock title%}
+{% block header %}
+<link rel=¨stylesheet¨ type=¨text/css¨ href=¨wepay/create_bils.css¨>
+<script src="wepay/create_bill.js"></script>
+{% endblock header %}
 
 {% block body%}
 
 {{ block.super }}
-<link rel=¨stylesheet¨ type=¨text/css¨ href=¨wepay/create_bils.css¨>
-<script src="wepay/create_bill.js"></script>
+
 {% if user.is_authenticated %}
 <form action="" method="POST">
     {% csrf_token %}
@@ -24,7 +27,7 @@ Create Bills
               <i class="fa fa-link" aria-hidden="true"></i>
               <i class="fa fa-user-circle" aria-hidden="true"></i>
             </div>
-            <charttitle> </charttitle>
+            <charttitle> </charttitle>                                                                                      
           </header>
         
         

@@ -148,4 +148,4 @@ class CashPayment(BasePayment):
         if self.status == self.Status_choice.PAID:
             return
 
-        self.status = self.Status_choice.2
+        self.status = self.Status_choice.PAID
