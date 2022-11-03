@@ -8,17 +8,6 @@ from .payment import BasePayment, OmisePayment, CashPayment
 
 class UploadTopicForm(ModelForm):
 
-    # def __init__(self, request, *args, **kwargs):
-    #     """ Grants access to the request object so that only members of the current user
-    #     are given as options"""
-
-    title = forms.TextInput()
-    price = forms.DecimalField()
-    bill = forms.TextInput()
-    user = forms.TextInput()
-    # # user = forms.ModelChoiceField(queryset=UserProfile.objects.all())
-    # user = forms.ModelMultipleChoiceField(queryset=UserProfile.objects.all())
-
     class Meta:
         model = Topic
         fields = ('title', 'price', 'bill', 'user')
@@ -33,17 +22,17 @@ class UploadBillForm(ModelForm):
 
     header = forms.TextInput()
     name = forms.TextInput()
-    pub_date = forms.DateTimeField(initial=timezone.localtime())
 
     class Meta:
         model = Bills
-        fields = ('header', 'name', 'pub_date')
+        fields = ('header', 'name')
 
 
-class PaymentForm(ModelForm):
+# class PaymentForm(ModelForm):
 
-    payment_type = forms.ChoiceField(choices=OmisePayment.PaymentChoice)
+#     payment_type = forms.ChoiceField(choices=OmisePayment.PaymentChoice)
 
-    class Meta:
-        model = OmisePayment
-        fields = ('user', 'payment_type')
+#     class Meta:
+
+#         model = OmisePayment
+#         fields = ('user', 'payment_type')

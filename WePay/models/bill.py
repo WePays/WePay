@@ -58,9 +58,10 @@ class Topic(models.Model):
     """Topic model"""
 
     title = models.CharField(max_length=100)
-    price = models.IntegerField("price")
+    price = models.PositiveIntegerField()
     bill = models.ForeignKey(Bills, on_delete=models.CASCADE)
     user = models.ManyToManyField(UserProfile, related_name="topic")
+
 
     def each_price(self):
         return self.price / len(self.user.all())

@@ -1,12 +1,15 @@
 # from django.contrib import admin
 from abc import abstractmethod
 from typing import Any
-from django.db import models
-from django.utils import timezone
-from .userprofile import UserProfile
-from .bill import Bills
 
 import omise
+from django.db import models
+from django.utils import timezone
+from polymorphic.models import PolymorphicModel
+# from polymorphic.admin import StackedPolymorphicInline, PolymorphicInlineSupportMixin
+
+from .bill import Bills
+from .userprofile import UserProfile
 
 OMISE_PUBLIC = 'pkey_test_5tgganhu45npoycv190'
 OMISE_SECRET = 'skey_test_5tecjczxmlxrbtfxhw9'
@@ -15,11 +18,11 @@ omise.api_public = OMISE_PUBLIC
 omise.api_secret = OMISE_SECRET
 
 
-class BasePayment(models.Model):
+class BasePayment(PolymorphicModel):
     """Entry model"""
 
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True, blank=True)
-    date = models.DateTimeField(default=timezone.localtime())
+    date = models.DateTimeField(default=timezone.localtime)
     bill = models.ForeignKey(Bills, on_delete=models.CASCADE)
 
     @abstractmethod
@@ -61,26 +64,19 @@ class BasePayment(models.Model):
 
 class OmisePayment(BasePayment):
     charge_id = models.CharField(max_length=100, null=True, blank=True)
+    payment_type = models.CharField(max_length=100, null=True, blank=True)
 
-    class PaymentChoice(models.TextChoices):
-        PROMPT_PAY = "promptpay"
-        SCB = "internet_banking_scb"
-        STB = "internet_banking_ktb"
-        BBL = "internet_banking_bbl"
-        BAY = "internet_banking_bay"
-
-    payment_type = models.CharField(
-        choices=PaymentChoice.choices, max_length=20, default=PaymentChoice.PROMPT_PAY
-    )
+    class Meta:
+        abstract = True
 
     def pay(self):
         """pay by omise"""
         if self.user.status == self.Status_choice.UNPAID:
             source = omise.Source.create(
-            type=self.payment_type,
-            amount=self.bill.calculate_price(self.user)*100,
-            currency="thb",
-        )
+                type=self.payment_type,
+                amount=self.bill.calculate_price(self.user)*100,
+                currency="thb",
+            )
 
             omise.api_secret = self.user.chain.key
 
@@ -112,9 +108,78 @@ class OmisePayment(BasePayment):
         return f"{super().__repr__()[:-1]} Paid by {self.payment_type})"
 
 
+class PromptPayPayment(OmisePayment):
+    payment_type = "promptpay"
+
+    def __repr__(self) -> str:
+        return f"{super().__repr__()[:-1]} Paid by {self.payment_type})"
+
+
+class SCBPayment(OmisePayment):
+    payment_type = "internet_banking_scb"
+
+    def __repr__(self) -> str:
+        return f"{super().__repr__()[:-1]} Paid by {self.payment_type})"
+
+
+class STBPayment(OmisePayment):
+    payment_type = "internet_banking_ktb"
+
+    def __repr__(self) -> str:
+        return f"{super().__repr__()[:-1]} Paid by {self.payment_type})"
+
+
+class BBLPayment(OmisePayment):
+    payment_type = "internet_banking_bbl"
+
+    def __repr__(self) -> str:
+        return f"{super().__repr__()[:-1]} Paid by {self.payment_type})"
+
+
+class BAYPayment(OmisePayment):
+    payment_type = "internet_banking_bay"
+
+    def __repr__(self) -> str:
+        return f"{super().__repr__()[:-1]} Paid by {self.payment_type})"
+
+
 class CashPayment(BasePayment):
     def pay(self):
         if self.status == self.Status_choice.PAID:
-            return 'Already paid'
+            return
 
         self.status = self.Status_choice.PAID
+
+
+# class PaymentInline(StackedPolymorphicInline):
+#     class CashPaymentInline(StackedPolymorphicInline.Child):
+#         model = CashPayment
+
+#     class PromptPayPaymentInline(StackedPolymorphicInline.Child):
+#         model = PromptPayPayment
+
+#     class SCBPaymentInline(StackedPolymorphicInline.Child):
+#         model = SCBPayment
+
+#     class STBPaymentInline(StackedPolymorphicInline.Child):
+#         model = STBPayment
+
+#     class BBLPaymentInline(StackedPolymorphicInline.Child):
+#         model = BBLPayment
+
+#     class BAYPaymentInline(StackedPolymorphicInline.Child):
+#         model = BAYPayment
+
+#     model = BasePayment
+#     child_inlines = (
+#         CashPaymentInline,
+#         PromptPayPaymentInline,
+#         SCBPaymentInline,
+#         STBPaymentInline,
+#         BBLPaymentInline,
+#         BAYPaymentInline,
+#     )
+
+# @admin.register(pay)
+# class PaymentAdmin(PolymorphicInlineSupportMixin, admin.ModelAdmin):
+#     inlines = (PaymentInline,)
