@@ -35,24 +35,23 @@ class AboutUsView(generic.TemplateView):
     template_name = "Wepay/aboutus.html"
 
 
-class CreateView(LoginRequiredMixin, generic.DetailView):
+class CreateView(LoginRequiredMixin, generic.CreateView):
     """views for create some bills."""
 
     template_name = "Wepay/create_bills.html"
-    model = Bills
+    model = UploadBillForm, UploadTopicForm
+    fields = ("header", "name", 'title', 'price', 'bill', 'user')
 
     def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
-
         return render(request, "Wepay/create_bills.html", {'form_topic': UploadTopicForm, 'form_bill': UploadBillForm})
 
-    def post(self, request, *args, **kwargs):
-        form_topic = UploadTopicForm(request.POST)
-        # request.POST['bill']
-        form_bill = UploadBillForm(request.POST)
-        if form_topic.is_valid() and form_bill.is_valid():
-            form_topic.save()
-            form_bill.save()
-        return HttpResponseRedirect(reverse("bills:bill"))
+    # def post(self, request, *args, **kwargs):
+    #     form_topic = UploadTopicForm(request.POST)
+    #     form_bill = UploadBillForm(request.POST)
+    #     if form_topic.is_valid() and form_bill.is_valid():
+    #         form_topic.save()
+    #         form_bill.save()
+    #     return HttpResponseRedirect(reverse("bills:bill"))
 
 
 class AddTopicView(LoginRequiredMixin, generic.DetailView):
