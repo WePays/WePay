@@ -22,7 +22,7 @@ Create Bills
 
 {{ block.super }}
 
-<script src="wepay/create_bill.js"></script>
+<script src="/wepay/create_bill.js"></script>
 {% if user.is_authenticated %}
 <form action="" method="POST">
     {% csrf_token %}
