@@ -25,39 +25,13 @@ yours bill
 
       {% for bill in my_bill %}
         <tr>
-            <td>{{forloop.counter0|add:"1"}} </td>
-            <td>{{ bill.name }}</td>
         </tr>
         <tbody>
-          <tr class="not-paid">
-            <td> 1 </td>
-            <td> Shabu </td>
-            <td> 500.00 </td>
-            <td> Not paid </td>
-            <td>  </td>
-          </tr>
-          <tr class="paid">
-            <td> 2 </td>
-            <td> Bingsu </td>
-            <td> 70.00 </td>
-            <td> Paid </td>
-            <td>  </td>
-
-          <tr class="not-paid">
-            <td> 3 </td>
-            <td> Pool </td>
-            <td> 40.00 </td>
-            <td> Not Paid </td>
-            <td>  </td>
-          </tr>
-    
-          <tr class="paid">
-            <td> 4 </td>
-            <td> MoMo </td>
-            <td> 650.00 </td>
-            <td> Paid </td>
-            <td>  </td>
-          </tr>
+          <td>{{forloop.counter0|add:"1"}} </td>
+          <td>{{ bill.name }}</td>
+          <td>{{ bill.total_price}}</td>
+          <td>not paid</td>
+          <td>status</td>
         </tbody>
         {% endfor %}
     </list>
@@ -70,6 +44,9 @@ yours bill
 
 <div class="add-logout">
   <p><a href="accounts/logout"><button tyoe="button">logout</button></a></p>
+</div>
+<div class="createbttn">
+  <p><a href="create"><button type="button">create</button></a></p>
 </div>
 
 {% if user.is_authenticated %}&nbsp;&nbsp;&nbsp;<label>{{"login as "}}</label><user>{{user.username}}</user> <a href='/accounts/logout'><button type="button">Log Out</button></a>
