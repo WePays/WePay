@@ -8,9 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import QuerySet
 
-from .models import Bills, Topic, UserProfile, UploadBillForm, UploadTopicForm, \
-    Payment, CashPayment, PromptPayPayment, SCBPayment, KTBPayment, BBLPayment, BAYPayment
-
+from .models import Bills, Topic, UserProfile, UploadBillForm, UploadTopicForm, Payment
 
 class BillView(LoginRequiredMixin, generic.ListView):
     """views for bill.html"""
@@ -96,4 +94,4 @@ class PaymentView(LoginRequiredMixin, generic.ListView):
 
     def get_queryset(self) -> QuerySet:
         return Payment.objects.filter(user__user=self.request.user, 
-            status=Payment.Status_choice.UNPAID).pay()
+            status=Payment.Status_choice.UNPAID)
