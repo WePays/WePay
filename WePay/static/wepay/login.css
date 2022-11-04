@@ -1,6 +1,6 @@
 body {
-  background: rgb(210,231,254);
-  background: linear-gradient(0deg, rgba(210,231,254,1) 0%, rgba(210,231,254,1) 56%, rgba(23,31,153,1) 100%);
+  background: rgb(238,246,255);
+  background: linear-gradient(0deg, rgba(238,246,255,1) 10%, rgba(210,231,254,1) 26%, rgba(23,31,153,1) 90%);
   background-repeat: no-repeat;
   background-attachment: fixed;
   font-family: 'HKGroteskRegular';
