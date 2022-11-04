@@ -10,6 +10,7 @@ from django.db.models import QuerySet
 
 from .models import Bills, Topic, UserProfile, UploadBillForm, UploadTopicForm, Payment
 
+
 class BillView(LoginRequiredMixin, generic.ListView):
     """views for bill.html"""
 
@@ -93,5 +94,5 @@ class PaymentView(LoginRequiredMixin, generic.ListView):
     context_object_name = "my_payment"
 
     def get_queryset(self) -> QuerySet:
-        return Payment.objects.filter(user__user=self.request.user, 
-            status=Payment.Status_choice.UNPAID)
+        return Payment.objects.filter(user__user=self.request.user,
+                                      status=Payment.Status_choice.UNPAID)
