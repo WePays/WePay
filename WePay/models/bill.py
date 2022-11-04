@@ -44,7 +44,14 @@ class Bills(models.Model):
     def all_user(self) -> List[UserProfile]:
         """return list of all user"""
         food = Topic.objects.filter(bill=self)
-        return list({each_food.user for each_food in food})
+        user_queryset = [each_food.user.all() for each_food in food]
+        print(user_queryset)
+        result = set()
+        
+        for queryset in user_queryset:
+            result = result.union([queryset[idx] for idx in range(len(queryset))])
+        return list(result)
+        # return list({each_food.user for each_food in food})
 
     def __repr__(self) -> str:
         return (

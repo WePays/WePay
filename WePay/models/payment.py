@@ -5,7 +5,6 @@ from typing import Any
 import omise
 from django.db import models
 from django.utils import timezone
-# from polymorphic.admin import StackedPolymorphicInline, PolymorphicInlineSupportMixin
 
 from .bill import Bills
 from .userprofile import UserProfile
@@ -18,11 +17,13 @@ omise.api_secret = OMISE_SECRET
 
 
 class Payment(models.Model):
-    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, default=None)
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True, blank=True)
     date = models.DateTimeField(null=True, blank=True)
     bill = models.ForeignKey(Bills, on_delete=models.CASCADE)
 
     class Status_choice(models.TextChoices):
+        """choice for status whether PAID, PENDING, or UNPAID
+        """
         PAID = "PAID"
         PENDING = 'PENDING'
         UNPAID = "UNPAID"
@@ -32,12 +33,13 @@ class Payment(models.Model):
     )
 
     class PaymentChoice(models.TextChoices):
+        """"""
         CASH = 'Cash'
         PROMPTPAY = 'PromptPay'
         SCB = 'SCB'
         KTB = 'KTB'
         BAY = 'BAY'
-        CREDIT = 'Credit'
+        BBL = 'BBL'
 
     payment_type = models.CharField(
         choices=PaymentChoice.choices, default=PaymentChoice.CASH, max_length=10
@@ -61,7 +63,7 @@ class Payment(models.Model):
 
     def pay(self):
         payment_dct = {'Cash': CashPayment, 'PromptPay': PromptPayPayment,
-                       'SCB': SCBPayment, 'KTB': KTBPayment, 'BAY': BAYPayment}
+                       'SCB': SCBPayment, 'KTB': KTBPayment, 'BAY': BAYPayment, 'BBL': BBLPayment}
         if self.status in (self.Status_choice.PAID, self.Status_choice.PENDING):
             return
         now_payment = payment_dct[self.payment_type].objects.create(payment=self)
