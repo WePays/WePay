@@ -1,41 +1,65 @@
 {% extends 'WePay/base_wepay.html' %}
-
-
-{%block title%}
-{{ block.super }}
-About us
-{% endblock title%}
-
-
-<head>
-	<meta charset="UTF-8">
-	<link rel="stylesheet" type="text/css" href="wepay/about.css">
-	<link rel="stylesheet" media="screen" href="https://fontlibrary.org//face/hk-grotesk" type="text/css"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% block header %} {% endblock header%}
-
-</head>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" media="screen" href="https://fontlibrary.org//face/hk-grotesk" type="text/css"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    </head>
 
 {% block body%}
-
-{{ block.super }}
-
-{% if user.is_authenticated %}
-
-<body>
-
-<div class="person">
-    <div class="container">
-      <div class="container-inner">
-        <img class="circle" src="wepay/logo2_wepay.png" style="width: auto; height:auto"/>
-          </div>
+<class="title" style="color= white; font-family="HKGroteskRegular";><h1>About Us</h1>
+<br>
+    <div class="row">
+        <img class="person1" src="https://cloudbox.ku.ac.th/index.php/s/eTSHxfdHiyJc7Ne/preview" width="250" height="250" >    
         </div>
-        <div class="divider"></div>
-        <div class="name">tha</div>
-        <div class="title">Thanida Chaiwongnon</div>
-      </div>
+            <div class="divider"></div>
+            <div class="name">tha</div>
+            <div class="title">Scrum Master</div>
+            <div class="title">GitHub: thanidacwn</div>
+            <div class="title">thanida.chai@ku.th</div>
+        </div>
+
+        <img class="person2" src="https://cloudbox.ku.ac.th/index.php/s/isGxQsQ8SnnF4Ct/preview" width="250" height="250" >    
+        </div>
+        </div>
+            <div class="divider"></div>
+            <div class="name">tha</div>
+            <div class="title">Scrum Master</div>
+            <div class="title">GitHub: thanidacwn</div>
+            <div class="title">thanida.chai@ku.th</div>
+        </div>
+
+        <img class="person3" src="https://cloudbox.ku.ac.th/index.php/s/C7YYskLsxs7LJxL/preview" width="250" height="250" >    
+        </div>
+        </div>
+            <div class="divider"></div>
+            <div class="name">tha</div>
+            <div class="title">Scrum Master</div>
+            <div class="title">GitHub: thanidacwn</div>
+            <div class="title">thanida.chai@ku.th</div>
+        </div>
+
+        <img class="person4" src="https://cloudbox.ku.ac.th/index.php/s/8QydeeDsYLDEHXp/preview" width="250" height="250" >    
+        </div>
+        </div>
+            <div class="divider"></div>
+            <div class="name">tha</div>
+            <div class="title">Scrum Master</div>
+            <div class="title">GitHub: thanidacwn</div>
+            <div class="title">thanida.chai@ku.th</div>
+        </div>
+    </div>
+</div>
+</div>
 
 </body>
+
+{% if user.is_authenticated %}
 
 {% else %}
 <a href="/accounts/login/">Sign Up</a>
