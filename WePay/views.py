@@ -51,7 +51,7 @@ class CreateView(LoginRequiredMixin, generic.DetailView):
         form_bill = UploadBillForm(request.POST)
         if form_topic.is_valid() and form_bill.is_valid():
             form_topic.save()
-            form_bill.save()
+            form_bill.save(form_topic.instance)
         return HttpResponseRedirect(reverse("bills:bill"))
 
 
