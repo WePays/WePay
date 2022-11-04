@@ -59,7 +59,7 @@ class BillCreateViewTest(BaseViewTest):
         response = self.client.get("/bill/create/")
         self.assertEqual(response.status_code, 302)
 
-
+    @skip("unfinished")
     def test_form_topic_data(self):
         """Test for form_topic data"""
         form_topic_data = {"title": "Chicken", "price": 2000, "bill": str(self.bill), "user": self.user1.user.username}
