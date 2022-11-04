@@ -14,8 +14,6 @@ class UploadTopicForm(ModelForm):
 
         # bill = forms.TextInput()
 
-        bill = forms.TextInput()
-
 
 class UploadBillForm(ModelForm):
 
