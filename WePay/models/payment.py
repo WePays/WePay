@@ -5,7 +5,6 @@ from typing import Any
 import omise
 from django.db import models
 from django.utils import timezone
-from polymorphic.models import PolymorphicModel
 # from polymorphic.admin import StackedPolymorphicInline, PolymorphicInlineSupportMixin
 
 from .bill import Bills
