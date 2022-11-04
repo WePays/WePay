@@ -54,7 +54,7 @@ class CreateView(LoginRequiredMixin, generic.DetailView):
             form_bill.save(form_topic.instance)
             all_bill = Bills.objects.filter(header__user=user).last()
             for user in all_bill.all_user:
-                Payment.objects.create(user__user=user, bill=all_bill)
+                Payment.objects.create(user=user, bill=all_bill)
         return HttpResponseRedirect(reverse("bills:bill"))
 
 
