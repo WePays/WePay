@@ -45,12 +45,16 @@ class CreateView(LoginRequiredMixin, generic.DetailView):
         return render(request, "Wepay/create_bills.html", {'form_topic': UploadTopicForm, 'form_bill': UploadBillForm})
 
     def post(self, request, *args, **kwargs):
+        user = request.user
         form_topic = UploadTopicForm(request.POST)
         # request.POST['bill']
         form_bill = UploadBillForm(request.POST)
         if form_topic.is_valid() and form_bill.is_valid():
             form_topic.save()
             form_bill.save()
+            all_bill = Bills.objects.filter(header__user=user.id)[-1]
+            for user in all_bill.all_user:
+                Payment.objects.create(user=user, bill=all_bill)
         return HttpResponseRedirect(reverse("bills:bill"))
 
 
