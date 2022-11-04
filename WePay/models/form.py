@@ -12,6 +12,8 @@ class UploadTopicForm(ModelForm):
         model = Topic
         fields = ('title', 'price', 'bill', 'user')
 
+        bill = forms.TextInput()
+
 
 class UploadBillForm(ModelForm):
 
@@ -20,12 +22,12 @@ class UploadBillForm(ModelForm):
     #     super(UploadBillForm, self).__init__(*args, **kwargs)
     #     self.fields['header'].queryset = UserProfile.objects.filter(user=self.request.user)
 
-    header = forms.TextInput()
-    name = forms.TextInput()
-
     class Meta:
         model = Bills
         fields = ('header', 'name')
+        
+        header = forms.TextInput()
+        name = forms.TextInput()
 
 
 # class PaymentForm(ModelForm):
