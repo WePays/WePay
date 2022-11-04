@@ -21,7 +21,8 @@ from .views import signup, About
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("bill/", include("WePay.urls")),
+    path("bill/", include("WePay.bill_urls")),
+    path("payment/", include("WePay.payment_urls")),
     path("accounts/", include("allauth.urls")),
     path("signup/", signup, name="signup"),
     path("about/", About.as_view(), name="about"),
