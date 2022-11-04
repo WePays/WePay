@@ -8,8 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import QuerySet
 
-from .models import Bills, Topic, UserProfile, UploadBillForm, UploadTopicForm, \
-    CashPayment, PromptPayPayment, SCBPayment, KTBPayment, BBLPayment, BAYPayment
+from .models import Bills, Topic, UserProfile, UploadBillForm, UploadTopicForm, Payment
 
 
 class BillView(LoginRequiredMixin, generic.ListView):
@@ -46,12 +45,16 @@ class CreateView(LoginRequiredMixin, generic.DetailView):
         return render(request, "Wepay/create_bills.html", {'form_topic': UploadTopicForm, 'form_bill': UploadBillForm})
 
     def post(self, request, *args, **kwargs):
+        user = request.user
         form_topic = UploadTopicForm(request.POST)
         # request.POST['bill']
         form_bill = UploadBillForm(request.POST)
         if form_topic.is_valid() and form_bill.is_valid():
             form_topic.save()
             form_bill.save(form_topic.instance)
+            all_bill = Bills.objects.filter(header__user=user.id)[-1]
+            for user in all_bill.all_user:
+                Payment.objects.create(user=user, bill=all_bill)
         return HttpResponseRedirect(reverse("bills:bill"))
 
 
@@ -96,18 +99,5 @@ class PaymentView(LoginRequiredMixin, generic.ListView):
     context_object_name = "my_payment"
 
     def get_queryset(self) -> QuerySet:
-        promptpay = PromptPayPayment.objects.filter(
-            user__user=self.request.user, status=PromptPayPayment.Status_choice.UNPAID)
-        scb = SCBPayment.objects.filter(user__user=self.request.user,
-                                        status=SCBPayment.Status_choice.UNPAID)
-        stb = KTBPayment.objects.filter(user__user=self.request.user,
-                                        status=STBPayment.Status_choice.UNPAID)
-        bbl = BBLPayment.objects.filter(user__user=self.request.user,
-                                        status=BBLPayment.Status_choice.UNPAID)
-        bay = BAYPayment.objects.filter(user__user=self.request.user,
-                                        status=BAYPayment.Status_choice.UNPAID)
-        cash = CashPayment.objects.filter(
-            user__user=self.request.user, status=CashPayment.Status_choice.UNPAID)
-
-        all_payment = promptpay | scb | stb | bbl | bay | cash
-        return all_payment
+        return Payment.objects.filter(user__user=self.request.user,
+                                      status=Payment.Status_choice.UNPAID)

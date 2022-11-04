@@ -5,7 +5,6 @@ from typing import Any
 import omise
 from django.db import models
 from django.utils import timezone
-from polymorphic.models import PolymorphicModel
 # from polymorphic.admin import StackedPolymorphicInline, PolymorphicInlineSupportMixin
 
 from .bill import Bills
@@ -20,7 +19,7 @@ omise.api_secret = OMISE_SECRET
 
 class Payment(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True, blank=True)
-    date = models.DateTimeField(default=timezone.localtime)
+    date = models.DateTimeField(null=True, blank=True)
     bill = models.ForeignKey(Bills, on_delete=models.CASCADE)
 
     class Status_choice(models.TextChoices):
@@ -69,7 +68,6 @@ class Payment(models.Model):
         now_payment.pay()
 
 
-
 class BasePayment(models.Model):
     """Entry model"""
     payment = models.ForeignKey(Payment, on_delete=models.CASCADE, default=None)
@@ -92,7 +90,7 @@ class BasePayment(models.Model):
 
 class OmisePayment(BasePayment):
     charge_id = models.CharField(max_length=100, null=True, blank=True)
-    payment_type = models.CharField(max_length=100,default='promptpay')
+    payment_type = models.CharField(max_length=100, default='promptpay')
 
     class Meta:
         abstract = True

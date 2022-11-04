@@ -1,5 +1,4 @@
 django
 django-allauth
-django-polymorphic
 python-decouple
 omise
