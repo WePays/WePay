@@ -18,7 +18,6 @@ from django.urls import path, include
 
 from django.views.generic import RedirectView
 from .views import signup, About
-from ..WePay.views import PaymentView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -27,5 +26,5 @@ urlpatterns = [
     path("signup/", signup, name="signup"),
     path("about/", About.as_view(), name="about"),
     path("", RedirectView.as_view(url="/bill/")),
-    path("payments/", PaymentView.as_view(), name="payment"),
+    # path("payments/", PaymentView.as_view(), name="payment"),
 ]
