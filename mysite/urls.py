@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+# from django.conf.urls import url
 
 from django.views.generic import RedirectView
 from .views import signup, About, UserProfile
@@ -29,5 +30,6 @@ urlpatterns = [
     path("about/", About.as_view(), name="about"),
     path("user-profile/", UserProfile.as_view(), name="user-profile"),
     path("", RedirectView.as_view(url="/bill/")),
+    # url(r'^favicon\.ico$',RedirectView.as_view(url='/static/images/favicon.ico')),
     # path("payments/", PaymentView.as_view(), name="payment"),
 ]
