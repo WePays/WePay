@@ -59,7 +59,7 @@ class Bills(models.Model):
         return sum(
             each_topic.each_price()
             for each_topic in topic
-            if person in topic.user.all()
+            if person in each_topic.user.all()
         )
 
     @property
