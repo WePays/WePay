@@ -14,7 +14,7 @@ class Bills(models.Model):
     header -> :model:`Wepay.UserProfile`
     """
 
-    header = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    header = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=100)
     pub_date = models.DateTimeField(default=timezone.localtime)
 

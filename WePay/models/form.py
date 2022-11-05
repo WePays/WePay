@@ -11,10 +11,9 @@ class UploadTopicForm(ModelForm):
         model = Topic
         fields = ("title", "price", "user")
 
-
 class UploadBillForm(ModelForm):
 
-    header = forms.TextInput()
+    # header = forms.TextInput()
     name = forms.TextInput()
 
     # def __init__(self, *args, **kwargs):
@@ -24,11 +23,13 @@ class UploadBillForm(ModelForm):
 
     class Meta:
         model = Bills
-        fields = ("header", "name")
+        fields = ("name",)
 
-    def save(self, topic: Topic, commit: bool = ...):
+
+    def save(self, topic: Topic, bill:Bills, commit: bool = ...):
         super().save(commit)
         topic.bill = self.instance
+        bill.header = self.instance
         topic.save()
         return super().save(commit)
 

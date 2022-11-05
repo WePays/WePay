@@ -57,11 +57,10 @@ class CreateView(LoginRequiredMixin, generic.CreateView):
     def post(self, request, *args, **kwargs):
         user = request.user
         form_topic = UploadTopicForm(request.POST)
-        # request.POST['bill']
         form_bill = UploadBillForm(request.POST)
         if form_topic.is_valid() and form_bill.is_valid():
             form_topic.save()
-            form_bill.save(form_topic.instance)
+            form_bill.save(form_topic.instance, form_bill.instance)
             all_bill = Bills.objects.filter(header__user=user).last()
             for user in all_bill.all_user:
                 each_user_payment = Payment.objects.create(user=user, bill=all_bill)
@@ -81,7 +80,7 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
 
         try:
             bill = Bills.objects.get(pk=pk, header__user=user)
-        except Bill.DoesNotExist:
+        except Bills.DoesNotExist:
             messages.error(request, "Bill dosen't exist")
             return HttpResponseRedirect(reverse("bills:bill"))
         return render(request, "Wepay/detail.html", {"bill": bill})
