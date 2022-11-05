@@ -1,0 +1,53 @@
+.styled-table {
+  border: black;
+  margin-left: 20%;
+  font-size: 0.9em;
+  font-family: sans-serif;
+  min-width: 400px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  text-align: center;
+}
+
+/* .box {
+  position: relative;
+  width: auto;
+  height: auto;
+  background-color: #d2e7fe;
+  margin: auto;
+} */
+
+.styled-table thead tr {
+  background-color: #171f99;
+  color: #ffffff;
+  font-size: large;
+  font-weight: lighter;
+  width: 50%;
+  height: 50%;
+}
+
+.styled-table th,
+.style-table td {
+  padding-block: 5%;
+}
+
+/*   .styled-table tbody tr {
+  border-bottom: thin solid #dddddd;
+  } */
+
+/*   .styled-table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+  }
+  
+  .styled-table tbody tr:last-of-type {
+  border-bottom: 2px solid #D2E7FE;
+  }
+  
+  .styled-table tbody tr.paid {
+  font-weight: bold;
+  color: #1ba569;
+  }
+  
+  .styled-table tbody tr.not-paid {
+      font-weight: bold;
+      color: #eb0c0c;
+      } */
