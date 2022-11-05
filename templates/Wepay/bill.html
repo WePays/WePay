@@ -1,18 +1,27 @@
 {% extends 'WePay/base_wepay.html' %}
 
-{%block title%}
-{{ block.super }}
-yours bill
-{% endblock title%}
+<header>
+  <title>{%block title%}{% endblock title%}</title>
+  <link rel="stylesheet" type="text/css" href="/wepay/bill.css">
+  <link rel="shortcut icon" href="/assets/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+</header>
+
+{% block header %}
+<link rel=¨stylesheet¨ type=¨text/css¨ href=¨wepay/bill.css¨>
+{% endblock header %}
+
 {% block body%}
-
+{{block.super}}
+{% if user.is_authenticated %}
 <h1>Bills list</h1>
-{{ block.super }}
-
 
 {% if my_bill %}
+<body>
   <ul>
-    <table class="first-table" style="width: 60%; height: 50%;">
+    <table class="styled-table" style="width: 60%; height: 50%;">
       <thead>
         <tr>
           <th> No. </th>
@@ -24,18 +33,20 @@ yours bill
       </thead>
 
       {% for bill in my_bill %}
+      <tbody>
         <tr>
-        </tr>
-        <tbody>
           <td>{{forloop.counter0|add:"1"}} </td>
           <td>{{ bill.name }}</td>
           <td>{{ bill.total_price}}</td>
           <td>not paid</td>
           <td>status</td>
+        </tr>
         </tbody>
         {% endfor %}
     </list>
   </ul>
+</body>
+
 
 {% else %}
   <p>No Bill are available.</p>
@@ -49,8 +60,9 @@ yours bill
   <p><a href="create"><button type="button">create</button></a></p>
 </div>
 
-{% if user.is_authenticated %}&nbsp;&nbsp;&nbsp;<label>{{"login as "}}</label><user>{{user.username}}</user> <a href='/accounts/logout'><button type="button">Log Out</button></a>
-{% else %}<a href='/accounts/logout'><button type="button">Log in?</button></a>
+&nbsp;&nbsp;&nbsp;<label>{{"login as "}}</label><user>{{user.username}}</user> <a href='/accounts/logout'><button type="button">Log Out</button></a>
+{% else %}
+<a href='/accounts/logout'><button type="button">Log in?</button></a>
 {% endif %}
 
 {% endblock body%}
