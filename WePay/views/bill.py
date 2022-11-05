@@ -2,9 +2,9 @@ from typing import Any
 
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpRequest, HttpResponse, HttpResponseRedirect, Http404
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.urls import reverse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 from django.views import generic
 
 from ..models import Bills, Payment, Topic, UploadBillForm, UploadTopicForm, UserProfile
@@ -49,8 +49,9 @@ class CreateView(LoginRequiredMixin, generic.DetailView):
     def post(self, request, *args, **kwargs):
         user = request.user
         form_topic = UploadTopicForm(request.POST)
-        # request.POST['bill']
         form_bill = UploadBillForm(request.POST)
+        form_topic.fields.keys['header'] = user
+        form_topic.save(commit=False)
         if form_topic.is_valid() and form_bill.is_valid():
             form_topic.save()
             form_bill.save(form_topic.instance)
