@@ -3,7 +3,7 @@ from typing import Any
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect, Http404
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
 
@@ -32,11 +32,19 @@ class BillView(LoginRequiredMixin, generic.ListView):
         )
 
 
-class CreateView(LoginRequiredMixin, generic.DetailView):
+class CreateView(LoginRequiredMixin, generic.CreateView):
     """views for create some bills."""
 
     template_name = "Wepay/create_bills.html"
     model = Bills
+    form_class = UploadBillForm
+    success_url = reverse_lazy("bills:bill")
+
+    def get_form_kwargs(self):
+        print('HELLOOOOOOOOOOO')
+        kwargs = super(CreateView, self).get_form_kwargs()
+        kwargs.update({"request": self.request})
+        return kwargs
 
     def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
 

@@ -1,4 +1,5 @@
 {% extends 'WePay/base_wepay.html' %}
+{% load static %}
 
 {%block title%}
 {{ block.super }}
@@ -11,9 +12,9 @@ Create Bills
 
 {% block body%}
 
-{{ block.super }}
+{{block.super}}
 
-<script src="/wepay/create_bill.js"></script>
+<script src="{% static 'wepay/create_bill.js' %}"></script>
 {% if user.is_authenticated %}
 <form action="" method="POST">
     {% csrf_token %}
