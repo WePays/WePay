@@ -50,17 +50,16 @@
 
 {% else %}
   <p>No Bill are available.</p>
-  <p><a href='/bill/create/'><button type="button">create</button></a></p>
+  <p><a href='/bill/create/'><button type="button">Create Bill</button></a></p>
 {% endif %}
 
 <!-- <div class="add-logout">
   <p><a href="accounts/logout"><button tyoe="button">logout</button></a></p>
 </div> -->
 <div class="createbttn">
-  <p><a href="create"><button type="button">create</button></a></p>
+  <p><a href="create"><button type="button">Create Bill</button></a></p>
 </div>
 
-&nbsp;&nbsp;&nbsp;<label>{{"login as "}}</label><user>{{user.username}}</user> <a href='/accounts/logout'><button type="button">Log Out</button></a>
 {% else %}
 <a href='/accounts/logout'><button type="button">Log in?</button></a>
 {% endif %}
