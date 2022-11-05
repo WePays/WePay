@@ -6,7 +6,7 @@ import omise
 
 class UserProfile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    chain_key = models.CharField(max_length=100, default='')
+    chain_key = models.CharField(max_length=100, default="")
 
     @property
     def chain(self) -> Union[omise.Chain, None]:
@@ -14,4 +14,5 @@ class UserProfile(models.Model):
 
     def __repr__(self) -> str:
         return self.user.username
+
     __str__ = __repr__

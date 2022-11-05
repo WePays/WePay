@@ -5,27 +5,29 @@ from typing import Any
 import omise
 from django.db import models
 from django.utils import timezone
-from polymorphic.models import PolymorphicModel
-# from polymorphic.admin import StackedPolymorphicInline, PolymorphicInlineSupportMixin
 
 from .bill import Bills
 from .userprofile import UserProfile
 
-OMISE_PUBLIC = 'pkey_test_5tgganhu45npoycv190'
-OMISE_SECRET = 'skey_test_5tecjczxmlxrbtfxhw9'
+OMISE_PUBLIC = "pkey_test_5tgganhu45npoycv190"
+OMISE_SECRET = "skey_test_5tecjczxmlxrbtfxhw9"
 
 omise.api_public = OMISE_PUBLIC
 omise.api_secret = OMISE_SECRET
 
 
 class Payment(models.Model):
-    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True, blank=True)
-    date = models.DateTimeField(default=timezone.localtime)
+    user = models.ForeignKey(
+        UserProfile, on_delete=models.CASCADE, null=True, blank=True
+    )
+    date = models.DateTimeField(null=True, blank=True)
     bill = models.ForeignKey(Bills, on_delete=models.CASCADE)
 
     class Status_choice(models.TextChoices):
+        """choice for status whether PAID, PENDING, or UNPAID"""
+
         PAID = "PAID"
-        PENDING = 'PENDING'
+        PENDING = "PENDING"
         UNPAID = "UNPAID"
 
     status = models.CharField(
@@ -33,12 +35,14 @@ class Payment(models.Model):
     )
 
     class PaymentChoice(models.TextChoices):
-        CASH = 'Cash'
-        PROMPTPAY = 'PromptPay'
-        SCB = 'SCB'
-        KTB = 'KTB'
-        BAY = 'BAY'
-        CREDIT = 'Credit'
+        """"""
+
+        CASH = "Cash"
+        PROMPTPAY = "PromptPay"
+        SCB = "SCB"
+        KTB = "KTB"
+        BAY = "BAY"
+        BBL = "BBL"
 
     payment_type = models.CharField(
         choices=PaymentChoice.choices, default=PaymentChoice.CASH, max_length=10
@@ -61,17 +65,28 @@ class Payment(models.Model):
         return self.bill.header
 
     def pay(self):
-        payment_dct = {'Cash': CashPayment, 'PromptPay': PromptPayPayment,
-                       'SCB': SCBPayment, 'KTB': KTBPayment, 'BAY': BAYPayment}
+        payment_dct = {
+            "Cash": CashPayment,
+            "PromptPay": PromptPayPayment,
+            "SCB": SCBPayment,
+            "KTB": KTBPayment,
+            "BAY": BAYPayment,
+            "BBL": BBLPayment,
+        }
         if self.status in (self.Status_choice.PAID, self.Status_choice.PENDING):
             return
         now_payment = payment_dct[self.payment_type].objects.create(payment=self)
         now_payment.pay()
 
+    def __repr__(self) -> str:
+        return f"Payment(user={self.user}, date={self.date}, bill={self.bill}, status={self.status}, payment_type={self.payment_type})"
+
+    __str__ = __repr__
 
 
 class BasePayment(models.Model):
     """Entry model"""
+
     payment = models.ForeignKey(Payment, on_delete=models.CASCADE, default=None)
 
     @abstractmethod
@@ -92,7 +107,7 @@ class BasePayment(models.Model):
 
 class OmisePayment(BasePayment):
     charge_id = models.CharField(max_length=100, null=True, blank=True)
-    payment_type = models.CharField(max_length=100,default='promptpay')
+    payment_type = models.CharField(max_length=100, default="promptpay")
 
     class Meta:
         abstract = True
@@ -102,7 +117,7 @@ class OmisePayment(BasePayment):
         if self.payment.user.status == self.payment.Status_choice.UNPAID:
             source = omise.Source.create(
                 type=self.payment_type,
-                amount=self.payment.bill.calculate_price(self.user)*100,
+                amount=self.payment.bill.calculate_price(self.user) * 100,
                 currency="thb",
             )
 

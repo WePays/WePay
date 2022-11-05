@@ -24,3 +24,9 @@ def signup(request):
     else:
         form = UserCreationForm()
     return render(request, "registration/signup.html", {"form": form})
+
+
+class About(TemplateView):
+    """Template view for about us page."""
+
+    template_name = "Wepay/about.html"

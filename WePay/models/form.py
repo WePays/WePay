@@ -7,10 +7,11 @@ from .payment import BasePayment, OmisePayment, CashPayment
 
 
 class UploadTopicForm(ModelForm):
-
     class Meta:
         model = Topic
-        fields = ('title', 'price', 'bill', 'user')
+        fields = ("title", "price", "user")
+
+        # bill = forms.TextInput()
 
 
 class UploadBillForm(ModelForm):
@@ -20,12 +21,18 @@ class UploadBillForm(ModelForm):
     #     super(UploadBillForm, self).__init__(*args, **kwargs)
     #     self.fields['header'].queryset = UserProfile.objects.filter(user=self.request.user)
 
-    header = forms.TextInput()
-    name = forms.TextInput()
-
     class Meta:
         model = Bills
-        fields = ('header', 'name')
+        fields = ("header", "name")
+
+        header = forms.TextInput()
+        name = forms.TextInput()
+
+    def save(self, topic: Topic, commit: bool = ...):
+        super().save(commit)
+        topic.bill = self.instance
+        topic.save()
+        return super().save(commit)
 
 
 # class PaymentForm(ModelForm):
