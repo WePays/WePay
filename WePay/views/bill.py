@@ -1,13 +1,12 @@
 from typing import Any
 
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponse, HttpResponseRedirect, HttpRequest
-from django.views import generic
-from django.urls import reverse
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
+from django.urls import reverse
+from django.views import generic
 
-from ..models import (Bills, Payment, Topic, UploadBillForm, UploadTopicForm,
-                      UserProfile)
+from ..models import Bills, Payment, Topic, UploadBillForm, UploadTopicForm, UserProfile
 
 
 class BillView(LoginRequiredMixin, generic.ListView):
@@ -18,13 +17,18 @@ class BillView(LoginRequiredMixin, generic.ListView):
 
     def get(self, request, *arg, **kwargs):
         user = request.user
-        if user.is_authenticated and not UserProfile.objects.filter(user_id=user.id).exists():
+        if (
+            user.is_authenticated
+            and not UserProfile.objects.filter(user_id=user.id).exists()
+        ):
             UserProfile.objects.create(user_id=user.id)
         return super().get(request, *arg, **kwargs)
 
     def get_queryset(self):
 
-        return Bills.objects.filter(header__user=self.request.user).order_by("-pub_date")
+        return Bills.objects.filter(header__user=self.request.user).order_by(
+            "-pub_date"
+        )
 
 
 class CreateView(LoginRequiredMixin, generic.DetailView):
@@ -35,7 +39,11 @@ class CreateView(LoginRequiredMixin, generic.DetailView):
 
     def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
 
-        return render(request, "Wepay/create_bills.html", {'form_topic': UploadTopicForm, 'form_bill': UploadBillForm})
+        return render(
+            request,
+            "Wepay/create_bills.html",
+            {"form_topic": UploadTopicForm, "form_bill": UploadBillForm},
+        )
 
     def post(self, request, *args, **kwargs):
         user = request.user
@@ -66,4 +74,3 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
             messages.error(request, "Bill dosen't exist")
             return HttpResponseRedirect(reverse("bills:bill"))
         return render(request, "Wepay/detail.html", {"bills": bills})
-

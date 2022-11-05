@@ -7,6 +7,7 @@ from ..models import UploadTopicForm, Bills, Topic, Payment
 
 class AddTopicView(LoginRequiredMixin, generic.DetailView):
     """views for add topic to bills."""
+
     template_name = "Wepay/add_topic.html"
     model = Bills, Topic
 
@@ -15,7 +16,11 @@ class AddTopicView(LoginRequiredMixin, generic.DetailView):
             bills = Bills.objects.get(pk=pk)
         except Bills.DoesNotExist:
             return HttpResponseRedirect(reverse("bills:bill"))
-        return render(request, "Wepay/add_topic.html", {"bills": bills, 'form_topic': UploadTopicForm})
+        return render(
+            request,
+            "Wepay/add_topic.html",
+            {"bills": bills, "form_topic": UploadTopicForm},
+        )
 
     def post(self, request, *args, **kwargs):
         form_topic = UploadTopicForm(request.POST)

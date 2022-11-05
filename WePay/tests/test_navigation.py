@@ -6,22 +6,24 @@ from WePay.models.form import UploadBillForm, UploadTopicForm
 from django.utils import timezone
 from unittest import skip
 
+
 class BaseViewTest(BaseSetUp):
     def setUp(self):
         """Setup before running a tests."""
         self.user1 = User.objects.create_user(
-            username="test_user1", email="user1@example.com", password="user1")
+            username="test_user1", email="user1@example.com", password="user1"
+        )
         self.user1.save()
         self.client.login(username="test_user1", password="user1")
 
-    @skip('some bug occured')
+    @skip("some bug occured")
     def test_logout(self):
         """After logout bring user back to login page."""
         self.client.logout()
         last = Bills.objects.last()
-        all_redirected_url = ['/bill/', '/bill/create/']
+        all_redirected_url = ["/bill/", "/bill/create/"]
         if last:
-            all_redirected_url.append(f'/bill/{last.id-1}')
+            all_redirected_url.append(f"/bill/{last.id-1}")
         for url in all_redirected_url:
             resp = self.client.get(url)
             print(url)
@@ -29,7 +31,7 @@ class BaseViewTest(BaseSetUp):
 
         # no bills exist in here
         if last:
-            url = f'/bill/{last.id+1}'
+            url = f"/bill/{last.id+1}"
             resp = self.client.get(url)
             self.assertEqual(resp.status_code, 301)
 
@@ -62,12 +64,21 @@ class BillCreateViewTest(BaseViewTest):
     @skip("unfinished")
     def test_form_topic_data(self):
         """Test for form_topic data"""
-        form_topic_data = {"title": "Chicken", "price": 2000, "bill": str(self.bill), "user": self.user1.user.username}
+        form_topic_data = {
+            "title": "Chicken",
+            "price": 2000,
+            "bill": str(self.bill),
+            "user": self.user1.user.username,
+        }
         form = UploadTopicForm(data=form_topic_data)
         self.assertTrue(form.is_valid())
 
     @skip("unfinished")
     def test_form_bill_data(self):
-        form_bill_data = {"header": self.header, "name": "blabla", "pub_date":timezone.localtime}
+        form_bill_data = {
+            "header": self.header,
+            "name": "blabla",
+            "pub_date": timezone.localtime,
+        }
         form = UploadBillForm(data=form_bill_data)
         self.assertTrue(form.is_valid())
