@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import redirect, render
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, DetailView
 
 
 class Home(TemplateView):
@@ -32,6 +32,6 @@ class About(TemplateView):
     template_name = "Wepay/about.html"
 
 
-class UserProfile(TemplateView):
+class UserProfile(DetailView):
     """Template view for user profile page."""
     template_name = "Wepay/user_profile.html"

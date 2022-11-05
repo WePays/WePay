@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 from django.views.generic import RedirectView
-from .views import signup, About
+from .views import signup, About, UserProfile
 
 urlpatterns = [
     path('admin/doc/', include('django.contrib.admindocs.urls')),
