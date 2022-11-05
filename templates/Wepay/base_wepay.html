@@ -3,16 +3,17 @@
 <html>
 
 	<head>
-		<title>{% block head_title %} {% endblock head_title%}</title>
+		<title>{% block head_title %} WePay {% endblock head_title%}</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="{% static 'wepay/create_bill.css' %}">
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 		{% block extra_head %}{% endblock extra_head %}
 	  </head>
-	  <body style=" background: #d2e7fe">
 	  
+	  <body style=" background: #d2e7fe">
 	  <nav class="navbar navbar-inverse navbar-fixed-top" style="background-color: #171f99;">
 		<div class="container-fluid">
 		  <div class="navbar-header" style="font-size: larger;">
@@ -27,6 +28,8 @@
 		  </ul>
 		</div>
 	</nav>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 	{% block body %}
 	{% endblock %}
 </body>

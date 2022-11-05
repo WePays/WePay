@@ -1,59 +1,77 @@
 {% extends 'WePay/base_wepay.html' %}
+<!-- {% load static %} -->
 
 {%block title%}
 {{ block.super }}
 Create Bills
 {% endblock title%}
-{% block header %}
-<link rel=¨stylesheet¨ type=¨text/css¨ href=¨wepay/create_bils.css¨>
 
-{% endblock header %}
 
 {% block body%}
-
 {{ block.super }}
-
-<script src="{% static 'wepay/create_bill.js' %}"></script>
 {% if user.is_authenticated %}
+
+<!-- <script src="{% static 'wepay/create_bill.js' %}"></script> -->
 <form action="" method="POST">
     {% csrf_token %}
-    <div class="box" style="width: 100%; height: 100%; margin-left: 25%; margin-top: 1%; display: block;" >
-        <div class="title" style="margin-top: 10%;">
-            <h1>Create Bill</h1>
-        </div>
+    <div id="chartpanel" class="row" data-equalizer style="margin-left: 30%;">
 
-            <!-- <div class="icon"><i class="fa fa-info" aria-hidden="true"></i></div> -->
-        <table class="styled-table" style="width: 60%; height: 50%;">
-            <thead>
-                <tr>
-                    <th>Header: {{form_bill.header}}</th>
-                </tr>
-            </thead>
-          
-            <thead>
-                <tr>
-                    <th>Name: {{form_bill.name}}</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                <tr>
-                    <td>Title: {{form_topic.title}}</td>
-                </tr>
-                <tr>
-                    <td>Price: {{form_topic.price}}</td>
-                    
-                </tr>
-            </tbody>
-
-        <div class="assign" style="margin-left: 30%;">
-            <a>Assign</a>
-            <a>{{form_topic.user}}</a>
-        </div>
-            
-        </table>
-        <div class="Create" style="text-align:center"><input type="submit" value="Create"></div>
-    </div>
+        <div class="column small-12 left_panel">
+          <header data-equalizer-watch>
+            <i class="fa fa-bars menu_top_icon" aria-hidden="true"></i>
+            <div class="right_nav">
+              <i class="fa fa-heart" aria-hidden="true"></i>
+              <i class="fa fa-link" aria-hidden="true"></i>
+              <i class="fa fa-user-circle" aria-hidden="true"></i>
+            </div>
+            <charttitle> </charttitle>
+          </header>
+      
+          <div id="chart_table">
+            <form id="chart_datas">
+              <div class="grid-container">
+                <div class="grid-x grid-padding-x input_wrp">
+                  <div class="small-1 cell column">
+                    <label>{{forloop.counter0|add:"1."}}</label>
+                  </div>
+                  <div class="small-2 cell column">
+                    <label>
+                      <input type="text" placeholder="Title" v-model="value" id="value" name="Title">
+                    </label>
+                  </div>
+                  <div class="small-4 cell column">
+                    <label>
+                      <input type="text" placeholder="Bill" v-model="label" id="label" name="label">
+                    </label>
+                  </div>
+                  <div class="small-2 cell column">
+                    <label>
+                      <input type="text" placeholder="Price" v-model="icon" id="icon" name="icon">
+                    </label>
+                  </div>
+                  <div class="small-3 cell column">
+                    <label>
+                      <input type="text" placeholder="Assign to" v-model="icon" id="icon" name="icon">
+                    </label>
+                  </div>
+                </div>
+      
+                <div class="addRowBtn" v-on:click.prevent="addRow" value=""><i class="fa fa-plus" aria-hidden="true"></i></div>
+              </div>
+      
+            </form>
+      
+            <charttable v-bind:proplabels="labels"> </charttable>
+          </div>
+        </div> <!-- end left panel -->
+        <!--<div class="column small-12 medium-4 right_panel">
+                <header data-equalizer-watch>
+            <chartsubtitle> </chartsubtitle>
+                </header>
+              </div> -->
+      </div>
+      
+      <div class="Create"><input type="submit" value="Create" style="margin-left: 60%;"></div>
 
 
 
