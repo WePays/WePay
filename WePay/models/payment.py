@@ -69,6 +69,10 @@ class Payment(models.Model):
         now_payment = payment_dct[self.payment_type].objects.create(payment=self)
         now_payment.pay()
 
+    def __repr__(self) -> str:
+        return f'Payment(user={self.user}, date={self.date}, bill={self.bill}, status={self.status}, payment_type={self.payment_type})'
+    __str__ = __repr__
+
 
 class BasePayment(models.Model):
     """Entry model"""

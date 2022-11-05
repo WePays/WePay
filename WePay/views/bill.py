@@ -1,14 +1,13 @@
 from typing import Any
-from django.contrib import messages
-from django.http import HttpResponse, HttpResponseRedirect, HttpRequest
-from django.shortcuts import get_object_or_404, render
-from django.urls import reverse
-from django.views import generic
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import QuerySet
 
-from .models import Bills, Topic, UserProfile, UploadBillForm, UploadTopicForm, Payment
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponse, HttpResponseRedirect, HttpRequest
+from django.views import generic
+from django.urls import reverse
+from django.contrib import messages
+
+from ..models import (Bills, Payment, Topic, UploadBillForm, UploadTopicForm,
+                      UserProfile)
 
 
 class BillView(LoginRequiredMixin, generic.ListView):
@@ -26,12 +25,6 @@ class BillView(LoginRequiredMixin, generic.ListView):
     def get_queryset(self):
 
         return Bills.objects.filter(header__user=self.request.user).order_by("-pub_date")
-
-
-class AboutUsView(generic.TemplateView):
-    """views for aboutus.html"""
-
-    template_name = "Wepay/aboutus.html"
 
 
 class CreateView(LoginRequiredMixin, generic.DetailView):
@@ -59,25 +52,6 @@ class CreateView(LoginRequiredMixin, generic.DetailView):
         return HttpResponseRedirect(reverse("bills:bill"))
 
 
-class AddTopicView(LoginRequiredMixin, generic.DetailView):
-    """views for add topic to bills."""
-    template_name = "Wepay/add_topic.html"
-    model = Bills, Topic
-
-    def get(self, request: HttpRequest, pk: int) -> HttpResponse:
-        try:
-            bills = Bills.objects.get(pk=pk)
-        except Bills.DoesNotExist:
-            return HttpResponseRedirect(reverse("bills:bill"))
-        return render(request, "Wepay/add_topic.html", {"bills": bills, 'form_topic': UploadTopicForm})
-
-    def post(self, request, *args, **kwargs):
-        form_topic = UploadTopicForm(request.POST)
-        if form_topic.is_valid():
-            form_topic.save()
-        return HttpResponseRedirect(reverse("bills:bill"))
-
-
 class DetailView(LoginRequiredMixin, generic.DetailView):
     """views for detail of each bill."""
 
@@ -93,12 +67,3 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
             return HttpResponseRedirect(reverse("bills:bill"))
         return render(request, "Wepay/detail.html", {"bills": bills})
 
-
-class PaymentView(LoginRequiredMixin, generic.ListView):
-    """views for payment of each bill."""
-    template_name = "Wepay/payment.html"
-    context_object_name = "my_payment"
-
-    def get_queryset(self) -> QuerySet:
-        return Payment.objects.filter(user__user=self.request.user,
-                                      status=Payment.Status_choice.UNPAID)
