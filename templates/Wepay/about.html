@@ -1,9 +1,7 @@
+{% extends 'WePay/base_wepay.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <title>Bootstrap Example</title>
-        <meta charset="utf-8">
+{% block header %}
+{{block.super}}
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="{% static 'wepay/home.css' %}" type="text/css" media="all">
         <link rel="stylesheet" media="screen" href="https://fontlibrary.org//face/hk-grotesk" type="text/css"/>
@@ -11,79 +9,85 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    </head>
+{% endblock header %}
 
-<body style="height:1500px">
 
-<div id="team" class="container text-center" style="color: white; font-family: 'HKGroteskRegular'; font-weight: bolder; margin-top: 5%; ">
-    <h2>About Us </h2>
+{% block body %}
+{{block.super}}
+{% if user.is_authenticated %}
+<div class="jumbotron text-center">
+  <h1></h1>
+</div>
+
+<div id="team" class="container text-center" style="margin-top: 5%; color: #171f99;" >
+    <h1>About Us</h1>
+    <p>Please click image for contacts</p>
+
   <br>
-  <div class="container" style="margin-top: 10%;">
-    <div class="row">
 
-      <div class="col-sm-3">
+  <div class="container">
+    <div class="row">
+  <br>
+  <div class="container" style="margin-top: 5%;">
+    <div class="row">
+      <div class="col-sm-3" style="text-align: center;">
         <a href="#demo" data-toggle="collapse">
         <img src="https://cloudbox.ku.ac.th/index.php/s/eTSHxfdHiyJc7Ne/preview"
               class="img-circle person" alt="Random Name" width="270" height="270">
                   </a>
-          <div id="demo" class="collapse" style="color: black;">
-            <p class="text-center" style="color: black;"></p><br>
-        <p>tha</p>
-        <p><span class="glyphicon glyphicon-earphone" style="color: black;"></span> GitHub: thanidacwn</p>
-        <p><span class="glyphicon glyphicon-envelope" style="color: black;"></span> thanida.chai@ku.th</p>
+          <div id="demo" class="collapse" style="color: #171f99">
+            <p class="text-center" style="color: #171f99"></p><br>
+        <p>Tha</p>
+        <p><span class="bi bi-github" style="color: #171f99"></span> GitHub: thanidacwn</p>
+        <p><span class="glyphicon glyphicon-envelope" style="color: #171f99"></span> thanida.chai@ku.th</p>
       </div>
       </div>
 
 
-      <div class="col-sm-3">
+      <div class="col-sm-3" style="text-align: center;">
         <a href="#demo2" data-toggle="collapse">
           <img src="https://cloudbox.ku.ac.th/index.php/s/C7YYskLsxs7LJxL/preview"
                 class="img-circle person" alt="Random Name" width="270" height="270">
         </a>
-        <div id="demo2" class="collapse" style="color: black;">
-          <p class="text-center" style="color: black;"></p><br>
+        <div id="demo2" class="collapse" style="color: #171f99">
+          <p class="text-center" style="color: #171f99"></p><br>
         <p>Dol</p>
-        <p><span class="glyphicon glyphicon-earphone" style="color: black;"></span> GitHub: ThanadolU</p>
-        <p><span class="glyphicon glyphicon-envelope" style="color: black;"></span> thanadol.ud@ku.th</p>
+        <p><span class="bi bi-github" style="color: #171f99"></span> GitHub: ThanadolU</p>
+        <p><span class="glyphicon glyphicon-envelope" style="color: #171f99"></span> thanadol.ud@ku.th</p>
         </div>
       </div>
 
-            <div class="col-sm-3">
+            <div class="col-sm-3" style="text-align: center;">
         <a href="#demo3" data-toggle="collapse">
           <img src="https://cloudbox.ku.ac.th/index.php/s/isGxQsQ8SnnF4Ct/preview"
                 class="img-circle person" alt="Random Name" width="270" height="270">
         </a>
-        <div id="demo3" class="collapse" style="color: black;">
-          <p class="text-center" style="color: black;"></p><br>
+        <div id="demo3" class="collapse" style="color: #171f99">
+          <p class="text-center" style="color: #171f99"></p><br>
         <p>God</p>
-        <p><span class="glyphicon glyphicon-earphone" style="color: black;"></span> GitHub: Tezigudo</p>
-        <p><span class="glyphicon glyphicon-envelope" style="color: black;"></span> preawpan.t@ku.th</p>
+        <p><span class="bi bi-github" style="color: #171f99"></span> GitHub: Tezigudo</p>
+        <p><span class="glyphicon glyphicon-envelope" style="color: #171f99"></span> preawpan.t@ku.th</p>
         </div>
       </div>
 
-    <div class="col-sm-3">
-      <a href="#demo4" data-toggle="collapse" style="color: black;">
+    <div class="col-sm-3" style="text-align: center;">
+      <a href="#demo4" data-toggle="collapse" style="color: #171f99">
         <img src="https://cloudbox.ku.ac.th/index.php/s/8QydeeDsYLDEHXp/preview"
               class="img-circle person" alt="Random Name" width="270" height="270">
       </a>
-      <div id="demo4" class="collapse" style="color: black;">
-        <p class="text-center" style="color: black;"></p><br>
+      <div id="demo4" class="collapse" style="color: #171f99">
+        <p class="text-center" style="color: #171f99"></p><br>
         <p>Will</p>
-        <p><span class="glyphicon glyphicon-earphone" style="color: black;"></span> GitHub: koonwill </p>
-        <p><span class="glyphicon glyphicon-envelope" style="color: black;"></span> siravich.t@ku.th</p>
+        <p><span class="bi bi-github" style="color: #171f99"></span> GitHub: koonwill </p>
+        <p><span class="glyphicon glyphicon-envelope" style="color: #171f99"></span> siravich.t@ku.th</p>
       </div>
     </div>
     </div>
     </div>
   </div>
-</body>
-{% block body%}
-
-
-{% if user.is_authenticated %}
 
 {% else %}
 <a href="/accounts/login/">Sign Up</a>
 {% endif %}
 
-{% endblock body%}
+{% endblock body %}
