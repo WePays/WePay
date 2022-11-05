@@ -14,8 +14,10 @@ class TopicAdmin(admin.ModelAdmin):
 class PaymentAdmin(admin.ModelAdmin):
     list_display = ("user", "bill", "date", "status", "payment_type")
 
+
 class UserProfileAdmin(admin.ModelAdmin):
     list_display = ("user",)
+
 
 admin.site.register(Bills, BillsAdmin)
 admin.site.register(Topic, TopicAdmin)
