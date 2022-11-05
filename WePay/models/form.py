@@ -7,10 +7,9 @@ from .payment import BasePayment, OmisePayment, CashPayment
 
 
 class UploadTopicForm(ModelForm):
-
     class Meta:
         model = Topic
-        fields = ('title', 'price', 'user')
+        fields = ("title", "price", "user")
 
         # bill = forms.TextInput()
 
@@ -24,8 +23,8 @@ class UploadBillForm(ModelForm):
 
     class Meta:
         model = Bills
-        fields = ('header', 'name')
-        
+        fields = ("header", "name")
+
         header = forms.TextInput()
         name = forms.TextInput()
 

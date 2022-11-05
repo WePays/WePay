@@ -7,13 +7,17 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('WePay', '0012_alter_payment_date'),
+        ("WePay", "0012_alter_payment_date"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='payment',
-            name='user',
-            field=models.ForeignKey(default=None, on_delete=django.db.models.deletion.CASCADE, to='WePay.userprofile'),
+            model_name="payment",
+            name="user",
+            field=models.ForeignKey(
+                default=None,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="WePay.userprofile",
+            ),
         ),
     ]

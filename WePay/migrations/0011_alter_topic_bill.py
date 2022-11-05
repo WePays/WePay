@@ -7,13 +7,15 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('WePay', '0010_ktbpayment_payment_remove_baypayment_bill_and_more'),
+        ("WePay", "0010_ktbpayment_payment_remove_baypayment_bill_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='topic',
-            name='bill',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='WePay.bills'),
+            model_name="topic",
+            name="bill",
+            field=models.ForeignKey(
+                null=True, on_delete=django.db.models.deletion.CASCADE, to="WePay.bills"
+            ),
         ),
     ]
