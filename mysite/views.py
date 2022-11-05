@@ -28,3 +28,8 @@ def signup(request):
 class About(TemplateView):
     """Template view for about us page."""
     template_name = "Wepay/about.html"
+
+
+class UserProfile(TemplateView):
+    """Template view for user profile page."""
+    template_name = "Wepay/user_profile.html"

@@ -26,6 +26,7 @@ urlpatterns = [
     path("accounts/", include("allauth.urls")),
     path("signup/", signup, name="signup"),
     path("about/", About.as_view(), name="about"),
+    path("user-profile/", UserProfile.as_view(), name="user-profile"),
     path("", RedirectView.as_view(url="/bill/")),
     # path("payments/", PaymentView.as_view(), name="payment"),
 ]
