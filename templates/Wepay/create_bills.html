@@ -17,8 +17,8 @@ Create Bills
 {% if user.is_authenticated %}
 <form action="" method="POST">
     {% csrf_token %}
-    <div class="box" style="width: 100%; height: 100%; margin-left: 40%; margin-top: 50%; margin-bottom: 50%; margin-right: 60%; display: block;" >
-        <div class="title" style="margin-top: 10%;">
+    <div class="box" style="width: 100%; height: 100%; margin-left: 25%; margin-top: 15%; display: block;" >
+        <div class="title" style="margin-top: 10%; margin-bottom: 3%;">
             <h1>Create Bill</h1>
         </div>
 
@@ -26,30 +26,29 @@ Create Bills
         <table class="styled-table" style="width: 60%; height: 50%;">
             <thead>
                 <tr>
-                    <th>Header{{form_bill.header}}</th>
-                    <th>Name{{form_bill.name}}</th>
+                    <th>Header: {{form_bill.header}}</th>
+                    <th>Name: {{form_bill.name}}</th>
                 </tr>
             </thead>
 
             <tbody>
                 <tr>
-                    <td>Title{{form_topic.title}}</td>
-                    <td>Price{{form_topic.price}}</td>
-                    <td>Assign{{form_topic.user}}</td>
-
+                    <td>Title: {{form_topic.title}}</td>
+                    <td>Price: {{form_topic.price}}</td>
+                </tr>
+                <tr>
+                    <td>Assign: {{form_topic.user}}</td>
                 </tr>
             </tbody>
+            
         </table>
+        <div class="Create" style="text-align:center"><input type="submit" value="Create"></div>
     </div>
 
-    <div class="Create"><input type="submit" value="Create"></div>
+
 
     </ul>
 </form>
-
-    <p><a href='/accounts/logout'><button type="button">Log Out</button></a></p>
-    <p><a href='/bill/'><button type="button">back</button></a></p>
-    <!-- <p><a href='/create_bills/save'><button type="button">save</button></a></p> -->
     
     {% else %}
     <a href="/accounts/login/">Sign Up</a>
