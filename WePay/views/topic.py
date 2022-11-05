@@ -2,7 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
 from django.http import HttpResponse, HttpResponseRedirect, HttpRequest
 from django.urls import reverse
-from ..models import UploadTopicForm, Bills, Topic, Payment
+from ..models import UploadTopicForm, Bills, Topic
 
 
 class AddTopicView(LoginRequiredMixin, generic.DetailView):

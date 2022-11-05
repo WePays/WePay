@@ -2,8 +2,9 @@ from typing import Any
 
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect, Http404
 from django.urls import reverse
+from django.shortcuts import render, get_object_or_404
 from django.views import generic
 
 from ..models import Bills, Payment, Topic, UploadBillForm, UploadTopicForm, UserProfile
@@ -66,11 +67,13 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
     template_name = "Wepay/detail.html"
     model = Bills, Topic
 
-    def get(self, request: HttpRequest, pk: int) -> HttpResponse:
-        # user = request.user
+    def get(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
+        user = request.user
+        pk: int = kwargs["pk"]
+
         try:
-            bills = Bills.objects.get(pk=pk)
-        except Bills.DoesNotExist:
+            bill = Bills.objects.get(pk=pk, header__user=user)
+        except Bill.DoesNotExist:
             messages.error(request, "Bill dosen't exist")
             return HttpResponseRedirect(reverse("bills:bill"))
-        return render(request, "Wepay/detail.html", {"bills": bills})
+        return render(request, "Wepay/detail.html", {"bill": bill})
