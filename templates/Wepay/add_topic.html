@@ -4,9 +4,40 @@
 {{ block.super }}
 Create Bills
 {% endblock title%}
-Add_topic
+
 {% block body%}
+<br><br>
+
+{% for topic in all_topic %}
+{{topic.title}}      {{topic.price}}       {{topic.user}}
+{% endfor %}
 
 <h1>Add Topic</h1>
-{{ block.super }}
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+Topic Name: <input type="text" name="topic_name" id="topic_name" placeholder="Enter the topic name" required>
+<br>
+Topic Price: <input type="number" min="0" name="topic_price" id="topic_price" placeholder="Enter the topic price" required>
+<br>
+
+<!--  BUG HEREEEEEEEEEEEEEEEEEEEE-->
+<label for="username">Enter user to assign:</label>
+<select id="username" name="username"  multiple required>
+{% for name in lst_user %}
+<option value="{{name}}">{{name}}</option>
+{% endfor %}
+</select>
+
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<div class="Create"><input type="submit" value="Create"></div>
+</form>
+
 {% endblock body%}

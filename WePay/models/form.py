@@ -11,6 +11,7 @@ class UploadTopicForm(ModelForm):
         model = Topic
         fields = ("title", "price", "user")
 
+
 class UploadBillForm(ModelForm):
 
     # header = forms.TextInput()
@@ -25,8 +26,7 @@ class UploadBillForm(ModelForm):
         model = Bills
         fields = ("name",)
 
-
-    def save(self, topic: Topic, bill:Bills, commit: bool = ...):
+    def save(self, topic: Topic, bill: Bills, commit: bool = ...):
         super().save(commit)
         topic.bill = self.instance
         bill.header = self.instance

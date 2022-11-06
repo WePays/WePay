@@ -68,7 +68,7 @@ Create Bills
     <option value="{{name}}">{{name}}</option>
     {% endfor %}
 </select>
-<input name="all_user" id="all_user" multiple="multiple" placeholder="username" list="username" required>
+{% comment %} <input name="all_user" id="all_user" multiple="multiple" placeholder="username" list="username" required> {% endcomment %}
     <!--  BUG HEREEEEEEEEEEEEEEEEEEEE-->
 
 
@@ -81,7 +81,7 @@ Create Bills
     {% endif %}
 
     <div class="Create"><input type="submit" value="Create"></div>
-    </ul>
+    {% comment %} </ul> {% endcomment %}
 </form>
 <br><br><br>
 

@@ -26,7 +26,10 @@ class BillModelTest(BaseSetUp):
         """test all user."""
         self.pepsi.add_user(user=self.user1)
         self.coke.add_user(user=self.user2)
-        self.assertListEqual(self.bill.all_user, list(set(self.pepsi.user.all()).union(set(self.coke.user.all()))))
+        self.assertListEqual(
+            self.bill.all_user,
+            list(set(self.pepsi.user.all()).union(set(self.coke.user.all()))),
+        )
 
     def test_duplicate_user(self):
         """test when you add duplicate user."""

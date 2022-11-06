@@ -117,5 +117,6 @@ class Topic(models.Model):
     def add_user(self, user):
         if user not in self.user.all():
             self.user.add(user)
+            self.save()
         else:
             logging.info("user already in this food")

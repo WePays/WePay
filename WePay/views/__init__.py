@@ -1,6 +1,7 @@
 from .bill import BillView, DetailView, BillCreateView
 from .payment import PaymentView
 from .userprofile import UserProfileView
+from .topic import AddTopicView
 
 
 __all__ = [
@@ -8,5 +9,6 @@ __all__ = [
     "BillCreateView",
     "PaymentView",
     "DetailView",
-    "UserProfileView"
+    "UserProfileView",
+    "AddTopicView",
 ]

@@ -15,13 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+
 # from django.conf.urls import url
 
 from django.views.generic import RedirectView
 from .views import signup, About
 
 urlpatterns = [
-    path('admin/doc/', include('django.contrib.admindocs.urls')),
+    path("admin/doc/", include("django.contrib.admindocs.urls")),
     path("admin/", admin.site.urls),
     path("bill/", include("WePay.bill_urls")),
     path("payment/", include("WePay.payment_urls")),
