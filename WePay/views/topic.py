@@ -1,6 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
-from django.http import HttpResponse, HttpResponseRedirect, HttpRequest, Http404
+from django.http import HttpResponseRedirect, HttpRequest
 from django.urls import reverse
 from django.contrib import messages
 from django.shortcuts import render, get_object_or_404
@@ -11,11 +11,14 @@ class AddTopicView(LoginRequiredMixin, generic.DetailView):
     template_name: str = "Wepay/add_topic.html"
 
     def get(self, request: HttpRequest, *args, **kwargs):
-        print(kwargs['pk'])
         try:
-            bill = get_object_or_404(Bills, pk=kwargs["pk"])
+            bill = get_object_or_404(Bills, pk=kwargs["pk"], header__user=request.user)
         except Bills.DoesNotExist:
             messages.warning(request, "Bill does not exist")
+            return HttpResponseRedirect(reverse("bills:bill"))
+
+        if bill.is_created:
+            messages.warning(request, "Bill is created")
             return HttpResponseRedirect(reverse("bills:bill"))
 
         all_topic = Topic.objects.filter(bill=bill)
@@ -37,3 +40,10 @@ class AddTopicView(LoginRequiredMixin, generic.DetailView):
         topic.add_user(user)
 
         return HttpResponseRedirect(reverse("bills:add", args=(bill.id,)))
+
+
+def create(request: HttpRequest, pk: int):
+    bill = Bills.objects.get(pk=pk)
+    bill.is_created = True
+    bill.save()
+    return HttpResponseRedirect(reverse("bills:bill"))
