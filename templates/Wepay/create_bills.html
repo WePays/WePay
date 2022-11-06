@@ -34,29 +34,25 @@ Create Bills
                     <th>Price
                         <input type="text" name="price" id="price" placeholder="Enter the Price" required>
                     </th>
+                    
+                    <form action="" method="post">
                     <th>Assign to:
-                        <!-- <datalist id="username">
+                        <input type="search" name="all_user" id="all_user" placeholder="username" list="username" required>
+                        <datalist id="username">
                             {% for name in lst_user %}
                             <option value="{{name}}"></option>
                             {% endfor %}
-                        </datalist> -->
-                        {% for name in lst_user %}
+                        </datalist>
+                        <input type="submit" name="add_user" id="add_user" value="add user">
+                        <!-- {% for name in lst_user %}
                         <input type="checkbox" name="all_user" id="all_user" placeholder="username" value="{{name}}">
                         <label for="all_user">{{name}}</label>
-                        {% endfor %}
+                        {% endfor %} -->
                     </th>
                     </form>
                 </tr>
             </thead>
 
-            {% comment %} <tbody>
-                <tr>
-                    <td>Title{{form_topic.title}}</td>
-                    <td>Price{{form_topic.price}}</td>
-                    <td>Assign{{form_topic.user}}</td>
-
-                </tr>
-            </tbody> {% endcomment %}
         </table>
     </div>
     {% if messages %}
