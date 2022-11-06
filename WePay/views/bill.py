@@ -32,42 +32,6 @@ class BillView(LoginRequiredMixin, generic.ListView):
         )
 
 
-# class CreateView(LoginRequiredMixin, generic.CreateView):
-#     """views for create some bills."""
-
-#     template_name = "Wepay/create_bills.html"
-#     model = Bills
-#     form_class = UploadBillForm
-#     success_url = reverse_lazy("bills:bill")
-
-#     def get_form_kwargs(self):
-#         print('HELLOOOOOOOOOOO')
-#         kwargs = super(CreateView, self).get_form_kwargs()
-#         kwargs.update({"request": self.request})
-#         return kwargs
-
-#     def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
-
-#         return render(
-#             request,
-#             "Wepay/create_bills.html",
-#             {"form_topic": UploadTopicForm, "form_bill": UploadBillForm},
-#         )
-
-#     def post(self, request, *args, **kwargs):
-#         user = request.user
-#         form_topic = UploadTopicForm(request.POST)
-#         # request.POST['bill']
-#         form_bill = UploadBillForm(request.POST)
-#         if form_topic.is_valid() and form_bill.is_valid():
-#             form_topic.save()
-#             form_bill.save(form_topic.instance)
-#             all_bill = Bills.objects.filter(header__user=user).last()
-#             for user in all_bill.all_user:
-#                 each_user_payment = Payment.objects.create(user=user, bill=all_bill)
-#                 each_user_payment.save()
-#         return HttpResponseRedirect(reverse("bills:bill"))
-
 class BillCreateView(LoginRequiredMixin, generic.DetailView):
     template_name = "Wepay/create_bills.html"
     model = Bills
@@ -77,7 +41,9 @@ class BillCreateView(LoginRequiredMixin, generic.DetailView):
         header = UserProfile.objects.get(user=user)
         lst_user = UserProfile.objects.exclude(user=user)
         # get all user of the bills by calling bills.all_user
-        return render(request, self.template_name, {"header": header, "lst_user":lst_user})
+        return render(
+            request, self.template_name, {"header": header, "lst_user": lst_user}
+        )
 
     def post(self, request, *args, **kwargs):
         try:
@@ -85,7 +51,7 @@ class BillCreateView(LoginRequiredMixin, generic.DetailView):
             name = request.POST["title"]
             header = UserProfile.objects.get(user=user)
         except:
-            messages.error(request, 'Please fill all field of form')
+            messages.error(request, "Please fill all field of form")
         else:
             bill = Bills.objects.create(name=name, header=header)
             for user in bill.all_user:

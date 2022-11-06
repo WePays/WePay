@@ -1,5 +1,5 @@
 from .bill import BillView, DetailView, BillCreateView
-from .payment import PaymentView
+from .payment import PaymentView, PaymentDetailView
 
 
 __all__ = [
@@ -7,4 +7,5 @@ __all__ = [
     "BillCreateView",
     "PaymentView",
     "DetailView",
+    "PaymentDetailView",
 ]

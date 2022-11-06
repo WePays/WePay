@@ -34,7 +34,8 @@ class About(TemplateView):
 
 class UserProfile(DetailView):
     """Template view for user profile page."""
+
     template_name = "Wepay/user_profile.html"
-    
+
     def get_object(self):
         return self.request.user

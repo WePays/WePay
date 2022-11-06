@@ -9,7 +9,6 @@ from ..models import UploadTopicForm, Bills, Topic
 def add_topic(request, bill_id):
     pass
 
-
     # def get(self, request: HttpRequest, pk: int) -> HttpResponse:
     #     try:
     #         bills = Bills.objects.get(pk=pk)
