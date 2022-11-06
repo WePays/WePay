@@ -2040,6 +2040,258 @@
 },
 {
   "model": "auth.permission",
+  "pk": 63,
+  "fields": {
+    "name": "Can delete social application",
+    "content_type": 16,
+    "codename": "delete_socialapp"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 64,
+  "fields": {
+    "name": "Can view social application",
+    "content_type": 16,
+    "codename": "view_socialapp"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 65,
+  "fields": {
+    "name": "Can add social application token",
+    "content_type": 17,
+    "codename": "add_socialtoken"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 66,
+  "fields": {
+    "name": "Can change social application token",
+    "content_type": 17,
+    "codename": "change_socialtoken"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 67,
+  "fields": {
+    "name": "Can delete social application token",
+    "content_type": 17,
+    "codename": "delete_socialtoken"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 68,
+  "fields": {
+    "name": "Can view social application token",
+    "content_type": 17,
+    "codename": "view_socialtoken"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 69,
+  "fields": {
+    "name": "Can add bay payment",
+    "content_type": 18,
+    "codename": "add_baypayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 70,
+  "fields": {
+    "name": "Can change bay payment",
+    "content_type": 18,
+    "codename": "change_baypayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 71,
+  "fields": {
+    "name": "Can delete bay payment",
+    "content_type": 18,
+    "codename": "delete_baypayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 72,
+  "fields": {
+    "name": "Can view bay payment",
+    "content_type": 18,
+    "codename": "view_baypayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 73,
+  "fields": {
+    "name": "Can add bbl payment",
+    "content_type": 19,
+    "codename": "add_bblpayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 74,
+  "fields": {
+    "name": "Can change bbl payment",
+    "content_type": 19,
+    "codename": "change_bblpayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 75,
+  "fields": {
+    "name": "Can delete bbl payment",
+    "content_type": 19,
+    "codename": "delete_bblpayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 76,
+  "fields": {
+    "name": "Can view bbl payment",
+    "content_type": 19,
+    "codename": "view_bblpayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 77,
+  "fields": {
+    "name": "Can add prompt pay payment",
+    "content_type": 20,
+    "codename": "add_promptpaypayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 78,
+  "fields": {
+    "name": "Can change prompt pay payment",
+    "content_type": 20,
+    "codename": "change_promptpaypayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 79,
+  "fields": {
+    "name": "Can delete prompt pay payment",
+    "content_type": 20,
+    "codename": "delete_promptpaypayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 80,
+  "fields": {
+    "name": "Can view prompt pay payment",
+    "content_type": 20,
+    "codename": "view_promptpaypayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 81,
+  "fields": {
+    "name": "Can add scb payment",
+    "content_type": 21,
+    "codename": "add_scbpayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 82,
+  "fields": {
+    "name": "Can change scb payment",
+    "content_type": 21,
+    "codename": "change_scbpayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 83,
+  "fields": {
+    "name": "Can delete scb payment",
+    "content_type": 21,
+    "codename": "delete_scbpayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 84,
+  "fields": {
+    "name": "Can view scb payment",
+    "content_type": 21,
+    "codename": "view_scbpayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 85,
+  "fields": {
+    "name": "Can add stb payment",
+    "content_type": 22,
+    "codename": "add_stbpayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 86,
+  "fields": {
+    "name": "Can change stb payment",
+    "content_type": 22,
+    "codename": "change_stbpayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 87,
+  "fields": {
+    "name": "Can delete stb payment",
+    "content_type": 22,
+    "codename": "delete_stbpayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 88,
+  "fields": {
+    "name": "Can view stb payment",
+    "content_type": 22,
+    "codename": "view_stbpayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 89,
+  "fields": {
+    "name": "Can add ktb payment",
+    "content_type": 23,
+    "codename": "add_ktbpayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 90,
+  "fields": {
+    "name": "Can change ktb payment",
+    "content_type": 23,
+    "codename": "change_ktbpayment"
+  }
+},
+{
+  "model": "auth.permission",
   "pk": 91,
   "fields": {
     "name": "Can delete ktb payment",

@@ -30,3 +30,7 @@ class About(TemplateView):
     """Template view for about us page."""
 
     template_name = "Wepay/about.html"
+
+class UserProfile(TemplateView):
+    """Tempalte view for user profile page."""
+    template_name = "Wepay/user_profile.html"
