@@ -27,21 +27,30 @@ Create Bills
         <table class="styled-table" style="width: 60%; height: 50%;">
             <thead>
                 <tr>
-                    <th>Header{{form_bill.header}}</th>
-                    <th>Name{{form_bill.name}}</th>
+                    <th>Header :{{header}}</th>
+                    <th>Bill's title 
+                        <input type="text" name="title" id="title" placeholder="Enter the title of the bill" required>
+                    </th>
                 </tr>
             </thead>
 
-            <tbody>
+            {% comment %} <tbody>
                 <tr>
                     <td>Title{{form_topic.title}}</td>
                     <td>Price{{form_topic.price}}</td>
                     <td>Assign{{form_topic.user}}</td>
 
                 </tr>
-            </tbody>
+            </tbody> {% endcomment %}
         </table>
     </div>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
 
     <div class="Create"><input type="submit" value="Create"></div>
 

@@ -81,17 +81,19 @@ class BillCreateView(LoginRequiredMixin, generic.DetailView):
     def post(self, request, *args, **kwargs):
         try:
             user = request.user
-            name = request.POST["name"]
+            name = request.POST["title"]
             header = UserProfile.objects.get(user=user)
         except:
-            messages('Please fill all field of form')
+            messages.error(request, 'Please fill all field of form')
         else:
             bill = Bills.objects.create(name=name, header=header)
             for user in bill.all_user:
                 each_user_payment = Payment.objects.create(user=user, bill=bill)
                 each_user_payment.save()
+            bill.save()
 
-        return HttpResponseRedirect(reverse("bills:bill"))
+            return HttpResponseRedirect(reverse("bills:bill"))
+        return super(BillCreateView, self).post()
 
 
 class DetailView(LoginRequiredMixin, generic.DetailView):
