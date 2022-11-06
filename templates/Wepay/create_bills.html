@@ -1,18 +1,19 @@
 {% extends 'WePay/base_wepay.html' %}
-<!-- {% load static %} -->
+{% load static %}
 
-{%block title%}
+{% block title %}
 {{ block.super }}
 Create Bills
-{% endblock title%}
+{% endblock title %}
 
 
-{% block body%}
+{% block body %}
 {{ block.super }}
+
 {% if user.is_authenticated %}
 
 <!-- <script src="{% static 'wepay/create_bill.js' %}"></script> -->
-<form action="" method="POST">
+<!-- <form action="" method="POST"> -->
     {% csrf_token %}
    <!--- <div id="chartpanel" class="row" data-equalizer style="margin-left: 20%; margin-top: 15%;">
 
@@ -38,7 +39,7 @@ Create Bills
                             {% endfor %}
                         </datalist>
                         <input type="submit" name="add_user" id="add_user" value="add user">
-                        <!-- {% for name in lst_user %}
+                             {% for name in lst_user %}
                         <input type="checkbox" name="all_user" id="all_user" placeholder="username" value="{{name}}">
                         <label for="all_user">{{name}}</label>
                         {% endfor %} 
@@ -46,32 +47,49 @@ Create Bills
                     </form>
                 </tr>
             </thead>
-
         </table>
     </div> -->
-
-    Header :{{header}}
-    <br>
-    Bill's title 
-    <input type="text" name="title" id="title" placeholder="Enter the title of the bill" required>
-    {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-
-    <div class="Create"><input type="submit" value="Create"></div>
+<form>
+    <ul>
+        <div>
+            <br>
+            Header : {{header}}
+            <br>
+            Bill's Title : <input type="text" name="title" id="title" placeholder="Enter the title of the bill" required>
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            <br>
+            Price : <input type="text" name="price" id="price" placeholder="Enter the Price" required>
+            <br>
+            <label>
+            Assign to :
+            <link href="{% static 'wepay/css/mobiscroll.javascript.min.css' %}" rel="stylesheet" />
+            <script src="{% static 'wepay/js/mobiscroll.javascript.min.js' %}"></script>
+            <!-- <script src="{% static 'wepay/multiple_select.js' %}"></script> -->
+            <input mbsc-input id="myinput" data-dropdown="true" type="search" name="all_user" id="all_user" placeholder="username" list="username" required>
+            <!-- <datalist id="username"> -->
+            <select id="multiple-select" name="username" multiple >
+                {% for name in lst_user %}
+                    <option value="{{name}}">{{name}}</option>
+                {% endfor %}
+            </select>
+            </label>
+            <!-- </datalist> -->
+        </div>
+        <div class="Create"><input type="submit" value="Create"></div>
     </ul>
 </form>
-<br><br><br>
-na
-<form action=''>
-</form>
-    {% else %}
+<!-- <br><br><br> -->
+<!-- <form action=''>
+</form> -->
+{% else %}
     <a href="/accounts/login/">Sign Up</a>
-    {% endif %}
+{% endif %}
 
 {% endblock body%}
 
