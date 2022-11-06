@@ -45,9 +45,9 @@ h3 {
   padding: var(--padding-standard);
 }
 
-#chart_datas {
+/* #chart_datas {
   position: relative;
-}
+} */
 #chartpanel {
   background-color: #fafafa;
   max-width: 50rem;
