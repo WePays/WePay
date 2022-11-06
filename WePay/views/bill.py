@@ -108,7 +108,7 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
 
         try:
             bill = Bills.objects.get(pk=pk, header__user=user)
-        except Bill.DoesNotExist:
+        except Bills.DoesNotExist:
             messages.error(request, "Bill dosen't exist")
             return HttpResponseRedirect(reverse("bills:bill"))
         return render(request, "Wepay/detail.html", {"bill": bill})
