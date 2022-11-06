@@ -6,7 +6,11 @@ from django.shortcuts import render
 from ..models import UploadTopicForm, Bills, Topic
 
 
-def add_topic(request, bill_id):
+def add_topic(request: HttpRequest, bill_id):
+    pass
+
+
+def add_user(request: HttpRequest, topic_id):
     pass
 
 

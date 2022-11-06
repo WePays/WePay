@@ -62,6 +62,15 @@ class Bills(models.Model):
             if person in each_topic.user.all()
         )
 
+    def add_topic(self, topic: "Topic") -> None:
+        """add topic to bill
+
+        Arguments:
+            topic {Topic} -- topic that you want to add
+        """
+        topic.bill = self
+        topic.save()
+
     @property
     def total_price(self) -> float:
         """calculate total price"""
