@@ -14,3 +14,4 @@ class PaymentView(LoginRequiredMixin, generic.ListView):
         return Payment.objects.filter(
             user__user=self.request.user, status=Payment.Status_choice.UNPAID
         )
+

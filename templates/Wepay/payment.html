@@ -2,14 +2,43 @@
 
 {% block body %}
 {{block.super}}
-
 {% if my_payment %}
+<ul>
+    <table class="styled-table" style="width: 60%; height: 50%; text-align: center;">
+      <thead>
+        <tr>
+          <th> No. </th><style>th{padding-left: 1%; text-align: center;}</style>
+          <th> Bills Topics </th>
+          <th> Prices </th>
+          <th> Status </th>
+          <th> Pay </th>
+          <th> Header </th>
+        </tr>
+      </thead>
 
-{% for payment in my_payment %}
+      {% for payment in my_payment %}
+      <tbody>
+        <tr>
+          <td>{{forloop.counter0|add:"1"}}</td><style>td{padding: 1%;}</style>
+          <td>{{ payment.bill.name }}</td> <!-- this will link to detail bill page-->
+          <td>{{ payment.bill.total_price}}</td>
+          <td>{{payment.status}}</td> 
+          <td>
+            {% if payment.status == "Paid" %}
+                Paid
+            {% else %}
+                <!-- This may be another link to choose payment platform then pay(link to below link)-->
+                {% comment %} <a href="{% url 'wepay:pay' payment.id %}">Pay</a> {% endcomment %}
+                {% endif %}
+          </td>
+          <td>{{payment.bill.header}} </td>
+        </tr>
+        </tbody>
+        {% endfor %}
+    </list>
+  </ul>
+</table>
 
-{{payment}}
-
-{% endfor %}
 
 {% else %}
 <h1> No Payment Avalible </h1>
