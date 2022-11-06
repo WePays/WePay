@@ -1,20 +1,31 @@
 {% extends 'WePay/base_wepay.html' %}
 
-{%block title%}
-{{ super }}
-yours bill
-{% endblock title%}
-{% block body%}
+<!-- <header>
+  <title>{%block title%}{% endblock title%}</title>
+  <link rel="stylesheet" type="text/css" href="/wepay/bill.css">
+  <link rel="shortcut icon" href="/assets/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<h1>Bills list</h1>
-{{super}}
+
+</header> -->
+
+{% block header %}
+<link rel=¨stylesheet¨ type=¨text/css¨ href=¨wepay/bill.css¨>
+{% endblock header %}
+
+{% block body%}
+{{block.super}}
+{% if user.is_authenticated %}
+
 
 {% if my_bill %}
+<div class="header" style="margin-left: 3%; margin-top: 10%;"><h1>Bill list</h1></div>
+<body>
   <ul>
-    <table class="first-table" style="width: 60%; height: 50%;">
+    <table class="styled-table" style="width: 60%; height: 50%; text-align: center;">
       <thead>
         <tr>
-          <th> No. </th>
+          <th> No. </th><style>th{padding-left: 1%; text-align: center;}</style>
           <th> Bills Topics </th>
           <th> Prices </th>
           <th> Status </th>
@@ -23,63 +34,36 @@ yours bill
       </thead>
 
       {% for bill in my_bill %}
-      <list>{{forloop.counter0|add:"1"}} </list>
+      <tbody>
         <tr>
-            <td>{{ bill.name }}</td>
-            <!-- <td>{{ bill.price }}</td>
-            <td>{{ bill.status }}</td>
-            <td>{{ bill.verify }}</td> -->
+          <td>{{forloop.counter0|add:"1"}}</td><style>td{padding: 1%;}</style>
+          <td>{{ bill.name }}</td>
+          <td>{{ bill.total_price}}</td>
+          <td>not paid</td>
+          <td>status</td>
         </tr>
-        <tbody>
-          <tr class="not-paid">
-            <td> 1 </td>
-            <td> Shabu </td>
-            <td> 500.00 </td>
-            <td> Not paid </td>
-            <td>  </td>
-          </tr>
-          <tr class="paid">
-            <td> 2 </td>
-            <td> Bingsu </td>
-            <td> 70.00 </td>
-            <td> Paid </td>
-            <td>  </td>
-
-          <tr class="not-paid">
-            <td> 3 </td>
-            <td> Pool </td>
-            <td> 40.00 </td>
-            <td> Not Paid </td>
-            <td>  </td>
-          </tr>
-    
-          <tr class="paid">
-            <td> 4 </td>
-            <td> MoMo </td>
-            <td> 650.00 </td>
-            <td> Paid </td>
-            <td>  </td>
-          </tr>
         </tbody>
         {% endfor %}
     </list>
   </ul>
+</table>
+</body>
 
 {% else %}
   <p>No Bill are available.</p>
-  <p><a href='/bill/create/'><button type="button">create</button></a></p>
-  <p><a href="accounts/logout"><button tyoe="button">logout</button></a></p>
 {% endif %}
 
-<div class="add-logout">
+<!-- <div class="add-logout">
   <p><a href="accounts/logout"><button tyoe="button">logout</button></a></p>
+</div> -->
+<div class="createbttn">
+  <p><a href="create" style="margin-left: 55%;" ><button type="button">Create Bill</button></a></p>
 </div>
 
-{% if user.is_authenticated %}&nbsp;&nbsp;&nbsp;<label>{{"login as "}}</label><user>{{user.username}}</user> <a href='/accounts/logout'><button type="button">Log Out</button></a>
-{% else %}<a href='/accounts/logout'><button type="button">Log in?</button></a>
+{% else %}
+<a href='/accounts/logout'><button type="button">Log in?</button></a>
 {% endif %}
 
 {% endblock body%}
-{% block button %}{% endblock button %}
 
 

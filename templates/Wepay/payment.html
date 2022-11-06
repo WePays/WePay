@@ -1,1 +1,19 @@
 {% extends 'WePay/base_wepay.html' %}
+
+{% block body %}
+{{block.super}}
+
+{% if my_payment %}
+
+{% for payment in my_payment %}
+
+{{payment}}
+
+{% endfor %}
+
+{% else %}
+<h1> No Payment Avalible </h1>
+
+{% endif %}
+
+{% endblock body%}

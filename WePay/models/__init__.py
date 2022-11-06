@@ -1,14 +1,27 @@
 from .bill import Bills, Topic
-from .payment import BasePayment, OmisePayment, CashPayment
+from .payment import (
+    CashPayment,
+    PromptPayPayment,
+    SCBPayment,
+    KTBPayment,
+    BBLPayment,
+    BAYPayment,
+    Payment,
+)
 from .userprofile import UserProfile
-from .upload import UploadTopicForm
+from .form import UploadTopicForm, UploadBillForm
 
 __all__ = [
     "Bills",
     "Topic",
-    "BasePayment",
-    "OmisePayment",
     "CashPayment",
+    "PromptPayPayment",
+    "SCBPayment",
+    "KTBPayment",
+    "BBLPayment",
+    "BAYPayment",
     "UserProfile",
     "UploadTopicForm",
+    "UploadBillForm",
+    "Payment",
 ]

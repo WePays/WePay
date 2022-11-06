@@ -131,3 +131,4 @@ dmypy.json
 
 data/
 save.sh
+db.sqlite3
