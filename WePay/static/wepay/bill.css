@@ -2,16 +2,14 @@ body {
     background: #d2e7fe;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    text-align: center;
-    /* position: relative;
+    position: relative;
     width: 100%;
     height: 100vh;
-    border-radius: 10%;
-    text-align: center;
-    margin: auto;
-    display: flex;
+    border-radius: 30%;
+    margin-left: 20%;
     align-items: center;
-    justify-content: center; */
+    justify-content: center;
+
 }
 
 
@@ -29,6 +27,7 @@ body {
     color: #ffffff;
     font-size: large;
     font-weight: lighter;
+    text-align: center;
     
     }
     
@@ -54,6 +53,9 @@ body {
     }
     
     .styled-table tbody tr.not-paid {
-        font-weight: bold;
-        color: #eb0c0c;
-        }
+    font-weight: bold;
+    color: #eb0c0c;
+    }
+
+
+ 
