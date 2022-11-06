@@ -16,64 +16,47 @@ Create Bills
     {% csrf_token %}
     <div id="chartpanel" class="row" data-equalizer style="margin-left: 20%; margin-top: 15%;">
 
-        <div class="column small-12 left_panel">
-          <header data-equalizer-watch>
-            <i class="fa fa-bars menu_top_icon" aria-hidden="true"></i>
-            <div class="right_nav">
-              <i class="fa fa-heart" aria-hidden="true"></i>
-              <i class="fa fa-link" aria-hidden="true"></i>
-              <i class="fa fa-user-circle" aria-hidden="true"></i>
-            </div>
-            <charttitle> </charttitle>
-          </header>
-      
-          <div id="chart_table">
-            <form id="chart_datas">
-              <div class="grid-container">
-                <div class="grid-x grid-padding-x input_wrp">
-                  <div class="small-1 cell column">
-                    <label>{{forloop.counter0|add:"1."}}</label>
-                  </div>
-                  <div class="small-2 cell column">
-                    <label>
-                      <input type="text" placeholder="Title" v-model="value" id="value" name="Title">
-                    </label>
-                  </div>
-                  <div class="small-4 cell column">
-                    <label>
-                      <input type="text" placeholder="Bill" v-model="label" id="label" name="label">
-                    </label>
-                  </div>
-                  <div class="small-2 cell column">
-                    <label>
-                      <input type="text" placeholder="Price" v-model="icon" id="icon" name="icon">
-                    </label>
-                  </div>
-                  <div class="small-3 cell column">
-                    <label>
-                      <input type="text" placeholder="Assign to" v-model="icon" id="icon" name="icon">
-                    </label>
-                  </div>
-                </div>
-      
-                <div class="addRowBtn" v-on:click.prevent="addRow" value=""><i class="fa fa-plus" aria-hidden="true"></i></div>
-              </div>
-      
-            </form>
-      
-            <charttable v-bind:proplabels="labels"> </charttable>
-          </div>
-        </div> <!-- end left panel -->
-        <!--<div class="column small-12 medium-4 right_panel">
-                <header data-equalizer-watch>
-            <chartsubtitle> </chartsubtitle>
-                </header>
-              </div> -->
-      </div>
-      
-      <div class="Create"><input type="submit" value="Create" style="margin-left: 60%;"></div>
+            <div class="icon"><i class="fa fa-info" aria-hidden="true"></i></div>
+        <table class="styled-table" style="width: 60%; height: 50%;">
+            <thead>
+                <tr>
+                    <th>Header :{{header}}</th>
+                    <th>Bill's title 
+                        <input type="text" name="title" id="title" placeholder="Enter the title of the bill" required>
+                    </th>
+                    <th>Price
+                        <input type="text" name="price" id="price" placeholder="Enter the Price" required>
+                    </th>
+                    
+                    <form action="" method="post">
+                    <th>Assign to:
+                        <input type="search" name="all_user" id="all_user" placeholder="username" list="username" required>
+                        <datalist id="username">
+                            {% for name in lst_user %}
+                            <option value="{{name}}"></option>
+                            {% endfor %}
+                        </datalist>
+                        <input type="submit" name="add_user" id="add_user" value="add user">
+                        <!-- {% for name in lst_user %}
+                        <input type="checkbox" name="all_user" id="all_user" placeholder="username" value="{{name}}">
+                        <label for="all_user">{{name}}</label>
+                        {% endfor %} -->
+                    </th>
+                    </form>
+                </tr>
+            </thead>
 
+        </table>
+    </div>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
 
+    <div class="Create"><input type="submit" value="Create"></div>
 
     </ul>
 </form>

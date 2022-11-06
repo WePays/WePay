@@ -3,13 +3,13 @@ from django.urls import path
 from . import views
 
 
-app_name = "bills"
+app_name = "payments"
 urlpatterns = [
     # path("", views.bill, name="bill"),
-    path("", views.BillView.as_view(), name="bill"),
-    path("create/", views.BillCreateView.as_view(), name="create"),
-    path("<int:pk>/", views.DetailView.as_view(), name="detail"),
-    path("create/<int:pk>/", views.AddTopicView.as_view(), name="add_topic"),
+    path("", views.PaymentView.as_view(), name="bill"),
+    # path("create/", views.CreateView.as_view(), name="create"),
+    # path("<int:pk>/", views.DetailView.as_view(), name="detail"),
+    # path("create/<int:pk>/", views.AddTopicView.as_view(), name="add_topic"),
     # path("<int:bills_id>/add/", views.add_topics, name="add")
     # path("payments/", views.payment, name="payment"),  #! no payments path its a button
     # path("<int:pk>", views.CreateBillView.as_view(), name="create")

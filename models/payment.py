@@ -108,7 +108,6 @@ class BasePayment(models.Model):
 class OmisePayment(BasePayment):
     charge_id = models.CharField(max_length=100, null=True, blank=True)
     payment_type = models.CharField(max_length=100, default="promptpay")
-    uri = models.CharField(max_length=100, null=True, blank=True)
 
     class Meta:
         abstract = True
@@ -130,10 +129,10 @@ class OmisePayment(BasePayment):
                 source=source.id,
                 return_uri="http://localhost:8000/bill/",
             )
-
             self.charge_id = charge.id
-            self.uri = charge.authorize_uri
 
+            self.user.status = self.Status_choice.PAID
+            self.user.save()
             omise.api_secret = OMISE_SECRET
 
     def get_status(self):  # TODO remove middle man
