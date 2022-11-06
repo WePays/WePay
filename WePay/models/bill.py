@@ -1,5 +1,5 @@
 import logging
-from typing import List, Union
+from typing import List
 from django.db import models
 from django.utils import timezone
 from .userprofile import UserProfile
@@ -62,6 +62,15 @@ class Bills(models.Model):
             if person in each_topic.user.all()
         )
 
+    def add_topic(self, topic: "Topic") -> None:
+        """add topic to bill
+
+        Arguments:
+            topic {Topic} -- topic that you want to add
+        """
+        topic.bill = self
+        topic.save()
+
     @property
     def total_price(self) -> float:
         """calculate total price"""
@@ -108,5 +117,6 @@ class Topic(models.Model):
     def add_user(self, user):
         if user not in self.user.all():
             self.user.add(user)
+            self.save()
         else:
             logging.info("user already in this food")

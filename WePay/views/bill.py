@@ -1,10 +1,8 @@
-from typing import Any
-
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpRequest, HttpResponse, HttpResponseRedirect, Http404
-from django.urls import reverse, reverse_lazy
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
+from django.urls import reverse
 from django.views import generic
 
 from ..models import Bills, Payment, Topic, UserProfile
@@ -39,7 +37,7 @@ class BillCreateView(LoginRequiredMixin, generic.DetailView):
     def get(self, request, *args, **kwargs):
         user = request.user
         header = UserProfile.objects.get(user=user)
-        lst_user = UserProfile.objects.exclude(user=user)
+        lst_user = UserProfile.objects.all()
         # get all user of the bills by calling bills.all_user
         return render(
             request, self.template_name, {"header": header, "lst_user": lst_user}
@@ -49,18 +47,35 @@ class BillCreateView(LoginRequiredMixin, generic.DetailView):
         try:
             user = request.user
             name = request.POST["title"]
+            topic_name = request.POST["topic_name"]
+            topic_user = request.POST["username"]  # ! BUG HERE
+            topic_price = request.POST["topic_price"]
             header = UserProfile.objects.get(user=user)
         except:
             messages.error(request, "Please fill all field of form")
         else:
             bill = Bills.objects.create(name=name, header=header)
+            topic = Topic.objects.create(title=topic_name, price=topic_price, bill=bill)
+            print(topic_user)
+            # for each_user in topic_user:
+            # TODO: Fix this
+            # print(each_user)
+            # user = UserProfile.objects.get(user__username=each_user)
+
+            # the real code is above but it bug so i will use this for implement more feature at now. @koonwill
+            user = UserProfile.objects.get(user__username=topic_user)
+
+            topic.add_user(user)
+            bill.add_topic(topic)
+
             for user in bill.all_user:
                 each_user_payment = Payment.objects.create(user=user, bill=bill)
                 each_user_payment.save()
             bill.save()
 
-            return HttpResponseRedirect(reverse("bills:bill"))
-        return super(BillCreateView, self).post()
+            # return HttpResponseRedirect(reverse("bills:add", args=(bill.id,)))
+            return HttpResponseRedirect(reverse("bills:add", args=(bills.id,)))
+        return HttpResponseRedirect(reverse("bills:bill"))
 
 
 class DetailView(LoginRequiredMixin, generic.DetailView):

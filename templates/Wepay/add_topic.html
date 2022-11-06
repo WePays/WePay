@@ -4,14 +4,15 @@
 {{ block.super }}
 Create Bills
 {% endblock title%}
-Add_topic
+
 {% block body%}
-{% if not %}
+<br><br>
+
+{% for topic in all_topic %}
+{{topic.title}}      {{topic.price}}       {{topic.user}}
+{% endfor %}
+
 <h1>Add Topic</h1>
-
-{{ block.super }}
-{% endblock body %}
-
 <form action="" method="post">
     {% csrf_token %}
     {{ form.as_p }}
