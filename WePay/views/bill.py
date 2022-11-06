@@ -83,22 +83,18 @@ class BillCreateView(LoginRequiredMixin, generic.DetailView):
         try:
             user = request.user
             name = request.POST["title"]
-            price = request.POST["price"]
-            select_user = request.POST["user"]
             header = UserProfile.objects.get(user=user)
         except:
             messages.error(request, 'Please fill all field of form')
         else:
             bill = Bills.objects.create(name=name, header=header)
-            topic = Topic.objects.create(title=name, price=price, bill=bill, user=select_user)
             for user in bill.all_user:
                 each_user_payment = Payment.objects.create(user=user, bill=bill)
                 each_user_payment.save()
             bill.save()
-            topic.save()
 
             return HttpResponseRedirect(reverse("bills:bill"))
-        return super(BillCreateView, self).post()
+        return super(BillCreateView, self)
 
 
 class DetailView(LoginRequiredMixin, generic.DetailView):
