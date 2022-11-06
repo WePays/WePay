@@ -1,4 +1,4 @@
-from .bill import BillView, CreateView, DetailView
+from .bill import BillView, DetailView, BillCreateView
 from .aboutus import AboutUsView
 from .topic import AddTopicView
 from .payment import PaymentView
@@ -6,7 +6,7 @@ from .payment import PaymentView
 
 __all__ = [
     "BillView",
-    "CreateView",
+    "BillCreateView",
     "AboutUsView",
     "AddTopicView",
     "PaymentView",
