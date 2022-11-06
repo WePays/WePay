@@ -75,7 +75,7 @@ class BillCreateView(LoginRequiredMixin, generic.DetailView):
     def get(self, request, *args, **kwargs):
         user = request.user
         header = UserProfile.objects.get(user=user)
-        lst_user = UserProfile.objects.all
+        lst_user = UserProfile.objects.exclude(user=user)
         # get all user of the bills by calling bills.all_user
         return render(request, self.template_name, {"header": header, "lst_user":lst_user})
 
