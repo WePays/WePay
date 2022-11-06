@@ -11,10 +11,6 @@ class UserProfileView(DetailView):
     template_name = "Wepay/user_profile.html"
     Model = UserProfile
 
-    def __init__(self, **kwargs: Any) -> None:
-        super().__init__(**kwargs)
-
-
     def get(self, request, *args, **kwargs):
         user = request.user
         userprofile = UserProfile.objects.get(user=user)

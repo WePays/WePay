@@ -54,6 +54,24 @@ Create Bills
     <br>
     Bill's title 
     <input type="text" name="title" id="title" placeholder="Enter the title of the bill" required>
+    <br><br>
+    <h3> Initial Topic </h3>
+    Topic Name: <input type="text" name="topic_name" id="topic_name" placeholder="Enter the topic name" required>
+    <br>
+    Topic Price: <input type="number" min="0" name="topic_price" id="topic_price" placeholder="Enter the topic price" required>
+    <br>
+
+    <!--  BUG HEREEEEEEEEEEEEEEEEEEEE-->
+    <label for="username">Enter user to assign:</label>
+<select id="username" name="username"  multiple required>
+    {% for name in lst_user %}
+    <option value="{{name}}">{{name}}</option>
+    {% endfor %}
+</select>
+<input name="all_user" id="all_user" multiple="multiple" placeholder="username" list="username" required>
+    <!--  BUG HEREEEEEEEEEEEEEEEEEEEE-->
+
+
     {% if messages %}
     <ul class="messages">
         {% for message in messages %}
@@ -66,9 +84,7 @@ Create Bills
     </ul>
 </form>
 <br><br><br>
-na
-<form action=''>
-</form>
+
     {% else %}
     <a href="/accounts/login/">Sign Up</a>
     {% endif %}
