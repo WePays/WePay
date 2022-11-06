@@ -1,3 +1,4 @@
+# from unittest import skip
 from .setUp import BaseSetUp
 from django.contrib.auth.models import User
 from WePay.models.userprofile import UserProfile
@@ -26,7 +27,7 @@ class BillModelTest(BaseSetUp):
         """test all user."""
         self.pepsi.add_user(user=self.user1)
         self.coke.add_user(user=self.user2)
-        self.assertListEqual(self.bill.all_user, list(set(self.pepsi.user.all()).union(set(self.coke.user.all()))))
+        self.assertListEqual(self.bill.all_user, [self.pepsi.user, self.coke.user])
 
     def test_duplicate_user(self):
         """test when you add duplicate user."""

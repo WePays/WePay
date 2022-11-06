@@ -1,108 +1,210 @@
-body {
-	background: rgb(238,246,255);
-	background: linear-gradient(0deg, rgba(238,246,255,1) 10%, rgba(210,231,254,1) 26%, rgba(23,31,153,1) 90%);
-	background-repeat: no-repeat;
-	background-attachment: fixed;
-	margin: 0;
-	padding: 0;
+
+  body {
+    background: rgb(210,231,254);
+    background: linear-gradient(0deg, rgba(210,231,254,1) 0%, rgba(210,231,254,1) 56%, rgba(23,31,153,1) 100%);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    text-align: center;
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    border-radius: 10%;
+    text-align: center;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+.styled-table {
+border-collapse: collapse;
+margin: 25px 0;
+font-size: 0.9em;
+font-family: sans-serif;
+min-width: 400px;
+box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
-.navbar {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	background: #222A9B;
-	color: white;
+.styled-table thead tr {
+background-color: #171f99;
+color: #ffffff;
+font-size: large;
+font-weight: lighter;
+
 }
 
-.navbar {
-	font-size: 1.5rem;
-	margin: .5rem;
+.styled-table th, .style-table td {
+padding-block: 5%;
 }
 
-.nav-title {
-	color: white;
-	font-family: "HKGroteskRegular";
-	margin-left: 1%;
+.styled-table tbody tr {
+border-bottom: thin solid #dddddd;
 }
 
-
-.logo-image {
-	width: 7%;
-	height: 7%;
+.styled-table tbody tr:nth-of-type(even) {
+background-color: #f3f3f3;
 }
 
-.nav-menu ul{
-	margin: 0 auto;
-	padding: 0;
-	display: flex;
-	width: 100%;
-	list-style: none;
+.styled-table tbody tr:last-of-type {
+border-bottom: 2px solid #D2E7FE;
 }
 
-.nav-menu li{
-	list-style: none;
-	float: left;
+.styled-table tbody tr.paid {
+font-weight: bold;
+color: #1ba569;
 }
 
-.nav-menu li a{
-	text-decoration: none;
-	color: white;
-	padding: 1rem;
-	display: block;
-}
+.styled-table tbody tr.not-paid {
+    font-weight: bold;
+    color: #eb0c0c;
+    }
 
-.nav-menu li:hover{
-	background: #171f99;
-}
 
-.nav-item {
-	position: absolute;
-	top: .75rem;
-	right: 1rem;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	width: 1.5rem;
-	height: 1.5rem;
-}
-
-.nav-item nav-item-bar {
-	height: 3px;
-	width: 100%;
-	background-color: white;
-	border-radius: 10px;
-}
-
-@media (max-width: 400px) {
-	.nav-item {
+<<<<<<< Updated upstream
+=======
+	.nav-list {
+		width: 70%;
 		display: flex;
+		align-items: center;
 	}
 
-	.nav-menu {
-		display: none;
+	.logo {
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 
-	.navbar {
-		flex-direction: column;
-		align-items: flex-start;
+	.logo img {
+		width: 180px;
+		border-radius: 50px;
 	}
 
-	.nav-menu {
+	.nav-list li {
+		list-style: none;
+		padding: 26px 30px;
+	}
+
+	.nav-list li a {
+		text-decoration: none;
+		color: white;
+	}
+
+	.nav-list li a:hover {
+		color: grey;
+	}
+
+	.rightnav {
+		width: 30%;
+		text-align: right;
+	}
+
+	#search {
+		padding: 5px;
+		font-size: 17px;
+		border: 2px solid grey;
+		border-radius: 9px;
+	}
+
+	.background {
+		background-color: #D2E7FE;
 		width: 100%;
-		flex-direction: column;
 	}
 
-	.nav-menu li {
+	/* .secondsection {
+		background: none;
+		height: 400px;
+	} */
+
+	.box-main {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		color: black;
+		max-width: 80%;
+		margin: auto;
+		height: 80%;
+	}
+
+	.firsthalf {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}
+
+	.secondhalf {
+		width: 30%;
+	}
+
+	.secondhalf img {
+		width: 70%;
+		border: 4px solid white;
+		border-radius: 150px;
+		display: block;
+		margin: auto;
+	}
+
+	.text-big {
+		font-family: 'Piazzolla', serif;
+		font-weight: bold;
+		font-size: 35px;
+	}
+
+	.text-small {
+		font-size: 18px;
+	}
+
+	.btn {
+		padding: 8px 20px;
+		margin: 7px 0;
+		border: 2px solid white;
+		border-radius: 8px;
+		background: none;
+		color: white;
+		cursor: pointer;
+	}
+
+	.btn-sm {
+		padding: 6px 10px;
+		vertical-align: middle;
+	}
+
+	.section {
+		height: 400px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		max-width: 90%;
+		margin: auto;
+	}
+
+	.section-Left {
+		flex-direction: row-reverse;
+	}
+
+	.paras {
+		padding: 0px 65px;
+	}
+
+	.thumbnail img {
+		width: 250px;
+		border: 2px solid black;
+		border-radius: 26px;
+		margin-top: 19px;
+	}
+
+	.center {
 		text-align: center;
 	}
 
-	.nav-menu li a {
-		padding: 5rem 1rem;
-	}
-
-	.nav-menu.active {
+	.text-footer {
+		text-align: center;
+		padding: 30px 0;
+		font-family: 'Ubuntu', sans-serif;
 		display: flex;
+		justify-content: center;
+		color: white;
 	}
-}
 
+</style>
+>>>>>>> Stashed changes

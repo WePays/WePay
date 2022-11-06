@@ -1,5 +1,4 @@
-django==4.1
+django
 django-allauth
 python-decouple
 omise
-docutils

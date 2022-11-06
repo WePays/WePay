@@ -23,25 +23,27 @@ crossorigin="anonymous"><link rel="stylesheet" href="./style.css">
 	{% if redirect_field_value %}
 	<input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
 	{% endif %}
-	<button class="primaryAction" type="submit">{% trans "Login" %}</button>
+	<a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+	<button class="primaryAction" type="submit">{% trans "Sign In" %}</button>
   </form>
 		
 
 		 <p>Don't have an account? <a href={% url 'account_signup' %}>Create Your Account</a> Click Signup for create account</p>
 		{% comment %} <div class="inputs">
+			<input type="text" placeholder="user name">
+			<br>
+			<input type="password" placeholder="password">
 		</div>
 			
 			<br><br>
 			
 		<div class="remember-me--forget-password">
 
-			<label>
-				<input type="checkbox" name="remember-me" id="remember-me">
-				<span>Remember me</span>
-			</label>
-
-			<a href="{% url 'account_reset_password' %}" class="forget-password">Forget Password?</a>
-
+	<label>
+		<input type="checkbox" name="item" checked/>
+		<span class="text-checkbox">Remember me</span>
+	</label>
+	<a href="{% url 'account_reset_password' %}">Forgot Password?</button>
 		</div>
 			
 			<br>
@@ -49,4 +51,4 @@ crossorigin="anonymous"><link rel="stylesheet" href="./style.css">
 				<button type="button" onclick={% url 'account_login' %}>Login</button>
 
 	 </div> {% endcomment %}
-{% endblock content%}
+    {% endblock content%}

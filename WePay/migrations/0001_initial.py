@@ -16,190 +16,66 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name="Bills",
+            name='Bills',
             fields=[
-                (
-                    "id",
-                    models.BigAutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
-                ("name", models.CharField(max_length=100)),
-                (
-                    "pub_date",
-                    models.DateTimeField(default=django.utils.timezone.localtime),
-                ),
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('name', models.CharField(max_length=100)),
+                ('pub_date', models.DateTimeField(default=django.utils.timezone.localtime)),
             ],
             options={
-                "verbose_name": "Bill",
-                "verbose_name_plural": "Bills",
+                'verbose_name': 'Bill',
+                'verbose_name_plural': 'Bills',
             },
         ),
         migrations.CreateModel(
-            name="UserProfile",
+            name='UserProfile',
             fields=[
-                (
-                    "id",
-                    models.BigAutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
-                ("chain_key", models.CharField(default="", max_length=100)),
-                (
-                    "user",
-                    models.ForeignKey(
-                        blank=True,
-                        null=True,
-                        on_delete=django.db.models.deletion.CASCADE,
-                        to=settings.AUTH_USER_MODEL,
-                    ),
-                ),
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('chain_key', models.CharField(default='', max_length=100)),
+                ('user', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.CreateModel(
-            name="Topic",
+            name='Topic',
             fields=[
-                (
-                    "id",
-                    models.BigAutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
-                ("title", models.CharField(max_length=100)),
-                ("price", models.IntegerField(verbose_name="price")),
-                (
-                    "bill",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE, to="WePay.bills"
-                    ),
-                ),
-                (
-                    "user",
-                    models.ManyToManyField(
-                        related_name="topic", to="WePay.userprofile"
-                    ),
-                ),
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('title', models.CharField(max_length=100)),
+                ('price', models.IntegerField(verbose_name='price')),
+                ('bill', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='WePay.bills')),
+                ('user', models.ManyToManyField(related_name='topic', to='WePay.userprofile')),
             ],
         ),
         migrations.CreateModel(
-            name="OmisePayment",
+            name='OmisePayment',
             fields=[
-                (
-                    "id",
-                    models.BigAutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
-                ("date", models.DateTimeField(default=django.utils.timezone.localtime)),
-                (
-                    "status",
-                    models.CharField(
-                        choices=[
-                            ("PAID", "Paid"),
-                            ("PENDING", "Pending"),
-                            ("UNPAID", "Unpaid"),
-                        ],
-                        default="UNPAID",
-                        max_length=10,
-                    ),
-                ),
-                ("charge_id", models.CharField(blank=True, max_length=100, null=True)),
-                (
-                    "payment_type",
-                    models.CharField(
-                        choices=[
-                            ("promptpay", "Prompt Pay"),
-                            ("internet_banking_scb", "Scb"),
-                            ("internet_banking_ktb", "Stb"),
-                            ("internet_banking_bbl", "Bbl"),
-                            ("internet_banking_bay", "Bay"),
-                        ],
-                        default="promptpay",
-                        max_length=20,
-                    ),
-                ),
-                (
-                    "bill",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE, to="WePay.bills"
-                    ),
-                ),
-                (
-                    "user",
-                    models.ForeignKey(
-                        blank=True,
-                        null=True,
-                        on_delete=django.db.models.deletion.CASCADE,
-                        to="WePay.userprofile",
-                    ),
-                ),
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('date', models.DateTimeField(default=django.utils.timezone.localtime)),
+                ('status', models.CharField(choices=[('PAID', 'Paid'), ('PENDING', 'Pending'), ('UNPAID', 'Unpaid')], default='UNPAID', max_length=10)),
+                ('charge_id', models.CharField(blank=True, max_length=100, null=True)),
+                ('payment_type', models.CharField(choices=[('promptpay', 'Prompt Pay'), ('internet_banking_scb', 'Scb'), ('internet_banking_ktb', 'Stb'), ('internet_banking_bbl', 'Bbl'), ('internet_banking_bay', 'Bay')], default='promptpay', max_length=20)),
+                ('bill', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='WePay.bills')),
+                ('user', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='WePay.userprofile')),
             ],
             options={
-                "abstract": False,
+                'abstract': False,
             },
         ),
         migrations.CreateModel(
-            name="CashPayment",
+            name='CashPayment',
             fields=[
-                (
-                    "id",
-                    models.BigAutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
-                ("date", models.DateTimeField(default=django.utils.timezone.localtime)),
-                (
-                    "status",
-                    models.CharField(
-                        choices=[
-                            ("PAID", "Paid"),
-                            ("PENDING", "Pending"),
-                            ("UNPAID", "Unpaid"),
-                        ],
-                        default="UNPAID",
-                        max_length=10,
-                    ),
-                ),
-                (
-                    "bill",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE, to="WePay.bills"
-                    ),
-                ),
-                (
-                    "user",
-                    models.ForeignKey(
-                        blank=True,
-                        null=True,
-                        on_delete=django.db.models.deletion.CASCADE,
-                        to="WePay.userprofile",
-                    ),
-                ),
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('date', models.DateTimeField(default=django.utils.timezone.localtime)),
+                ('status', models.CharField(choices=[('PAID', 'Paid'), ('PENDING', 'Pending'), ('UNPAID', 'Unpaid')], default='UNPAID', max_length=10)),
+                ('bill', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='WePay.bills')),
+                ('user', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='WePay.userprofile')),
             ],
             options={
-                "abstract": False,
+                'abstract': False,
             },
         ),
         migrations.AddField(
-            model_name="bills",
-            name="header",
-            field=models.ForeignKey(
-                on_delete=django.db.models.deletion.CASCADE, to="WePay.userprofile"
-            ),
+            model_name='bills',
+            name='header',
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='WePay.userprofile'),
         ),
     ]

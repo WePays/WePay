@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Bills, Topic, UserProfile, Payment
+from .models import *  # Bills, Topic, BankPayment, CashPayment, PromptPayPayment
 
 
 class BillsAdmin(admin.ModelAdmin):
@@ -11,15 +11,26 @@ class TopicAdmin(admin.ModelAdmin):
     list_display = ("title", "price", "bill")
 
 
-class PaymentAdmin(admin.ModelAdmin):
-    list_display = ("user", "bill", "date", "status", "payment_type")
+class BankPaymentAdmin(admin.ModelAdmin):
+    list_display = (
+        "user",
+        "date",
+        "bill",
+        "status",
+        "bank_name",
+        "bank_account",
+        "name",
+    )
 
 
-class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ("user",)
+class CashPaymentAdmin(admin.ModelAdmin):
+    list_display = ("user", "date", "bill", "status")
+
+class OmisePaymentAdmin(admin.ModelAdmin):
+    list_display = ("user", "date", "bill", "status", "payment_type")
 
 
 admin.site.register(Bills, BillsAdmin)
 admin.site.register(Topic, TopicAdmin)
-admin.site.register(UserProfile, UserProfileAdmin)
-admin.site.register(Payment, PaymentAdmin)
+admin.site.register(OmisePayment, OmisePaymentAdmin)
+admin.site.register(CashPayment, CashPaymentAdmin)
