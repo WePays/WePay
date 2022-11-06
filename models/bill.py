@@ -15,7 +15,7 @@ class Bills(models.Model):
     """
 
     header = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100, null=True)
+    name = models.CharField(max_length=100)
     pub_date = models.DateTimeField(default=timezone.localtime)
 
     class Meta:

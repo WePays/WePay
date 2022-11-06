@@ -1,4 +1,5 @@
 {% extends 'WePay/base_wepay.html' %}
+{% load static %}
 
 {%block title%}
 {{ block.super }}
@@ -11,9 +12,9 @@ Create Bills
 
 {% block body%}
 
-{{ block.super }}
+{{block.super}}
 
-<script src="/wepay/create_bill.js"></script>
+<script src="{% static 'wepay/create_bill.js' %}"></script>
 {% if user.is_authenticated %}
 <form action="" method="POST">
     {% csrf_token %}
@@ -26,21 +27,41 @@ Create Bills
         <table class="styled-table" style="width: 60%; height: 50%;">
             <thead>
                 <tr>
-                    <th>Header{{form_bill.header}}</th>
-                    <th>Name{{form_bill.name}}</th>
+                    <th>Header :{{header}}</th>
+                    <th>Bill's title 
+                        <input type="text" name="title" id="title" placeholder="Enter the title of the bill" required>
+                    </th>
+                    <th>Price
+                        <input type="text" name="price" id="price" placeholder="Enter the Price" required>
+                    </th>
+                    
+                    <form action="" method="post">
+                    <th>Assign to:
+                        <input type="search" name="all_user" id="all_user" placeholder="username" list="username" required>
+                        <datalist id="username">
+                            {% for name in lst_user %}
+                            <option value="{{name}}"></option>
+                            {% endfor %}
+                        </datalist>
+                        <input type="submit" name="add_user" id="add_user" value="add user">
+                        <!-- {% for name in lst_user %}
+                        <input type="checkbox" name="all_user" id="all_user" placeholder="username" value="{{name}}">
+                        <label for="all_user">{{name}}</label>
+                        {% endfor %} -->
+                    </th>
+                    </form>
                 </tr>
             </thead>
 
-            <tbody>
-                <tr>
-                    <td>Title{{form_topic.title}}</td>
-                    <td>Price{{form_topic.price}}</td>
-                    <td>Assign{{form_topic.user}}</td>
-
-                </tr>
-            </tbody>
         </table>
     </div>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
 
     <div class="Create"><input type="submit" value="Create"></div>
 

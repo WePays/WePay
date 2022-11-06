@@ -48,6 +48,14 @@
   }
 },
 {
+  "model": "WePay.userprofile",
+  "pk": 7,
+  "fields": {
+    "user": 7,
+    "chain_key": ""
+  }
+},
+{
   "model": "WePay.bills",
   "pk": 1,
   "fields": {
@@ -306,6 +314,33 @@
     "header": 4,
     "name": "Thanadol",
     "pub_date": "2022-11-05T07:08:56.250Z"
+  }
+},
+{
+  "model": "WePay.bills",
+  "pk": 30,
+  "fields": {
+    "header": 4,
+    "name": "vdvdree",
+    "pub_date": "2022-11-05T07:31:21.397Z"
+  }
+},
+{
+  "model": "WePay.bills",
+  "pk": 31,
+  "fields": {
+    "header": 7,
+    "name": "banana",
+    "pub_date": "2022-11-05T07:40:03.191Z"
+  }
+},
+{
+  "model": "WePay.bills",
+  "pk": 32,
+  "fields": {
+    "header": 5,
+    "name": "tttt",
+    "pub_date": "2022-11-05T15:58:58.794Z"
   }
 },
 {
@@ -695,6 +730,50 @@
   }
 },
 {
+  "model": "WePay.topic",
+  "pk": 29,
+  "fields": {
+    "title": "veefve",
+    "price": 4,
+    "bill": 30,
+    "user": [
+      3,
+      4,
+      5,
+      6,
+      7
+    ]
+  }
+},
+{
+  "model": "WePay.topic",
+  "pk": 30,
+  "fields": {
+    "title": "papaya",
+    "price": 7,
+    "bill": 31,
+    "user": [
+      5,
+      6,
+      7
+    ]
+  }
+},
+{
+  "model": "WePay.topic",
+  "pk": 31,
+  "fields": {
+    "title": "mamamama",
+    "price": 4,
+    "bill": 32,
+    "user": [
+      4,
+      5,
+      6
+    ]
+  }
+},
+{
   "model": "WePay.payment",
   "pk": 1,
   "fields": {
@@ -910,6 +989,72 @@
     "user": 3,
     "date": null,
     "bill": 29,
+    "status": "UNPAID",
+    "payment_type": "Cash"
+  }
+},
+{
+  "model": "WePay.payment",
+  "pk": 21,
+  "fields": {
+    "user": 5,
+    "date": null,
+    "bill": 31,
+    "status": "UNPAID",
+    "payment_type": "Cash"
+  }
+},
+{
+  "model": "WePay.payment",
+  "pk": 22,
+  "fields": {
+    "user": 6,
+    "date": null,
+    "bill": 31,
+    "status": "UNPAID",
+    "payment_type": "Cash"
+  }
+},
+{
+  "model": "WePay.payment",
+  "pk": 23,
+  "fields": {
+    "user": 7,
+    "date": null,
+    "bill": 31,
+    "status": "UNPAID",
+    "payment_type": "Cash"
+  }
+},
+{
+  "model": "WePay.payment",
+  "pk": 24,
+  "fields": {
+    "user": 5,
+    "date": null,
+    "bill": 31,
+    "status": "UNPAID",
+    "payment_type": "Cash"
+  }
+},
+{
+  "model": "WePay.payment",
+  "pk": 25,
+  "fields": {
+    "user": 6,
+    "date": null,
+    "bill": 31,
+    "status": "UNPAID",
+    "payment_type": "Cash"
+  }
+},
+{
+  "model": "WePay.payment",
+  "pk": 26,
+  "fields": {
+    "user": 7,
+    "date": null,
+    "bill": 31,
     "status": "UNPAID",
     "payment_type": "Cash"
   }
@@ -1895,6 +2040,258 @@
 },
 {
   "model": "auth.permission",
+  "pk": 63,
+  "fields": {
+    "name": "Can delete social application",
+    "content_type": 16,
+    "codename": "delete_socialapp"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 64,
+  "fields": {
+    "name": "Can view social application",
+    "content_type": 16,
+    "codename": "view_socialapp"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 65,
+  "fields": {
+    "name": "Can add social application token",
+    "content_type": 17,
+    "codename": "add_socialtoken"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 66,
+  "fields": {
+    "name": "Can change social application token",
+    "content_type": 17,
+    "codename": "change_socialtoken"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 67,
+  "fields": {
+    "name": "Can delete social application token",
+    "content_type": 17,
+    "codename": "delete_socialtoken"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 68,
+  "fields": {
+    "name": "Can view social application token",
+    "content_type": 17,
+    "codename": "view_socialtoken"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 69,
+  "fields": {
+    "name": "Can add bay payment",
+    "content_type": 18,
+    "codename": "add_baypayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 70,
+  "fields": {
+    "name": "Can change bay payment",
+    "content_type": 18,
+    "codename": "change_baypayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 71,
+  "fields": {
+    "name": "Can delete bay payment",
+    "content_type": 18,
+    "codename": "delete_baypayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 72,
+  "fields": {
+    "name": "Can view bay payment",
+    "content_type": 18,
+    "codename": "view_baypayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 73,
+  "fields": {
+    "name": "Can add bbl payment",
+    "content_type": 19,
+    "codename": "add_bblpayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 74,
+  "fields": {
+    "name": "Can change bbl payment",
+    "content_type": 19,
+    "codename": "change_bblpayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 75,
+  "fields": {
+    "name": "Can delete bbl payment",
+    "content_type": 19,
+    "codename": "delete_bblpayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 76,
+  "fields": {
+    "name": "Can view bbl payment",
+    "content_type": 19,
+    "codename": "view_bblpayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 77,
+  "fields": {
+    "name": "Can add prompt pay payment",
+    "content_type": 20,
+    "codename": "add_promptpaypayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 78,
+  "fields": {
+    "name": "Can change prompt pay payment",
+    "content_type": 20,
+    "codename": "change_promptpaypayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 79,
+  "fields": {
+    "name": "Can delete prompt pay payment",
+    "content_type": 20,
+    "codename": "delete_promptpaypayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 80,
+  "fields": {
+    "name": "Can view prompt pay payment",
+    "content_type": 20,
+    "codename": "view_promptpaypayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 81,
+  "fields": {
+    "name": "Can add scb payment",
+    "content_type": 21,
+    "codename": "add_scbpayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 82,
+  "fields": {
+    "name": "Can change scb payment",
+    "content_type": 21,
+    "codename": "change_scbpayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 83,
+  "fields": {
+    "name": "Can delete scb payment",
+    "content_type": 21,
+    "codename": "delete_scbpayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 84,
+  "fields": {
+    "name": "Can view scb payment",
+    "content_type": 21,
+    "codename": "view_scbpayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 85,
+  "fields": {
+    "name": "Can add stb payment",
+    "content_type": 22,
+    "codename": "add_stbpayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 86,
+  "fields": {
+    "name": "Can change stb payment",
+    "content_type": 22,
+    "codename": "change_stbpayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 87,
+  "fields": {
+    "name": "Can delete stb payment",
+    "content_type": 22,
+    "codename": "delete_stbpayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 88,
+  "fields": {
+    "name": "Can view stb payment",
+    "content_type": 22,
+    "codename": "view_stbpayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 89,
+  "fields": {
+    "name": "Can add ktb payment",
+    "content_type": 23,
+    "codename": "add_ktbpayment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 90,
+  "fields": {
+    "name": "Can change ktb payment",
+    "content_type": 23,
+    "codename": "change_ktbpayment"
+  }
+},
+{
+  "model": "auth.permission",
   "pk": 91,
   "fields": {
     "name": "Can delete ktb payment",
@@ -2051,6 +2448,24 @@
     "is_staff": false,
     "is_active": true,
     "date_joined": "2022-11-01T07:40:14.092Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 7,
+  "fields": {
+    "password": "!M3vkP8IGemq9ND3O4PbD1OpSJtZQQAqTf4AYRfKC",
+    "last_login": "2022-11-05T15:58:40.349Z",
+    "is_superuser": false,
+    "username": "preawpan",
+    "first_name": "Preawpan",
+    "last_name": "THAMAPIPOL",
+    "email": "preawpan.t@ku.th",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2022-11-05T07:19:38.427Z",
     "groups": [],
     "user_permissions": []
   }
@@ -2345,10 +2760,26 @@
 },
 {
   "model": "sessions.session",
+  "pk": "ud3gtt3sxd24oi83ciwiybij7zgo9nmu",
+  "fields": {
+    "session_data": ".eJxVjEEOgyAURO_y140RBAR39SLkA59ISjFR6Kbp3VsbNy7nzcx7A3q_tlLti7YUEwVLT0wZptJyvoHFVhfbdtpsCjDBCBfm0D-oHAXmfODu1HX_zVnv3f2XqNTksaa1zOfrolpwXw4PkpGKHDIljHdeizH2LI6B8UHw4KSSYojKqSC1YJwr00ft3WC4ZE4JDZ8viYZHKA:1orDSs:0t7d9v8Y-t2GwNoa1P0h2QG8l4iwNiKGaPK3UQWyPlo",
+    "expire_date": "2022-11-19T07:19:38.451Z"
+  }
+},
+{
+  "model": "sessions.session",
   "pk": "wwgl1r1m6zif1kk3rf8617q0fg5vwz25",
   "fields": {
     "session_data": ".eJxVjMEOwiAQRP-FsyFgFygevfsNZFlYqRpISnsy_rtt0oMeZ96beYuA61LC2vMcpiQuQovTbxeRnrnuID2w3pukVpd5inJX5EG7vLWUX9fD_Tso2Mu2huiAjXHIOoMlQIqsB0_MBlPcItuM4NyZxyEqbb2ikXT2npQBRyw-XwvFOMo:1or9NO:JzXFuGQn_FrjqXaeV6-6sgWEWuxXXk2crzwfd1eIXSQ",
     "expire_date": "2022-11-19T02:57:42.011Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "wwls5gfo2t9m9gbrtrxtokpqcor3kq2g",
+  "fields": {
+    "session_data": ".eJxVjM0OwiAQhN-Fs2nK3xa82RdpdhdIGxuaCJyM766YHvQ438x8T7Fgq-vSSnwsWxBXMYnLLyPke8y9wH3veEDmo-U6fDdnXYbbJ8VcN8a6HXk-X3-qFcvaPRi9hUgowXgmdmZKo0xTkEobFciCNToBQbDOSKXAj8kxaa-sJDBOvN7DIDvC:1orLZA:s2V7lyTIE_OHJDLxt_uuPRoE7PkCe03n_t8uzcYXQnc",
+    "expire_date": "2022-11-19T15:58:40.351Z"
   }
 },
 {
@@ -2409,6 +2840,16 @@
   "fields": {
     "user": 5,
     "email": "thanadol.ud@ku.th",
+    "verified": true,
+    "primary": true
+  }
+},
+{
+  "model": "account.emailaddress",
+  "pk": 4,
+  "fields": {
+    "user": 7,
+    "email": "preawpan.t@ku.th",
     "verified": true,
     "primary": true
   }
@@ -2527,6 +2968,18 @@
     "last_login": "2022-11-04T17:16:45.786Z",
     "date_joined": "2022-11-01T07:40:14.103Z",
     "extra_data": "{\"login\": \"Tezigudo\", \"id\": 80502090, \"node_id\": \"MDQ6VXNlcjgwNTAyMDkw\", \"avatar_url\": \"https://avatars.githubusercontent.com/u/80502090?v=4\", \"gravatar_id\": \"\", \"url\": \"https://api.github.com/users/Tezigudo\", \"html_url\": \"https://github.com/Tezigudo\", \"followers_url\": \"https://api.github.com/users/Tezigudo/followers\", \"following_url\": \"https://api.github.com/users/Tezigudo/following{/other_user}\", \"gists_url\": \"https://api.github.com/users/Tezigudo/gists{/gist_id}\", \"starred_url\": \"https://api.github.com/users/Tezigudo/starred{/owner}{/repo}\", \"subscriptions_url\": \"https://api.github.com/users/Tezigudo/subscriptions\", \"organizations_url\": \"https://api.github.com/users/Tezigudo/orgs\", \"repos_url\": \"https://api.github.com/users/Tezigudo/repos\", \"events_url\": \"https://api.github.com/users/Tezigudo/events{/privacy}\", \"received_events_url\": \"https://api.github.com/users/Tezigudo/received_events\", \"type\": \"User\", \"site_admin\": false, \"name\": \"Preawpan Thamapipol\", \"company\": null, \"blog\": \"\", \"location\": \"Bangkok, Thailand\", \"email\": null, \"hireable\": null, \"bio\": \"KU - SKE19\\r\\nInterested in AI and machine learning\", \"twitter_username\": null, \"public_repos\": 22, \"public_gists\": 0, \"followers\": 46, \"following\": 98, \"created_at\": \"2021-03-12T04:00:19Z\", \"updated_at\": \"2022-11-01T08:58:50Z\"}"
+  }
+},
+{
+  "model": "socialaccount.socialaccount",
+  "pk": 6,
+  "fields": {
+    "user": 7,
+    "provider": "google",
+    "uid": "102104040772931581028",
+    "last_login": "2022-11-05T15:58:40.341Z",
+    "date_joined": "2022-11-05T07:19:38.440Z",
+    "extra_data": "{\"id\": \"102104040772931581028\", \"email\": \"preawpan.t@ku.th\", \"verified_email\": true, \"name\": \"Preawpan THAMAPIPOL\", \"given_name\": \"Preawpan\", \"family_name\": \"THAMAPIPOL\", \"picture\": \"https://lh3.googleusercontent.com/a/ALm5wu0rEvngsMVcCZdRhTo-1vzjnmZ5Lugfw--rEar2=s96-c\", \"locale\": \"en\", \"hd\": \"ku.th\"}"
   }
 }
 ]

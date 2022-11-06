@@ -11,25 +11,26 @@ class UploadTopicForm(ModelForm):
         model = Topic
         fields = ("title", "price", "user")
 
+        # bill = forms.TextInput()
+
+
 class UploadBillForm(ModelForm):
 
-    # header = forms.TextInput()
-    name = forms.TextInput()
-
     # def __init__(self, *args, **kwargs):
-    #     self.request = kwargs.pop('request')
+    #     # self.request = kwargs.pop('request')
     #     super(UploadBillForm, self).__init__(*args, **kwargs)
     #     self.fields['header'].queryset = UserProfile.objects.filter(user=self.request.user)
 
     class Meta:
         model = Bills
-        fields = ("name",)
+        fields = ("header", "name")
 
+        header = forms.TextInput()
+        name = forms.TextInput()
 
-    def save(self, topic: Topic, bill:Bills, commit: bool = ...):
+    def save(self, topic: Topic, commit: bool = ...):
         super().save(commit)
         topic.bill = self.instance
-        bill.header = self.instance
         topic.save()
         return super().save(commit)
 
