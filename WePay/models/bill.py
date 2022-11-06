@@ -16,6 +16,7 @@ class Bills(models.Model):
     header = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     name = models.CharField(max_length=100, null=True)
     pub_date = models.DateTimeField(default=timezone.localtime)
+    is_created = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = "Bill"

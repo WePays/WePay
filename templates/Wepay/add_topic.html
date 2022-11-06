@@ -6,11 +6,11 @@ Create Bills
 {% endblock title%}
 Add_topic
 {% block body%}
-
+{% if not %}
 <h1>Add Topic</h1>
 
 {{ block.super }}
-{% endblock body%}
+{% endblock body %}
 
 <form action="" method="post">
     {% csrf_token %}
