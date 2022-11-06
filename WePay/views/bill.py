@@ -94,7 +94,7 @@ class BillCreateView(LoginRequiredMixin, generic.DetailView):
             bill.save()
 
             return HttpResponseRedirect(reverse("bills:bill"))
-        return super(BillCreateView, self)
+        return super(BillCreateView, self).post()
 
 
 class DetailView(LoginRequiredMixin, generic.DetailView):
