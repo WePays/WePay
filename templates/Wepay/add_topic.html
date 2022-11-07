@@ -44,5 +44,9 @@ Total price: {{bill.total_price}}
 <br> <br>
 
 {# make a create button#}
+<form action="{% url 'bills:success' bill.id %}" method="post">
+    {% csrf_token %}
+    <input type="submit" value="Create Bill">
+</form>
 
 {% endblock body%}

@@ -37,7 +37,8 @@
       <tbody>
         <tr>
           <td>{{forloop.counter0|add:"1"}}</td><style>td{padding: 1%;}</style>
-          <td>{{ bill.name }}</td>
+          {% comment %} <td>{{ bill.name }}</td> {% endcomment %}
+          <td> <a href="{% url 'bills:detail' bill.id %}"> {{ bill.name }}</a></td>
           <td>{{ bill.total_price}}</td>
           <td>not paid</td>
           <td>status</td>

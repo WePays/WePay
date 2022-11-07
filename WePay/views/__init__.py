@@ -1,7 +1,7 @@
-from .bill import BillView, DetailView, BillCreateView
+from .bill import BillView, DetailView, BillCreateView, create
 from .payment import PaymentView, PaymentDetailView
 from .userprofile import UserProfileView
-from .topic import AddTopicView, create
+from .topic import AddTopicView
 
 
 __all__ = [

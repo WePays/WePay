@@ -40,10 +40,3 @@ class AddTopicView(LoginRequiredMixin, generic.DetailView):
         topic.add_user(user)
 
         return HttpResponseRedirect(reverse("bills:add", args=(bill.id,)))
-
-
-def create(request: HttpRequest, pk: int):
-    bill = Bills.objects.get(pk=pk)
-    bill.is_created = True
-    bill.save()
-    return HttpResponseRedirect(reverse("bills:bill"))

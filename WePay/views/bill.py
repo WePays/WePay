@@ -94,3 +94,10 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
             messages.error(request, "Bill dosen't exist")
             return HttpResponseRedirect(reverse("bills:bill"))
         return render(request, "Wepay/detail.html", {"bill": bill})
+
+
+def create(request: HttpRequest, pk: int):
+    bill = Bills.objects.get(pk=pk)
+    bill.is_created = True
+    bill.save()
+    return HttpResponseRedirect(reverse("bills:bill"))
