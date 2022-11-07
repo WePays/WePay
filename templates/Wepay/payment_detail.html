@@ -1,0 +1,19 @@
+{% extends 'WePay/base_wepay.html' %}
+{% block body %}
+<br><br>
+Pay to {{payment.bill.header}}
+<br>
+Status: {{status}}
+<br>
+{{payment_type}}
+<br>
+
+<label for="payment">Select Payment type</label>
+<select id="payment" name="payment_type" required>
+{% for name in payment.PaymentChoice %}
+<option value="{{name}}">{{name}}</option>
+{% endfor %}
+</select>
+
+
+{% endblock body %}

@@ -1,10 +1,8 @@
-from typing import Any
-
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpRequest, HttpResponse, HttpResponseRedirect, Http404
-from django.urls import reverse, reverse_lazy
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
+from django.urls import reverse
 from django.views import generic
 
 from ..models import Bills, Payment, Topic, UserProfile
@@ -32,42 +30,6 @@ class BillView(LoginRequiredMixin, generic.ListView):
         )
 
 
-# class CreateView(LoginRequiredMixin, generic.CreateView):
-#     """views for create some bills."""
-
-#     template_name = "Wepay/create_bills.html"
-#     model = Bills
-#     form_class = UploadBillForm
-#     success_url = reverse_lazy("bills:bill")
-
-#     def get_form_kwargs(self):
-#         print('HELLOOOOOOOOOOO')
-#         kwargs = super(CreateView, self).get_form_kwargs()
-#         kwargs.update({"request": self.request})
-#         return kwargs
-
-#     def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
-
-#         return render(
-#             request,
-#             "Wepay/create_bills.html",
-#             {"form_topic": UploadTopicForm, "form_bill": UploadBillForm},
-#         )
-
-#     def post(self, request, *args, **kwargs):
-#         user = request.user
-#         form_topic = UploadTopicForm(request.POST)
-#         # request.POST['bill']
-#         form_bill = UploadBillForm(request.POST)
-#         if form_topic.is_valid() and form_bill.is_valid():
-#             form_topic.save()
-#             form_bill.save(form_topic.instance)
-#             all_bill = Bills.objects.filter(header__user=user).last()
-#             for user in all_bill.all_user:
-#                 each_user_payment = Payment.objects.create(user=user, bill=all_bill)
-#                 each_user_payment.save()
-#         return HttpResponseRedirect(reverse("bills:bill"))
-
 class BillCreateView(LoginRequiredMixin, generic.DetailView):
     template_name = "Wepay/create_bills.html"
     model = Bills
@@ -75,27 +37,45 @@ class BillCreateView(LoginRequiredMixin, generic.DetailView):
     def get(self, request, *args, **kwargs):
         user = request.user
         header = UserProfile.objects.get(user=user)
-        lst_user = UserProfile.objects.exclude(user=user)
+        lst_user = UserProfile.objects.all()
         # get all user of the bills by calling bills.all_user
-        return render(request, self.template_name, {"header": header, "lst_user":lst_user})
+        return render(
+            request, self.template_name, {"header": header, "lst_user": lst_user}
+        )
 
     def post(self, request, *args, **kwargs):
         try:
             user = request.user
             name = request.POST["title"]
-            # name = request.POST.getlist('lst_user')
+            topic_name = request.POST["topic_name"]
+            topic_user = request.POST.getlist("username")  # ! BUG HERE
+            topic_price = request.POST["topic_price"]
             header = UserProfile.objects.get(user=user)
         except:
-            messages.error(request, 'Please fill all field of form')
+            messages.error(request, "Please fill all field of form")
         else:
             bill = Bills.objects.create(name=name, header=header)
+            topic = Topic.objects.create(title=topic_name, price=topic_price, bill=bill)
+            print(topic_user)
+            for each_user in topic_user:
+            # TODO: Fix this
+                print(each_user)
+                user = UserProfile.objects.get(user__username=each_user)
+
+            # the real code is above but it bug so i will use this for implement more feature at now. @koonwill
+            # user = UserProfile.objects.get(user__username=topic_user)
+
+                topic.add_user(user)
+                bill.add_topic(topic)
+
             for user in bill.all_user:
                 each_user_payment = Payment.objects.create(user=user, bill=bill)
                 each_user_payment.save()
             bill.save()
 
-            return HttpResponseRedirect(reverse("bills:bill"))
-        return super(BillCreateView, self).post()
+            # return HttpResponseRedirect(reverse("bills:add", args=(bill.id,)))
+            return HttpResponseRedirect(f'/bill/{bill.id}/add')
+        return HttpResponseRedirect(reverse("bills:bill"))
 
 
 class DetailView(LoginRequiredMixin, generic.DetailView):
@@ -114,3 +94,10 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
             messages.error(request, "Bill dosen't exist")
             return HttpResponseRedirect(reverse("bills:bill"))
         return render(request, "Wepay/detail.html", {"bill": bill})
+
+
+def create(request: HttpRequest, pk: int):
+    bill = Bills.objects.get(pk=pk)
+    bill.is_created = True
+    bill.save()
+    return HttpResponseRedirect(reverse("bills:bill"))

@@ -15,11 +15,11 @@ Create Bills
 <!-- <script src="{% static 'wepay/create_bill.js' %}"></script> -->
 <form action="" method="POST">
     {% csrf_token %}
-   - <div id="chartpanel" class="row" data-equalizer style="margin-left: 20%; margin-top: 15%;">
+   <!-- - <div id="chartpanel" class="row" data-equalizer style="margin-left: 20%; margin-top: 15%;">
 
-        <div class="icon"><i class="fa fa-info" aria-hidden="true"></i></div>
+        <div class="icon"><i class="fa fa-info" aria-hidden="true"></i></div> -->
         <!-- <table class="styled-table" style="width: 60%; height: 50%;"> -->
-            <thead>
+            <!-- <thead>
                 <tr>
                     <th>Header :{{header}}</th>
                     <br>
@@ -34,65 +34,64 @@ Create Bills
                     <form action="" method="post">
                         <th>
                             <label>
-                                Assign to:
+                                Assign to: -->
                                 <!-- <input type="search" name="all_user" id="all_user" placeholder="username" list="username" required> -->
-                            </label>
+                            <!-- </label>
                             <select id="username" multiple>
                                 {% for name in lst_user %}
                                     <option value="{{name}}">{{name}}</option>
                                 {% endfor %}
                             </select>
                             <br>
-                            <input type="submit" name="add_user" id="add_user" value="Create Bill">
+                            <input type="submit" name="add_user" id="add_user" value="Create Bill"> -->
                                 <!-- {% for name in lst_user %}
                             <input type="checkbox" name="all_user" id="all_user" placeholder="username" value="{{name}}">
                             <label for="all_user">{{name}}</label>
                             {% endfor %} -->
-                        </th>
+                        <!-- </th>
                     </form>
                 </tr>
             </thead>
-        <!-- </table> -->
-    </div>
-<!-- <form>
-    <ul>
-        <div>
-            <br>
-                Header : {{header}}
-            <br>
-                Bill's Title : <input type="text" name="title" id="title" placeholder="Enter the title of the bill" required>
-                {% if messages %}
-            <ul class="messages">
-                    {% for message in messages %}
-                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                    {% endfor %}
-            </ul>
-                {% endif %}
-            <br>
-                Price : <input type="text" name="price" id="price" placeholder="Enter the Price" required>
-            <br>
-            <label>
-                Assign to :
-                <link href="{% static 'wepay/css/mobiscroll.javascript.min.css' %}" rel="stylesheet" />
-                <script src="{% static 'wepay/js/mobiscroll.javascript.min.js' %}"></script>
-                <script src="{% static 'wepay/multiple_select.js' %}"></script>
-                <input mbsc-input data-dropdown="true" type="search" name="all_user" id="all_user" placeholder="Username" list="username" required>
-            </label> -->
-            <!-- <datalist id="username"> -->
-            <!-- <select id="multiple-select" name="username" multiple >
-                {% for name in lst_user %}
-                    <option value="{{name}}">{{name}}</option>
-                {% endfor %}
-            </select> -->
-            <!-- </datalist> -->
-        <!-- </div>
-        <div class="Create"><input type="submit" value="Create"></div>
+
+        </table>
+    </div> -->
+
+    Header :{{header}}
+    <br>
+    Bill's title 
+    <input type="text" name="title" id="title" placeholder="Enter the title of the bill" required>
+    <br><br>
+    <h3> Initial Topic </h3>
+    Topic Name: <input type="text" name="topic_name" id="topic_name" placeholder="Enter the topic name" required>
+    <br>
+    Topic Price: <input type="number" min="0" name="topic_price" id="topic_price" placeholder="Enter the topic price" required>
+    <br>
+
+    <!--  BUG HEREEEEEEEEEEEEEEEEEEEE-->
+    <label for="username">Enter user to assign:</label>
+<select id="username" name="username"  multiple required>
+    {% for name in lst_user %}
+    <option value="{{name}}">{{name}}</option>
+    {% endfor %}
+</select>
+{% comment %} <input name="all_user" id="all_user" multiple="multiple" placeholder="username" list="username" required> {% endcomment %}
+    <!--  BUG HEREEEEEEEEEEEEEEEEEEEE-->
+
+
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
     </ul>
-</form> -->
-<!-- <br><br><br> -->
-<!-- <form action=''>
-</form> -->
-{% else %}
+    {% endif %}
+
+    <div class="Create"><input type="submit" value="Create"></div>
+    {% comment %} </ul> {% endcomment %}
+</form>
+<br><br><br>
+
+    {% else %}
     <a href="/accounts/login/">Sign Up</a>
 {% endif %}
 

@@ -1,11 +1,11 @@
 import logging
-from typing import List, Union
-from django.db import models
-from django.contrib.auth.models import User
-from django.utils import timezone
-from .userprofile import UserProfile
+from typing import List
 
 import omise
+from django.db import models
+from django.utils import timezone
+
+from .userprofile import UserProfile
 
 
 class Bills(models.Model):
@@ -17,6 +17,7 @@ class Bills(models.Model):
     header = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     name = models.CharField(max_length=100, null=True)
     pub_date = models.DateTimeField(default=timezone.localtime)
+    is_created = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = "Bill"
@@ -117,5 +118,6 @@ class Topic(models.Model):
     def add_user(self, user):
         if user not in self.user.all():
             self.user.add(user)
+            self.save()
         else:
             logging.info("user already in this food")
