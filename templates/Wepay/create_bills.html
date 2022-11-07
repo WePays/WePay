@@ -13,77 +13,82 @@ Create Bills
 {% if user.is_authenticated %}
 
 <!-- <script src="{% static 'wepay/create_bill.js' %}"></script> -->
-<!-- <form action="" method="POST"> -->
+<form action="" method="POST">
     {% csrf_token %}
-   <!--- <div id="chartpanel" class="row" data-equalizer style="margin-left: 20%; margin-top: 15%;">
+   - <div id="chartpanel" class="row" data-equalizer style="margin-left: 20%; margin-top: 15%;">
 
-            <div class="icon"><i class="fa fa-info" aria-hidden="true"></i></div>
-        <table class="styled-table" style="width: 60%; height: 50%;">
+        <div class="icon"><i class="fa fa-info" aria-hidden="true"></i></div>
+        <!-- <table class="styled-table" style="width: 60%; height: 50%;"> -->
             <thead>
                 <tr>
                     <th>Header :{{header}}</th>
-                    <th>Bill's title 
-                        <input type="text" name="title" id="title" placeholder="Enter the title of the bill" required>
-                    </th>
-                    {% comment %} <th>Price
-                        <input type="text" name="price" id="price" placeholder="Enter the Price" required>
-                    </th> {% endcomment %}
-                    <br><br>
-                    
+                    <br>
+                        <th>
+                            Bill's title : <input type="text" name="title" id="title" placeholder="Enter the title of the bill" required>
+                        </th>
+                    <br>
+                        <th>
+                            Price : <input type="text" name="price" id="price" placeholder="Enter the Price" required>
+                        </th>
+                    <br>
                     <form action="" method="post">
-                    <th>Assign to:
-                        <input type="search" name="all_user" id="all_user" placeholder="username" list="username" required>
-                        <datalist id="username">
-                            {% for name in lst_user %}
-                            <option value="{{name}}"></option>
-                            {% endfor %}
-                        </datalist>
-                        <input type="submit" name="add_user" id="add_user" value="add user">
-                             {% for name in lst_user %}
-                        <input type="checkbox" name="all_user" id="all_user" placeholder="username" value="{{name}}">
-                        <label for="all_user">{{name}}</label>
-                        {% endfor %} 
-                    </th>
+                        <th>
+                            <label>
+                                Assign to:
+                                <!-- <input type="search" name="all_user" id="all_user" placeholder="username" list="username" required> -->
+                            </label>
+                            <select id="username" multiple>
+                                {% for name in lst_user %}
+                                    <option value="{{name}}">{{name}}</option>
+                                {% endfor %}
+                            </select>
+                            <br>
+                            <input type="submit" name="add_user" id="add_user" value="Create Bill">
+                                <!-- {% for name in lst_user %}
+                            <input type="checkbox" name="all_user" id="all_user" placeholder="username" value="{{name}}">
+                            <label for="all_user">{{name}}</label>
+                            {% endfor %} -->
+                        </th>
                     </form>
                 </tr>
             </thead>
-        </table>
-    </div> -->
-<form>
+        <!-- </table> -->
+    </div>
+<!-- <form>
     <ul>
         <div>
             <br>
-            Header : {{header}}
+                Header : {{header}}
             <br>
-            Bill's Title : <input type="text" name="title" id="title" placeholder="Enter the title of the bill" required>
-            {% if messages %}
+                Bill's Title : <input type="text" name="title" id="title" placeholder="Enter the title of the bill" required>
+                {% if messages %}
             <ul class="messages">
-                {% for message in messages %}
-                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                {% endfor %}
+                    {% for message in messages %}
+                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
             </ul>
-            {% endif %}
+                {% endif %}
             <br>
-            Price : <input type="text" name="price" id="price" placeholder="Enter the Price" required>
+                Price : <input type="text" name="price" id="price" placeholder="Enter the Price" required>
             <br>
             <label>
-            Assign to :
-            <link href="{% static 'wepay/css/mobiscroll.javascript.min.css' %}" rel="stylesheet" />
-            <script src="{% static 'wepay/js/mobiscroll.javascript.min.js' %}"></script>
-            <!-- <script src="{% static 'wepay/multiple_select.js' %}"></script> -->
-            <input mbsc-input id="myinput" data-dropdown="true" type="search" name="all_user" id="all_user" placeholder="username" list="username" required>
+                Assign to :
+                <link href="{% static 'wepay/css/mobiscroll.javascript.min.css' %}" rel="stylesheet" />
+                <script src="{% static 'wepay/js/mobiscroll.javascript.min.js' %}"></script>
+                <script src="{% static 'wepay/multiple_select.js' %}"></script>
+                <input mbsc-input data-dropdown="true" type="search" name="all_user" id="all_user" placeholder="Username" list="username" required>
+            </label> -->
             <!-- <datalist id="username"> -->
-            <select id="multiple-select" name="username" multiple >
+            <!-- <select id="multiple-select" name="username" multiple >
                 {% for name in lst_user %}
                     <option value="{{name}}">{{name}}</option>
                 {% endfor %}
-            </select>
-            </label>
+            </select> -->
             <!-- </datalist> -->
-        </div>
+        <!-- </div>
         <div class="Create"><input type="submit" value="Create"></div>
     </ul>
-</form>
+</form> -->
 <!-- <br><br><br> -->
 <!-- <form action=''>
 </form> -->

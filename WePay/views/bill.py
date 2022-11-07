@@ -83,6 +83,7 @@ class BillCreateView(LoginRequiredMixin, generic.DetailView):
         try:
             user = request.user
             name = request.POST["title"]
+            # name = request.POST.getlist('lst_user')
             header = UserProfile.objects.get(user=user)
         except:
             messages.error(request, 'Please fill all field of form')
