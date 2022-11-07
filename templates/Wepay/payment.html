@@ -28,7 +28,7 @@
                 Paid
             {% else %}
                 <!-- This may be another link to choose payment platform then pay(link to below link)-->
-                {% comment %} <a href="{% url 'wepay:pay' payment.id %}">Pay</a> {% endcomment %}
+                 <a href="{% url 'payments:detail' payment.id %}">Pay</a>
                 {% endif %}
           </td>
           <td>{{payment.bill.header}} </td>

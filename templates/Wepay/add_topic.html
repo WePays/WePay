@@ -43,7 +43,6 @@ Topic Price: <input type="number" min="0" name="topic_price" id="topic_price" pl
 Total price: {{bill.total_price}}
 <br> <br>
 
-{# make a create button#}
 <form action="{% url 'bills:success' bill.id %}" method="post">
     {% csrf_token %}
     <input type="submit" value="Create Bill">
