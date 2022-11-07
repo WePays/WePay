@@ -57,8 +57,10 @@ class BillCreateView(LoginRequiredMixin, generic.DetailView):
             bill = Bills.objects.create(name=name, header=header)
             topic = Topic.objects.create(title=topic_name, price=topic_price, bill=bill)
             print(topic_user)
+            # Loop to check that user is exist or not
             for each_user in topic_user:
             # TODO: Fix this
+
                 print(each_user)
                 user = UserProfile.objects.get(user__username=each_user)
 
