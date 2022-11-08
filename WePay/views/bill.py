@@ -48,25 +48,18 @@ class BillCreateView(LoginRequiredMixin, generic.DetailView):
             user = request.user
             name = request.POST["title"]
             topic_name = request.POST["topic_name"]
-            topic_user = request.POST.getlist("username")  # ! BUG HERE
+            topic_user = request.POST.getlist("username")
             topic_price = request.POST["topic_price"]
             header = UserProfile.objects.get(user=user)
-        except:
-            messages.error(request, "Please fill all field of form")
+        except Exception as e:
+            messages.error(request, f"Error occured: {e}")
         else:
             bill = Bills.objects.create(name=name, header=header)
             topic = Topic.objects.create(title=topic_name, price=topic_price, bill=bill)
-            print(topic_user)
-            # Loop to check that user is exist or not
+
             for each_user in topic_user:
-            # TODO: Fix this
 
-                print(each_user)
                 user = UserProfile.objects.get(user__username=each_user)
-
-            # the real code is above but it bug so i will use this for implement more feature at now. @koonwill
-            # user = UserProfile.objects.get(user__username=topic_user)
-
                 topic.add_user(user)
                 bill.add_topic(topic)
 
@@ -75,7 +68,6 @@ class BillCreateView(LoginRequiredMixin, generic.DetailView):
                 each_user_payment.save()
             bill.save()
 
-            # return HttpResponseRedirect(reverse("bills:add", args=(bill.id,)))
             return HttpResponseRedirect(f'/bill/{bill.id}/add')
         return HttpResponseRedirect(reverse("bills:bill"))
 

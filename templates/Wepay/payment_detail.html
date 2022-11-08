@@ -8,12 +8,12 @@ Status: {{status}}
 {{payment_type}}
 <br> {% endcomment %}
 <br>
-{% if payment.bill.header.chain %}
-hoyaaa
-{% endif %}
-<label for="payment">Select Payment type:</label>
 
-<select id="payment" name="payment_type" required>
+
+<label for="payment">Select Payment type:</label>
+<form action="" method="post">
+    {% csrf_token %}
+<select id="payment_type" name="payment_type" required>
 {% for each_type in payment.PaymentChoice %}
 {% if each_type != 'Cash' and not payment.bill.header.chain %}
 <option value="{{each_type}}" disabled>{{each_type}}</option>
@@ -21,7 +21,11 @@ hoyaaa
 <option value="{{each_type}}">{{each_type}}</option>
 {% endif %}
 {% endfor %}
-</select> 
+</select>
+
+
+    <input type="submit" value="Pay">
+</form>
 
 
 {% endblock body %}
