@@ -8,3 +8,4 @@ omit =
     WePay/*_urls.py
     */__init__.py
     WePay/admin.py
+    templates/*
