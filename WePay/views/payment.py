@@ -36,7 +36,7 @@ class PaymentDetailView(LoginRequiredMixin, generic.DetailView):
         return render(
             request,
             self.template_name,
-            {"payment": payment, "status": status, "payment_type": payment_type},
+            {"payment": payment, "status": status, "payment_type": payment_type}
         )
 
     def post(self, request, *args, **kwargs):

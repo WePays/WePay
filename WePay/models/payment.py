@@ -53,9 +53,7 @@ class Payment(models.Model):
         if self.user == self.bill.header:
             self.user.status = self.Status_choice.PAID
 
-    def __init_subclass__(cls) -> None:
-        super().__init_subclass__()
-        cls.__str__ = cls.__repr__
+
 
     def get_status(self):
         return self.status
