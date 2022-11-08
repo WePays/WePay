@@ -144,44 +144,20 @@ class OmisePayment(BasePayment):
         self.save()
         return self.payment.status
 
-    def __repr__(self) -> str:
-        return f"{super().__repr__()[:-1]} Paid by {self.payment_type})"
-
-
 class PromptPayPayment(OmisePayment):
     payment_type = "promptpay"
-
-    def __repr__(self) -> str:
-        return f"{super().__repr__()[:-1]} Paid by {self.payment_type})"
-
 
 class SCBPayment(OmisePayment):
     payment_type = "internet_banking_scb"
 
-    def __repr__(self) -> str:
-        return f"{super().__repr__()[:-1]} Paid by {self.payment_type})"
-
-
 class KTBPayment(OmisePayment):
     payment_type = "internet_banking_ktb"
-
-    def __repr__(self) -> str:
-        return f"{super().__repr__()[:-1]} Paid by {self.payment_type})"
-
 
 class BBLPayment(OmisePayment):
     payment_type = "internet_banking_bbl"
 
-    def __repr__(self) -> str:
-        return f"{super().__repr__()[:-1]} Paid by {self.payment_type})"
-
-
 class BAYPayment(OmisePayment):
     payment_type = "internet_banking_bay"
-
-    def __repr__(self) -> str:
-        return f"{super().__repr__()[:-1]} Paid by {self.payment_type})"
-
 
 class CashPayment(BasePayment):
     def pay(self):
