@@ -1,48 +1,54 @@
 {% extends 'WePay/base_wepay.html' %}
-<!-- {% load static %} -->
+{% load static %}
 
-{%block title%}
+{% block title %}
 {{ block.super }}
 Create Bills
-{% endblock title%}
+{% endblock title %}
 
 
-{% block body%}
+{% block body %}
 {{ block.super }}
+
 {% if user.is_authenticated %}
 
 <!-- <script src="{% static 'wepay/create_bill.js' %}"></script> -->
 <form action="" method="POST">
     {% csrf_token %}
-   <!--- <div id="chartpanel" class="row" data-equalizer style="margin-left: 20%; margin-top: 15%;">
+   <!-- - <div id="chartpanel" class="row" data-equalizer style="margin-left: 20%; margin-top: 15%;">
 
-            <div class="icon"><i class="fa fa-info" aria-hidden="true"></i></div>
-        <table class="styled-table" style="width: 60%; height: 50%;">
-            <thead>
+        <div class="icon"><i class="fa fa-info" aria-hidden="true"></i></div> -->
+        <!-- <table class="styled-table" style="width: 60%; height: 50%;"> -->
+            <!-- <thead>
                 <tr>
                     <th>Header :{{header}}</th>
-                    <th>Bill's title 
-                        <input type="text" name="title" id="title" placeholder="Enter the title of the bill" required>
-                    </th>
-                    {% comment %} <th>Price
-                        <input type="text" name="price" id="price" placeholder="Enter the Price" required>
-                    </th> {% endcomment %}
-                    <br><br>
-                    
+                    <br>
+                        <th>
+                            Bill's title : <input type="text" name="title" id="title" placeholder="Enter the title of the bill" required>
+                        </th>
+                    <br>
+                        <th>
+                            Price : <input type="text" name="price" id="price" placeholder="Enter the Price" required>
+                        </th>
+                    <br>
                     <form action="" method="post">
-                    <th>Assign to:
-                        <input type="search" name="all_user" id="all_user" placeholder="username" list="username" required>
-                        <datalist id="username">
-                            {% for name in lst_user %}
-                            <option value="{{name}}"></option>
-                            {% endfor %}
-                        </datalist>
-                        <input type="submit" name="add_user" id="add_user" value="add user">
-                        <!-- {% for name in lst_user %}
-                        <input type="checkbox" name="all_user" id="all_user" placeholder="username" value="{{name}}">
-                        <label for="all_user">{{name}}</label>
-                        {% endfor %} 
-                    </th>
+                        <th>
+                            <label>
+                                Assign to: -->
+                                <!-- <input type="search" name="all_user" id="all_user" placeholder="username" list="username" required> -->
+                            <!-- </label>
+                            <select id="username" multiple>
+                                {% for name in lst_user %}
+                                    <option value="{{name}}">{{name}}</option>
+                                {% endfor %}
+                            </select>
+                            <br>
+                            <input type="submit" name="add_user" id="add_user" value="Create Bill"> -->
+                                <!-- {% for name in lst_user %}
+                            <input type="checkbox" name="all_user" id="all_user" placeholder="username" value="{{name}}">
+                            <label for="all_user">{{name}}</label>
+                            {% endfor %} -->
+                        <!-- </th>
                     </form>
                 </tr>
             </thead>
@@ -97,7 +103,7 @@ Create Bills
 
     {% else %}
     <a href="/accounts/login/">Sign Up</a>
-    {% endif %}
+{% endif %}
 
 {% endblock body%}
 

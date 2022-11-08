@@ -1,7 +1,8 @@
 {% extends 'WePay/base_wepay.html' %}
 
 {% block body %}
-{{block.super}}
+<h1>Need to pay</h1>
+<br>
 {% if my_payment %}
 <ul>
     <table class="styled-table" style="width: 60%; height: 50%; text-align: center;">
@@ -28,7 +29,7 @@
                 Paid
             {% else %}
                 <!-- This may be another link to choose payment platform then pay(link to below link)-->
-                {% comment %} <a href="{% url 'wepay:pay' payment.id %}">Pay</a> {% endcomment %}
+                 <a href="{% url 'payments:detail' payment.id %}">Pay</a>
                 {% endif %}
           </td>
           <td>{{payment.bill.header}} </td>

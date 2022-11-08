@@ -35,7 +35,7 @@ class Payment(models.Model):
     )
 
     class PaymentChoice(models.TextChoices):
-        """"""
+        """choice for payment"""
 
         CASH = "Cash"
         PROMPTPAY = "PromptPay"
@@ -49,22 +49,18 @@ class Payment(models.Model):
     )
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
+        """set header status to paid"""
         super().__init__(*args, **kwargs)
         if self.user == self.bill.header:
             self.user.status = self.Status_choice.PAID
 
-    def __init_subclass__(cls) -> None:
-        super().__init_subclass__()
-        cls.__str__ = cls.__repr__
-
-    def get_status(self):
-        return self.status
-
     @property
-    def header(self):
+    def header(self) -> UserProfile:
+        """Get header of each bill in each payment"""
         return self.bill.header
 
-    def pay(self):
+    def pay(self) -> None:
+        """Pay to header"""
         payment_dct = {
             "Cash": CashPayment,
             "PromptPay": PromptPayPayment,
@@ -79,6 +75,7 @@ class Payment(models.Model):
         now_payment.pay()
 
     def __repr__(self) -> str:
+        """represent a payment"""
         return f"Payment(user={self.user}, date={self.date}, bill={self.bill}, status={self.status}, payment_type={self.payment_type})"
 
     __str__ = __repr__
@@ -100,9 +97,8 @@ class BasePayment(models.Model):
         super().__init_subclass__()
         cls.__str__ = cls.__repr__
 
-    # def __repr__(self) -> str:
-    #     return f"{self.__class__.__name__}(user={self.user}, date={self.date},\
-    # bill={self.bill}, status={self.status})"
+    def __repr__(self) -> str:
+        return self.__class__.__name__
 
 
 class OmisePayment(BasePayment):

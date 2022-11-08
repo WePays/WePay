@@ -4,4 +4,8 @@ omit =
     mysite/*
     manage.py
     WePay/migrations/*
-    WePay/__init__.py
+    WePay/tests/*
+    WePay/*_urls.py
+    */__init__.py
+    WePay/admin.py
+    templates/*

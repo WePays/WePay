@@ -10,7 +10,7 @@ urlpatterns = [
     path("create/", views.BillCreateView.as_view(), name="create"),
     path("<int:pk>/add/", views.AddTopicView.as_view(), name="add"),
     path("<int:pk>/", views.DetailView.as_view(), name="detail"),
-    # path("<int:pk>/", views.DetailView.as_view(), name="detail"),
+    path("<int:pk>/add/success", views.create, name="success"),
     # # /polls/5/results/
     # path("<int:pk>/results/", views.ResultsView.as_view(), name="results"),
     # # /polls/5/vote/
