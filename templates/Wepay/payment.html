@@ -1,10 +1,10 @@
 {% extends 'WePay/base_wepay.html' %}
 
 {% block body %}
-<h1>Need to pay</h1>
-<br>
 {% if my_payment %}
-<ul>
+<div class="box" style="margin-left: 3%; margin-top: 10%">
+<h1>You need to pay</h1>
+<p>Click pay to select payment</p><style>p{color: navy;}</style>
     <table class="styled-table" style="width: 60%; height: 50%; text-align: center;">
       <thead>
         <tr>
@@ -23,26 +23,27 @@
           <td>{{forloop.counter0|add:"1"}}</td><style>td{padding: 1%;}</style>
           <td>{{ payment.bill.name }}</td> <!-- this will link to detail bill page-->
           <td>{{ payment.bill.total_price}}</td>
-          <td>{{payment.status}}</td> 
+          <td class="status-unpaid" style="color: firebrick;">{{payment.status}} </td>
           <td>
             {% if payment.status == "Paid" %}
                 Paid
             {% else %}
                 <!-- This may be another link to choose payment platform then pay(link to below link)-->
-                 <a href="{% url 'payments:detail' payment.id %}">Pay</a>
+                 <a href="{% url 'payments:detail' payment.id %}">Pay</a><style>a{color: mediumseagreen;}</style>
                 {% endif %}
           </td>
-          <td>{{payment.bill.header}} </td>
+          <td class="header" style="color:midnightblue;">{{payment.bill.header}} </td>
         </tr>
         </tbody>
         {% endfor %}
     </list>
   </ul>
 </table>
+</div>
 
 
 {% else %}
-<h1> No Payment Avalible </h1>
+<h1> No Payment Avalible </h1><style>h1{color:firebrick;}</style>
 
 {% endif %}
 
