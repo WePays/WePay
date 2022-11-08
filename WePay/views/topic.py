@@ -30,14 +30,13 @@ class AddTopicView(LoginRequiredMixin, generic.DetailView):
     def post(self, request: HttpRequest, *args, **kwargs):
         bill = Bills.objects.get(pk=kwargs["pk"])
         topic_name = request.POST["topic_name"]
-        topic_user = request.POST.getlist("username")  # ! BUG HERE
+        topic_user = request.POST.getlist("username")
         topic_price = request.POST["topic_price"]
         topic = Topic.objects.create(
             title=topic_name, price=float(topic_price), bill=bill
         )
-        # Loop to check that user is exist or not
+
         for each_user in topic_user:
-            print(each_user)
             user = UserProfile.objects.get(user__username=each_user)
             topic.add_user(user)
 

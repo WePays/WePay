@@ -10,8 +10,8 @@ Status: {{status}}
 
 <label for="payment">Select Payment type</label>
 <select id="payment" name="payment_type" required>
-{% for name in payment.PaymentChoice %}
-<option value="{{name}}">{{name}}</option>
+{% for each_type in payment.PaymentChoice %}
+<option value="{{each_type}}">{{each_type}}</option>
 {% endfor %}
 </select>
 

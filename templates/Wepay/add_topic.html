@@ -6,13 +6,38 @@ Create Bills
 {% endblock title%}
 
 {% block body%}
+<h3>Bill name: {{bill.name}}</h3>
+<h3>Bill header: {{bill.header}}</h3>
 <br><br>
+<table>
+    <thead>
+      <tr>
+        <th> No. </th><style>th{padding-left: 1%; text-align: center;}</style>
+        <th> title </th>
+        <th> Price </th>
+        <th> User to assign </th>
+      </tr>
+    </thead>
 
-{% for topic in all_topic %}
-{{topic.title}}      {{topic.price}}       {{topic.user}}
-{% endfor %}
+    {% for topic in all_topic %}
+    <tbody>
+      <tr>
+        <td>{{forloop.counter0|add:"1"}}</td><style>td{padding: 1%;}</style>
+        <td>{{topic.title}}</td> <!-- this will link to detail bill page-->
+        <td>{{topic.price}}</td>
+        <td>{% for each_user in topic.user.all %}{{each_user}}, {% endfor %}</td> 
+        
+      </tr>
+      </tbody>
+      {% endfor %}
+  </list>
+</ul>
+</table>
 
-<h1>Add Topic</h1>
+
+
+
+<h4>Add Topic</h4>
 <form action="" method="post">
     {% csrf_token %}
     {{ form.as_p }}
@@ -21,7 +46,7 @@ Topic Name: <input type="text" name="topic_name" id="topic_name" placeholder="En
 Topic Price: <input type="number" min="0" name="topic_price" id="topic_price" placeholder="Enter the topic price" required>
 <br>
 
-<!--  BUG HEREEEEEEEEEEEEEEEEEEEE-->
+
 <label for="username">Enter user to assign:</label>
 <select id="username" name="username"  multiple required>
 {% for name in lst_user %}
@@ -37,7 +62,7 @@ Topic Price: <input type="number" min="0" name="topic_price" id="topic_price" pl
 </ul>
 {% endif %}
 
-<div class="Create"><input type="submit" value="Create"></div>
+<div class="Create"><input type="submit" value="Add topic"></div>
 </form>
 <br><br>
 Total price: {{bill.total_price}}
