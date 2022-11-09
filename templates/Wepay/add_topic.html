@@ -7,9 +7,39 @@ Create Bills
 {% endblock title%}
 
 {% block body%}
-<div class="right-section" style="margin-top: 5%; margin-left: 40%;">
-  <h3>Add Topic By: {{bill.header}}</h3><p>Name of Bill: {{bill.name}}</p>Total price: {{bill.total_price}}
 
+<div class="box" style="margin-top: 5%; margin-left: -10%;">
+
+  <div class="first-section" style="margin-top: 5%; background: transparent;">
+  <table class="styled-table" style="width: 35%; height: 50%; text-align: center; margin-top: 5%;">
+    <thead>
+      <tr>
+        <th> No. </th><style>th{padding-left: 0.5%; text-align: center;}</style>
+        <th> title </th>
+        <th> Price </th>
+        <th> User to assign </th>
+      </tr>
+    </thead>
+
+    {% for topic in all_topic %}
+    <tbody><style>tbody{padding-block: -1%;}</style>
+      <tr>
+        <td>{{forloop.counter0|add:"1"}}</td>
+        <td>{{topic.title}}</td> <!-- this will link to detail bill page-->
+        <td>{{topic.price}}</td>
+        <td>{% for each_user in topic.user.all %}{{each_user}}, {% endfor %}</td> 
+        
+      </tr>
+      </tbody>
+      {% endfor %}
+  </list>
+</ul>
+</table>
+</div>
+
+<div class="second-section" style="margin-left: 45%;margin-top: -25%; border:black solid 10%; background: transparent;">
+
+  <h3>Add Topic By: {{bill.header}}</h3><p>Name of Bill: {{bill.name}}</p>Total price: {{bill.total_price}}
 
   <form action="" method="post">
     {% csrf_token %}
@@ -27,35 +57,9 @@ Create Bills
     </select>
   </div>
   <div class="add-topic" style="margin-top: 2%; margin-left: 30%;"><input type="submit" value="Add topic"></div>
-
 </div>
-
-
-<table class="styled-table" style="width: 30%; height: 50%; text-align: center; display: table;">
-    <thead>
-      <tr>
-        <th> No. </th><style>th{padding-left: 1%; text-align: center;}</style>
-        <th> title </th>
-        <th> Price </th>
-        <th> User to assign </th>
-      </tr>
-    </thead>
-
-    {% for topic in all_topic %}
-    <tbody>
-      <tr>
-        <td>{{forloop.counter0|add:"1"}}</td><style>td{padding: 1%;}</style>
-        <td>{{topic.title}}</td> <!-- this will link to detail bill page-->
-        <td>{{topic.price}}</td>
-        <td>{% for each_user in topic.user.all %}{{each_user}}, {% endfor %}</td> 
-        
-      </tr>
-      </tbody>
-      {% endfor %}
-  </list>
-</ul>
-</table>
 </form>
+</div>
 
 
 
@@ -69,11 +73,12 @@ Create Bills
     {% endfor %}
 </ul>
 {% endif %}
-
-
 <form action="{% url 'bills:success' bill.id %}" method="post">
-    {% csrf_token %}
-    <input type="submit" value="Create Bill">
+  {% csrf_token %}
+  <input type="submit" value="Create Bill" style="margin-left: 22%; margin-top: -5%">
 </form>
+
+
+
 
 {% endblock body%}
