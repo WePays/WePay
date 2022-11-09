@@ -2,7 +2,6 @@ from django.urls import reverse
 from .setUp import BaseSetUp
 from django.contrib.auth.models import User
 from ..models.payment import Bills  # ,Food
-from WePay.models.form import UploadBillForm, UploadTopicForm
 from django.utils import timezone
 from unittest import skip
 

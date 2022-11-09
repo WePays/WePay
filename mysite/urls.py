@@ -19,7 +19,7 @@ from django.urls import path, include
 # from django.conf.urls import url
 
 from django.views.generic import RedirectView
-from .views import signup, About
+from .views import signup, About, Instruction
 
 urlpatterns = [
     path("admin/doc/", include("django.contrib.admindocs.urls")),
@@ -31,6 +31,7 @@ urlpatterns = [
     path("about/", About.as_view(), name="about"),
     path("user-profile/", include("WePay.user_profile_urls")),
     path("", RedirectView.as_view(url="/bill/")),
+    path("instruction/", Instruction.as_view(), name="instruction")
     # url(r'^favicon\.ico$',RedirectView.as_view(url='/static/images/favicon.ico')),
     # path("payments/", PaymentView.as_view(), name="payment"),
 ]
