@@ -6,20 +6,17 @@ Detail bill
 {% endblock title%}
 
 {% block body %}
-<div class="box" style="margin-top: 5%; margin-left: -10%;"></div>
-<h1>Bills Title: {{bill.name}}</h1>
-<h1>Header: {{bill.header}} </h1>
-<h1>TotalPrice: {{bill.total_price}}</h1>
-
-
-    <div class="first-section" style="margin-top: 5%; background: transparent;">
-    <table class="styled-table" style="width: 35%; height: 50%; text-align: center; margin-top: 5%;">
+<div class="box" style="margin-top: 5%; margin-left: 5%;">
+<h2>Bills Title: {{bill.name}}</h2><style>h2{color: black;}</style>
+<h2>TotalPrice: {{bill.total_price}}</h2>
+    <div class="first-section" style="margin-top: 0%; background: transparent;">
+    <table class="styled-table" style="width: 35%; height: 50%; text-align: center; margin-top: 3%;">
       <thead>
         <tr>
-            <th> No. </th>
-            <th> Name </th>
-            <th> Price </th>
-            <th> Status </th>
+            <th>No.</th><style>th{padding-left: 1%; text-align: center;}</style>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Status</th>
         </tr>
       </thead>
       {% for price in payment %}
@@ -36,4 +33,5 @@ Detail bill
   </ul>
   </table>
   </div>
-  {% endblock body%}
+</div>
+{% endblock body%}

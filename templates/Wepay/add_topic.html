@@ -11,7 +11,7 @@ Create Bills
 <div class="box" style="margin-top: 5%; margin-left: -10%;">
 
   <div class="first-section" style="margin-top: 5%; background: transparent;">
-  <table class="styled-table" style="width: 35%; height: 50%; text-align: center; margin-top: 5%;">
+  <table class="styled-table" style="width: 35%; height: 50%; text-align: center; margin-top: 5%; font-size: medium;">
     <thead>
       <tr>
         <th> No. </th><style>th{padding-left: 0.5%; text-align: center;}</style>
@@ -37,29 +37,31 @@ Create Bills
 </table>
 </div>
 
-<div class="second-section" style="margin-left: 45%;margin-top: -25%; border:black solid 10%; background: transparent;">
+<div class="second-section" style="margin-left: 45%;margin-top: -25%; border:black solid 10%; background: transparent; ">
 
-  <h3>Add Topic By: {{bill.header}}</h3><p>Name of Bill: {{bill.name}}</p>Total price: {{bill.total_price}}
+  <div class="top-text" style="font-size: medium;">
+    <h3>Add Topic By: {{bill.header}}</h3><br>Name of Bill: {{bill.name}} <br><br>
+    Total price: {{bill.total_price}}</div>
 
   <form action="" method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <div class="topic-name" style="margin-top: 2%;"> Name: <br>
-        <input type="text" name="topic_name" id="topic_name" placeholder="Enter the topic name" required style="width: 40%; font-weight: lighter;"></div>
-          <div class="topic-price" style="margin-top: 2%;"> Price: <br>
-            <input type="number" min="0" name="topic_price" id="topic_price" placeholder="Enter the topic price" required style="width: 40%; font-weight: lighter;"></div>
-              <div class="add-user" style="margin-top: 2%;" for="username">Enter user to assign:<br>
-              <select id="username" name="username"  multiple required style="width: 40%; height: 20%">
-                {% for name in lst_user %}
-                  <option value="{{name}}">{{name}}</option>
-                {% endfor %}
-              </select>
-          </div>
-        <div class="add-topic" style="margin-top: 2%; margin-left: 30%;"><input type="submit" value="Add topic"></div>
-    </div>
-  </form>
-</div>
+  <div class="topic-name" style="margin-top: 2%; font-size: medium;"> Name: <br>
+    <input type="text" name="topic_name" id="topic_name" placeholder="Enter the topic name" required style="width: 40%; font-weight: lighter;"></div>
+  <div class="topic-price" style="margin-top: 2%; font-size: medium;"> Price: <br>
+    <input type="number" min="0" name="topic_price" id="topic_price" placeholder="Enter the topic price" required style="width: 40%; font-weight: lighter;"></div>
 
+  <div class="add-user" style="margin-top: 2%; font-size: medium;" for="username">Enter user to assign:<br>
+    <select id="username" name="username"  multiple required style="width: 40%; height: 20%">
+      {% for name in lst_user %}
+        <option value="{{name}}">{{name}}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="add-topic" style="margin-top: 2%; margin-left: 30%;"><input type="submit" value="Add topic"></div>
+</div>
+</form>
+</div>
 
 
 
@@ -74,9 +76,8 @@ Create Bills
 {% endif %}
 <form action="{% url 'bills:success' bill.id %}" method="post">
   {% csrf_token %}
-  <input type="submit" value="Create Bill" style="margin-left: 22%; margin-top: -5%">
+  <input type="submit" value="Create Bill" style="margin-left: 23%; margin-top: -3%">
 </form>
-
 
 
 
