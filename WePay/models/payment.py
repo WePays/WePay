@@ -64,6 +64,8 @@ class Payment(models.Model):
     @property
     def amount(self) -> int:
         """get amount of each payment"""
+        if self.payment_type == self.PaymentChoice.CASH:
+            return int(self.bill.calculate_price(self.user))
         return int(self.bill.calculate_price(self.user) * 100)
 
     def pay(self) -> None:
