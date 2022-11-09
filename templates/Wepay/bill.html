@@ -23,10 +23,10 @@
 <h1>Bill list</h1><style>h1{margin-left: 3%;}</style>
 <body>
   <ul>
-    <table class="styled-table" style="width: 60%; height: 50%; text-align: center;">
+    <table class="styled-table" style="width: 60%; height: 50%; background-color: aliceblue;">
       <thead>
         <tr>
-          <th> No. </th><style>th{padding-left: 1%; text-align: center;}</style>
+          <th> No. </th><style>th{padding-left: 1%;}</style>
           <th> Bills Title </th>
           <th> Prices </th>
           <th> Status </th>
@@ -38,10 +38,10 @@
       <tbody style="font-size:medium;">
         <tr>
           <td>{{forloop.counter0|add:"1"}}</td><style>td{padding: 1%;}</style>
-          <td> <a href="{% url 'bills:detail' bill.id %}" style="color: navy;"> {{ bill.name }}</a></td>
+          <td> <a href="{% url 'bills:detail' bill.id %}" style="color: navy; font-weight: bold;"> {{ bill.name }}</a></td>
           <td>{{ bill.total_price}}</td>
-          <td>not paid</td>
-          <td>status</td>
+          <td class="status" style="color:firebrick;">not paid</td>
+          <td class="verify" style="color:mediumseagreen;">verify</td>
         </tr>
         </tbody>
         {% endfor %}
@@ -59,7 +59,7 @@
   <p><a href="accounts/logout"><button tyoe="button">logout</button></a></p>
 </div> -->
 <div class="createbttn">
-  <p><a href="create" style="margin-left: 55%;" ><button type="button">Create Bill</button></a></p>
+  <p><a href="create" style="margin-left: 55%; color: navy;" ><button type="button">Create Bill</button></a></p>
 </div>
 
 {% else %}

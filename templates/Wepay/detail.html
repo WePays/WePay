@@ -8,12 +8,12 @@ Detail bill
 {% block body %}
 <div class="box" style="margin-top: 5%; margin-left: 5%;">
 <h2>Bills Title: {{bill.name}}</h2><style>h2{color: black;}</style>
-<h2>TotalPrice: {{bill.total_price}}</h2>
+<h3>TotalPrice: {{bill.total_price}}</h3><style>h3{color:firebrick;}</style>
     <div class="first-section" style="margin-top: 0%; background: transparent;">
-    <table class="styled-table" style="width: 35%; height: 50%; text-align: center; margin-top: 3%;">
+    <table class="styled-table" style="width: 35%; height: 50%; margin-top: 3%; background-color: aliceblue;">
       <thead>
         <tr>
-            <th>No.</th><style>th{padding-left: 1%; text-align: center;}</style>
+            <th>No.</th><style>th{padding-left: 1%;}</style>
             <th>Name</th>
             <th>Price</th>
             <th>Status</th>
