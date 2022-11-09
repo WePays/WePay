@@ -62,10 +62,6 @@ class BillCreateView(LoginRequiredMixin, generic.DetailView):
                 user = UserProfile.objects.get(user__username=each_user)
                 topic.add_user(user)
                 bill.add_topic(topic)
-
-            for user in bill.all_user:
-                each_user_payment = Payment.objects.create(user=user, bill=bill)
-                each_user_payment.save()
             bill.save()
 
             return HttpResponseRedirect(f"/bill/{bill.id}/add")
@@ -89,7 +85,8 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
             return HttpResponseRedirect(reverse("bills:bill"))
         lst = []
         for each_user in bill.all_user:
-            payment = Payment.objects.get(bill=bill, user=each_user)
+            payment = Payment.objects.filter(bill=bill, user=each_user)
+            print(payment, each_user)
             lst.append(payment)
         return render(request, "Wepay/detail.html", {"bill": bill, "payment":lst})
 
@@ -97,5 +94,10 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
 def create(request: HttpRequest, pk: int):
     bill = Bills.objects.get(pk=pk)
     bill.is_created = True
+
+    for user in bill.all_user:
+        each_user_payment = Payment.objects.create(user=user, bill=bill)
+        each_user_payment.save()
     bill.save()
+
     return HttpResponseRedirect(reverse("bills:bill"))
