@@ -15,7 +15,7 @@ class PaymentView(LoginRequiredMixin, generic.ListView):
 
     def get_queryset(self) -> QuerySet:
         return Payment.objects.filter(
-            user__user=self.request.user#, status=Payment.Status_choice.UNPAID
+            user__user=self.request.user  # , status=Payment.Status_choice.UNPAID
         )
 
 
@@ -27,6 +27,7 @@ class PaymentDetailView(LoginRequiredMixin, generic.DetailView):
 
     def get(self, request, *args, **kwargs):
         user = request.user
+        cash_only = False
         try:
             payment = get_object_or_404(Payment, pk=kwargs["pk"], user__user=user)
         except Payment.DoesNotExist:
@@ -34,10 +35,30 @@ class PaymentDetailView(LoginRequiredMixin, generic.DetailView):
             return HttpResponseRedirect(reverse("payments:payment"))
         status = payment.status
         payment_type = payment.payment_type
+        if payment.amount <= 20 or payment.amount > 150000:
+            messages.info(
+                request,
+                "Your amount is less than 20 Baht or more than 150,000 Baht, you can only pay with cash",
+            )
+            cash_only = True
+
+        if not payment.bill.header.chain:
+            messages.info(
+                request,
+                "This bill is not in chain, you can only pay with cash or tell header to register the chain"
+                # TODO: put the omise link here
+            )
+            cash_only = True
+
         return render(
             request,
             self.template_name,
-            {"payment": payment, "status": status, "payment_type": payment_type}
+            {
+                "payment": payment,
+                "status": status,
+                "payment_type": payment_type,
+                "cash_only": cash_only,
+            },
         )
 
     def post(self, request, *args, **kwargs):
@@ -47,10 +68,11 @@ class PaymentDetailView(LoginRequiredMixin, generic.DetailView):
         payment = Payment.objects.get(pk=kwargs["pk"], user__user=user)
         payment_type = request.POST["payment_type"]
         payment.payment_type = payment_type
+
         payment.pay()
         payment.save()
-        if payment_type == 'Cash':
-            return HttpResponseRedirect(reverse('payments:payment'))
+        if payment_type == "Cash":
+            return HttpResponseRedirect(reverse("payments:payment"))
         print(payment)
         print(payment.uri)
         return HttpResponseRedirect(payment.uri)

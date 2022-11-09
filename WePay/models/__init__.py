@@ -6,10 +6,9 @@ from .payment import (
     KTBPayment,
     BBLPayment,
     BAYPayment,
-    Payment
+    Payment,
 )
 from .userprofile import UserProfile
-from .form import UploadTopicForm, UploadBillForm
 
 __all__ = [
     "Bills",
@@ -21,7 +20,5 @@ __all__ = [
     "BBLPayment",
     "BAYPayment",
     "UserProfile",
-    "UploadTopicForm",
-    "UploadBillForm",
     "Payment",
 ]
