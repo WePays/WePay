@@ -3,3 +3,4 @@ django-allauth
 python-decouple
 omise
 docutils
+djhtml

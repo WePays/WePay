@@ -1,37 +1,39 @@
 {% extends 'WePay/base_wepay.html' %}
 {% block body %}
-<br><br>
-Pay to {{payment.bill.header}}
-<br>
-Status: {{status}}
-{% comment %} <br>
+    <br><br>
+    Pay to {{payment.bill.header}}
+    <br>
+    Status: {{status}}
+    <br>
+    Amount: {{payment.amount}}
+    {% comment %} <br>
 {{payment_type}}
 <br> {% endcomment %}
-<br>
+    <br>
 
 
-<label for="payment">Select Payment type:</label>
-<form action="" method="post">
-    {% csrf_token %}
-<select id="payment_type" name="payment_type" required>
-{% for each_type in payment.PaymentChoice %}
-{% if each_type != 'Cash' and cash_only %}
-<option value="{{each_type}}" disabled>{{each_type}}</option>
-{% else %}
-<option value="{{each_type}}">{{each_type}}</option>
-{% endif %}
-{% endfor %}
-</select>
+    <label for="payment">Select Payment type:</label>
+    <form action="" method="post">
+        {% csrf_token %}
+        <select id="payment_type" name="payment_type" required>
+            {% for each_type in payment.PaymentChoice %}
+                {% if each_type != 'Cash' and cash_only %}
+                    <option value="{{each_type}}" disabled>{{each_type}}</option>
+                {% else %}
+                    <option value="{{each_type}}">{{each_type}}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
 
-    <input type="submit" value="Pay">
-</form>
+        <input type="submit" value="Pay">
+    </form>
 
-{% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 
 {% endblock body %}

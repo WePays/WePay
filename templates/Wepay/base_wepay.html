@@ -2,37 +2,37 @@
 
 <html>
 
-	<head>
-		<title>{% block head_title %} WePay {% endblock head_title%}</title>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-		<link rel="stylesheet" type="text/css" href="{% static 'wepay/create_bill.css' %}">
-		<link rel="stylesheet" type="text/css" href="{% static 'wepay/bill.css' %}">
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-		{% block extra_head %}{% endblock extra_head %}
-	  </head>
-	  
-	  <body style="margin-top: 30;">
-	  <nav class="navbar navbar-inverse navbar-fixed-top" style="background-color: #171f99;">
-		<div class="container-fluid">
-		  <div class="navbar-header" style="font-size: larger;">
-			<!-- <a class="navbar-brand" href="/bill"><img src="{% static 'wepay/webpages/logo2_wepay.png' %}"></a> -->
-			<a class="navbar-brand" href="/bill">WePay</a>
-			<a class="navbar-brand" href="/bill">Bills</a>
-			<a class="navbar-brand" href="/payment">Payments</a>
-		  </div>
-		  <ul class="nav navbar-nav navbar-right">
-			<li><a href="/about/"><span class="aboutus"></span>About Us</a></li>
-			<li><a href="/user-profile/"><span class="glyphicon glyphicon-user"></span>{{user.username}}</a></li>
-			<li><a href="{% url 'account_logout' %}"><span class="glyphicon glyphicon-log-in"></span> Log out</a></li>
-		  </ul>
-		</div>
-	</nav>
-	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	{% block body %}
-	{% endblock %}
-</body>
+    <head>
+        <title>{% block head_title %} WePay {% endblock head_title%}</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="{% static 'wepay/create_bill.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'wepay/bill.css' %}">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        {% block extra_head %}{% endblock extra_head %}
+    </head>
+
+    <body style="margin-top: 30;">
+        <nav class="navbar navbar-inverse navbar-fixed-top" style="background-color: #171f99;">
+            <div class="container-fluid">
+                <div class="navbar-header" style="font-size: larger;">
+                    <!-- <a class="navbar-brand" href="/bill"><img src="{% static 'wepay/webpages/logo2_wepay.png' %}"></a> -->
+                    <a class="navbar-brand" href="/bill">WePay</a>
+                    <a class="navbar-brand" href="/bill">Bills</a>
+                    <a class="navbar-brand" href="/payment">Payments</a>
+                </div>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/about/"><span class="aboutus"></span>About Us</a></li>
+                    <li><a href="/user-profile/"><span class="glyphicon glyphicon-user"></span>{{user.username}}</a></li>
+                    <li><a href="{% url 'account_logout' %}"><span class="glyphicon glyphicon-log-in"></span> Log out</a></li>
+                </ul>
+            </div>
+        </nav>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        {% block body %}
+        {% endblock %}
+    </body>
 
 </html>

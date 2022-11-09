@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render,redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.views import generic
 
@@ -58,7 +58,6 @@ class BillCreateView(LoginRequiredMixin, generic.DetailView):
             topic = Topic.objects.create(title=topic_name, price=topic_price, bill=bill)
 
             for each_user in topic_user:
-
                 user = UserProfile.objects.get(user__username=each_user)
                 topic.add_user(user)
                 bill.add_topic(topic)
@@ -85,11 +84,9 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
             return HttpResponseRedirect(reverse("bills:bill"))
         lst = []
         for each_user in bill.all_user:
-            payment = Payment.objects.filter(bill=bill, user=each_user)
-            print(payment, each_user)
+            payment = Payment.objects.get(bill=bill, user=each_user)
             lst.append(payment)
-        print(lst)
-        return render(request, "Wepay/detail.html", {"bill": bill, "payment":lst})
+        return render(request, "Wepay/detail.html", {"bill": bill, "payment": lst})
 
 
 def create(request: HttpRequest, pk: int):

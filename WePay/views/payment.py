@@ -3,8 +3,9 @@ from django.views import generic
 from django.shortcuts import get_object_or_404, render, reverse
 from django.http import HttpResponseRedirect
 from django.contrib import messages
-from ..models import Payment
+from ..models import Payment, omise
 from django.db.models import QuerySet
+from ..config import OMISE_SECRET
 
 
 class PaymentView(LoginRequiredMixin, generic.ListView):
@@ -45,8 +46,8 @@ class PaymentDetailView(LoginRequiredMixin, generic.DetailView):
         if not payment.bill.header.chain:
             messages.info(
                 request,
-                "This bill is not in chain, you can only pay with cash or tell header to register the chain"
-                # TODO: put the omise link here
+                "This bill is not in chain, you can only pay with cash or tell header to register the chain \
+                    \n<a href='https://dashboard.omise.co/chain/authorize/pkey_test_5tgganhu45npoycv190'>instruction here</a>",
             )
             cash_only = True
 
@@ -73,6 +74,19 @@ class PaymentDetailView(LoginRequiredMixin, generic.DetailView):
         payment.save()
         if payment_type == "Cash":
             return HttpResponseRedirect(reverse("payments:payment"))
-        print(payment)
-        print(payment.uri)
+        # * after this will involked update status function
         return HttpResponseRedirect(payment.uri)
+
+
+def update(request, pk: int, *arg, **kwargs):
+    user = request.user
+    try:
+        payment = get_object_or_404(Payment, pk=pk, user__user=user)
+    except Payment.DoesNotExist:
+        messages.error(request, "Payment not found")
+        return HttpResponseRedirect(reverse("payments:payment"))
+    payment.pay()
+    print(omise.api_secret)
+    omise.api_secret = OMISE_SECRET
+    print("after: ", omise.api_secret)
+    return HttpResponseRedirect(reverse("payments:payment"))
