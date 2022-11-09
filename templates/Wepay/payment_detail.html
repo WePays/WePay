@@ -15,7 +15,7 @@ Status: {{status}}
     {% csrf_token %}
 <select id="payment_type" name="payment_type" required>
 {% for each_type in payment.PaymentChoice %}
-{% if each_type != 'Cash' and not payment.bill.header.chain %}
+{% if each_type != 'Cash' and cash_only %}
 <option value="{{each_type}}" disabled>{{each_type}}</option>
 {% else %}
 <option value="{{each_type}}">{{each_type}}</option>
@@ -23,9 +23,15 @@ Status: {{status}}
 {% endfor %}
 </select>
 
-
     <input type="submit" value="Pay">
 </form>
 
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
 
 {% endblock body %}
