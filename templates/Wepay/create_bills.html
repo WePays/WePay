@@ -15,29 +15,29 @@ Create Bills
     {% csrf_token %}
 <div class="first-body" style="margin-left: 3%; margin-top: 5%;">
 
-    <div class="title" style="margin-top: 5%; color: #222A9B; font-weight: bold;"><h2>Create Bill: {{header}}</h2></div>
+    <div class="title" style="margin-top: 5%; color: #222A9B; font-weight: bold;"><h1>Create Bill: {{header}}</11></div>
 
-    <div class="header" style="margin-left: 3%; margin-top: 3%; color: black; font-weight: bold;" > Bill's title: <br>
+    <div class="header" style="margin-left: 3%; margin-top: 3%; color: black; font-weight: bold; font-size: medium;" > Bill's title: <br>
         <input type="text" name="title" id="title" placeholder="Enter the title of the bill" required 
         style="width: 40%; font-weight: lighter;">
     </div>
 
 </div>
 
-<div class="second-body" style="margin-left: 4%; margin-top: 5%; color: #222a9b;"> <h3> Initial Topic </h3>
+<div class="second-body" style="margin-left: 4%; margin-top: 5%; color: #222a9b; font-size: medium;"> <h2> Initial Topic </h2>
 
-    <div class="topic-name" style="margin-left: 3%; margin-top: 3%; font-weight: bold; color: black;"> Name:<br>
+    <div class="topic-name" style="margin-left: 3%; margin-top: 3%; font-weight: bold; color: black; font-size: medium;"> Name:<br>
         <input type="text" name="topic_name" id="topic_name" placeholder="Enter the topic name" required 
         style="width: 40%; font-weight: lighter;">
     </div>
 
-    <div class="topic-price" style="margin-left: 3%; margin-top: 3%; font-weight: bold; color: black;"> Price: <br> 
+    <div class="topic-price" style="margin-left: 3%; margin-top: 3%; font-weight: bold; color: black; font-size: medium;"> Price: <br> 
         <input type="number" min="0" name="topic_price" id="topic_price" placeholder="Enter the topic price" required 
         style="width: 40%; font-weight: lighter;">
     </div>
 
      <!--  BUG HEREEEEEEEEEEEEEEEEEEEE-->
-    <div class="add-user" style="margin-left: 3%; margin-top: 3%; font-weight: bold; color: black;"> Enter user to assign: <br>
+    <div class="add-user" style="margin-left: 3%; margin-top: 3%; font-weight: bold; color: black; font-size: medium;"> Enter user to assign: <br>
         <select id="username" name="username"  multiple required 
         style="width: 40%; font-weight: lighter; height: 15%;">
             {% for name in lst_user %}
@@ -57,7 +57,7 @@ Create Bills
     </ul>
     {% endif %}
 
-    <div class="Create" style="margin-left: 40%; margin-top: 3%;"><input type="submit" value="Create"></div>
+    <div class="Create" style="margin-left: 40%; margin-top: 3%;"><input type="submit" value="Create Title"></div>
     {% comment %} </ul> {% endcomment %}
 </form>
 <br><br><br>
