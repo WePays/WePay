@@ -55,6 +55,14 @@ class Payment(models.Model):
         if self.user == self.bill.header:
             self.user.status = self.Status_choice.PAID
             self.user.save()
+        self.payment_dct = {
+            "Cash": CashPayment,
+            "PromptPay": PromptPayPayment,
+            "SCB": SCBPayment,
+            "KTB": KTBPayment,
+            "BAY": BAYPayment,
+            "BBL": BBLPayment,
+        }
 
     @property
     def header(self) -> UserProfile:
@@ -68,21 +76,16 @@ class Payment(models.Model):
             return int(self.bill.calculate_price(self.user))
         return int(self.bill.calculate_price(self.user) * 100)
 
+    @property
+    def selected_payment(self) -> Any:
+        """get now payment"""
+        return self.payment_dct[self.payment_type]
+
     def pay(self) -> None:
         """Pay to header"""
-        payment_dct = {
-            "Cash": CashPayment,
-            "PromptPay": PromptPayPayment,
-            "SCB": SCBPayment,
-            "KTB": KTBPayment,
-            "BAY": BAYPayment,
-            "BBL": BBLPayment,
-        }
-        print(self.status)
-        if self.status in (self.Status_choice.PAID, self.Status_choice.PENDING):
+        if self.status in (self.Status_choice.PAID):
             return
-        now_payment = payment_dct[self.payment_type].objects.create(payment=self)
-        print(now_payment)
+        now_payment = self.selected_payment.objects.get_or_create(payment=self)[0]
         now_payment.pay()
         self.save()
 
@@ -124,7 +127,6 @@ class OmisePayment(BasePayment):
 
     def pay(self):
         """pay by omise"""
-        print(self.payment.status)
         # amount must morethan 20
         if self.payment.status == self.payment.Status_choice.UNPAID:
             source = omise.Source.create(
@@ -139,18 +141,18 @@ class OmisePayment(BasePayment):
                 amount=self.payment.amount,
                 currency="thb",
                 source=source.id,
-                return_uri="http://127.0.0.1:8000/bill/",
+                return_uri=f"http://127.0.0.1:8000/payment/{self.payment.id}/update",
             )
 
             self.charge_id = charge.id
-            print(f"charge uriiiiiiuiiiiiiii {charge.authorize_uri}")
             self.payment.uri = charge.authorize_uri
-            self.payment.save()
-            omise.api_secret = OMISE_SECRET
-            self.save()
+        self.update_status()
+        print(omise.api_secret)
 
-    def get_status(self):  # TODO remove middle man
+    def update_status(self):  # TODO: Move this mothod to Payment class
+        print(omise.api_secret)
         status = omise.Charge.retrieve(self.charge_id).status
+        print(status)
         if status == "successful":
             self.payment.status = self.payment.Status_choice.PAID
         elif status == "pending":
@@ -158,8 +160,8 @@ class OmisePayment(BasePayment):
         else:
             self.payment.status = self.payment.Status_choice.UNPAID
         self.payment.save()
+        print(self.payment.status)
         self.save()
-        return self.payment.status
 
 
 class PromptPayPayment(OmisePayment):

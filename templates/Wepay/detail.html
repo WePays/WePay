@@ -1,54 +1,41 @@
 {% extends 'WePay/base_wepay.html' %}
 
 {%block title%}
-{{ block.super }}
-Detail bill
+    {{ block.super }}
+    Detail bill
 {% endblock title%}
 
 {% block body %}
-<div class="box" style="margin-top: 5%; margin-left: -10%;"></div>
-<h1>Bills Title: {{bill.name}}</h1>
-<h1>Header: {{bill.header}} </h1>
-<h1>TotalPrice: {{bill.total_price}}</h1>
+    <div class="box" style="margin-top: 5%; margin-left: -10%;"></div>
+    <h1>Bills Title: {{bill.name}}</h1>
+    <h1>Header: {{bill.header}} </h1>
+    <h1>TotalPrice: {{bill.total_price}}</h1>
 
 
     <div class="first-section" style="margin-top: 5%; background: transparent;">
-    <table class="styled-table" style="width: 35%; height: 50%; text-align: center; margin-top: 5%;">
-      <thead>
-        <tr>
-            <th>No.</th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Status</th>
-        </tr>
-      </thead>
-      <!-- {% for user in bill.all_user %}
-      <tbody><style>tbody{padding-block: -1%;}</style>
-        <tr>
-            <td>{{forloop.counter0|add:"1"}}</td><style>td{padding: 1%;}</style>
-            <td>{{user.name}}</td>
-            {{payment}} -->
-            <!-- {% for price in payment %}
-              <td>{{price.user.name}}</td>
-              <td>{{price.amount}}</td>
-              <td>{{price.status}}</td>
-            {% endfor %} -->
-        <!-- </tr>
-        </tbody>
-      {% endfor %} -->
-      {% for price in payment %}
-      <tbody><style>tbody{padding-block: -1%;}</style>
-        <tr>
-            <td>{{forloop.counter0|add:"1"}}</td><style>td{padding: 1%;}</style>
-            <td>{{price.user.name}}</td>
-            <td>{{price.amount}}</td>
-            <td>{{price.status}}</td>
-            <!-- <td>{{price}}</td> -->
-        </tr>
-        </tbody>
-      {% endfor %}
+        <table class="styled-table" style="width: 35%; height: 50%; text-align: center; margin-top: 5%;">
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
 
-  </ul>
-  </table>
-  </div>
-  {% endblock body%}
+            {% for price in payment %}
+                <tbody><style>tbody{padding-block: -1%;}</style>
+                    <tr>
+                        <td>{{forloop.counter0|add:"1"}}</td><style>td{padding: 1%;}</style>
+                        <td>{{price.user.name}}</td>
+                        <td>{{price.amount}}</td>
+                        <td>{{price.status}}</td>
+                        <!-- <td>{{price}}</td> -->
+                    </tr>
+                </tbody>
+            {% endfor %}
+
+        </ul>
+    </table>
+    </div>
+{% endblock body%}
