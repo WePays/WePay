@@ -16,14 +16,14 @@ Detail bill
     <table class="styled-table" style="width: 35%; height: 50%; text-align: center; margin-top: 5%;">
       <thead>
         <tr>
-            <th>No.</th>
+            <th>No.</th><style>th{padding-left: 1%; text-align: center;}</style>
             <th>Name</th>
             <th>Price</th>
             <th>Status</th>
         </tr>
       </thead>
       {% for topic in all_topic %}
-      <tbody><style>tbody{padding-block: -1%;}</style>
+      <tbody><style>tbody{padding-block: 1%;}</style>
         <tr>
             <td>{{forloop.counter0|add:"1"}}</td><style>td{padding: 1%;}</style>
             <td></td>
