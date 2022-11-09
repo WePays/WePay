@@ -35,7 +35,7 @@
       </thead>
 
       {% for bill in my_bill %}
-      <tbody>
+      <tbody style="font-size:medium;">
         <tr>
           <td>{{forloop.counter0|add:"1"}}</td><style>td{padding: 1%;}</style>
           <td> <a href="{% url 'bills:detail' bill.id %}" style="color: navy;"> {{ bill.name }}</a></td>

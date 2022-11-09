@@ -18,7 +18,7 @@
       </thead>
 
       {% for payment in my_payment %}
-      <tbody>
+      <tbody style="font-size: medium;">
         <tr>
           <td>{{forloop.counter0|add:"1"}}</td><style>td{padding: 1%;}</style>
           <td>{{ payment.bill.name }}</td> <!-- this will link to detail bill page-->
