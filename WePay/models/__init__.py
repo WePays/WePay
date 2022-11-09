@@ -6,7 +6,7 @@ from .payment import (
     KTBPayment,
     BBLPayment,
     BAYPayment,
-    Payment,
+    Payment
 )
 from .userprofile import UserProfile
 from .form import UploadTopicForm, UploadBillForm

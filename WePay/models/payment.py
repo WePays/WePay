@@ -54,6 +54,7 @@ class Payment(models.Model):
         super().__init__(*args, **kwargs)
         if self.user == self.bill.header:
             self.user.status = self.Status_choice.PAID
+            self.user.save()
 
     @property
     def header(self) -> UserProfile:
@@ -70,6 +71,7 @@ class Payment(models.Model):
             "BAY": BAYPayment,
             "BBL": BBLPayment,
         }
+        print(self.status)
         if self.status in (self.Status_choice.PAID, self.Status_choice.PENDING):
             return
         now_payment = payment_dct[self.payment_type].objects.create(payment=self)
@@ -115,11 +117,12 @@ class OmisePayment(BasePayment):
 
     def pay(self):
         """pay by omise"""
-        print(self.payment.user.status)
-        if self.payment.user.status == self.payment.Status_choice.UNPAID:
+        print(self.payment.status)
+        # amount must morethan 20
+        if self.payment.status == self.payment.Status_choice.UNPAID:
             source = omise.Source.create(
                 type=self.payment_type,
-                amount=self.payment.bill.calculate_price(self.user) * 100,
+                amount=int(self.payment.bill.calculate_price(self.payment.user) * 100),
                 currency="thb",
             )
 
@@ -127,10 +130,10 @@ class OmisePayment(BasePayment):
             omise.api_secret = self.payment.bill.header.chain.key
 
             charge = omise.Charge.create(
-                amount=int(self.payment.bill.calculate_price(self.user) * 100),
+                amount=int(self.payment.bill.calculate_price(self.payment.user) * 100),
                 currency="thb",
                 source=source.id,
-                return_uri="http://localhost:8000/bill/",
+                return_uri="http://127.0.0.1:8000/bill/",
             )
 
             self.charge_id = charge.id
