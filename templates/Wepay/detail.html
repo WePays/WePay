@@ -1,29 +1,40 @@
 {% extends 'WePay/base_wepay.html' %}
+
+{%block title%}
+{{ block.super }}
+Detail bill
+{% endblock title%}
+
 {% block body %}
 <h1>Bills Title: {{bill.name}}</h1>
 <h1>Header: {{bill.header}} </h1>
 <h1>TotalPrice: {{bill.total_price}}</h1>
 
-<body>
-    <table class="styled-table">
 
-        <thead>
-            <tr>
-                <th>No.</th>
-                <th>Bills Topic</th>
-                <th>Prices</th>
-                <th>Status</th>
-            </tr>
-        </thead>
+<div class="box" style="margin-top: 5%; margin-left: -10%;">
 
-        {% for topic in all_topic %}
-        <tbody>
-            <tr>
-            <td>{{forloop.counter0|add:"1"}}</td><style>td{padding: 1%;}</style>
-            <td>{{topic.title}}</td>
-            </tr>
+    <div class="first-section" style="margin-top: 5%; background: transparent;">
+    <table class="styled-table" style="width: 35%; height: 50%; text-align: center; margin-top: 5%;">
+      <thead>
+        <tr>
+            <th>No.</th>
+            <th>Bills Topic</th>
+            <th>Prices</th>
+            <th>Status</th>
+        </tr>
+      </thead>
+  
+      <tbody><style>tbody{padding-block: -1%;}</style>
+        <tr>
+            <td>cscscsc</td><style>td{padding: 1%;}</style>
+            <td>sscssc</td>
+            <td>aaaa</td>
+            <td>sssss</td>
+        </tr>
         </tbody>
-        {% endfor %}
-    </table>
-</body>
-{% endblock body %}
+
+    </list>
+  </ul>
+  </table>
+  </div>
+  {% endblock body%}
