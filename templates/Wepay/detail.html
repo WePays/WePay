@@ -22,12 +22,15 @@ Detail bill
             <th>Status</th>
         </tr>
       </thead>
-      {% for topic in all_topic %}
+      {% for user in bill.all_user %}
       <tbody><style>tbody{padding-block: -1%;}</style>
         <tr>
             <td>{{forloop.counter0|add:"1"}}</td><style>td{padding: 1%;}</style>
-            <td></td>
-            <td></td>
+            <td>{{user}}</td>
+            {% for price in payment %}
+            <td>{{price}}</td>
+            {% endfor %}
+            <td>dodo</td>
         </tr>
         </tbody>
         {% endfor %}

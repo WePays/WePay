@@ -87,9 +87,11 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
         except Bills.DoesNotExist:
             messages.error(request, "Bill dosen't exist")
             return HttpResponseRedirect(reverse("bills:bill"))
-        all_topic = Topic.objects.filter(bill=bill)
-        lst_user = UserProfile.objects.all()
-        return render(request, "Wepay/detail.html", {"bill": bill, "all_topic": all_topic, "lst_user": lst_user})
+        lst = []
+        for each_user in bill.all_user:
+            payment = Payment.objects.get(bill=bill, user=each_user)
+            lst.append(payment)
+        return render(request, "Wepay/detail.html", {"bill": bill, "payment":lst})
 
 
 def create(request: HttpRequest, pk: int):
