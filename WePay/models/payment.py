@@ -22,6 +22,7 @@ class Payment(models.Model):
     )
     date = models.DateTimeField(null=True, blank=True)
     bill = models.ForeignKey(Bills, on_delete=models.CASCADE)
+    uri = models.CharField(max_length=100, null=True, blank=True)
 
     class Status_choice(models.TextChoices):
         """choice for status whether PAID, PENDING, or UNPAID"""
@@ -53,6 +54,7 @@ class Payment(models.Model):
         super().__init__(*args, **kwargs)
         if self.user == self.bill.header:
             self.user.status = self.Status_choice.PAID
+            self.user.save()
 
     @property
     def header(self) -> UserProfile:
@@ -69,10 +71,13 @@ class Payment(models.Model):
             "BAY": BAYPayment,
             "BBL": BBLPayment,
         }
+        print(self.status)
         if self.status in (self.Status_choice.PAID, self.Status_choice.PENDING):
             return
         now_payment = payment_dct[self.payment_type].objects.create(payment=self)
+        print(now_payment)
         now_payment.pay()
+        self.save()
 
     def __repr__(self) -> str:
         """represent a payment"""
@@ -98,39 +103,46 @@ class BasePayment(models.Model):
         cls.__str__ = cls.__repr__
 
     def __repr__(self) -> str:
-        return self.__class__.__name__
+        return f'{self.__class__.__name__}({self.payment.payment_type}, {self.payment.status}, {self.payment.user})'
 
 
 class OmisePayment(BasePayment):
     charge_id = models.CharField(max_length=100, null=True, blank=True)
     payment_type = models.CharField(max_length=100, default="promptpay")
-    uri = models.CharField(max_length=100, null=True, blank=True)
+    # i dont know how to call this on Payment class, So I will move up it up to payment class
+    # uri = models.CharField(max_length=100, null=True, blank=True)
 
     class Meta:
         abstract = True
 
     def pay(self):
         """pay by omise"""
-        if self.payment.user.status == self.payment.Status_choice.UNPAID:
+        print(self.payment.status)
+        # amount must morethan 20
+        if self.payment.status == self.payment.Status_choice.UNPAID:
             source = omise.Source.create(
                 type=self.payment_type,
-                amount=self.payment.bill.calculate_price(self.user) * 100,
+                amount=int(self.payment.bill.calculate_price(self.payment.user) * 100),
                 currency="thb",
             )
+
 
             omise.api_secret = self.payment.bill.header.chain.key
 
             charge = omise.Charge.create(
-                amount=int(self.payment.bill.calculate_price(self.user) * 100),
+                amount=int(self.payment.bill.calculate_price(self.payment.user) * 100),
                 currency="thb",
                 source=source.id,
-                return_uri="http://localhost:8000/bill/",
+                return_uri="http://127.0.0.1:8000/bill/",
             )
 
             self.charge_id = charge.id
-            self.uri = charge.authorize_uri
-
+            print(f'charge uriiiiiiuiiiiiiii {charge.authorize_uri}')
+            self.payment.uri = charge.authorize_uri
+            self.payment.save()
             omise.api_secret = OMISE_SECRET
+            self.save()
+
 
     def get_status(self):  # TODO remove middle man
         status = omise.Charge.retrieve(self.charge_id).status
@@ -144,43 +156,25 @@ class OmisePayment(BasePayment):
         self.save()
         return self.payment.status
 
-    def __repr__(self) -> str:
-        return f"{super().__repr__()[:-1]} Paid by {self.payment_type})"
-
 
 class PromptPayPayment(OmisePayment):
     payment_type = "promptpay"
-
-    def __repr__(self) -> str:
-        return f"{super().__repr__()[:-1]} Paid by {self.payment_type})"
 
 
 class SCBPayment(OmisePayment):
     payment_type = "internet_banking_scb"
 
-    def __repr__(self) -> str:
-        return f"{super().__repr__()[:-1]} Paid by {self.payment_type})"
-
 
 class KTBPayment(OmisePayment):
     payment_type = "internet_banking_ktb"
-
-    def __repr__(self) -> str:
-        return f"{super().__repr__()[:-1]} Paid by {self.payment_type})"
 
 
 class BBLPayment(OmisePayment):
     payment_type = "internet_banking_bbl"
 
-    def __repr__(self) -> str:
-        return f"{super().__repr__()[:-1]} Paid by {self.payment_type})"
-
 
 class BAYPayment(OmisePayment):
     payment_type = "internet_banking_bay"
-
-    def __repr__(self) -> str:
-        return f"{super().__repr__()[:-1]} Paid by {self.payment_type})"
 
 
 class CashPayment(BasePayment):

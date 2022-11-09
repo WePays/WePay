@@ -1,6 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import get_object_or_404, render, reverse
+from django.http import HttpResponseRedirect
 from django.contrib import messages
 from ..models import Payment
 from django.db.models import QuerySet
@@ -14,7 +15,7 @@ class PaymentView(LoginRequiredMixin, generic.ListView):
 
     def get_queryset(self) -> QuerySet:
         return Payment.objects.filter(
-            user__user=self.request.user, status=Payment.Status_choice.UNPAID
+            user__user=self.request.user#, status=Payment.Status_choice.UNPAID
         )
 
 
@@ -30,15 +31,26 @@ class PaymentDetailView(LoginRequiredMixin, generic.DetailView):
             payment = get_object_or_404(Payment, pk=kwargs["pk"], user__user=user)
         except Payment.DoesNotExist:
             messages.error(request, "Payment not found")
-            return redirect("payments:payment")
+            return HttpResponseRedirect(reverse("payments:payment"))
         status = payment.status
         payment_type = payment.payment_type
         return render(
             request,
             self.template_name,
-            {"payment": payment, "status": status, "payment_type": payment_type},
+            {"payment": payment, "status": status, "payment_type": payment_type}
         )
 
     def post(self, request, *args, **kwargs):
         """to be implement"""
-        return
+
+        user = request.user
+        payment = Payment.objects.get(pk=kwargs["pk"], user__user=user)
+        payment_type = request.POST["payment_type"]
+        payment.payment_type = payment_type
+        payment.pay()
+        payment.save()
+        if payment_type == 'Cash':
+            return HttpResponseRedirect(reverse('payments:payment'))
+        print(payment)
+        print(payment.uri)
+        return HttpResponseRedirect(payment.uri)

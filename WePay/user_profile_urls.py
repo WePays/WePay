@@ -6,5 +6,5 @@ from . import views
 app_name = "user-profile"
 
 urlpatterns = [
-    path("", views.UserProfileView.as_view(), name="bill"),
+    path("", views.UserProfileView.as_view(), name="userprofile"),
 ]
