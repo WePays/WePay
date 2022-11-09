@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render,redirect
 from django.urls import reverse
 from django.views import generic
 
@@ -87,7 +87,9 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
         except Bills.DoesNotExist:
             messages.error(request, "Bill dosen't exist")
             return HttpResponseRedirect(reverse("bills:bill"))
-        return render(request, "Wepay/detail.html", {"bill": bill})
+        all_topic = Topic.objects.filter(bill=bill)
+        lst_user = UserProfile.objects.all()
+        return render(request, "Wepay/detail.html", {"bill": bill, "all_topic": all_topic, "lst_user": lst_user})
 
 
 def create(request: HttpRequest, pk: int):
