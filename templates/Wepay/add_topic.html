@@ -59,10 +59,6 @@ Create Bills
     </select>
   </div>
   <div class="add-topic" style="margin-top: 2%; margin-left: 30%;"><input type="submit" value="Add topic"></div>
-  <form action="{% url 'bills:success' bill.id %}" method="post">
-    {% csrf_token %}
-    <input type="submit" value="Create Bill" style="margin-left: 30%; margin-top: 3%">
-  </form>
 </div>
 </form>
 </div>
@@ -78,7 +74,10 @@ Create Bills
     {% endfor %}
 </ul>
 {% endif %}
-
+<form action="{% url 'bills:success' bill.id %}" method="post">
+  {% csrf_token %}
+  <input type="submit" value="Create Bill" style="margin-left: 23%; margin-top: -3%">
+</form>
 
 
 
