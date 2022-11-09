@@ -18,20 +18,20 @@ Detail bill
       <thead>
         <tr>
             <th>No.</th>
-            <th>Bills Topic</th>
-            <th>Prices</th>
+            <th>Name</th>
+            <th>Price</th>
             <th>Status</th>
         </tr>
       </thead>
-  
+      {% for topic in all_topic %}
       <tbody><style>tbody{padding-block: -1%;}</style>
         <tr>
-            <td>cscscsc</td><style>td{padding: 1%;}</style>
-            <td>sscssc</td>
-            <td>aaaa</td>
-            <td>sssss</td>
+            <td>{{forloop.counter0|add:"1"}}</td><style>td{padding: 1%;}</style>
+            <td></td>
+            <td></td>
         </tr>
         </tbody>
+        {% endfor %}
 
     </list>
   </ul>
