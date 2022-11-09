@@ -16,26 +16,12 @@ Detail bill
     <table class="styled-table" style="width: 35%; height: 50%; text-align: center; margin-top: 5%;">
       <thead>
         <tr>
-            <th>No.</th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Status</th>
+            <th> No. </th>
+            <th> Name </th>
+            <th> Price </th>
+            <th> Status </th>
         </tr>
       </thead>
-      <!-- {% for user in bill.all_user %}
-      <tbody><style>tbody{padding-block: -1%;}</style>
-        <tr>
-            <td>{{forloop.counter0|add:"1"}}</td><style>td{padding: 1%;}</style>
-            <td>{{user.name}}</td>
-            {{payment}} -->
-            <!-- {% for price in payment %}
-              <td>{{price.user.name}}</td>
-              <td>{{price.amount}}</td>
-              <td>{{price.status}}</td>
-            {% endfor %} -->
-        <!-- </tr>
-        </tbody>
-      {% endfor %} -->
       {% for price in payment %}
       <tbody><style>tbody{padding-block: -1%;}</style>
         <tr>
@@ -43,7 +29,6 @@ Detail bill
             <td>{{price.user.name}}</td>
             <td>{{price.amount}}</td>
             <td>{{price.status}}</td>
-            <!-- <td>{{price}}</td> -->
         </tr>
         </tbody>
       {% endfor %}
