@@ -19,7 +19,8 @@
 
 
 {% if my_bill %}
-<div class="header" style="margin-left: 3%; margin-top: 10%;"><h1>Bill list</h1></div>
+<div class="header" style="margin-left: 0%; margin-top: 5%;">
+<h1>Bill list</h1><style>h1{margin-left: 3%;}</style>
 <body>
   <ul>
     <table class="styled-table" style="width: 60%; height: 50%; text-align: center;">
@@ -37,7 +38,7 @@
       <tbody>
         <tr>
           <td>{{forloop.counter0|add:"1"}}</td><style>td{padding: 1%;}</style>
-          <td> <a href="{% url 'bills:detail' bill.id %}"> {{ bill.name }}</a></td>
+          <td> <a href="{% url 'bills:detail' bill.id %}" style="color: navy;"> {{ bill.name }}</a></td>
           <td>{{ bill.total_price}}</td>
           <td>not paid</td>
           <td>status</td>
@@ -48,9 +49,10 @@
   </ul>
 </table>
 </body>
+</div>
 
 {% else %}
-  <p>No Bill are available.</p>
+  <p>No Bills are available.</p><style>p{color:firebrick;}</style>
 {% endif %}
 
 <!-- <div class="add-logout">

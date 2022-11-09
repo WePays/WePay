@@ -11,69 +11,43 @@ Create Bills
 {{ block.super }}
 
 {% if user.is_authenticated %}
-
-<!-- <script src="{% static 'wepay/create_bill.js' %}"></script> -->
 <form action="" method="POST">
     {% csrf_token %}
-   <!-- - <div id="chartpanel" class="row" data-equalizer style="margin-left: 20%; margin-top: 15%;">
+<div class="first-body" style="margin-left: 3%; margin-top: 5%;">
 
-        <div class="icon"><i class="fa fa-info" aria-hidden="true"></i></div> -->
-        <!-- <table class="styled-table" style="width: 60%; height: 50%;"> -->
-            <!-- <thead>
-                <tr>
-                    <th>Header :{{header}}</th>
-                    <br>
-                        <th>
-                            Bill's title : <input type="text" name="title" id="title" placeholder="Enter the title of the bill" required>
-                        </th>
-                    <br>
-                        <th>
-                            Price : <input type="text" name="price" id="price" placeholder="Enter the Price" required>
-                        </th>
-                    <br>
-                    <form action="" method="post">
-                        <th>
-                            <label>
-                                Assign to: -->
-                                <!-- <input type="search" name="all_user" id="all_user" placeholder="username" list="username" required> -->
-                            <!-- </label>
-                            <select id="username" multiple>
-                                {% for name in lst_user %}
-                                    <option value="{{name}}">{{name}}</option>
-                                {% endfor %}
-                            </select>
-                            <br>
-                            <input type="submit" name="add_user" id="add_user" value="Create Bill"> -->
-                                <!-- {% for name in lst_user %}
-                            <input type="checkbox" name="all_user" id="all_user" placeholder="username" value="{{name}}">
-                            <label for="all_user">{{name}}</label>
-                            {% endfor %} -->
-                        <!-- </th>
-                    </form>
-                </tr>
-            </thead>
+    <div class="title" style="margin-top: 5%; color: #222A9B; font-weight: bold;"><h2>Create Bill: {{header}}</h2></div>
 
-        </table>
-    </div> -->
+    <div class="header" style="margin-left: 3%; margin-top: 3%; color: black; font-weight: bold;" > Bill's title: <br>
+        <input type="text" name="title" id="title" placeholder="Enter the title of the bill" required 
+        style="width: 40%; font-weight: lighter;">
+    </div>
 
-    Header :{{header}}
-    <br>
-    Bill's title 
-    <input type="text" name="title" id="title" placeholder="Enter the title of the bill" required>
-    <br><br>
-    <h3> Initial Topic </h3>
-    Topic Name: <input type="text" name="topic_name" id="topic_name" placeholder="Enter the topic name" required>
-    <br>
-    Topic Price: <input type="number" min="0" name="topic_price" id="topic_price" placeholder="Enter the topic price" required>
-    <br>
+</div>
 
+<div class="second-body" style="margin-left: 4%; margin-top: 5%; color: #222a9b;"> <h3> Initial Topic </h3>
+
+    <div class="topic-name" style="margin-left: 3%; margin-top: 3%; font-weight: bold; color: black;"> Name:<br>
+        <input type="text" name="topic_name" id="topic_name" placeholder="Enter the topic name" required 
+        style="width: 40%; font-weight: lighter;">
+    </div>
+
+    <div class="topic-price" style="margin-left: 3%; margin-top: 3%; font-weight: bold; color: black;"> Price: <br> 
+        <input type="number" min="0" name="topic_price" id="topic_price" placeholder="Enter the topic price" required 
+        style="width: 40%; font-weight: lighter;">
+    </div>
+
+     <!--  BUG HEREEEEEEEEEEEEEEEEEEEE-->
+    <div class="add-user" style="margin-left: 3%; margin-top: 3%; font-weight: bold; color: black;"> Enter user to assign: <br>
+        <select id="username" name="username"  multiple required 
+        style="width: 40%; font-weight: lighter; height: 15%;">
+            {% for name in lst_user %}
+            <option value="{{name}}" style="color: indianred;">{{name}}</option>
+            {% endfor %}
+        </select>
+        {% comment %} <input name="all_user" id="all_user" multiple="multiple" placeholder="username" list="username" required> {% endcomment %}
+    </div>
     <!--  BUG HEREEEEEEEEEEEEEEEEEEEE-->
-    <label for="username">Enter user to assign:</label>
-<select id="username" name="username"  multiple required>
-    {% for name in lst_user %}
-    <option value="{{name}}">{{name}}</option>
-    {% endfor %}
-</select>
+</div>
 
     {% if messages %}
     <ul class="messages">
@@ -83,7 +57,7 @@ Create Bills
     </ul>
     {% endif %}
 
-    <div class="Create"><input type="submit" value="Create"></div>
+    <div class="Create" style="margin-left: 40%; margin-top: 3%;"><input type="submit" value="Create"></div>
     {% comment %} </ul> {% endcomment %}
 </form>
 <br><br><br>

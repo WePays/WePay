@@ -1,4 +1,5 @@
 {% extends 'WePay/base_wepay.html' %}
+{% load static %}
 
 {%block title%}
 {{ block.super }}
@@ -6,13 +7,14 @@ Create Bills
 {% endblock title%}
 
 {% block body%}
-<h3>Bill name: {{bill.name}}</h3>
-<h3>Bill header: {{bill.header}}</h3>
-<br><br>
-<table>
+
+<div class="box" style="margin-top: 5%; margin-left: -10%;">
+
+  <div class="first-section" style="margin-top: 5%; background: transparent;">
+  <table class="styled-table" style="width: 35%; height: 50%; text-align: center; margin-top: 5%;">
     <thead>
       <tr>
-        <th> No. </th><style>th{padding-left: 1%; text-align: center;}</style>
+        <th> No. </th><style>th{padding-left: 0.5%; text-align: center;}</style>
         <th> title </th>
         <th> Price </th>
         <th> User to assign </th>
@@ -20,9 +22,9 @@ Create Bills
     </thead>
 
     {% for topic in all_topic %}
-    <tbody>
+    <tbody><style>tbody{padding-block: -1%;}</style>
       <tr>
-        <td>{{forloop.counter0|add:"1"}}</td><style>td{padding: 1%;}</style>
+        <td>{{forloop.counter0|add:"1"}}</td>
         <td>{{topic.title}}</td> <!-- this will link to detail bill page-->
         <td>{{topic.price}}</td>
         <td>{% for each_user in topic.user.all %}{{each_user}}, {% endfor %}</td> 
@@ -33,26 +35,36 @@ Create Bills
   </list>
 </ul>
 </table>
+</div>
 
+<div class="second-section" style="margin-left: 45%;margin-top: -25%; border:black solid 10%; background: transparent;">
 
+  <h3>Add Topic By: {{bill.header}}</h3><p>Name of Bill: {{bill.name}}</p>Total price: {{bill.total_price}}
 
-
-<h4>Add Topic</h4>
-<form action="" method="post">
+  <form action="" method="post">
     {% csrf_token %}
     {{ form.as_p }}
-Topic Name: <input type="text" name="topic_name" id="topic_name" placeholder="Enter the topic name" required>
-<br>
-Topic Price: <input type="number" min="0" name="topic_price" id="topic_price" placeholder="Enter the topic price" required>
-<br>
+  <div class="topic-name" style="margin-top: 2%;"> Name: <br>
+    <input type="text" name="topic_name" id="topic_name" placeholder="Enter the topic name" required style="width: 40%; font-weight: lighter;"></div>
+  <div class="topic-price" style="margin-top: 2%;"> Price: <br>
+    <input type="number" min="0" name="topic_price" id="topic_price" placeholder="Enter the topic price" required style="width: 40%; font-weight: lighter;"></div>
+
+  <div class="add-user" style="margin-top: 2%;" for="username">Enter user to assign:<br>
+    <select id="username" name="username"  multiple required style="width: 40%; height: 20%">
+      {% for name in lst_user %}
+        <option value="{{name}}">{{name}}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="add-topic" style="margin-top: 2%; margin-left: 30%;"><input type="submit" value="Add topic"></div>
+</div>
+</form>
+</div>
 
 
-<label for="username">Enter user to assign:</label>
-<select id="username" name="username"  multiple required>
-{% for name in lst_user %}
-<option value="{{name}}">{{name}}</option>
-{% endfor %}
-</select>
+
+
+
 
 {% if messages %}
 <ul class="messages">
@@ -61,16 +73,12 @@ Topic Price: <input type="number" min="0" name="topic_price" id="topic_price" pl
     {% endfor %}
 </ul>
 {% endif %}
-
-<div class="Create"><input type="submit" value="Add topic"></div>
-</form>
-<br><br>
-Total price: {{bill.total_price}}
-<br> <br>
-
 <form action="{% url 'bills:success' bill.id %}" method="post">
-    {% csrf_token %}
-    <input type="submit" value="Create Bill">
+  {% csrf_token %}
+  <input type="submit" value="Create Bill" style="margin-left: 22%; margin-top: -5%">
 </form>
+
+
+
 
 {% endblock body%}
