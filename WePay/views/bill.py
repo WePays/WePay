@@ -68,7 +68,7 @@ class BillCreateView(LoginRequiredMixin, generic.DetailView):
                 each_user_payment.save()
             bill.save()
 
-            return HttpResponseRedirect(f'/bill/{bill.id}/add')
+            return HttpResponseRedirect(f"/bill/{bill.id}/add")
         return HttpResponseRedirect(reverse("bills:bill"))
 
 

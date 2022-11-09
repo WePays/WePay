@@ -61,6 +61,11 @@ class Payment(models.Model):
         """Get header of each bill in each payment"""
         return self.bill.header
 
+    @property
+    def amount(self) -> int:
+        """get amount of each payment"""
+        return int(self.bill.calculate_price(self.user) * 100)
+
     def pay(self) -> None:
         """Pay to header"""
         payment_dct = {
@@ -103,7 +108,7 @@ class BasePayment(models.Model):
         cls.__str__ = cls.__repr__
 
     def __repr__(self) -> str:
-        return f'{self.__class__.__name__}({self.payment.payment_type}, {self.payment.status}, {self.payment.user})'
+        return f"{self.__class__.__name__}({self.payment.payment_type}, {self.payment.status}, {self.payment.user})"
 
 
 class OmisePayment(BasePayment):
@@ -122,27 +127,25 @@ class OmisePayment(BasePayment):
         if self.payment.status == self.payment.Status_choice.UNPAID:
             source = omise.Source.create(
                 type=self.payment_type,
-                amount=int(self.payment.bill.calculate_price(self.payment.user) * 100),
+                amount=self.payment.amount,
                 currency="thb",
             )
-
 
             omise.api_secret = self.payment.bill.header.chain.key
 
             charge = omise.Charge.create(
-                amount=int(self.payment.bill.calculate_price(self.payment.user) * 100),
+                amount=self.payment.amount,
                 currency="thb",
                 source=source.id,
                 return_uri="http://127.0.0.1:8000/bill/",
             )
 
             self.charge_id = charge.id
-            print(f'charge uriiiiiiuiiiiiiii {charge.authorize_uri}')
+            print(f"charge uriiiiiiuiiiiiiii {charge.authorize_uri}")
             self.payment.uri = charge.authorize_uri
             self.payment.save()
             omise.api_secret = OMISE_SECRET
             self.save()
-
 
     def get_status(self):  # TODO remove middle man
         status = omise.Charge.retrieve(self.charge_id).status

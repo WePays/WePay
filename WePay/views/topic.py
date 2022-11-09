@@ -24,7 +24,9 @@ class AddTopicView(LoginRequiredMixin, generic.DetailView):
         all_topic = Topic.objects.filter(bill=bill)
         lst_user = UserProfile.objects.all()
         return render(
-            request, self.template_name, {"bill": bill, "all_topic": all_topic, "lst_user": lst_user}
+            request,
+            self.template_name,
+            {"bill": bill, "all_topic": all_topic, "lst_user": lst_user},
         )
 
     def post(self, request: HttpRequest, *args, **kwargs):
