@@ -1,0 +1,30 @@
+{% extends 'WePay/base_wepay.html' %}
+{% load static %}
+
+{% block body %}
+<h2 id="instruction">Instruction</h2>
+<p>Follow the instructions below to enable account chaining: </p>
+<ol>
+<li><p>Sign up/ Sign in via Omise.</p>
+</li>
+<li><p>Visit <a href="https://dashboard.omise.co/test/settings">Omise Dashboard &gt; Settings</a>
+<img width="941" alt="image" src="https://user-images.githubusercontent.com/90590580/200815785-9519c25e-cb51-4b2b-b9c9-d55ba174df2c.png"></p>
+</li>
+<li><p>Click the checkbox enabling account chaining, and set the Return url to which the sub-merchant will be redirected after authorization.
+<img width="842" alt="image" src="https://user-images.githubusercontent.com/90590580/200816712-acf34a7e-99d6-494b-8f7f-4add20940a2b.png"></p>
+</li>
+<li><p>Click Update settings and provide the generated Chain url to your sub-merchants so they can authorize account chaining. Sub-merchants must 
+visit the Chain Authorization URI, read the terms, and click Authorize.
+<img width="967" alt="image" src="https://user-images.githubusercontent.com/90590580/200820225-5efada82-36d7-431e-b7c0-2aa2075b9548.png"></p>
+</li>
+<li><p>Once a sub-merchant has authorized the account chain, it should appear under the Chains menu item in your dashboard.
+<img width="953" alt="image" src="https://user-images.githubusercontent.com/90590580/200820397-dd48052c-bd36-4c1a-91d6-6e959dc1a6ed.png"></p>
+</li>
+<li><p>You can view a chain&#39;s details by clicking on it.
+<img width="944" alt="image" src="https://user-images.githubusercontent.com/90590580/200820948-7fdc1f9b-6e4b-47e7-8d46-8b7dff7e3254.png"></p>
+</li>
+<li><p>Go back to website, and put chain id on user profile page (top-right).
+<img width="304" alt="image" src="https://user-images.githubusercontent.com/90590580/200827764-6d50afe2-b6e5-4107-a1b1-8ecf40299c34.png"></p>
+</li>
+</ol>
+{% endblock body %}
