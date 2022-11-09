@@ -40,7 +40,7 @@
           <td>{{forloop.counter0|add:"1"}}</td><style>td{padding: 1%;}</style>
           <td> <a href="{% url 'bills:detail' bill.id %}" style="color: navy; font-weight: bold;"> {{ bill.name }}</a></td>
           <td>{{ bill.total_price}}</td>
-          <td class="status" style="color:firebrick;">not paid</td>
+          <td class="status" style="color:firebrick;">UNPAID</td>
           <td class="verify" style="color:mediumseagreen;">verify</td>
         </tr>
         </tbody>
