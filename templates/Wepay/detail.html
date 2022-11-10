@@ -34,7 +34,7 @@ Detail bill
         </tbody>
       {% endfor %} -->
       {% for price in payment %}
-      <tbody><style>tbody{padding-block: -1%;}</style>
+      <tbody><style>tbody{padding-block: -1%; font-size:medium;}</style>
         <tr>
             <td>{{forloop.counter0|add:"1"}}</td><style>td{padding: 1%;}</style>
             <td>{{price.user.name}}</td>
