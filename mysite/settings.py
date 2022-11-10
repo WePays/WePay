@@ -47,7 +47,12 @@ INSTALLED_APPS = [
     "allauth.socialaccount.providers.github",
     "allauth.socialaccount.providers.google",
     "allauth.socialaccount.providers.discord",
+    "tailwind",
+    "theme",
+    "django_browser_reload",
 ]
+
+TAILWIND_APP_NAME = 'theme'
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -57,6 +62,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django_browser_reload.middleware.BrowserReloadMiddleware",
     # 'auth_remember.middleware.AuthRememberMiddleware',
 ]
 
@@ -177,3 +183,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 LOGOUT_REDIRECT_URL = "/accounts/login/"
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
+
+NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"

@@ -31,7 +31,8 @@ urlpatterns = [
     path("about/", About.as_view(), name="about"),
     path("user-profile/", include("WePay.user_profile_urls")),
     path("", RedirectView.as_view(url="/bill/")),
-    path("instruction/", Instruction.as_view(), name="instruction")
+    path("instruction/", Instruction.as_view(), name="instruction"),
+    path("__reload__/", include("django_browser_reload.urls")),
     # url(r'^favicon\.ico$',RedirectView.as_view(url='/static/images/favicon.ico')),
     # path("payments/", PaymentView.as_view(), name="payment"),
 ]
