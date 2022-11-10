@@ -10,12 +10,12 @@
 </header> -->
 
 {% block header %}
-<link rel=¨stylesheet¨ type=¨text/css¨ href=¨wepay/bill.css¨>
+    <link rel=¨stylesheet¨ type=¨text/css¨ href=¨wepay/bill.css¨>
 {% endblock header %}
 
 {% block body%}
-{{block.super}}
-{% if user.is_authenticated %}
+    {{block.super}}
+    {% if user.is_authenticated %}
 
 
 {% if my_bill %}
@@ -51,20 +51,20 @@
 </body>
 </div>
 
-{% else %}
-  <p>No Bills are available.</p><style>p{color:firebrick;}</style>
-{% endif %}
+        {% else %}
+            <p>No Bills are available.</p><style>p{color:firebrick;}</style>
+        {% endif %}
 
-<!-- <div class="add-logout">
+        <!-- <div class="add-logout">
   <p><a href="accounts/logout"><button tyoe="button">logout</button></a></p>
 </div> -->
 <div class="createbttn">
   <p><a href="create" style="margin-left: 55%; color: navy;" ><button type="button">Create Bill</button></a></p>
 </div>
 
-{% else %}
-<a href='/accounts/logout'><button type="button">Log in?</button></a>
-{% endif %}
+    {% else %}
+        <a href='/accounts/logout'><button type="button">Log in?</button></a>
+    {% endif %}
 
 {% endblock body%}
 

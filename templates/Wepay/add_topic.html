@@ -2,13 +2,13 @@
 {% load static %}
 
 {%block title%}
-{{ block.super }}
-Create Bills
+    {{ block.super }}
+    Create Bills
 {% endblock title%}
 
 {% block body%}
 
-<div class="box" style="margin-top: 5%; margin-left: -10%;">
+    <div class="box" style="margin-top: 5%; margin-left: -10%;">
 
   <div class="first-section" style="margin-top: 5%; background: transparent;">
   <table class="styled-table" style="width: 35%; height: 50%; margin-top: 5%; font-size: medium; background-color: aliceblue;">
@@ -21,21 +21,13 @@ Create Bills
       </tr>
     </thead>
 
-    {% for topic in all_topic %}
-    <tbody><style>tbody{padding-block: -1%;}</style>
-      <tr>
-        <td>{{forloop.counter0|add:"1"}}</td>
-        <td>{{topic.title}}</td> <!-- this will link to detail bill page-->
-        <td>{{topic.price}}</td>
-        <td>{% for each_user in topic.user.all %}{{each_user}}, {% endfor %}</td> 
-        
-      </tr>
-      </tbody>
-      {% endfor %}
-  </list>
-</ul>
-</table>
-</div>
+                {% for topic in all_topic %}
+                    <tbody><style>tbody{padding-block: -1%;}</style>
+                        <tr>
+                            <td>{{forloop.counter0|add:"1"}}</td>
+                            <td>{{topic.title}}</td> <!-- this will link to detail bill page-->
+                            <td>{{topic.price}}</td>
+                            <td>{% for each_user in topic.user.all %}{{each_user}}, {% endfor %}</td>
 
 <div class="second-section" style="margin-left: 45%;margin-top: -25%; border:black solid 10%; background: transparent; ">
 

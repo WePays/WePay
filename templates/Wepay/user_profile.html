@@ -20,6 +20,22 @@
     </ul>
     {% endif %}
     <br>
+    <form action="" method="post">
+        {% csrf_token %}
+        display name:
+        <input type='text' name='display name' id='name' value={{user.username}}>
+        <br>
+        chain key:
+        <input type='text' name='chain key' id='chain key' value={{chain_key}}>
+        <br>
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <br>
 
     <div class="Create" style="margin-left: 10%;"><input type="submit" value="Update"></div>
 </form>
