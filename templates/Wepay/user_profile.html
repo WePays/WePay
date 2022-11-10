@@ -9,20 +9,28 @@
         display name:
         <input type='text' name='display name' id='name' value={{user.username}}>
         <br>
-        chain key:
-        <input type='text' name='chain key' id='chain key' value={{chain_key}}>
-        <br>
-        {% if messages %}
-            <ul class="messages">
-                {% for message in messages %}
-                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
         <br>
 
         <div class="Create"><input type="submit" value="Update"></div>
     </form>
-    <br><br>
+    <br>
+
+    <form action="{% url 'user-profile:fetch-key' %}" method="post">
+        {% csrf_token %}
+        chain id:
+        <label>{{chain_id}}</label>
+        <input type='submit', value='fetch'>
+        <br>
+    </form>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li class="{{ message.tags }}">
+            {% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}
+            </li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+    <br>
 
 {% endblock body%}
