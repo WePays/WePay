@@ -8,7 +8,7 @@
     {% csrf_token %}
     display name: 
     <input type='text' name='display name' id='name' value={{user.username}}> 
-    <br><br>
+    <!-- <br><br>
     chain key:
     <input type='text' name='chain key' id='chain key' value={{chain_key}}>
     <br>
@@ -19,9 +19,8 @@
         {% endfor %}
     </ul>
     {% endif %}
-    <br>
+    <br> -->
 
-    <div class="Create" style="margin-left: 10%;"><input type="submit" value="Update"></div>
 </form>
 <br><br>
 
@@ -42,5 +41,6 @@
         </ul>
     {% endif %}
     <br>
+    <div class="Create" style="margin-top: 0%;"><input type="submit" value="Update"></div>
 
 {% endblock body%}
