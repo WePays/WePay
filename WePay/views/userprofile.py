@@ -37,6 +37,7 @@ def fetch_key(request, *args, **kwargs):
     user = request.user
     userprofile = UserProfile.objects.get(user=user)
     all_chain = omise.Chain.retrieve()
+    print(user.email)
 
     for each_chain in all_chain:
         if each_chain.email == user.email:

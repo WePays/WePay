@@ -16,15 +16,16 @@
 
 
 {% block content %}
-    <h5>Login</h5>
-    <form class="login" method="POST" action="{% url 'account_login' %}">
-        {% csrf_token %}
-        {{ form.as_p }}
-        {% if redirect_field_value %}
-            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-        {% endif %}
-        <button class="primaryAction" type="submit">{% trans "Login" %}</button>
-    </form>
+<div class="left-box" style="margin-left: -5%;">
+<h5>Login</h5>
+<form class="login" method="POST" action="{% url 'account_login' %}">
+	{% csrf_token %}
+	{{ form.as_p }}
+	{% if redirect_field_value %}
+	<input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+	{% endif %}
+	<button class="primaryAction" type="submit">{% trans "Login" %}</button>
+</form>
 
 
     <p>Don't have an account? <a href={% url 'account_signup' %}>Create Your Account</a> Click Signup for create account</p>
@@ -47,6 +48,7 @@
 			<br>
 				<button type="button" onclick={% url 'account_signup' %}>Signup</button>
 				<button type="button" onclick={% url 'account_login' %}>Login</button>
-
-	 </div> {% endcomment %}
+		</div> 
+	</div>
+	{% endcomment %}
 {% endblock content%}
