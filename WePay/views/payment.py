@@ -35,6 +35,7 @@ class PaymentDetailView(LoginRequiredMixin, generic.DetailView):
             messages.error(request, "Payment not found")
             return HttpResponseRedirect(reverse("payments:payment"))
         status = payment.status
+        print(status)
         payment_type = payment.payment_type
         if payment.amount <= 20 or payment.amount > 150000:
             messages.info(
