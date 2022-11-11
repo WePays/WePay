@@ -19,7 +19,7 @@ from django.urls import path, include
 # from django.conf.urls import url
 
 from django.views.generic import RedirectView
-from .views import signup, About, Instruction
+from .views import signup, About, Instruction, Tailwind
 
 urlpatterns = [
     path("admin/doc/", include("django.contrib.admindocs.urls")),
@@ -33,6 +33,7 @@ urlpatterns = [
     path("", RedirectView.as_view(url="/bill/")),
     path("instruction/", Instruction.as_view(), name="instruction"),
     path("__reload__/", include("django_browser_reload.urls")),
+    path("tailwind/", Tailwind.as_view(), name="tailwind")
     # url(r'^favicon\.ico$',RedirectView.as_view(url='/static/images/favicon.ico')),
     # path("payments/", PaymentView.as_view(), name="payment"),
 ]

@@ -1,5 +1,5 @@
 {% load static %}
-
+{% load tailwind_tags %}
 <html>
 
 	<head>
@@ -11,6 +11,7 @@
 		<link rel="stylesheet" type="text/css" href="{% static 'wepay/create_bill.css' %}">
 		<link rel="stylesheet" type="text/css" href="{% static 'wepay/bill.css' %}">
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+		
 		{% block extra_head %}{% endblock extra_head %}
 	  </head>
 	  
