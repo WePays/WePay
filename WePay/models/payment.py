@@ -21,7 +21,7 @@ class Payment(models.Model):
         UserProfile, on_delete=models.CASCADE, null=True, blank=True
     )
     date = models.DateTimeField(null=True, blank=True)
-    bill = models.ForeignKey(Bills, on_delete=models.CASCADE)
+    bill = models.ForeignKey(Bills, on_delete=models.CASCADE, related_name="payments")
     uri = models.CharField(max_length=100, null=True, blank=True)
 
     class Status_choice(models.TextChoices):
@@ -70,11 +70,16 @@ class Payment(models.Model):
         return self.bill.header
 
     @property
+    def price(self):
+        """get price of each payment"""
+        return self.bill.calculate_price(self.user)
+
+    @property
     def amount(self) -> int:
         """get amount of each payment"""
         if self.payment_type == self.PaymentChoice.CASH:
-            return int(self.bill.calculate_price(self.user))
-        return int(self.bill.calculate_price(self.user) * 100)
+            return int(self.price)
+        return int(self.price * 100)
 
     @property
     def selected_payment(self) -> Any:

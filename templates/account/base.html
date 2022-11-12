@@ -36,35 +36,35 @@
                 </div>
             {% endif %}
 
-<!-- partial:index.partial.html -->
-<div class="box-form">
-    <div class="left" style="width: 60%;">
-        {% block boxleft%}
-        <div class="overlay">
-          <h1>WePay</h1>
-          <p>WePay is a web application for those who need to coordinate paying for a group.<br>
-          WePay can help by charging or splitting bills, which makes it easier to collect money.</p>
-          {% if not user.is_authenticated %}
-          <span>
-            <p>Login with</p>
-            <a href="{% provider_login_url 'github' %}"> <i class="fa fa-github" aria-hidden="true"></i>  GitHub </a>
-            <a href="{% provider_login_url 'google' %}"><i class="fa fa-google" aria-hidden="true"></i>  Google  </a>
-            <a href="{% provider_login_url 'line' %}"><i class="fa fa-line" aria-hidden="true"></i>  Line</a>
-            <a href="{% provider_login_url 'discord' %}"><i class="fa-brands fa-discord" aria-hidden="true"></i>  Discord</a>
-          </span>
-          {% endif %}
-        </div>
+            <!-- partial:index.partial.html -->
+            <div class="box-form">
+                <div class="left" style="width: 60%;">
+                    {% block boxleft%}
+                        <div class="overlay">
+                            <h1>WePay</h1>
+                            <p>WePay is a web application for those who need to coordinate paying for a group.<br>
+                                WePay can help by charging or splitting bills, which makes it easier to collect money.</p>
+                            {% if not user.is_authenticated %}
+                                <span>
+                                    <p>Login with</p>
+                                    <a href="{% provider_login_url 'github' %}"> <i class="fa fa-github" aria-hidden="true"></i>  GitHub </a>
+                                    <a href="{% provider_login_url 'google' %}"><i class="fa fa-google" aria-hidden="true"></i>  Google  </a>
+                                    <a href="{% provider_login_url 'line' %}"><i class="fa fa-line" aria-hidden="true"></i>  Line</a>
+                                    <a href="{% provider_login_url 'discord' %}"><i class="fa-brands fa-discord" aria-hidden="true"></i>  Discord</a>
+                                </span>
+                            {% endif %}
+                        </div>
 
-        {% endblock boxleft%}
-	</div>
-	
-  <div class="right">
-  {% block content %}
-  {% endblock content %}
-  </div>
+                    {% endblock boxleft%}
+                </div>
 
-{% endblock body %}
-{% block extra_body %}
-{% endblock extra_body %}
-</body>
+                <div class="right">
+                    {% block content %}
+                    {% endblock content %}
+                </div>
+
+        {% endblock body %}
+        {% block extra_body %}
+        {% endblock extra_body %}
+    </body>
 </html>

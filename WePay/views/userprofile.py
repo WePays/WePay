@@ -29,7 +29,7 @@ class UserProfileView(DetailView):
         user.save()
         # userprofile.save()
         messages.success(request, f"display name has updated to {display_name}")
-        return redirect("/")
+        return HttpResponseRedirect(reverse("user-profile:userprofile"))
 
 
 def fetch_key(request, *args, **kwargs):

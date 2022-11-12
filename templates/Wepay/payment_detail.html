@@ -1,39 +1,41 @@
 {% extends 'WePay/base_wepay.html' %}
 {% block body %}
-<h1 class="title" style="margin-top: 5%;">Select Payment method</h1>
+    <h1 class="title" style="margin-top: 5%;">Select Payment method</h1>
 
 
-<h3 class="header" style="color: navy; margin-top: 5%;">Pay to {{payment.bill.header}}</h3>
-<h4 class="status" style="font-size:medium; margin-top: 2%;">Status: {{status}}</h4>
+    <h3 class="header" style="color: navy; margin-top: 5%;">Pay to {{payment.bill.header}}</h3>
+    <h4 class="status" style="font-size:medium; margin-top: 2%;">Status: {{status}}</h4>
 
-{% comment %} <br>
+    {% comment %} <br>
 {{payment_type}}
 <br> {% endcomment %}
-<br
+    <br
 
 
-<p for="payment">Select Payment type:</p><style>p{font-size: medium;}</style>
-<form action="" method="post">
-    {% csrf_token %}
-<select id="payment_type" name="payment_type" required style="width: 30%;">
-{% for each_type in payment.PaymentChoice %}
-{% if each_type != 'Cash' and cash_only %}
-<option value="{{each_type}}" disabled>{{each_type}}</option>
-{% else %}
-<option value="{{each_type}}">{{each_type}}</option>
-{% endif %}
-{% endfor %}
-</select>
+        <p for="payment">Select Payment type:</p><style>p{font-size: medium;}</style>
+    <form action="" method="post">
+        {% csrf_token %}
+        <select id="payment_type" name="payment_type" required style="width: 30%;">
+            {% for each_type in payment.PaymentChoice %}
+                {% if each_type != 'Cash' and cash_only %}
+                    <option value="{{each_type}}" disabled>{{each_type}}</option>
+                {% else %}
+                    <option value="{{each_type}}">{{each_type}}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
 
-    <input type="submit" value="Pay" style="width: 50px; color: navy;">
-</form>
+        <input type="submit" value="Pay" style="width: 50px; color: navy;">
+    </form>
 
-{% if messages %}
-<div class="messages" style="margin-top: 5%; font-weight: bold;">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}" style="color:firebrick" {% endif %}>{{ message }}</li>
-    {% endfor %}
-</div>
-{% endif %}
+    {% if messages %}
+        <div class="messages" style="margin-top: 5%; font-weight: bold;">
+            {% for message in messages %}
+                <li class="{{ message.tags }}" class="color:firebrick">
+                    {% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}
+                </li>
+            {% endfor %}
+        </div>
+    {% endif %}
 
 {% endblock body %}
