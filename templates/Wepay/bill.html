@@ -1,14 +1,5 @@
 {% extends 'WePay/base_wepay.html' %}
 
-<!-- <header>
-  <title>{%block title%}{% endblock title%}</title>
-  <link rel="stylesheet" type="text/css" href="/wepay/bill.css">
-  <link rel="shortcut icon" href="/assets/favicon.ico">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
-</header> -->
-
 {% block header %}
     <link rel=¨stylesheet¨ type=¨text/css¨ href=¨wepay/bill.css¨>
 {% endblock header %}
@@ -18,38 +9,42 @@
     {% if user.is_authenticated %}
 
 
-{% if my_bill %}
-<div class="header" style="margin-left: 0%; margin-top: 5%;">
-<h1>Bill list</h1><style>h1{margin-left: 3%;}</style>
-<body>
-  <ul>
-    <table class="styled-table" style="width: 60%; height: 50%; background-color: aliceblue;">
-      <thead>
-        <tr>
-          <th> No. </th><style>th{padding-left: 1%;}</style>
-          <th> Bills Title </th>
-          <th> Prices </th>
-          <th> Status </th>
-          <th> Verify </th>
-        </tr>
-      </thead>
+        {% if my_bill %}
+            <div class="header" style="margin-left: 0%; margin-top: 5%;">
+                <h1>Bill list</h1><style>h1{margin-left: 3%;}</style>
+                <body>
+                    <ul>
+                        <table class="styled-table" style="width: 60%; height: 50%; background-color: aliceblue;">
+                            <thead>
+                                <tr>
+                                    <th> No. </th><style>th{padding-left: 1%;}</style>
+                                    <th> Bills Title </th>
+                                    <th> Prices </th>
+                                    <th> Status </th>
+                                    <th> Verify </th>
+                                </tr>
+                            </thead>
 
-      {% for bill in my_bill %}
-      <tbody style="font-size:medium;">
-        <tr>
-          <td>{{forloop.counter0|add:"1"}}</td><style>td{padding: 1%;}</style>
-          <td> <a href="{% url 'bills:detail' bill.id %}" style="color: navy;"> {{ bill.name }}</a></td>
-          <td>{{ bill.total_price}}</td>
-          <td class="status" style="color:firebrick;">UNPAID</td>
-          <td class="verify" style="color:mediumseagreen;">verify</td>
-        </tr>
-        </tbody>
-        {% endfor %}
-    </list>
-  </ul>
-</table>
-</body>
-</div>
+                            {% for bill in my_bill %}
+                                <tbody style="font-size:medium;">
+                                    <tr>
+                                        <td>{{forloop.counter0|add:"1"}}</td><style>td{padding: 1%;}</style>
+                                        <td> <a href="{% url 'bills:detail' bill.id %}" style="color: navy;"> {{ bill.name }}</a></td>
+                                        <td>{{ bill.total_price}}</td>
+                                        {% if bill.status%}
+                                        <td class="status" style="color:mediumseagreen">PAID</td>
+                                        {% else %}
+                                        <td class="status" style="color: firebrick;">UNPAID</td>
+                                        {% endif %}
+                                        <td class="verify" style="color:mediumseagreen;">verify</td>
+                                    </tr>
+                                </tbody>
+                            {% endfor %}
+                        </list>
+                    </ul>
+                </table>
+            </body>
+            </div>
 
         {% else %}
             <p>No Bills are available.</p><style>p{color:firebrick;}</style>
@@ -58,9 +53,9 @@
         <!-- <div class="add-logout">
   <p><a href="accounts/logout"><button tyoe="button">logout</button></a></p>
 </div> -->
-<div class="createbttn">
-  <p><a href="create" style="margin-left: 55%; color: navy;" ><button type="button">Create Bill</button></a></p>
-</div>
+        <div class="createbttn">
+            <p><a href="create" style="margin-left: 55%; color: navy;" ><button type="button">Create Bill</button></a></p>
+        </div>
 
     {% else %}
         <a href='/accounts/logout'><button type="button">Log in?</button></a>

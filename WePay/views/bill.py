@@ -21,6 +21,7 @@ class BillView(LoginRequiredMixin, generic.ListView):
             and not UserProfile.objects.filter(user_id=user.id).exists()
         ):
             UserProfile.objects.create(user_id=user.id)
+
         return super().get(request, *arg, **kwargs)
 
     def get_queryset(self):
