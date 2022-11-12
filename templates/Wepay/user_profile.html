@@ -19,7 +19,7 @@
             {% csrf_token %}
             chain id:
             <label>{{chain_id}}</label>
-            <input type='submit', value='fetch'>
+            <input type='submit', name='fetch-key', value='fetch'>
             <br>
         </form>
         {% if messages %}

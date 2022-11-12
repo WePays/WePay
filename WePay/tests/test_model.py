@@ -109,3 +109,7 @@ class PaymentModelTest(BaseSetUp):
         self.assertEqual(self.ktb_payment.price, self.pepsi.calculate_price())
         self.assertEqual(self.bay_payment.price, self.pepsi.calculate_price())
         self.assertEqual(self.bbl_payment.price, self.pepsi.calculate_price())
+
+class UserProfileTest(BaseSetUp):
+    def setUp(self):
+        super(UserProfileTest, self).setUp()
