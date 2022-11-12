@@ -95,6 +95,9 @@ def create(request: HttpRequest, pk: int):
     bill.is_created = True
     for user in bill.all_user:
         each_user_payment = Payment.objects.create(user=user, bill=bill)
+        if user == bill.header:
+            print("hello", user)
+            each_user_payment.status = Payment.Status_choice.PAID
         each_user_payment.save()
     bill.save()
 

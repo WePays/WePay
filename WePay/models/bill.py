@@ -97,7 +97,7 @@ class Bills(models.Model):
 
     @property
     def status(self):
-        return all(payment.status == 'PAID' for payment in self.payments.all())
+        return all(payment.status == "PAID" for payment in self.payments.all())
 
     def __repr__(self) -> str:
         """represent Bill objects in str form"""
