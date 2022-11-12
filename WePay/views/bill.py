@@ -21,22 +21,32 @@ class BillView(LoginRequiredMixin, generic.DetailView):
         ):
             UserProfile.objects.create(user_id=user.id)
 
-        created_bill_lst = Bills.objects.filter(header__user=request.user, is_created=True).order_by("-pub_date")
+        created_bill_lst = Bills.objects.filter(
+            header__user=request.user, is_created=True
+        ).order_by("-pub_date")
         try:
-            uncreated_bill = Bills.objects.get(header__user=request.user, is_created=False)
+            uncreated_bill = Bills.objects.get(
+                header__user=request.user, is_created=False
+            )
         except Bills.DoesNotExist:
             uncreated_bill = None
 
-        return render(request, self.template_name, {"created_bill": created_bill_lst, "uncreated_bill": uncreated_bill})
+        return render(
+            request,
+            self.template_name,
+            {"created_bill": created_bill_lst, "uncreated_bill": uncreated_bill},
+        )
 
     def post(self, request, *args, **kwargs):
-        uncreated = Bills.objects.filter(header__user=request.user, is_created=False).order_by("-pub_date")
+        uncreated = Bills.objects.filter(
+            header__user=request.user, is_created=False
+        ).order_by("-pub_date")
         if uncreated:
-            messages.error(request, "You have an uncreated bill, please create it first")
+            messages.error(
+                request, "You have an uncreated bill, please create it first"
+            )
             return redirect("/")
         return HttpResponseRedirect(reverse("bills:create"))
-
-
 
 
 class BillCreateView(LoginRequiredMixin, generic.DetailView):
