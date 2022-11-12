@@ -4,8 +4,6 @@ from typing import Any
 
 import omise
 from django.db import models
-from django.utils import timezone
-
 from .bill import Bills
 from .userprofile import UserProfile
 
@@ -52,9 +50,10 @@ class Payment(models.Model):
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         """set header status to paid"""
         super().__init__(*args, **kwargs)
-        if self.user == self.bill.header:
-            self.user.status = self.Status_choice.PAID
-            self.user.save()
+        # if self.user == self.bill.header:
+        #     print('hello', self.user)
+        #     self.status = self.Status_choice.PAID
+        #     self.save()
         self.payment_dct = {
             "Cash": CashPayment,
             "PromptPay": PromptPayPayment,
