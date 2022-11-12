@@ -6,62 +6,67 @@
 
 {% block body%}
     {{block.super}}
-    {% if user.is_authenticated %}
 
+    {% if uncreated_bill %}
+        <h3>You have an Initialized bill that havent create yet, lets create by clicking <a href="{% url 'bills:add' uncreated_bill.id %}">here</a></h3>
+    {% endif %}
 
-        {% if my_bill %}
-            <div class="header" style="margin-left: 0%; margin-top: 5%;">
-                <h1>Bill list</h1><style>h1{margin-left: 3%;}</style>
-                <body>
-                    <ul>
-                        <table class="styled-table" style="width: 60%; height: 50%; background-color: aliceblue;">
-                            <thead>
+    {% if created_bill %}
+        <div class="header" style="margin-left: 0%; margin-top: 5%;">
+            <h1>Bill list</h1><style>h1{margin-left: 3%;}</style>
+            <body>
+                <ul>
+                    <table class="styled-table" style="width: 60%; height: 50%; background-color: aliceblue;">
+                        <thead>
+                            <tr>
+                                <th> No. </th><style>th{padding-left: 1%;}</style>
+                                <th> Bills Title </th>
+                                <th> Prices </th>
+                                <th> Status </th>
+                                <th> Verify </th>
+                            </tr>
+                        </thead>
+
+                        {% for bill in created_bill %}
+                            <tbody style="font-size:medium;">
                                 <tr>
-                                    <th> No. </th><style>th{padding-left: 1%;}</style>
-                                    <th> Bills Title </th>
-                                    <th> Prices </th>
-                                    <th> Status </th>
-                                    <th> Verify </th>
-                                </tr>
-                            </thead>
-
-                            {% for bill in my_bill %}
-                                <tbody style="font-size:medium;">
-                                    <tr>
-                                        <td>{{forloop.counter0|add:"1"}}</td><style>td{padding: 1%;}</style>
-                                        <td> <a href="{% url 'bills:detail' bill.id %}" style="color: navy;"> {{ bill.name }}</a></td>
-                                        <td>{{ bill.total_price}}</td>
-                                        {% if bill.status%}
+                                    <td>{{forloop.counter0|add:"1"}}</td><style>td{padding: 1%;}</style>
+                                    <td> <a href="{% url 'bills:detail' bill.id %}" style="color: navy;"> {{ bill.name }}</a></td>
+                                    <td>{{ bill.total_price}}</td>
+                                    {% if bill.status%}
                                         <td class="status" style="color:mediumseagreen">PAID</td>
-                                        {% else %}
+                                    {% else %}
                                         <td class="status" style="color: firebrick;">UNPAID</td>
-                                        {% endif %}
-                                        <td class="verify" style="color:mediumseagreen;">verify</td>
-                                    </tr>
-                                </tbody>
-                            {% endfor %}
-                        </list>
-                    </ul>
-                </table>
-            </body>
-            </div>
-
-        {% else %}
-        <br><br><br><br>
-            <h2><p>No Bills are available.</p><style>p{color:firebrick;}</style></h2>
-        {% endif %}
-
-        <!-- <div class="add-logout">
-  <p><a href="accounts/logout"><button tyoe="button">logout</button></a></p>
-</div> -->
-        <div class="createbttn">
-            <p><a href="create" style="margin-left: 55%; color: navy;" ><button type="button">Create Bill</button></a></p>
+                                    {% endif %}
+                                    <td class="verify" style="color:mediumseagreen;">verify</td>
+                                </tr>
+                            </tbody>
+                        {% endfor %}
+                    </list>
+                </ul>
+            </table>
+        </body>
         </div>
 
     {% else %}
-        <a href='/accounts/logout'><button type="button">Log in?</button></a>
+        <br><br><br><br>
+        <h2><p>No Bills are available.</p><style>p{color:firebrick;}</style></h2>
     {% endif %}
 
+    <form action="" method="post">
+    {% csrf_token %}
+    <div class="createbttn">
+        <p><button style="margin-left: 55%; color: navy;" type="submit">Create Bill</button></p>
+    </div>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li class="{{ message.tags }}" style="margin-left: 55%; color:crimson ">
+                {% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+    </form>
+
 {% endblock body%}
-
-

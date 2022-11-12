@@ -8,11 +8,10 @@ from django.views import generic
 from ..models import Bills, Payment, Topic, UserProfile
 
 
-class BillView(LoginRequiredMixin, generic.ListView):
+class BillView(LoginRequiredMixin, generic.DetailView):
     """views for bill.html"""
 
     template_name = "Wepay/bill.html"
-    context_object_name = "my_bill"
 
     def get(self, request, *arg, **kwargs):
         user = request.user
@@ -22,13 +21,22 @@ class BillView(LoginRequiredMixin, generic.ListView):
         ):
             UserProfile.objects.create(user_id=user.id)
 
-        return super().get(request, *arg, **kwargs)
+        created_bill_lst = Bills.objects.filter(header__user=request.user, is_created=True).order_by("-pub_date")
+        try:
+            uncreated_bill = Bills.objects.get(header__user=request.user, is_created=False)
+        except Bills.DoesNotExist:
+            uncreated_bill = None
 
-    def get_queryset(self):
+        return render(request, self.template_name, {"created_bill": created_bill_lst, "uncreated_bill": uncreated_bill})
 
-        return Bills.objects.filter(header__user=self.request.user).order_by(
-            "-pub_date"
-        )
+    def post(self, request, *args, **kwargs):
+        uncreated = Bills.objects.filter(header__user=request.user, is_created=False).order_by("-pub_date")
+        if uncreated:
+            messages.error(request, "You have an uncreated bill, please create it first")
+            return redirect("/")
+        return HttpResponseRedirect(reverse("bills:create"))
+
+
 
 
 class BillCreateView(LoginRequiredMixin, generic.DetailView):
@@ -40,6 +48,11 @@ class BillCreateView(LoginRequiredMixin, generic.DetailView):
         header = UserProfile.objects.get(user=user)
         lst_user = UserProfile.objects.all()
         # get all user of the bills by calling bills.all_user
+
+        uncreated_bill = Bills.objects.filter(header__user=user, is_created=False)
+        if uncreated_bill:
+            return redirect("/")
+
         return render(
             request, self.template_name, {"header": header, "lst_user": lst_user}
         )
@@ -85,7 +98,8 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
             return HttpResponseRedirect(reverse("bills:bill"))
         lst = []
         for each_user in bill.all_user:
-            payment = Payment.objects.get(bill=bill, user=each_user)
+            payment = Payment.objects.filter(bill=bill, user=each_user)
+            print(payment)
             lst.append(payment)
         return render(request, "Wepay/detail.html", {"bill": bill, "payment": lst})
 
@@ -96,7 +110,6 @@ def create(request: HttpRequest, pk: int):
     for user in bill.all_user:
         each_user_payment = Payment.objects.create(user=user, bill=bill)
         if user == bill.header:
-            print("hello", user)
             each_user_payment.status = Payment.Status_choice.PAID
         each_user_payment.save()
     bill.save()
