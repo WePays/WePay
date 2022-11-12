@@ -22,7 +22,7 @@ class BillView(LoginRequiredMixin, generic.DetailView):
             UserProfile.objects.create(user_id=user.id)
 
         created_bill_lst = Bills.objects.filter(
-            header__user=request.user, is_created=True
+            header__user=request.user, is_created=True, is_closed=False
         ).order_by("-pub_date")
         try:
             uncreated_bill = Bills.objects.get(
@@ -124,4 +124,12 @@ def create(request: HttpRequest, pk: int):
         each_user_payment.save()
     bill.save()
 
+    return HttpResponseRedirect(reverse("bills:bill"))
+
+
+def close(request: HttpRequest, pk: int):
+    bill = Bills.objects.get(pk=pk)
+    print(bill)
+    bill.is_closed = True
+    bill.save()
     return HttpResponseRedirect(reverse("bills:bill"))

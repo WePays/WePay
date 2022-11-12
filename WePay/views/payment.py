@@ -16,7 +16,7 @@ class PaymentView(LoginRequiredMixin, generic.ListView):
 
     def get_queryset(self) -> QuerySet:
         return Payment.objects.filter(
-            user__user=self.request.user  # , status=Payment.Status_choice.UNPAID
+            user__user=self.request.user, status=Payment.Status_choice.UNPAID
         )
 
 
