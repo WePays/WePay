@@ -16,8 +16,11 @@ class Bills(models.Model):
 
     header = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     name = models.CharField(max_length=100, null=True)
-    pub_date = models.DateTimeField(default=timezone.localtime)
+    pub_date = models.DateTimeField(
+        default=timezone.localtime().strftime(r"%Y-%m-%d %H:%M:%S")
+    )
     is_created = models.BooleanField(default=False)
+    is_closed = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = "Bill"
@@ -94,10 +97,14 @@ class Bills(models.Model):
             result = result.union([queryset[idx] for idx in range(len(queryset))])
         return list(result)
 
+    @property
+    def status(self):
+        return all(payment.status == "PAID" for payment in self.payments.all())
+
     def __repr__(self) -> str:
         """represent Bill objects in str form"""
         return (
-            f"Bills(header={self.header}, name={self.name}, pub_date={self.pub_date})"
+            f"Bills(header={self.header}, name={self.name}, pub_date={self.pub_date}, is_created={self.is_created}, is_closed={self.is_closed})"
         )
 
     __str__ = __repr__

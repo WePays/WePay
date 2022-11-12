@@ -31,6 +31,6 @@ echo "activated"
 echo installing requirements...
 pip install -r requirements.txt
 python manage.py migrate
-# python manage.py loaddata data/*.json
+python manage.py loaddata data.json
 echo
 echo everything finished

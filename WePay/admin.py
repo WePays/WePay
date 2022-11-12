@@ -1,7 +1,12 @@
 from django.contrib import admin
 
 from .models import Bills, Topic, UserProfile, Payment
+from django.template.defaulttags import register
 
+
+@register.filter
+def get_item(dictionary, key):
+    return dictionary.get(key)
 
 class BillsAdmin(admin.ModelAdmin):
     list_display = ("header", "name", "pub_date")

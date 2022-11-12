@@ -1,45 +1,45 @@
 {% extends 'WePay/base_wepay.html' %}
 
 {% block body %}
-{% if my_payment %}
-<div class="box" style="margin-left: 3%; margin-top: 5%">
-<h1>You need to pay</h1>
-{% comment %} <p>Click pay to select payment</p><style>p{color: navy;}</style> {% endcomment %}<!--โง่ -->
-    <table class="styled-table" style="width: 60%; height: 50%; background-color: aliceblue;">
-      <thead>
-        <tr>
-          <th> No. </th><style>th{padding-left: 1%;}</style>
-          <th> Bills Topics </th>
-          <th> Prices </th>
-          <th> Status </th>
-          <th> Pay </th>
-          <th> Header </th>
-        </tr>
-      </thead>
+    {% if my_payment %}
+        <div class="box" style="margin-left: 3%; margin-top: 5%">
+            <h1>You need to pay</h1>
+            {% comment %} <p>Click pay to select payment</p><style>p{color: navy;}</style> {% endcomment %}<!--โง่ -->
+            <table class="styled-table" style="width: 60%; height: 50%; background-color: aliceblue;">
+                <thead>
+                    <tr>
+                        <th> No. </th><style>th{padding-left: 1%;}</style>
+                        <th> Bills Topics </th>
+                        <th> Prices </th>
+                        <th> Status </th>
+                        <th> Pay </th>
+                        <th> Header </th>
+                    </tr>
+                </thead>
 
-      {% for payment in my_payment %}
-      <tbody style="font-size: medium;">
-        <tr>
-          <td>{{forloop.counter0|add:"1"}}</td><style>td{padding: 1%;}</style>
-          <td>{{ payment.bill.name }}</td> <!-- this will link to detail bill page-->
-          <td>{{ payment.bill.total_price}}</td>
-          <td class="status">{{payment.status}} </td>
-          <td>
-            {% if payment.status == "Paid" %}
-                Paid
-            {% else %}
-                <!-- This may be another link to choose payment platform then pay(link to below link)-->
-                 <a href="{% url 'payments:detail' payment.id %}">Pay</a><style>a{color: mediumseagreen;}</style>
-                {% endif %}
-          </td>
-          <td class="header" style="color:midnightblue;">{{payment.bill.header}} </td>
-        </tr>
-        </tbody>
-        {% endfor %}
-    </list>
-  </ul>
-</table>
-</div>
+                {% for payment in my_payment %}
+                    <tbody style="font-size: medium;">
+                        <tr>
+                            <td>{{forloop.counter0|add:"1"}}</td><style>td{padding: 1%;}</style>
+                            <td>{{ payment.bill.name }}</td> <!-- this will link to detail bill page-->
+                            <td>{{ payment.price}}</td>
+                            <td class="status">{{payment.status}} </td>
+                            <td>
+                                {% if payment.status == "Paid" %}
+                                    Paid
+                                {% else %}
+                                    <!-- This may be another link to choose payment platform then pay(link to below link)-->
+                                    <a href="{% url 'payments:detail' payment.id %}">Pay</a><style>a{color: mediumseagreen;}</style>
+                                {% endif %}
+                            </td>
+                            <td class="header" style="color:midnightblue;">{{payment.bill.header}} </td>
+                        </tr>
+                    </tbody>
+                {% endfor %}
+            </list>
+        </ul>
+        </table>
+        </div>
 
 
     {% else %}

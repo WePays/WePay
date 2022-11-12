@@ -16,7 +16,7 @@ class PaymentView(LoginRequiredMixin, generic.ListView):
 
     def get_queryset(self) -> QuerySet:
         return Payment.objects.filter(
-            user__user=self.request.user  # , status=Payment.Status_choice.UNPAID
+            user__user=self.request.user, status=Payment.Status_choice.UNPAID
         )
 
 
@@ -35,6 +35,7 @@ class PaymentDetailView(LoginRequiredMixin, generic.DetailView):
             messages.error(request, "Payment not found")
             return HttpResponseRedirect(reverse("payments:payment"))
         status = payment.status
+        print(status)
         payment_type = payment.payment_type
         if payment.amount <= 20 or payment.amount > 150000:
             messages.info(
@@ -47,7 +48,8 @@ class PaymentDetailView(LoginRequiredMixin, generic.DetailView):
             messages.info(
                 request,
                 "This bill is not in chain, you can only pay with cash or tell header to register the chain \
-                    \n<a href='https://dashboard.omise.co/chain/authorize/pkey_test_5tgganhu45npoycv190'>instruction here</a>",
+                    \n<a href='/instruction/'>instruction here</a>",
+                extra_tags="safe",
             )
             cash_only = True
 

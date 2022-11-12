@@ -1,0 +1,82 @@
+{% extends 'WePay/base_wepay.html' %}
+
+{% block title %}
+    History
+{% endblock title %}
+
+{% block body %}
+
+    <br><br><br><br><br><br>
+    <div class="box" style="margin-top: 5%; margin-left: -10%;">
+        <h2> Bill History </h2>
+        {% if bill_history %}
+            <div class="first-section" style="margin-top: 5%; background: transparent;">
+                <table class="styled-table" style="width: 35%; height: 50%; margin-top: 5%; font-size: medium;">
+                    <thead>
+                        <tr>
+                            <th> No. </th><style>th{padding-left: 0.5%;}</style>
+                                    <th> title </th>
+                                    <th> Price </th>
+                                    <th> Pub date </th>
+                                </tr>
+                            </thead>
+
+                            {% for bill in bill_history %}
+                                <tbody><style>tbody{padding-block: -1%;}</style>
+                                    <tr>
+                                        <td>{{forloop.counter0|add:"1"}}</td>
+                                        <td>{{bill.name}}</td> <!-- this will link to detail bill page-->
+                                        <td>{{bill.total_price}}</td>
+                                        <td>{{bill.pub_date}}</td>
+
+                                    </tr>
+                                </tbody>
+                            {% endfor %}
+                        </list>
+                    </ul>
+                </table>
+            </div>
+        {% else %}
+            <div class="first-section" style="margin-top: 5%; background: transparent;">
+                <h1 style="text-align: center;">No bill history</h1>
+            </div>
+        {% endif %}
+
+        {% if payment_history %}
+
+                <h2>Payment_History</h2>
+                <table class="styled-table" style="width: 35%; height: 50%; margin-top: 5%; font-size: medium;">
+                    <thead>
+                        <tr>
+                            <th> No. </th><style>th{padding-left: 0.5%;}</style>
+                                    <th> Bill title </th>
+                                    <th> Price </th>
+                                    <th> date </th>
+                                </tr>
+                            </thead>
+
+                            {% for payment in payment_history %}
+                                <tbody><style>tbody{padding-block: -1%;}</style>
+                                    <tr>
+                                        <td>{{forloop.counter0|add:"1"}}</td>
+                                        <td>{{payment.bill.name}}</td> <!-- this will link to detail bill page-->
+                                        <td>{{payment.price}}</td>
+                                        <td>{{payment.date}}</td>
+
+                                    </tr>
+                                </tbody>
+                            {% endfor %}
+                        </list>
+                    </ul>
+                </table>
+
+
+        {% else %}
+            <div class="second-section" style="margin-left: 45%;margin-top: -25%; border:black solid 10%; background: transparent;">
+                <h1 style="text-align: center;">No payment history</h1>
+            </div>
+        {% endif %}
+
+    </div>
+
+{% endblock body %}

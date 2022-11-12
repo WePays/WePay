@@ -36,4 +36,5 @@ urlpatterns = [
     path("tailwind/", Tailwind.as_view(), name="tailwind")
     # url(r'^favicon\.ico$',RedirectView.as_view(url='/static/images/favicon.ico')),
     # path("payments/", PaymentView.as_view(), name="payment"),
+    path("history/", include("WePay.history_urls"))
 ]
