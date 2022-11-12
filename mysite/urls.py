@@ -33,8 +33,8 @@ urlpatterns = [
     path("", RedirectView.as_view(url="/bill/")),
     path("instruction/", Instruction.as_view(), name="instruction"),
     path("__reload__/", include("django_browser_reload.urls")),
-    path("tailwind/", Tailwind.as_view(), name="tailwind")
+    path("tailwind/", Tailwind.as_view(), name="tailwind"),
     # url(r'^favicon\.ico$',RedirectView.as_view(url='/static/images/favicon.ico')),
     # path("payments/", PaymentView.as_view(), name="payment"),
-    path("history/", include("WePay.history_urls"))
+    path("history/", include("WePay.history_urls")),
 ]
