@@ -11,7 +11,7 @@ class BaseSetUp(TestCase):
         header = User.objects.create_user(
             username="header", email="header@example.com", password="header123"
         )
-        self.header = UserProfile.objects.create(user=header)
+        self.header = UserProfile.objects.create(user=header, chain_id="acch_test_5tl5qdsa0cbli76hwoj")
         self.header.save()
 
         user1 = User.objects.create_user(
