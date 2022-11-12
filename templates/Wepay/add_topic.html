@@ -2,82 +2,77 @@
 {% load static %}
 
 {%block title%}
-{{ block.super }}
-Create Bills
+    {{ block.super }}
+    Create Bills
 {% endblock title%}
 
 {% block body%}
 
-<div class="box" style="margin-top: 5%; margin-left: -10%;">
+    <div class="box" style="margin-top: 5%; margin-left: -10%;">
 
-  <div class="first-section" style="margin-top: 5%; background: transparent;">
-  <table class="styled-table" style="width: 35%; height: 50%; text-align: center; margin-top: 5%; font-size: medium;">
-    <thead>
-      <tr>
-        <th> No. </th><style>th{padding-left: 0.5%; text-align: center;}</style>
-        <th> title </th>
-        <th> Price </th>
-        <th> User to assign </th>
-      </tr>
-    </thead>
+        <div class="first-section" style="margin-top: 5%; background: transparent;">
+            <table class="styled-table" style="width: 35%; height: 50%; margin-top: 5%; font-size: medium;">
+                <thead>
+                    <tr>
+                        <th> No. </th><style>th{padding-left: 0.5%;}</style>
+                        <th> title </th>
+                        <th> Price </th>
+                        <th> User to assign </th>
+                    </tr>
+                </thead>
 
-    {% for topic in all_topic %}
-    <tbody><style>tbody{padding-block: -1%;}</style>
-      <tr>
-        <td>{{forloop.counter0|add:"1"}}</td>
-        <td>{{topic.title}}</td> <!-- this will link to detail bill page-->
-        <td>{{topic.price}}</td>
-        <td>{% for each_user in topic.user.all %}{{each_user}}, {% endfor %}</td> 
-        
-      </tr>
-      </tbody>
-      {% endfor %}
-  </list>
-</ul>
-</table>
-</div>
+                {% for topic in all_topic %}
+                    <tbody><style>tbody{padding-block: -1%;}</style>
+                        <tr>
+                            <td>{{forloop.counter0|add:"1"}}</td>
+                            <td>{{topic.title}}</td> <!-- this will link to detail bill page-->
+                            <td>{{topic.price}}</td>
+                            <td>{% for each_user in topic.user.all %}{{each_user}}, {% endfor %}</td>
 
-<div class="second-section" style="margin-left: 45%;margin-top: -25%; border:black solid 10%; background: transparent; ">
+                        </tr>
+                    </tbody>
+                {% endfor %}
+            </list>
+        </ul>
+    </table>
+    </div>
 
-  <div class="top-text" style="font-size: medium;">
-    <h3>Add Topic By: {{bill.header}}</h3><br>Name of Bill: {{bill.name}} <br><br>
-    Total price: {{bill.total_price}}</div>
+    <div class="second-section" style="margin-left: 45%;margin-top: -25%; border:black solid 10%; background: transparent;">
 
-  <form action="" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-  <div class="topic-name" style="margin-top: 2%; font-size: medium;"> Name: <br>
-    <input type="text" name="topic_name" id="topic_name" placeholder="Enter the topic name" required style="width: 40%; font-weight: lighter;"></div>
-  <div class="topic-price" style="margin-top: 2%; font-size: medium;"> Price: <br>
-    <input type="number" min="0" name="topic_price" id="topic_price" placeholder="Enter the topic price" required style="width: 40%; font-weight: lighter;"></div>
+        <h2>Add Topic</h2><p class="name" style="font-size: medium;">Name of Bill: {{bill.name}}</p>Total price: {{bill.total_price}}
 
-  <div class="add-user" style="margin-top: 2%; font-size: medium;" for="username">Enter user to assign:<br>
-    <select id="username" name="username"  multiple required style="width: 40%; height: 20%">
-      {% for name in lst_user %}
-        <option value="{{name}}">{{name}}</option>
-      {% endfor %}
-    </select>
-  </div>
-  <div class="add-topic" style="margin-top: 2%; margin-left: 30%;"><input type="submit" value="Add topic"></div>
-</div>
-</form>
-</div>
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="topic-name" style="margin-top: 2%;"> Name: <br>
+                <input type="text" name="topic_name" id="topic_name" placeholder="Enter the topic name" required style="width: 40%; font-weight: lighter;"></div>
+            <div class="topic-price" style="margin-top: 2%;"> Price: <br>
+                <input type="number" min="0" name="topic_price" id="topic_price" placeholder="Enter the topic price" required style="width: 40%; font-weight: lighter;"></div>
+
+            <div class="add-user" style="margin-top: 2%;" for="username">Enter user to assign:<br>
+                <select id="username" name="username"  multiple required style="width: 40%; height: 20%; color: navy;">
+                    {% for name in lst_user %}
+                        <option value="{{name}}">{{name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="add-topic" style="margin-top: 2%; margin-left: 30%;"><input type="submit" value="Add topic"></div>
+        </div>
+    </form>
+    </div>
 
 
-
-
-
-{% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
-<form action="{% url 'bills:success' bill.id %}" method="post">
-  {% csrf_token %}
-  <input type="submit" value="Create Bill" style="margin-left: 23%; margin-top: -3%">
-</form>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <form action="{% url 'bills:success' bill.id %}" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Create Bill" style="margin-left: 22%; margin-top: -5%">
+    </form>
 
 
 

@@ -1,14 +1,14 @@
 {% extends 'WePay/base_wepay.html' %}
 {% block body %}
 
-<h1> Setting </h1>
+<h1 class="title" style="margin-top: 5%;"> Setting </h1>
 <br>
 <br>
 <form action="" method="post">
     {% csrf_token %}
     display name: 
     <input type='text' name='display name' id='name' value={{user.username}}> 
-    <br>
+    <!-- <br><br>
     chain key:
     <input type='text' name='chain key' id='chain key' value={{chain_key}}>
     <br>
@@ -19,10 +19,28 @@
         {% endfor %}
     </ul>
     {% endif %}
-    <br>
+    <br> -->
 
-    <div class="Create"><input type="submit" value="Update"></div>
 </form>
 <br><br>
+
+    <form action="{% url 'user-profile:fetch-key' %}" method="post">
+        {% csrf_token %}
+        chain id:
+        <label>{{chain_id}}</label>
+        <input type='submit', value='fetch'>
+        <br>
+    </form>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li class="{{ message.tags }}">
+            {% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}
+            </li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+    <br>
+    <div class="Create" style="margin-top: 0%;"><input type="submit" value="Update"></div>
 
 {% endblock body%}

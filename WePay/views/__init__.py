@@ -1,6 +1,6 @@
 from .bill import BillView, DetailView, BillCreateView, create
-from .payment import PaymentView, PaymentDetailView
-from .userprofile import UserProfileView
+from .payment import PaymentView, PaymentDetailView, update
+from .userprofile import UserProfileView, fetch_key
 from .topic import AddTopicView
 
 
@@ -13,4 +13,6 @@ __all__ = [
     "UserProfileView",
     "AddTopicView",
     "create",
+    "update",
+    "fetch_key",
 ]

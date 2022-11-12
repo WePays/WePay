@@ -25,13 +25,12 @@ SECRET_KEY = "django-insecure-&mz@g-o-_sg(jwc#nj)d!n3^5stj+w$!(w^8^yb%vuqnjaytg1
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    "WePay.apps.WepayConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -47,6 +46,7 @@ INSTALLED_APPS = [
     "allauth.socialaccount.providers.github",
     "allauth.socialaccount.providers.google",
     "allauth.socialaccount.providers.discord",
+    "WePay.apps.WepayConfig",
 ]
 
 MIDDLEWARE = [
@@ -90,8 +90,11 @@ AUTHENTICATION_BACKENDS = [
 WSGI_APPLICATION = "mysite.wsgi.application"
 
 SITE_ID = 1
-
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_VERIFICATION = "none"
+ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 3
+ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 300
 
 LOGIN_REDIRECT_URL = "/"
 

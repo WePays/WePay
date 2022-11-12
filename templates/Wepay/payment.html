@@ -5,10 +5,10 @@
 <div class="box" style="margin-left: 3%; margin-top: 5%">
 <h1>You need to pay</h1>
 {% comment %} <p>Click pay to select payment</p><style>p{color: navy;}</style> {% endcomment %}<!--โง่ -->
-    <table class="styled-table" style="width: 60%; height: 50%; text-align: center;">
+    <table class="styled-table" style="width: 60%; height: 50%; background-color: aliceblue;">
       <thead>
         <tr>
-          <th> No. </th><style>th{padding-left: 1%; text-align: center;}</style>
+          <th> No. </th><style>th{padding-left: 1%;}</style>
           <th> Bills Topics </th>
           <th> Prices </th>
           <th> Status </th>
@@ -23,7 +23,7 @@
           <td>{{forloop.counter0|add:"1"}}</td><style>td{padding: 1%;}</style>
           <td>{{ payment.bill.name }}</td> <!-- this will link to detail bill page-->
           <td>{{ payment.bill.total_price}}</td>
-          <td class="status-unpaid" style="color: firebrick;">{{payment.status}} </td>
+          <td class="status">{{payment.status}} </td>
           <td>
             {% if payment.status == "Paid" %}
                 Paid
@@ -42,9 +42,9 @@
 </div>
 
 
-{% else %}
-<h1> No Payment Avalible </h1><style>h1{color:firebrick;}</style>
+    {% else %}
+        <h1> No Payment Avalible </h1><style>h1{color:firebrick;}</style>
 
-{% endif %}
+    {% endif %}
 
 {% endblock body%}
