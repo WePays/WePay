@@ -31,7 +31,6 @@ urlpatterns = [
     path("about/", About.as_view(), name="about"),
     path("user-profile/", include("WePay.user_profile_urls")),
     path("", RedirectView.as_view(url="/bill/")),
-    path("instruction/", Instruction.as_view(), name="instruction")
-    # url(r'^favicon\.ico$',RedirectView.as_view(url='/static/images/favicon.ico')),
-    # path("payments/", PaymentView.as_view(), name="payment"),
+    path("instruction/", Instruction.as_view(), name="instruction"),
+    path("history/", include("WePay.history_urls"))
 ]

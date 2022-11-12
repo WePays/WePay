@@ -16,7 +16,7 @@ class Bills(models.Model):
 
     header = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     name = models.CharField(max_length=100, null=True)
-    pub_date = models.DateTimeField(default=timezone.localtime)
+    pub_date = models.DateTimeField(default=timezone.localtime().strftime(r'%Y-%m-%d %H:%M:%S'))
     is_created = models.BooleanField(default=False)
     is_closed = models.BooleanField(default=False)
 
