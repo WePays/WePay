@@ -68,14 +68,33 @@ class BillCreateViewTest(BaseViewTest):
     #     """test navigate to create bill page."""
     #     response = self.client.get("/bill/create/")
     #     self.assertEqual(response.status_code, 302)
+    def test_navigate_create_bill_page(self):
+        """test navigate to bill page"""
+        response = self.client.get("/bill/create/")
+        self.assertEqual(response.status_code, 302)
+
+    def test_create_bill(self):
+        """test created bill."""
+        self.assertEqual(Bills.objects.get(pk=1), self.bill) # create success
 
     def test_create_initial_topic(self):
         """test create a bill with initial topic."""
-        response = self.client.get("/bill/create/")
         self.new_bill = Bills.objects.create(header=self.user_profile, name="Food Bill")
         self.est = Topic.objects.create(title="Est", price=20, bill=self.new_bill)
         self.est.add_user(self.user1)
         self.est.add_user(self.user2)
-        self.assertEqual(response.status_code, 302)
+        self.new_bill.add_topic(self.est)
+        # response1 = self.client.post(reverse("bills:create"),{"title":"Food Bill", "topic_name":"Est", "topic_price":20, "username":"test_user1", "create":"Create Title"})
+        # self.assertEqual(Bills.objects.get(pk=3), self.bill)
         # print("Tomato", self.client.post("/bill/create/")['lst_user'])
         # self.assertQuerysetEqual(response.context[''], [])
+
+class DetailViewTest(BaseViewTest):
+    def setUp(self):
+        """Setup before running a tests."""
+        super(DetailViewTest, self).setUp()
+
+    def test_navigation(self):
+        """test navigation after bill object has created"""
+        response = self.client.get("/bill/1/")
+        self.assertEqual(response.status_code, 302)
