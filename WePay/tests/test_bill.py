@@ -79,4 +79,3 @@ class BillCreateViewTest(BaseViewTest):
         self.assertEqual(response.status_code, 302)
         # print("Tomato", self.client.post("/bill/create/")['lst_user'])
         # self.assertQuerysetEqual(response.context[''], [])
-

@@ -1,7 +1,7 @@
 from .setUp import BaseSetUp
 from django.contrib.auth.models import User
 from WePay.models.userprofile import UserProfile
-from ..models import Bills, Topic
+from ..models import Bills, Topic, Payment
 
 
 class BillModelTest(BaseSetUp):
@@ -66,3 +66,28 @@ class TopicModelTest(BaseSetUp):
         self.pepsi.add_user(user=self.user2)
         check = sum(user == self.user1 for user in self.pepsi.user.all())
         self.assertEqual(check, 1)
+
+class PaymentModelTest(BaseSetUp):
+    """test for payment model."""
+    
+    def setUp(self):
+        super(PaymentModelTest, self).setUp()
+        self.pepsi.add_user(self.user1)
+        self.pepsi.add_user(self.user2)
+        self.coke.add_user(self.user2)
+
+    def test_create_duplicate_payment(self):
+        """Test create duplicate payment object."""
+        self.test = Payment.objects.create(bill=self.bill, user=self.user1)
+
+    def test_payment_choice(self):
+        """test payment type."""
+        self.assertEqual(self.cash_payment.payment_type,"Cash")
+        self.assertEqual(self.promptpay_payment.payment_type, "PromptPay")
+        self.assertEqual(self.scb_payment.payment_type, "SCB")
+        self.assertEqual(self.ktb_payment.payment_type, "KTB")
+        self.assertEqual(self.bay_payment.payment_type, "BAY")
+        self.assertEqual(self.bbl_payment.payment_type, "BBL")
+
+    def test_payment_status(self):
+        self.assertEqual(self.cash_payment.status, "UNPAID")
