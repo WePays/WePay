@@ -59,7 +59,7 @@ class Bills(models.Model):
 
         # sum all the price that person in that topic and return it
         return sum(
-            each_topic.each_price()
+            each_topic.calculate_price()
             for each_topic in topic
             if person in each_topic.user.all()
         )
@@ -116,7 +116,7 @@ class Topic(models.Model):
     bill = models.ForeignKey(Bills, on_delete=models.CASCADE, null=True)
     user = models.ManyToManyField(UserProfile, related_name="topic")
 
-    def each_price(self):
+    def calculate_price(self):
 
         return self.price / len(self.user.all())
 

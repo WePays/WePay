@@ -50,7 +50,7 @@ class TopicModelTest(BaseSetUp):
         """test food price for each user."""
         self.pepsi.add_user(user=self.user1)
         self.pepsi.add_user(user=self.user2)
-        self.assertEqual(self.pepsi.each_price(), 10)
+        self.assertEqual(self.pepsi.calculate_price(), 10)
 
     def test_add_user(self):
         """test add user to Food.user.all()"""
@@ -81,7 +81,7 @@ class PaymentModelTest(BaseSetUp):
         self.test = Payment.objects.create(bill=self.bill, user=self.user1)
 
     @SkipTest
-    def test_payment_choice(self):
+    def test_payment_choice(self): #TODO Change to get or post selected payment instead of string
         """test payment type."""
         self.assertEqual(self.cash_payment.selected_payment,"Cash")
         self.assertEqual(self.promptpay_payment.selected_payment, "PromptPay")
@@ -90,12 +90,24 @@ class PaymentModelTest(BaseSetUp):
         self.assertEqual(self.bay_payment.selected_payment, "BAY")
         self.assertEqual(self.bbl_payment.selected_payment, "BBL")
 
-    def test_payment_status(self):
+    def test_payment_status(self): #TODO This so stupid
         """test payment status for each payment"""
-        self.assertEqual(self.cash_payment.status, "UNPAID")
-        self.assertEqual(self.promptpay_payment.status, "UNPAID")
-        self.cash_payment.pay()
-        self.promptpay_payment.pay()
-        self.assertEqual(self.cash_payment.status, "PAID")
-        self.cash_payment.pay() # BUG CAN Pay even if status change to PAID
-        self.assertEqual(self.promptpay_payment.status, "PAID")
+        for payment in self.lst_payment:
+            self.assertEqual(payment.status, "UNPAID")
+            payment.pay()
+            if payment == self.cash_payment:
+                self.assertEqual(payment.status, "PENDING")
+            else:
+                self.assertEqual(payment.status, "PAID")
+            payment.pay() # After status == PAID its can still paid.
+
+    def test_payment_calculate_price(self):
+        """test calculate price for each user in bill."""
+        for user in self.lst_user:
+            self.pepsi.add_user(user)
+        self.assertEqual(self.cash_payment.price, self.pepsi.calculate_price())
+        self.assertEqual(self.promptpay_payment.price, self.pepsi.calculate_price()) #BUG value not the same as calculate price
+        self.assertEqual(self.scb_payment.price, self.pepsi.calculate_price())
+        self.assertEqual(self.ktb_payment.price, self.pepsi.calculate_price())
+        self.assertEqual(self.bay_payment.price, self.pepsi.calculate_price())
+        self.assertEqual(self.bbl_payment.price, self.pepsi.calculate_price())

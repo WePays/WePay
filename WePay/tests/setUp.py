@@ -72,3 +72,6 @@ class BaseSetUp(TestCase):
         self.bay_payment.payment_type = "BAY"
         self.bbl_payment = Payment.objects.create(bill=self.bill, user=self.user6)
         self.bbl_payment.payment_type = "BBL"
+
+        self.lst_payment = [self.cash_payment, self.promptpay_payment, self.scb_payment, self.ktb_payment, self.bay_payment, self.bbl_payment]
+        self.lst_user = [self.user1, self.user2, self.user3, self.user4, self.user5, self.user6]
