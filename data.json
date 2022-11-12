@@ -78,6 +78,32 @@
   }
 },
 {
+  "model": "admin.logentry",
+  "pk": 7,
+  "fields": {
+    "action_time": "2022-11-12T14:16:44.607Z",
+    "user": 1,
+    "content_type": 11,
+    "object_id": "4",
+    "object_repr": "Google",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Name\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 8,
+  "fields": {
+    "action_time": "2022-11-12T14:17:08.932Z",
+    "user": 1,
+    "content_type": 11,
+    "object_id": "3",
+    "object_repr": "GitHub",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Secret key\"]}}]"
+  }
+},
+{
   "model": "auth.permission",
   "pk": 1,
   "fields": {
@@ -874,7 +900,7 @@
   "pk": 1,
   "fields": {
     "password": "pbkdf2_sha256$390000$JcfScTaIYYoNzD58Isj5RF$hrb1bOUon1qNRQLPGWjhxCkAAQYB/bHYtFIBS0bv00w=",
-    "last_login": "2022-11-10T14:49:51.237Z",
+    "last_login": "2022-11-12T14:16:36.832Z",
     "is_superuser": true,
     "username": "test_wepay",
     "first_name": "",
@@ -1083,6 +1109,14 @@
 },
 {
   "model": "sessions.session",
+  "pk": "z40m426l8rk3txor59zxnwyibgrnm42j",
+  "fields": {
+    "session_data": ".eJxVjDEOgzAMRe-SuYoMBBJ37M4ZkGObQlslEoGp6t0LEkO7_vfef5uBtnUatqLLMIu5mspcfrdI_NR0AHlQumfLOa3LHO2h2JMW22fR1-10_w4mKtNeh7GGOoACUOM7bJ2QQ5YY2KEwhraLFXVC0LJHRnDqFSjsrjQY_Gg-X9KHN4s:1otrJE:fUD2xsdUtEPgUo9Koj-EEmOx7XvUWDRwDAw1mz4rq48",
+    "expire_date": "2022-11-26T14:16:36.834Z"
+  }
+},
+{
+  "model": "sessions.session",
   "pk": "zrceb03a5otjmgfgvi3l4936ud89q9y3",
   "fields": {
     "session_data": ".eJyVU9tu2zAM_ZZpr2lh2Y4d-2lr02wPQbtLC3QdBoGWaVeZbbmynPSC_Puo2GkboNiwN4nk4SHPkZ5Yp6WCCqTUfWPFcKt0qRqWPrEx7I4qZ2nTV9WE9R0a8XJtjV6rHA1LWa46qU3OqMblGY-nwWzGQ5_zeBbGXuhRqoLOipFh6JCDRbHSqsHnpnhvDQhKwJ777WZulgZqpPynizkFYE0YN8s0nGYSMQyyhDD-bIYR95BHSZxBmPDsuVbkSEODVfplINrDqFo1YLXrFXkep_q2zyolRVFB2bHUm7CXUwZN4yQY8MNNSF3t4O_DpIiL2DFKiaTymAhpjciLSRItoXI7YHN09Z3q6gIENpBVThFrenQyY636WtiHFneUWIOqCFPqfAVNWX4oXeBY6poarNGoQu3R2-2g1KGPLXTdxtmVsnfxNRTfFhvZn2wgaa-nm_nia3gyXV74gX82v00-59fzfhGXb_qnOtH1LZqBooCqwzecKZQh4EFo12qMsH9s5EgsFMUzAQVAWrXGvUIHz4j5nu8fcX7EvUsepZ6fBv5xMPNuGGlBjSw6MejtSuzIQjYsRCmp23Ec6O2taMFA7QocbjeggDw3BEKK_vzLv_gPf5y7qgbzMNr1a8Ks_o3NoV_Qtrv2fLL_l6_YxnpWl_UyWt1YdX51_7jMS6lP--Xl4gbs1Vn5lY2FokNpkP41eyzn5d3mPPjy8fQhmps8TLr8dNWqO__HeRA6U-5bResKsK9Fjfei8uNkJ-p2-wfs0mUt:1otA0e:uwNAhqE8BQ6Uc-lXUxIGz069qxzULZ5AbNdIl5qDGTU",
@@ -1142,7 +1176,7 @@
     "provider": "github",
     "name": "GitHub",
     "client_id": "aa42db2facbb11ebe3d7",
-    "secret": "5517f1fdd1ff700fdf441714a3effe130e96f4ba",
+    "secret": "988fe3ac7496fb3befe6d872d126924efa014938",
     "key": "",
     "sites": [
       1
@@ -1154,7 +1188,7 @@
   "pk": 4,
   "fields": {
     "provider": "google",
-    "name": "Gioogle",
+    "name": "Google",
     "client_id": "914149665651-4c4nmo3h9m04lapo12b837tja9jba8jl.apps.googleusercontent.com",
     "secret": "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",
     "key": "",
