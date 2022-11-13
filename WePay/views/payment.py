@@ -15,8 +15,8 @@ class PaymentView(LoginRequiredMixin, generic.ListView):
     context_object_name = "my_payment"
 
     def get_queryset(self) -> QuerySet:
-        return Payment.objects.filter(
-            user__user=self.request.user  # , status=Payment.Status_choice.UNPAID
+        return Payment.objects.filter(user__user=self.request.user).exclude(
+            status=Payment.Status_choice.PAID
         )
 
 
@@ -87,8 +87,11 @@ def update(request, pk: int, *arg, **kwargs):
     except Payment.DoesNotExist:
         messages.error(request, "Payment not found")
         return HttpResponseRedirect(reverse("payments:payment"))
-    payment.pay()
-    print(omise.api_secret)
-    omise.api_secret = OMISE_SECRET
-    print("after: ", omise.api_secret)
+    # payment.pay()
+    name = payment.selected_payment.__name__.lower()
+    if name != "cashpayment":
+        print(omise.api_secret)
+        eval(f"payment.{name}.first().update_status()")
+        omise.api_secret = OMISE_SECRET
+        print("after: ", omise.api_secret)
     return HttpResponseRedirect(reverse("payments:payment"))

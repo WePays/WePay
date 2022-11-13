@@ -21,10 +21,10 @@ class BaseViewTest(BaseSetUp):
 
     def test_logout(self):
         """After logout bring user back to login page."""
-        response = self.client.post('/accounts/logout/')
+        response = self.client.post("/accounts/logout/")
         self.assertEqual(response.status_code, 302)
         self.client.logout()
-        response = self.client.get('/accounts/login/')
+        response = self.client.get("/accounts/login/")
         self.assertEqual(response.status_code, 200)
         # last = Bills.objects.last()
         # print(last)
@@ -67,18 +67,21 @@ class BillCreateViewTest(BaseViewTest):
     #     """test navigate to create bill page."""
     #     response = self.client.get("/bill/create/")
     #     self.assertEqual(response.status_code, 302)
+
     def test_navigate_create_bill_page(self):
         """test navigate to bill page"""
         response = self.client.get("/bill/create/")
         self.assertEqual(response.status_code, 302)
 
-    # def test_create_bill(self):
-    #     """test created bill."""
-    #     self.assertEqual(Bills.objects.get(pk=1), self.bill) # create success
+    def test_create_bill(self):
+        """test created bill."""
+        self.assertEqual(Bills.objects.get(pk=1), self.bill)  # create success
 
     def test_create_only_initial_topic(self):
         """test create a bill with initial topic."""
-        self.new_bill = Bills.objects.create(header=self.user_profile, name="Beverage(s)")
+        self.new_bill = Bills.objects.create(
+            header=self.user_profile, name="Beverage(s)"
+        )
         self.est = Topic.objects.create(title="Est", price=20, bill=self.new_bill)
         self.est.add_user(self.user1)
         self.est.add_user(self.user2)
@@ -101,7 +104,9 @@ class BillCreateViewTest(BaseViewTest):
 
     def test_create_bill_with_more_topic(self):
         """test create a bill with initial topic and add more topic."""
-        self.new_bill = Bills.objects.create(header=self.user_profile, name="Beverage(s)")
+        self.new_bill = Bills.objects.create(
+            header=self.user_profile, name="Beverage(s)"
+        )
         self.est = Topic.objects.create(title="Est", price=20, bill=self.new_bill)
         self.est.add_user(self.user1)
         self.est.add_user(self.user2)
@@ -115,7 +120,9 @@ class BillCreateViewTest(BaseViewTest):
         self.assertEqual(Bills.objects.get(pk=2).name, self.new_bill.name)
         self.assertEqual(Topic.objects.get(pk=3).title, self.est.title)
         self.assertEqual(Topic.objects.get(pk=4).title, self.fanta.title)
-        self.assertEqual(Bills.objects.get(pk=2).all_user, [self.user1, self.user2, self.user3])
+        self.assertEqual(
+            Bills.objects.get(pk=2).all_user, [self.user1, self.user2, self.user3]
+        )
         self.assertEqual(self.new_bill.total_price, 50)
         create(self.client.post("/bill/"), 2)
         self.assertTrue(Bills.objects.get(pk=2).is_created)

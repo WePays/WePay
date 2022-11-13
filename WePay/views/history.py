@@ -1,10 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
-from django.shortcuts import get_object_or_404, render, reverse
-from django.http import HttpResponseRedirect
-from django.contrib import messages
+from django.shortcuts import render
 from ..models import Bills, Payment, UserProfile
-from django.db.models import QuerySet
 
 
 class HistoryView(LoginRequiredMixin, generic.DetailView):

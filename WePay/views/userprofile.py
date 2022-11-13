@@ -21,14 +21,10 @@ class UserProfileView(LoginRequiredMixin, DetailView):
 
     def post(self, request, *arg, **kwargs):
         user = request.user
-        # userprofile = UserProfile.objects.get(user=user)
         display_name = request.POST["display name"]
-        # chain_key = request.POST["chain key"]
-        # userprofile.chain_id = chain_key
 
         user.username = display_name
         user.save()
-        # userprofile.save()
         messages.success(request, f"display name has updated to {display_name}")
         return HttpResponseRedirect(reverse("user-profile:userprofile"))
 

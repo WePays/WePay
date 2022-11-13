@@ -14,6 +14,7 @@ class UserProfile(models.Model):
 
     @property
     def chain(self) -> Union[omise.Chain, None]:
+        print(self.chain_id)
         return omise.Chain.retrieve(self.chain_id) if self.chain_id else None
 
     def __repr__(self) -> str:

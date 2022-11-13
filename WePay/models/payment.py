@@ -85,13 +85,21 @@ class Payment(models.Model):
         """get now payment"""
         return self.payment_dct[self.payment_type]
 
+    def can_pay(self) -> bool:
+        return self.status == self.Status_choice.UNPAID
+
     def pay(self) -> None:
         """Pay to header"""
-        if self.status in (self.Status_choice.PAID):
-            return
+        if not self.can_pay():
+            print(f"hoYAAAAAAAAAAAAAAAAA: {self.status}")
+            raise AlreadyPayError("You are2 in PENDING or PAID Status")
+
         now_payment = self.selected_payment.objects.get_or_create(payment=self)[0]
         now_payment.pay()
         self.save()
+
+    # def update(self) -> None:
+    #     pass
 
     def __repr__(self) -> str:
         """represent a payment"""
@@ -103,7 +111,9 @@ class Payment(models.Model):
 class BasePayment(models.Model):
     """Entry model"""
 
-    payment = models.ForeignKey(Payment, on_delete=models.CASCADE, default=None)
+    payment = models.ForeignKey(
+        Payment, on_delete=models.CASCADE, default=None, related_name="%(class)s"
+    )
 
     @abstractmethod
     def pay(self):
@@ -124,7 +134,6 @@ class OmisePayment(BasePayment):
     charge_id = models.CharField(max_length=100, null=True, blank=True)
     payment_type = models.CharField(max_length=100, default="promptpay")
     # i dont know how to call this on Payment class, So I will move up it up to payment class
-    # uri = models.CharField(max_length=100, null=True, blank=True)
 
     class Meta:
         abstract = True
@@ -155,8 +164,9 @@ class OmisePayment(BasePayment):
 
     def update_status(self):  # TODO: Move this mothod to Payment class
         print(omise.api_secret)
+        print(self.charge_id)
+        # omise.api_secret = self.payment.bill.header.chain.key
         status = omise.Charge.retrieve(self.charge_id).status
-        print(status)
         if status == "successful":
             self.payment.status = self.payment.Status_choice.PAID
         elif status == "pending":
@@ -195,3 +205,7 @@ class CashPayment(BasePayment):
 
         self.payment.status = self.payment.Status_choice.PAID
         self.payment.save()
+
+
+class AlreadyPayError(Exception):
+    "This payment already paid"

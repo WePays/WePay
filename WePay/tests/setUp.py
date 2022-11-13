@@ -11,7 +11,9 @@ class BaseSetUp(TestCase):
         header = User.objects.create_user(
             username="header", email="header@example.com", password="header123"
         )
-        self.header = UserProfile.objects.create(user=header, chain_id="acch_test_5tl5qdsa0cbli76hwoj")
+        self.header = UserProfile.objects.create(
+            user=header, chain_id="acch_test_5tl5qdsa0cbli76hwoj"
+        )
         self.header.save()
 
         user1 = User.objects.create_user(
@@ -27,22 +29,26 @@ class BaseSetUp(TestCase):
         self.user2.save()
 
         user3 = User.objects.create_user(
-            username="test_user3", email="user3@example.com", password="user3")
+            username="test_user3", email="user3@example.com", password="user3"
+        )
         self.user3 = UserProfile.objects.create(user=user3)
         self.user3.save()
 
         user4 = User.objects.create_user(
-            username="test_user4", email="user4@example.com", password="user4")
+            username="test_user4", email="user4@example.com", password="user4"
+        )
         self.user4 = UserProfile.objects.create(user=user4)
         self.user4.save()
 
         user5 = User.objects.create_user(
-            username="test_user5", email="user5@example.com", password="user5")
+            username="test_user5", email="user5@example.com", password="user5"
+        )
         self.user5 = UserProfile.objects.create(user=user5)
         self.user5.save()
 
         user6 = User.objects.create_user(
-            username="test_user6", email="user6@example.com", password="user6")
+            username="test_user6", email="user6@example.com", password="user6"
+        )
         self.user6 = UserProfile.objects.create(user=user6)
         self.user6.save()
 
@@ -73,5 +79,19 @@ class BaseSetUp(TestCase):
         self.bbl_payment = Payment.objects.create(bill=self.bill, user=self.user6)
         self.bbl_payment.payment_type = "BBL"
 
-        self.lst_payment = [self.cash_payment, self.promptpay_payment, self.scb_payment, self.ktb_payment, self.bay_payment, self.bbl_payment]
-        self.lst_user = [self.user1, self.user2, self.user3, self.user4, self.user5, self.user6]
+        self.lst_payment = [
+            self.cash_payment,
+            self.promptpay_payment,
+            self.scb_payment,
+            self.ktb_payment,
+            self.bay_payment,
+            self.bbl_payment,
+        ]
+        self.lst_user = [
+            self.user1,
+            self.user2,
+            self.user3,
+            self.user4,
+            self.user5,
+            self.user6,
+        ]
