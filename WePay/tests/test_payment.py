@@ -8,6 +8,9 @@ class TestPayment(BaseSetUp):
     def setUp(self):
         super(TestPayment, self).setUp()
 
+    def test_create_payment(self)
+    
+
 #     def test_create_duplicate_payment(self):
 #         """Test create duplicate payment object."""
 #         self.test = Payment.objects.create(bill=self.bill, user=self.user1)
