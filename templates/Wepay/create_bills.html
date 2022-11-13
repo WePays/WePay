@@ -1,66 +1,65 @@
 {% extends 'WePay/base_wepay.html' %}
-{% load static %}
+{% load tailwind_tags %}
+{% tailwind_css %}
 
 {% block title %}
-    {{ block.super }}
-    Create Bills
+Create Bills
 {% endblock title %}
+{{ block.super }}
 
 
 {% block body %}
-    {{ block.super }}
-
+<body>
     {% if user.is_authenticated %}
+    <div class="justify-center mx-auto ml-96">
         <form action="" method="POST">
             {% csrf_token %}
-            <div class="first-body" style="margin-left: 3%; margin-top: 5%;">
+            <div class="first-body">
 
-                <div class="title" style="margin-top: 5%; color: #222A9B; font-weight: bold;"><h1>Create Bill: {{header}}</11></div>
+                <div class="font-bold text-4xl text-[#171f99] mt-12 ml-32">Create Bill: </div>
 
-                <div class="header" style="margin-left: 3%; margin-top: 3%; color: black; font-weight: bold; font-size: medium;" > Bill's title: <br>
-                    <input type="text" name="title" id="title" placeholder="Enter the title of the bill" required
-                        style="width: 40%; font-weight: lighter;">
+                <div class="mt-10 ml-36 text-xl"> Bill's title:
+                    <br>
+                    <input class="mt-5 w-96" type="text" name="title" id="title" placeholder="Enter the title of the bill" required>
                 </div>
-
             </div>
 
-            <div class="second-body" style="margin-left: 4%; margin-top: 5%; color: #222a9b; font-size: medium;"> <h2> Initial Topic </h2>
+            <div class="mt-10 ml-36 font-bold text-xl">Initial Topic</div>
 
-                <div class="topic-name" style="margin-left: 3%; margin-top: 3%; font-weight: bold; color: black; font-size: medium;"> Name:<br>
-                    <input type="text" name="topic_name" id="topic_name" placeholder="Enter the topic name" required
-                        style="width: 40%; font-weight: lighter;">
+                <div class="mt-5 ml-36">Name:
+                    <br>
+                    <input class="mt-5 w-96 mt-3" type="text" name="topic_name" id="topic_name" placeholder="Enter the topic name" required>
                 </div>
 
-                <div class="topic-price" style="margin-left: 3%; margin-top: 3%; font-weight: bold; color: black; font-size: medium;"> Price: <br>
-                    <input type="number" min="0" name="topic_price" id="topic_price" placeholder="Enter the topic price" required
-                        style="width: 40%; font-weight: lighter;">
+                <div class="mt-10 ml-36"> Price: 
+                    <br>
+                    <input class="mt-3" type="number" min="0" name="topic_price" id="topic_price" placeholder="Enter the topic price" required>
                 </div>
 
-                <!--  BUG HEREEEEEEEEEEEEEEEEEEEE-->
-                <div class="add-user" style="margin-left: 3%; margin-top: 3%; font-weight: bold; color: black; font-size: medium;"> Enter user to assign: <br>
-                    <select id="username" name="username"  multiple required
-                        style="width: 40%; font-weight: lighter; height: 15%;">
+                <div class="mt-10 ml-36"> Enter user to assign: 
+                    <br>
+                    <select class="mt-4 w-96" id="username" name="username"  multiple required>
                         {% for name in lst_user %}
                             <option value="{{name}}" style="color: seagreen;">{{name}}</option>
                         {% endfor %}
                     </select>
-                    {% comment %} <input name="all_user" id="all_user" multiple="multiple" placeholder="username" list="username" required> {% endcomment %}
+                    {% comment %} <input class="mt-5 w-96" name="all_user" id="all_user" multiple="multiple" placeholder="username" list="username" required> {% endcomment %}
+
+                        {% if messages %}
+                        <ul class="messages">
+                        {% for message in messages %}
+                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                        {% endfor %}
+                        </ul>
+                        {% endif %}
+                        <br>
+                        <button class=" bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded ml-64 mt-5 "><input type="submit" value="Create Title"></button>
+                        {% comment %} </ul> {% endcomment %}
+                        </form>
+                    </div>
                 </div>
-                <!--  BUG HEREEEEEEEEEEEEEEEEEEEE-->
-            </div>
+</body>
 
-            {% if messages %}
-                <ul class="messages">
-                    {% for message in messages %}
-                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-
-            <div class="Create" style="margin-left: 40%; margin-top: 3%;"><input type="submit" value="Create Title"></div>
-            {% comment %} </ul> {% endcomment %}
-        </form>
-        <br><br><br>
 
     {% else %}
         <a href="/accounts/login/">Sign Up</a>
