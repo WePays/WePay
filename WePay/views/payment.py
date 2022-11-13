@@ -15,15 +15,9 @@ class PaymentView(LoginRequiredMixin, generic.ListView):
     context_object_name = "my_payment"
 
     def get_queryset(self) -> QuerySet:
-<<<<<<< HEAD
         return Payment.objects.filter(user__user=self.request.user).exclude(
             status=Payment.Status_choice.PAID
         )
-=======
-        return Payment.objects.filter(
-            user__user=self.request.user
-        ).exclude(status=Payment.Status_choice.PAID)
->>>>>>> iteration5-payment
 
 
 class PaymentDetailView(LoginRequiredMixin, generic.DetailView):

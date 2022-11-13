@@ -4,13 +4,14 @@ from ..models import Bills, Topic, CashPayment, Payment
 from .setUp import BaseSetUp
 from unittest import skip
 
+
 class TestPayment(BaseSetUp):
     def setUp(self):
         super(TestPayment, self).setUp()
 
     def test_create_payment(self):
         pass
-    
+
 
 #     def test_create_duplicate_payment(self):
 #         """Test create duplicate payment object."""
