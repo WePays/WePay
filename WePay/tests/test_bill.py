@@ -130,3 +130,8 @@ class DetailViewTest(BaseViewTest):
         """test navigation after bill object has created"""
         response = self.client.get("/bill/1/")
         self.assertEqual(response.status_code, 302)
+
+    def test_bill_not_exist(self):
+        """test navigation if go to bill that does not exist"""
+        response = self.client.get("/bill/2")
+        self.assertEqual(response.status_code, 301)
