@@ -6,6 +6,9 @@ omit =
     WePay/migrations/*
     WePay/tests/*
     WePay/*_urls.py
+    WePay/config.py
+    WePay/apps.py
     */__init__.py
     WePay/admin.py
     templates/*
+    theme/*
