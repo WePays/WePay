@@ -4,16 +4,12 @@ from ..models import Bills, Topic, CashPayment, Payment
 from .setUp import BaseSetUp
 from unittest import skip
 
-# class TestPayment(BaseSetUp):
-#     def setUp(self):
-#         super(TestPayment, self).setUp()
-#         self.pepsi.add_user(self.user1)
-#         self.pepsi.add_user(self.user2)
-#         self.coke.add_user(self.user2)
-#         self.cash_payment = Payment.objects.create(bill=self.bill, user=self.user1)
-#         self.cash_payment.payment_type = "Cash"
-#         self.promptpay_payment = Payment.objects.create(bill=self.bill, user=self.user2)
-#         self.promptpay_payment.payment_type = "PromptPay"
+class TestPayment(BaseSetUp):
+    def setUp(self):
+        super(TestPayment, self).setUp()
+
+    def test_create_payment(self)
+    
 
 #     def test_create_duplicate_payment(self):
 #         """Test create duplicate payment object."""
