@@ -10,6 +10,12 @@ class UserProfileViewTest(BaseSetUp):
         super(UserProfileViewTest, self).setUp()
 
     @SkipTest
+    def test_display_name(self):
+        self.client.login(user="header", password="header123")
+        response = self.client.post("/user-profile/",{"display name":"Toast"})
+        self.assertEqual(response.context['display name'],"Toast")
+
+    @SkipTest
     def test_fetch_key(self):
         data = {'fetch-key:fetch'}
         response = self.client.post(reverse('user-profile:fetch-key', data))

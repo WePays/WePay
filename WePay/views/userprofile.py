@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.shortcuts import redirect, render, reverse
 from django.http import HttpResponseRedirect
@@ -6,7 +7,7 @@ from django.views.generic import DetailView
 from ..models import UserProfile, omise
 
 
-class UserProfileView(DetailView):
+class UserProfileView(LoginRequiredMixin, DetailView):
     """Template view for user profile page."""
 
     template_name = "Wepay/user_profile.html"
