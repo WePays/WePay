@@ -1,19 +1,47 @@
 {% extends 'WePay/base_wepay.html' %}
 
 {% block body %}
-{{block.super}}
+    {% if my_payment %}
+        <div class="box" style="margin-left: 3%; margin-top: 5%">
+            <h1>You need to pay</h1>
+            {% comment %} <p>Click pay to select payment</p><style>p{color: navy;}</style> {% endcomment %}<!--โง่ -->
+            <table class="styled-table" style="width: 60%; height: 50%; background-color: aliceblue;">
+                <thead>
+                    <tr>
+                        <th> No. </th><style>th{padding-left: 1%;}</style>
+                        <th> Bills Topics </th>
+                        <th> Prices </th>
+                        <th> Status </th>
+                        <th> Header </th>
+                    </tr>
+                </thead>
 
-{% if my_payment %}
+                {% for payment in my_payment %}
+                    <tbody style="font-size: medium;">
+                        <tr>
+                            <td>{{forloop.counter0|add:"1"}}</td><style>td{padding: 1%;}</style>
+                            <td>{{ payment.bill.name }}</td> <!-- this will link to detail bill page-->
+                            <td>{{ payment.price}}</td>
+                            <td>
+                                {% if payment.can_pay %}
+                                    <a href="{% url 'payments:detail' payment.id %}">Pay</a><style>a{color: mediumseagreen;}</style>
+                                {% else %}
+                                    {{payment.status}}
+                                {% endif %}
+                            </td>
+                            <td class="header" style="color:midnightblue;">{{payment.bill.header}} </td>
+                        </tr>
+                    </tbody>
+                {% endfor %}
+            </list>
+        </ul>
+        </table>
+        </div>
 
-{% for payment in my_payment %}
 
-{{payment}}
+    {% else %}
+        <h1> No Payment Avalible </h1><style>h1{color:firebrick;}</style>
 
-{% endfor %}
-
-{% else %}
-<h1> No Payment Avalible </h1>
-
-{% endif %}
+    {% endif %}
 
 {% endblock body%}

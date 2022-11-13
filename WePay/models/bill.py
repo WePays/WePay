@@ -1,11 +1,11 @@
 import logging
-from typing import List, Union
-from django.db import models
-from django.contrib.auth.models import User
-from django.utils import timezone
-from .userprofile import UserProfile
+from typing import List
 
 import omise
+from django.db import models
+from django.utils import timezone
+
+from .userprofile import UserProfile
 
 
 class Bills(models.Model):
@@ -16,7 +16,11 @@ class Bills(models.Model):
 
     header = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     name = models.CharField(max_length=100, null=True)
-    pub_date = models.DateTimeField(default=timezone.localtime)
+    pub_date = models.DateTimeField(
+        default=timezone.localtime().strftime(r"%Y-%m-%d %H:%M:%S")
+    )
+    is_created = models.BooleanField(default=False)
+    is_closed = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = "Bill"
@@ -57,10 +61,19 @@ class Bills(models.Model):
 
         # sum all the price that person in that topic and return it
         return sum(
-            each_topic.each_price()
+            each_topic.calculate_price()
             for each_topic in topic
             if person in each_topic.user.all()
         )
+
+    def add_topic(self, topic: "Topic") -> None:
+        """add topic to bill
+
+        Arguments:
+            topic {Topic} -- topic that you want to add
+        """
+        topic.bill = self
+        topic.save()
 
     @property
     def total_price(self) -> float:
@@ -84,11 +97,14 @@ class Bills(models.Model):
             result = result.union([queryset[idx] for idx in range(len(queryset))])
         return list(result)
 
+    @property
+    def status(self):
+        return all(payment.status == "PAID" for payment in self.payments.all())
+
     def __repr__(self) -> str:
         """represent Bill objects in str form"""
-        return (
-            f"Bills(header={self.header}, name={self.name}, pub_date={self.pub_date})"
-        )
+
+        return f"Bills(header={self.header}, name={self.name}, pub_date={self.pub_date}, is_created={self.is_created}, is_closed={self.is_closed})"
 
     __str__ = __repr__
 
@@ -101,12 +117,13 @@ class Topic(models.Model):
     bill = models.ForeignKey(Bills, on_delete=models.CASCADE, null=True)
     user = models.ManyToManyField(UserProfile, related_name="topic")
 
-    def each_price(self):
+    def calculate_price(self):
 
         return self.price / len(self.user.all())
 
     def add_user(self, user):
         if user not in self.user.all():
             self.user.add(user)
+            self.save()
         else:
             logging.info("user already in this food")

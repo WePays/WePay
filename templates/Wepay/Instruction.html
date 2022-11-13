@@ -1,0 +1,26 @@
+{% extends 'WePay/base_wepay.html' %}
+{% load static %}
+
+{% block body %}
+    <h1 class="title" style="margin-top: 5%;" id="instruction">How to use omise -> Get chain ID </h1>
+    <p class="explain" style="color: navy; font-size: medium;">Follow the instructions below to enable account chaining: </p>
+    <div class="info" style="margin-top: 4%; position: static; width: 100%; height: 100%;">
+        <ol>
+            <div><p class="first" style="font-size: large;">1. Sign up/ Sign in via Omise: <p style="color: firebrick; font-size: medium;"> To Sign up or Sign in via Omise, you must use the same email address that you used to login to WePay.</p> </p></div>
+
+            <p class="second" style="font-size: large; margin-top: 2%;">2. Visit <a href="https://dashboard.omise.co/test/settings" style="color: navy;">Omise Dashboard &gt; Settings</a></p>
+            <div><img width="941" style="margin-top: 1%;" alt="image" src="https://user-images.githubusercontent.com/90590580/200815785-9519c25e-cb51-4b2b-b9c9-d55ba174df2c.png"></div>
+
+            <p class="thirth" style="font-size: large; margin-top: 5%;">3. Click the checkbox enabling account chaining, and set the Return url to which the sub-merchant will be redirected after authorization.</p>
+            <div><img width="842" style="margin-top: 1%;" alt="image" src="https://user-images.githubusercontent.com/90590580/200816712-acf34a7e-99d6-494b-8f7f-4add20940a2b.png"></div>
+
+            <p class="fourth" style="font-size: large; margin-top: 5%;">4. Click Update settings and provide the generated Chain url to your sub-merchants so they can authorize account chaining.<br>Sub-merchants must
+                visit the Chain Authorization URI, read the terms, and click Authorize.</p>
+            <div><img width="967" style="margin-top: 1%;" alt="image" src="https://user-images.githubusercontent.com/90590580/200820225-5efada82-36d7-431e-b7c0-2aa2075b9548.png"></div>
+
+            <p class="fifth" style="font-size: large; margin-top: 5%;" >5. After that come back then select fetch button, the chain id will show up.</p>
+            <div><img width="353" style="margin-top: 1%;" alt="image" src="https://user-images.githubusercontent.com/93331101/201012951-c846d094-89d6-4be9-b7af-9b7fda2677e4.png"></div>
+
+        </ol>
+    </div>
+{% endblock body %}

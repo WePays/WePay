@@ -20,8 +20,13 @@ class Payment(models.Model):
     user = models.ForeignKey(
         UserProfile, on_delete=models.CASCADE, null=True, blank=True
     )
-    date = models.DateTimeField(null=True, blank=True)
-    bill = models.ForeignKey(Bills, on_delete=models.CASCADE)
+    date = models.DateTimeField(
+        null=True,
+        blank=True,
+        default=timezone.localtime().strftime(r"%Y-%m-%d %H:%M:%S"),
+    )
+    bill = models.ForeignKey(Bills, on_delete=models.CASCADE, related_name="payments")
+    uri = models.CharField(max_length=100, null=True, blank=True)
 
     class Status_choice(models.TextChoices):
         """choice for status whether PAID, PENDING, or UNPAID"""
@@ -35,7 +40,7 @@ class Payment(models.Model):
     )
 
     class PaymentChoice(models.TextChoices):
-        """"""
+        """choice for payment"""
 
         CASH = "Cash"
         PROMPTPAY = "PromptPay"
@@ -49,23 +54,9 @@ class Payment(models.Model):
     )
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
+        """set header status to paid"""
         super().__init__(*args, **kwargs)
-        if self.user == self.bill.header:
-            self.user.status = self.Status_choice.PAID
-
-    def __init_subclass__(cls) -> None:
-        super().__init_subclass__()
-        cls.__str__ = cls.__repr__
-
-    def get_status(self):
-        return self.status
-
-    @property
-    def header(self):
-        return self.bill.header
-
-    def pay(self):
-        payment_dct = {
+        self.payment_dct = {
             "Cash": CashPayment,
             "PromptPay": PromptPayPayment,
             "SCB": SCBPayment,
@@ -73,12 +64,47 @@ class Payment(models.Model):
             "BAY": BAYPayment,
             "BBL": BBLPayment,
         }
-        if self.status in (self.Status_choice.PAID, self.Status_choice.PENDING):
-            return
-        now_payment = payment_dct[self.payment_type].objects.create(payment=self)
+
+    @property
+    def header(self) -> UserProfile:
+        """Get header of each bill in each payment"""
+        return self.bill.header
+
+    @property
+    def price(self):
+        """get price of each payment"""
+        return self.bill.calculate_price(self.user)
+
+    @property
+    def amount(self) -> int:
+        """get amount of each payment"""
+        if self.payment_type == self.PaymentChoice.CASH:
+            return int(self.price)
+        return int(self.price * 100)
+
+    @property
+    def selected_payment(self) -> Any:
+        """get now payment"""
+        return self.payment_dct[self.payment_type]
+
+    def can_pay(self) -> bool:
+        return self.status == self.Status_choice.UNPAID
+
+    def pay(self) -> None:
+        """Pay to header"""
+        if not self.can_pay():
+            print(f"hoYAAAAAAAAAAAAAAAAA: {self.status}")
+            raise AlreadyPayError("You are2 in PENDING or PAID Status")
+
+        now_payment = self.selected_payment.objects.get_or_create(payment=self)[0]
         now_payment.pay()
+        self.save()
+
+    # def update(self) -> None:
+    #     pass
 
     def __repr__(self) -> str:
+        """represent a payment"""
         return f"Payment(user={self.user}, date={self.date}, bill={self.bill}, status={self.status}, payment_type={self.payment_type})"
 
     __str__ = __repr__
@@ -87,7 +113,9 @@ class Payment(models.Model):
 class BasePayment(models.Model):
     """Entry model"""
 
-    payment = models.ForeignKey(Payment, on_delete=models.CASCADE, default=None)
+    payment = models.ForeignKey(
+        Payment, on_delete=models.CASCADE, default=None, related_name="%(class)s"
+    )
 
     @abstractmethod
     def pay(self):
@@ -100,43 +128,46 @@ class BasePayment(models.Model):
         super().__init_subclass__()
         cls.__str__ = cls.__repr__
 
-    # def __repr__(self) -> str:
-    #     return f"{self.__class__.__name__}(user={self.user}, date={self.date},\
-    # bill={self.bill}, status={self.status})"
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}({self.payment.payment_type}, {self.payment.status}, {self.payment.user})"
 
 
 class OmisePayment(BasePayment):
     charge_id = models.CharField(max_length=100, null=True, blank=True)
     payment_type = models.CharField(max_length=100, default="promptpay")
-    uri = models.CharField(max_length=100, null=True, blank=True)
+    # i dont know how to call this on Payment class, So I will move up it up to payment class
 
     class Meta:
         abstract = True
 
     def pay(self):
         """pay by omise"""
-        if self.payment.user.status == self.payment.Status_choice.UNPAID:
+        # amount must morethan 20
+        if self.payment.status == self.payment.Status_choice.UNPAID:
             source = omise.Source.create(
                 type=self.payment_type,
-                amount=self.payment.bill.calculate_price(self.user) * 100,
+                amount=self.payment.amount,
                 currency="thb",
             )
 
             omise.api_secret = self.payment.bill.header.chain.key
 
             charge = omise.Charge.create(
-                amount=int(self.payment.bill.calculate_price(self.user) * 100),
+                amount=self.payment.amount,
                 currency="thb",
                 source=source.id,
-                return_uri="http://localhost:8000/bill/",
+                return_uri=f"http://127.0.0.1:8000/payment/{self.payment.id}/update",
             )
 
             self.charge_id = charge.id
-            self.uri = charge.authorize_uri
+            self.payment.uri = charge.authorize_uri
+        self.update_status()
+        print(omise.api_secret)
 
-            omise.api_secret = OMISE_SECRET
-
-    def get_status(self):  # TODO remove middle man
+    def update_status(self):  # TODO: Move this mothod to Payment class
+        print(omise.api_secret)
+        print(self.charge_id)
+        # omise.api_secret = self.payment.bill.header.chain.key
         status = omise.Charge.retrieve(self.charge_id).status
         if status == "successful":
             self.payment.status = self.payment.Status_choice.PAID
@@ -145,46 +176,28 @@ class OmisePayment(BasePayment):
         else:
             self.payment.status = self.payment.Status_choice.UNPAID
         self.payment.save()
+        print(self.payment.status)
         self.save()
-        return self.payment.status
-
-    def __repr__(self) -> str:
-        return f"{super().__repr__()[:-1]} Paid by {self.payment_type})"
 
 
 class PromptPayPayment(OmisePayment):
     payment_type = "promptpay"
 
-    def __repr__(self) -> str:
-        return f"{super().__repr__()[:-1]} Paid by {self.payment_type})"
-
 
 class SCBPayment(OmisePayment):
     payment_type = "internet_banking_scb"
-
-    def __repr__(self) -> str:
-        return f"{super().__repr__()[:-1]} Paid by {self.payment_type})"
 
 
 class KTBPayment(OmisePayment):
     payment_type = "internet_banking_ktb"
 
-    def __repr__(self) -> str:
-        return f"{super().__repr__()[:-1]} Paid by {self.payment_type})"
-
 
 class BBLPayment(OmisePayment):
     payment_type = "internet_banking_bbl"
 
-    def __repr__(self) -> str:
-        return f"{super().__repr__()[:-1]} Paid by {self.payment_type})"
-
 
 class BAYPayment(OmisePayment):
     payment_type = "internet_banking_bay"
-
-    def __repr__(self) -> str:
-        return f"{super().__repr__()[:-1]} Paid by {self.payment_type})"
 
 
 class CashPayment(BasePayment):
@@ -194,3 +207,7 @@ class CashPayment(BasePayment):
 
         self.payment.status = self.payment.Status_choice.PAID
         self.payment.save()
+
+
+class AlreadyPayError(Exception):
+    "This payment already paid"

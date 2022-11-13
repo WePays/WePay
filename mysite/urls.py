@@ -15,21 +15,26 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+
 # from django.conf.urls import url
 
 from django.views.generic import RedirectView
-from .views import signup, About, UserProfile
+from .views import signup, About, Instruction, Tailwind
 
 urlpatterns = [
-    path('admin/doc/', include('django.contrib.admindocs.urls')),
+    path("admin/doc/", include("django.contrib.admindocs.urls")),
     path("admin/", admin.site.urls),
     path("bill/", include("WePay.bill_urls")),
     path("payment/", include("WePay.payment_urls")),
     path("accounts/", include("allauth.urls")),
     path("signup/", signup, name="signup"),
     path("about/", About.as_view(), name="about"),
-    path("user-profile/", UserProfile.as_view(), name="user-profile"),
+    path("user-profile/", include("WePay.user_profile_urls")),
     path("", RedirectView.as_view(url="/bill/")),
+    path("instruction/", Instruction.as_view(), name="instruction"),
+    path("__reload__/", include("django_browser_reload.urls")),
+    path("tailwind/", Tailwind.as_view(), name="tailwind"),
     # url(r'^favicon\.ico$',RedirectView.as_view(url='/static/images/favicon.ico')),
     # path("payments/", PaymentView.as_view(), name="payment"),
+    path("history/", include("WePay.history_urls")),
 ]

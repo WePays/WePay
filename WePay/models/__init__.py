@@ -7,9 +7,9 @@ from .payment import (
     BBLPayment,
     BAYPayment,
     Payment,
+    omise,
 )
 from .userprofile import UserProfile
-from .form import UploadTopicForm, UploadBillForm
 
 __all__ = [
     "Bills",
@@ -21,7 +21,6 @@ __all__ = [
     "BBLPayment",
     "BAYPayment",
     "UserProfile",
-    "UploadTopicForm",
-    "UploadBillForm",
     "Payment",
+    "omise",
 ]

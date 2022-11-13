@@ -25,13 +25,12 @@ SECRET_KEY = "django-insecure-&mz@g-o-_sg(jwc#nj)d!n3^5stj+w$!(w^8^yb%vuqnjaytg1
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    "WePay.apps.WepayConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -47,7 +46,13 @@ INSTALLED_APPS = [
     "allauth.socialaccount.providers.github",
     "allauth.socialaccount.providers.google",
     "allauth.socialaccount.providers.discord",
+    "tailwind",
+    "theme",
+    "django_browser_reload",
+    "WePay.apps.WepayConfig",
 ]
+
+TAILWIND_APP_NAME = 'theme'
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -57,6 +62,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django_browser_reload.middleware.BrowserReloadMiddleware",
     # 'auth_remember.middleware.AuthRememberMiddleware',
 ]
 
@@ -90,8 +96,11 @@ AUTHENTICATION_BACKENDS = [
 WSGI_APPLICATION = "mysite.wsgi.application"
 
 SITE_ID = 1
-
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_VERIFICATION = "none"
+ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 3
+ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 300
 
 LOGIN_REDIRECT_URL = "/"
 
@@ -161,8 +170,9 @@ LANGUAGE_CODE = "en-us"
 TIME_ZONE = "Asia/Bangkok"
 
 USE_I18N = True
-
+USE_L10N = True
 USE_TZ = True
+USE_THOUSAND_SEPARATOR = True
 
 
 # Static files (CSS, JavaScript, Images)
@@ -177,3 +187,10 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 LOGOUT_REDIRECT_URL = "/accounts/login/"
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
+
+NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
+NPM_BIN_PATH = "/usr/local/bin/npm"

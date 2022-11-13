@@ -1,5 +1,7 @@
-django==4.1
+django>=4.1
 django-allauth
+django-tailwind
 python-decouple
 omise
 docutils
+djhtml
