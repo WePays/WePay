@@ -5,6 +5,7 @@ from WePay.models.userprofile import UserProfile
 from ..models import Bills, Topic, Payment
 from unittest import SkipTest
 
+
 class BillModelTest(BaseSetUp):
     """test for Bill model"""
 
@@ -40,6 +41,7 @@ class BillModelTest(BaseSetUp):
         self.assertEqual(self.bill.calculate_price(person=self.user1), 20)
         self.assertEqual(self.bill.calculate_price(person=self.user2), 15)
 
+
 class TopicModelTest(BaseSetUp):
     """test for Food model."""
 
@@ -67,9 +69,10 @@ class TopicModelTest(BaseSetUp):
         check = sum(user == self.user1 for user in self.pepsi.user.all())
         self.assertEqual(check, 1)
 
+
 class PaymentModelTest(BaseSetUp):
     """test for payment model."""
-    
+
     def setUp(self):
         super(PaymentModelTest, self).setUp()
 
@@ -78,9 +81,11 @@ class PaymentModelTest(BaseSetUp):
         self.test = Payment.objects.create(bill=self.bill, user=self.user1)
 
     @SkipTest
-    def test_payment_choice(self): #TODO Change to get or post selected payment instead of string
+    def test_payment_choice(
+        self,
+    ):  # TODO Change to get or post selected payment instead of string
         """test payment type."""
-        self.assertEqual(self.cash_payment.selected_payment,"Cash")
+        self.assertEqual(self.cash_payment.selected_payment, "Cash")
         self.assertEqual(self.promptpay_payment.selected_payment, "PromptPay")
         self.assertEqual(self.scb_payment.selected_payment, "SCB")
         self.assertEqual(self.ktb_payment.selected_payment, "KTB")
@@ -88,7 +93,7 @@ class PaymentModelTest(BaseSetUp):
         self.assertEqual(self.bbl_payment.selected_payment, "BBL")
 
     @SkipTest
-    def test_payment_status(self): #TODO This so stupid please fix
+    def test_payment_status(self):  # TODO This so stupid please fix
         """test payment status for each payment"""
         for payment in self.lst_payment:
             self.assertEqual(payment.status, "UNPAID")
@@ -97,7 +102,7 @@ class PaymentModelTest(BaseSetUp):
                 self.assertEqual(payment.status, "PENDING")
             else:
                 self.assertEqual(payment.status, "PAID")
-            payment.pay() # After status == PAID its can still paid.
+            payment.pay()  # After status == PAID its can still paid.
 
     def test_payment_calculate_price(self):
         """test calculate price for each user in bill."""
@@ -109,6 +114,7 @@ class PaymentModelTest(BaseSetUp):
         self.assertEqual(self.ktb_payment.price, self.pepsi.calculate_price())
         self.assertEqual(self.bay_payment.price, self.pepsi.calculate_price())
         self.assertEqual(self.bbl_payment.price, self.pepsi.calculate_price())
+
 
 class UserProfileTest(BaseSetUp):
     def setUp(self):

@@ -20,10 +20,10 @@ class BaseViewTest(BaseSetUp):
 
     def test_logout(self):
         """After logout bring user back to login page."""
-        response = self.client.post('/accounts/logout/')
+        response = self.client.post("/accounts/logout/")
         self.assertEqual(response.status_code, 302)
         self.client.logout()
-        response = self.client.get('/accounts/login/')
+        response = self.client.get("/accounts/login/")
         self.assertEqual(response.status_code, 200)
         # last = Bills.objects.last()
         # print(last)
@@ -73,7 +73,7 @@ class BillCreateViewTest(BaseViewTest):
 
     def test_create_bill(self):
         """test created bill."""
-        self.assertEqual(Bills.objects.get(pk=1), self.bill) # create success
+        self.assertEqual(Bills.objects.get(pk=1), self.bill)  # create success
 
     def test_create_initial_topic(self):
         """test create a bill with initial topic."""
@@ -86,6 +86,7 @@ class BillCreateViewTest(BaseViewTest):
         # self.assertEqual(Bills.objects.get(pk=3), self.bill)
         # print("Tomato", self.client.post("/bill/create/")['lst_user'])
         # self.assertQuerysetEqual(response.context[''], [])
+
 
 class DetailViewTest(BaseViewTest):
     def setUp(self):
