@@ -1,19 +1,88 @@
 {% extends 'WePay/base_wepay.html' %}
+{% load tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% tailwind_css %}
+    {% block header %}{% endblock header %}
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tailwind tables</title>
+    <link rel="stylesheet" href="style.css" />
+    {%block title%} Detail bill {% endblock title%}
+</head>
+{{ block.super }}
 
-{%block title%}
-    {{ block.super }}
-    Detail bill
-{% endblock title%}
 
 {% block body %}
-    <div class="box" style="margin-top: 5%; margin-left: 5%;">
+
+<body>
+    <div class="container flex justify-center mx-auto">
+        <div class="flex flex-col">
+          <div class="w-full">
+            <div class="static">
+
+                <div class="inline-block text-2xl text-[#171f99] mt-40 font-bold">Bill: {{bill.name}}</div>
+
+                <div class="inline-block text-xl ml-80 font-bold">
+                    <form action="" method="post">
+                    {% csrf_token %}
+                    TotalPrice: {{bill.total_price}}
+                    {% if messages %}
+                        <p class="messages">
+                            {% for message in messages %}
+                                <li class="{{ message.tags }}" style="margin-left: 55%; color:crimson ">
+                                    {% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}
+                                </li>
+                            {% endfor %}
+                            </p>
+                    {% endif %}
+                    </form>
+                </div>
+            </div>
+
+            
+            <div class="border-b border-gray-200 shadow">
+              <table class="divide-y divide-[#171f99] mt-5">
+
+                <thead class="bg-gray-50">
+                  <tr>
+                    <th class="px-6 py-4 text-xl text-gray-500">No</th>
+                    <th class="px-20 py-4 text-xl text-gray-500">Topic</th>
+                    <th class="px-12 py-4 text-xl text-gray-500">Price</th>
+                    <th class="px-12 py-4 text-xl text-gray-500">Status</th>
+                  </tr>
+                </thead>
+
+                {% for price in payment %}
+                <tbody class="bg-white divide-y divide-gray-300">
+                  <tr class="whitespace-nowrap">
+
+                    <td class="px-6 py-4 text-sm text-gray-600">{{forloop.counter0|add:"1"}}</td>
+                    <td class="px-20 py-4 text-sm text-gray-900 font-bold">{{price.user.name}}</td>
+                    <td class="px-12 py-4 text-sm text-gray-900">{{price.amount}}</td>
+                    <td class="px-12 py-4 text-sm text-gray-900">{{price.status}}</td>
+
+                  </tr>
+                </tbody>
+                {% endfor %}
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+</body>
+
+
+    <!-- <div class="box" style="margin-top: 5%; margin-left: 5%;">
         <h2>Bills Title: {{bill.name}}</h2><style>h2{color: black;}</style>
         <h3>TotalPrice: {{bill.total_price}}</h3><style>h3{color:firebrick;}</style>
         <div class="first-section" style="margin-top: 0%; background: transparent;">
             <table class="styled-table" style="width: 35%; height: 50%; margin-top: 3%; background-color: aliceblue;">
                 <thead>
                     <tr>
-                        <th>No.</th><style>th{padding-left: 1%;}</style>
+                        <th>No.</th>
                         <th>Name</th>
                         <th>Price</th>
                         <th>Status</th>
@@ -28,12 +97,13 @@
                             <td>{{price.amount}}</td>
                             <td>{{price.status}}</td>
                             <!-- <td>{{price}}</td> -->
-                        </tr>
-                    </tbody>
-                {% endfor %}
+                        <!-- </tr>
+                    </tbody> -->
+                <!-- {% endfor %} -->
 
-            </ul>
+            <!-- </ul>
         </table>
     </div>
-    </div>
+    </div> --> -->
 {% endblock body%}
+</html>
