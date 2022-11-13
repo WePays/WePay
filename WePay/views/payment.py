@@ -16,8 +16,8 @@ class PaymentView(LoginRequiredMixin, generic.ListView):
 
     def get_queryset(self) -> QuerySet:
         return Payment.objects.filter(
-            user__user=self.request.user, status=Payment.Status_choice.UNPAID
-        )
+            user__user=self.request.user
+        ).exclude(status=Payment.Status_choice.PAID)
 
 
 class PaymentDetailView(LoginRequiredMixin, generic.DetailView):
@@ -37,7 +37,7 @@ class PaymentDetailView(LoginRequiredMixin, generic.DetailView):
         status = payment.status
         print(status)
         payment_type = payment.payment_type
-        if payment.amount <= 20 or payment.amount > 150000:
+        if payment.price <= 20 or payment.price > 150000:
             messages.info(
                 request,
                 "Your amount is less than 20 Baht or more than 150,000 Baht, you can only pay with cash",
