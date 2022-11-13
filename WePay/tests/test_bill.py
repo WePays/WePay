@@ -102,6 +102,13 @@ class BillCreateViewTest(BaseViewTest):
         # print("Tomato", Topic.objects.get(user=self.user1).user)
         # self.assertQuerysetEqual(response.context[''], [])
 
+    def test_response_with_create_bill(self):
+        data = {
+            "title": "Est", "topic_name": "Toast", "username": [self.user1, self.user2], "topic_price": 2000
+        }
+        self.client.post(reverse("bills:create"), data=data)
+        self.assertFalse(Bills.objects.last().is_created)
+
     def test_create_bill_with_more_topic(self):
         """test create a bill with initial topic and add more topic."""
         self.new_bill = Bills.objects.create(
