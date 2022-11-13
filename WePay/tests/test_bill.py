@@ -99,6 +99,28 @@ class BillCreateViewTest(BaseViewTest):
         # print("Tomato", Topic.objects.get(user=self.user1).user)
         # self.assertQuerysetEqual(response.context[''], [])
 
+    def test_create_bill_with_more_topic(self):
+        """test create a bill with initial topic and add more topic."""
+        self.new_bill = Bills.objects.create(header=self.user_profile, name="Beverage(s)")
+        self.est = Topic.objects.create(title="Est", price=20, bill=self.new_bill)
+        self.est.add_user(self.user1)
+        self.est.add_user(self.user2)
+        self.new_bill.add_topic(self.est)
+        self.fanta = Topic.objects.create(title="Fanta", price=30, bill=self.new_bill)
+        self.fanta.add_user(self.user1)
+        self.fanta.add_user(self.user2)
+        self.fanta.add_user(self.user3)
+        self.new_bill.add_topic(self.fanta)
+        self.assertEqual(Bills.objects.get(pk=2), self.new_bill)
+        self.assertEqual(Bills.objects.get(pk=2).name, self.new_bill.name)
+        self.assertEqual(Topic.objects.get(pk=3).title, self.est.title)
+        self.assertEqual(Topic.objects.get(pk=4).title, self.fanta.title)
+        self.assertEqual(Bills.objects.get(pk=2).all_user, [self.user1, self.user2, self.user3])
+        self.assertEqual(self.new_bill.total_price, 50)
+        create(self.client.post("/bill/"), 2)
+        self.assertTrue(Bills.objects.get(pk=2).is_created)
+
+
 class DetailViewTest(BaseViewTest):
     def setUp(self):
         """Setup before running a tests."""
