@@ -108,7 +108,7 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
             return HttpResponseRedirect(reverse("bills:bill"))
         lst = []
         for each_user in bill.all_user:
-            payment = Payment.objects.filter(bill=bill, user=each_user)
+            payment = Payment.objects.get(bill=bill, user=each_user)
             print(payment)
             lst.append(payment)
         return render(request, "Wepay/detail.html", {"bill": bill, "payment": lst})

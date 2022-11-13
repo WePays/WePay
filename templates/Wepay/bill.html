@@ -1,77 +1,120 @@
 {% extends 'WePay/base_wepay.html' %}
+{% load tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% tailwind_css %}
+    {% block header %}{% endblock header %}
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tailwind tables</title>
+    <link rel="stylesheet" href="style.css" />
+    <!-- <link rel=¨stylesheet¨ type=¨text/css¨ href=¨wepay/bill.css¨> -->
+  </head>
 
-{% block header %}
-    <link rel=¨stylesheet¨ type=¨text/css¨ href=¨wepay/bill.css¨>
-{% endblock header %}
 
 {% block body%}
     {{block.super}}
 
+    {% if created_bill %}
+    <body>
+        <div class="container flex justify-center mx-auto">
+            <div class="flex flex-col">
+              <div class="w-full">
+                <div class="static">
+
+                    <div class="inline-block text-3xl text-grey mt-36 font-bold ">Bill list</div>
+
+                </div>
+
+                
+                <div class="border-b border-gray-200 shadow">
+                  <table class="divide-y divide-[#171f99] mt-5">
+
+                    <thead class="bg-gray-50">
+                      <tr>
+                        <th class="px-6 py-4 text-xl text-gray-500">No</th>
+                        <th class="px-10 py-4 text-xl text-gray-500">Topic</th>
+                        <th class="px-8 py-4 text-xl text-gray-500">Price</th>
+                        <th class="px-10 py-4 text-xl text-gray-500">Status</th>
+                        <th class="px-8 py-4 text-xl text-gray-500">Verify</th>
+                        <th class="px-6 py-4 text-xl text-gray-500">Delete</th>
+                      </tr>
+                    </thead>
+
+                    {% for bill in created_bill %}
+                    <tbody class="bg-white divide-y divide-gray-300">
+                      <tr class="whitespace-nowrap">
+
+                        <td class="px-6 py-4 text-sm text-gray-600">{{forloop.counter0|add:"1"}}</td>
+                        <td class="px-10 py-4 text-sm text-gray-900 font-bold"><a href="{% url 'bills:detail' bill.id %}"> {{ bill.name }}</a></td>
+                        <td class="px-8 py-4 text-sm text-gray-900">{{ bill.total_price}}</td>
+
+                        {% if bill.status%}
+                        <td class="px-10 py-4 text-sm text-green-500">PAID</td>
+                        {% else %}
+                        <td class="px-10 py-4 text-sm text-red-500">UNPAID</td>
+                        {% endif %}
+
+                        {% if bill.status %}
+                        <td class="px-8 py-4 text-sm text-green-500"><a href="{% url 'bills:close' bill.id %}">Verify</a></td>
+                        {% else %}
+                        <td class="px-8 py-4 text-sm text-red-500"><a href="{% url 'bills:close' bill.id %}">Not Verify</a></td>
+                        {% endif %}
+                        
+                        <td class="px-6 py-4">
+                          <a href="#">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              class="w-6 h-6 text-red-400"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 
+                                4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                              />
+                            </svg>
+                          </a>
+                        </td>
+                      </tr>
+                    </tbody>
+                    {% endfor %}
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
     {% if uncreated_bill %}
-        <h3>You have an Initialized bill that havent create yet, lets create by clicking <a href="{% url 'bills:add' uncreated_bill.id %}">here</a></h3>
+          <h3 class="ml-96 mt-10 text-red-700">You have an Initialized bill that havent create yet, lets create by clicking <a class="text-[#171f99]" href="{% url 'bills:add' uncreated_bill.id %}">here</a></h3>
     {% endif %}
 
-    {% if created_bill %}
-        <div class="header" style="margin-left: 0%; margin-top: 5%;">
-            <h1>Bill list</h1><style>h1{margin-left: 3%;}</style>
-            <body>
-                <ul>
-                    <table class="styled-table" style="width: 60%; height: 50%; background-color: aliceblue;">
-                        <thead>
-                            <tr>
-                                <th> No. </th><style>th{padding-left: 1%;}</style>
-                                <th> Bills Title </th>
-                                <th> Prices </th>
-                                <th> Status </th>
-                                <th> Verify </th>
-                            </tr>
-                        </thead>
+</body>
 
-                        {% for bill in created_bill %}
-                            <tbody style="font-size:medium;">
-                                <tr>
-                                    <td>{{forloop.counter0|add:"1"}}</td><style>td{padding: 1%;}</style>
-                                    <td> <a href="{% url 'bills:detail' bill.id %}" style="color: navy;"> {{ bill.name }}</a></td>
-                                    <td>{{ bill.total_price}}</td>
-                                    {% if bill.status%}
-                                        <td class="status" style="color:mediumseagreen">PAID</td>
-                                    {% else %}
-                                        <td class="status" style="color: firebrick;">UNPAID</td>
-                                    {% endif %}
+<div class="relative">
+    <form action="" method="post">
+    {% csrf_token %}
+    <button class="absolute bottom-0 right-0 bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded" type="submit">Create Bill</button>
+    {% if messages %}
+        <p class="messages">
+            {% for message in messages %}
+                <li class="{{ message.tags }}" style="margin-left: 55%; color:crimson ">
+                    {% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}
+                </li>
+            {% endfor %}
+            </p>
+    {% endif %}
+    </form>
+</div>
 
-                                    {% if bill.status %}
-                                        <td class="verify" style="color:mediumseagreen;"><a href="{% url 'bills:close' bill.id %}">verify</a></td>
-                                    {% else %}
-                                        <td class="verify" style="color: firebrick;">unverify</td>
-                                    {% endif %}
-                                </tr>
-                            </tbody>
-                        {% endfor %}
-                    </list>
-                </ul>
-            </table>
-        </body>
-        </div>
 
     {% else %}
-        <br><br><br><br>
-        <h2><p>No Bills are available.</p><style>p{color:firebrick;}</style></h2>
+        <h2 class="text-4xl text-red-500">No Bills are available.</h2>
     {% endif %}
-
-    <form action="" method="post">
-        {% csrf_token %}
-        <div class="createbttn">
-            <p><button style="margin-left: 55%; color: navy;" type="submit">Create Bill</button></p>
-        </div>
-        {% if messages %}
-            <ul class="messages">
-                {% for message in messages %}
-                    <li class="{{ message.tags }}" style="margin-left: 55%; color:crimson ">
-                        {% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}
-                    </li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    </form>
 
 {% endblock body%}
