@@ -46,8 +46,13 @@ INSTALLED_APPS = [
     "allauth.socialaccount.providers.github",
     "allauth.socialaccount.providers.google",
     "allauth.socialaccount.providers.discord",
+    "tailwind",
+    "theme",
+    "django_browser_reload",
     "WePay.apps.WepayConfig",
 ]
+
+TAILWIND_APP_NAME = 'theme'
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -57,6 +62,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django_browser_reload.middleware.BrowserReloadMiddleware",
     # 'auth_remember.middleware.AuthRememberMiddleware',
 ]
 
@@ -166,6 +172,7 @@ TIME_ZONE = "Asia/Bangkok"
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
+USE_THOUSAND_SEPARATOR = True
 
 
 # Static files (CSS, JavaScript, Images)
@@ -180,3 +187,10 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 LOGOUT_REDIRECT_URL = "/accounts/login/"
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
+
+NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
+NPM_BIN_PATH = "/usr/local/bin/npm"

@@ -103,7 +103,17 @@ class Bills(models.Model):
 
     def __repr__(self) -> str:
         """represent Bill objects in str form"""
+<<<<<<< HEAD
         return f"Bills(header={self.header}, name={self.name}, pub_date={self.pub_date}, is_created={self.is_created}, is_closed={self.is_closed})"
+=======
+<<<<<<< Updated upstream
+        return (
+            f"Bills(header={self.header}, name={self.name}, pub_date={self.pub_date}, is_created={self.is_created}, is_closed={self.is_closed})"
+        )
+=======
+        return f"Bills(header={self.header}, name={self.name}, pub_date={self.pub_date}, is_created={self.is_created}, is_closed={self.is_closed})"
+>>>>>>> Stashed changes
+>>>>>>> iteration5-payment
 
     __str__ = __repr__
 
