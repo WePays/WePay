@@ -3,7 +3,7 @@ from django.views import generic
 from django.shortcuts import get_object_or_404, render, reverse
 from django.http import HttpResponseRedirect
 from django.contrib import messages
-from ..models import Payment, omise
+from ..models import Payment, omise, SCBPayment, PromptPayPayment, BAYPayment, BBLPayment, KTBPayment
 from django.db.models import QuerySet
 from ..config import OMISE_SECRET
 
@@ -88,10 +88,23 @@ def update(request, pk: int, *arg, **kwargs):
         messages.error(request, "Payment not found")
         return HttpResponseRedirect(reverse("payments:payment"))
     # payment.pay()
-    name = payment.selected_payment.__name__.lower()
-    if name != "cashpayment":
-        print(omise.api_secret)
-        eval(f"payment.{name}.first().update_status()")
-        omise.api_secret = OMISE_SECRET
-        print("after: ", omise.api_secret)
+    payment_type = payment.selected_payment
+    print(omise.api_secret)
+    if payment_type == SCBPayment:
+        payment_type = SCBPayment.objects.get(payment=payment)
+        payment_type.update_status()
+    elif payment_type == PromptPayPayment:
+        payment_type = PromptPayPayment.objects.get(payment=payment)
+        payment_type.update_status()
+    elif payment_type == BAYPayment:
+        payment_type = BAYPayment.objects.get(payment=payment)
+        payment_type.update_status()
+    elif payment_type == BBLPayment:
+        payment_type = BBLPayment.objects.get(payment=payment)
+        payment_type.update_status()
+    elif payment_type == KTBPayment:
+        payment_type = KTBPayment.objects.get(payment=payment)
+        payment_type.update_status()
+    print(omise.api_secret)
+    print(payment.status)
     return HttpResponseRedirect(reverse("payments:payment"))

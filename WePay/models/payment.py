@@ -1,6 +1,6 @@
 # from django.contrib import admin
 from abc import abstractmethod
-from typing import Any
+from typing import Any, Collection
 
 import omise
 from django.db import models
@@ -159,22 +159,27 @@ class OmisePayment(BasePayment):
 
             self.charge_id = charge.id
             self.payment.uri = charge.authorize_uri
-        self.update_status()
         print(omise.api_secret)
 
     def update_status(self):  # TODO: Move this mothod to Payment class
         print(omise.api_secret)
         print(self.charge_id)
-        # omise.api_secret = self.payment.bill.header.chain.key
-        status = omise.Charge.retrieve(self.charge_id).status
-        if status == "successful":
-            self.payment.status = self.payment.Status_choice.PAID
-        elif status == "pending":
-            self.payment.status = self.payment.Status_choice.PENDING
+        omise.api_secret = self.payment.header.chain.key
+        charge = omise.Charge.retrieve(self.charge_id)
+        if charge:
+            if isinstance(charge, omise.Collection):
+                charge = charge[0]
+            print(type(charge), "BBBBBBBBBB")
+            status = charge.status
+            if status == "successful":
+                self.payment.status = self.payment.Status_choice.PAID
+            elif status == "pending":
+                self.payment.status = self.payment.Status_choice.PENDING
         else:
             self.payment.status = self.payment.Status_choice.UNPAID
         self.payment.save()
         print(self.payment.status)
+        omise.api_secret = OMISE_SECRET
         self.save()
 
 

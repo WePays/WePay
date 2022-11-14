@@ -1,11 +1,11 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
-from django.shortcuts import redirect, render, reverse
+from django.shortcuts import render, reverse
 from django.http import HttpResponseRedirect
 from django.views.generic import DetailView
 
 from ..models import UserProfile, omise
-
+from ..config import OMISE_SECRET
 
 class UserProfileView(LoginRequiredMixin, DetailView):
     """Template view for user profile page."""
@@ -33,6 +33,7 @@ def fetch_key(request, *args, **kwargs):
     """Fetch chain key from user profile."""
     user = request.user
     userprofile = UserProfile.objects.get(user=user)
+    omise.api_secret = OMISE_SECRET
     all_chain = omise.Chain.retrieve()
     print(user.email)
 
