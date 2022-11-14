@@ -13,7 +13,7 @@ from ..models import (
     Payment,
     PromptPayPayment,
     SCBPayment,
-    omise,
+    OmisePayment,
 )
 
 
@@ -96,24 +96,43 @@ def update(request, pk: int, *arg, **kwargs):
     except Payment.DoesNotExist:
         messages.error(request, "Payment not found")
         return HttpResponseRedirect(reverse("payments:payment"))
-    # payment.pay()
     payment_type = payment.selected_payment
-    print(omise.api_secret)
-    if payment_type == SCBPayment:
-        payment_type = SCBPayment.objects.get(payment=payment)
-        payment_type.update_status()
-    elif payment_type == PromptPayPayment:
-        payment_type = PromptPayPayment.objects.get(payment=payment)
-        payment_type.update_status()
-    elif payment_type == BAYPayment:
-        payment_type = BAYPayment.objects.get(payment=payment)
-        payment_type.update_status()
-    elif payment_type == BBLPayment:
-        payment_type = BBLPayment.objects.get(payment=payment)
-        payment_type.update_status()
-    elif payment_type == KTBPayment:
-        payment_type = KTBPayment.objects.get(payment=payment)
-        payment_type.update_status()
-    print(omise.api_secret)
-    print(payment.status)
+    if not issubclass(payment_type, OmisePayment):
+        messages.error(request, "Payment is not omise payment")
+        return HttpResponseRedirect(reverse("payments:payment"))
+
+    now_payment = payment_type.objects.get(payment=payment)
+    now_payment.update_status()
+
     return HttpResponseRedirect(reverse("payments:payment"))
+
+
+def confirm_payment(request, pk: int, *arg, **kwargs):
+    user = request.user
+    try:
+        payment = get_object_or_404(Payment, pk=pk, user__user=user)
+    except Payment.DoesNotExist:
+        messages.error(request, "Payment not found")
+        return HttpResponseRedirect(reverse("payments:payment"))
+    if not payment.is_comfirmable():
+        messages.error(request, "Payment is not comfirmable")
+        return HttpResponseRedirect(
+            reverse(
+                "bills:detail",
+                args=[
+                    payment.bill.id,
+                ],
+            )
+        )
+    payment_type = payment.selected_payment
+    now_payment = payment_type.objects.get(payment=payment)
+    now_payment.confirm_payment()
+    payment.save()
+    return HttpResponseRedirect(
+        reverse(
+            "bills:detail",
+            args=[
+                payment.bill.id,
+            ],
+        )
+    )

@@ -12,6 +12,6 @@ urlpatterns = [
     path("<int:pk>/", views.DetailView.as_view(), name="detail"),
     path("<int:pk>/add/success", views.create, name="success"),
     path("<int:pk>/add/close", views.close, name="close"),
-    path("<int:pk>/delete", views.DetailView.as_view(), name="delete"),
+    path("<int:pk>/delete", views.delete, name="delete"),
 
 ]

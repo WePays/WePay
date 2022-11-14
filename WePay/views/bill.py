@@ -110,7 +110,6 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
         lst = []
         for each_user in bill.all_user:
             payment = Payment.objects.get(bill=bill, user=each_user)
-            print(payment)
             lst.append(payment)
         return render(request, "Wepay/detail.html", {"bill": bill, "payment": lst})
 
@@ -144,12 +143,14 @@ def delete(request: HttpRequest, pk: int):
     any_one_pay = any(
         payment.status in (Payment.Status_choice.PAID, Payment.Status_choice.PENDING)
         for payment in bill.payments.all()
+        if payment.user.user != header
     )
     if any_one_pay:
         messages.warning(request, "You can't delete this bill because someone has paid")
         return HttpResponseRedirect(reverse("bills:bill"))
+    name = bill.name
     bill.delete()
-    messages.success(request, "Bill deleted")
+    messages.success(request, f"Bill:{name} deleted")
     return HttpResponseRedirect(reverse("bills:bill"))
 
 

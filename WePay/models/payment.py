@@ -98,8 +98,11 @@ class Payment(models.Model):
         now_payment.pay()
         self.save()
 
-    # def update(self) -> None:
-    #     pass
+    def is_comfirmable(self) -> bool:
+        return self.status == self.Status_choice.PENDING and self.selected_payment in (
+            CashPayment,
+            PromptPayPayment,
+        )
 
     def __repr__(self) -> str:
         """represent a payment"""
@@ -186,6 +189,14 @@ class OmisePayment(BasePayment):
 class PromptPayPayment(OmisePayment):
     payment_type = "promptpay"
 
+    def confirm(self):
+        """confirm payment"""
+        omise.api_secret = self.payment.header.chain.key
+        charge = omise.Charge.retrieve(self.charge_id)
+        charge.capture()
+        self.update_status()
+        omise.api_secret = OMISE_SECRET
+
 
 class SCBPayment(OmisePayment):
     payment_type = "internet_banking_scb"
@@ -204,11 +215,20 @@ class BAYPayment(OmisePayment):
 
 
 class CashPayment(BasePayment):
-    def pay(self):
+    def confirm(self):
         if self.payment.status == self.payment.Status_choice.PAID:
             return
 
         self.payment.status = self.payment.Status_choice.PAID
+        self.payment.save()
+
+    def pay(self):
+        if self.payment.status == self.payment.Status_choice.PAID:
+            return
+
+        # this will send notification to header to confirm
+
+        self.payment.status = self.payment.Status_choice.PENDING
         self.payment.save()
 
 
