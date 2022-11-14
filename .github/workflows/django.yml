@@ -20,11 +20,11 @@ jobs:
       - name: Create .env file
         uses: SpicyPizza/create-envfile@v1.3.0
         with:
-          envkey_DEBUG: ${{ secrets.DEBUG }}
-          envkey_SECRET_KEY: ${{ secrets.SECRET_KEY }}
-          envkey_TIMEZONE: ${{ secrets.TIMEZONE }}
-          envkey_OMISE_PUBLIC: ${{ secrets.OMISE_PUBLIC }}
-          envkey_OMISE_SECRET: ${{ secrets.OMISE_SECRET }}
+          envkey_DEBUG: $DEBUG
+          envkey_SECRET_KEY: $SECRET_KEY
+          envkey_TIMEZONE: $secrets.TIMEZONE
+          envkey_OMISE_PUBLIC: $secrets.OMISE_PUBLIC
+          envkey_OMISE_SECRET: $secrets.OMISE_SECRET
 
 
       - name: Install Dependencies
