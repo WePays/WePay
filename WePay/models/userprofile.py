@@ -1,8 +1,10 @@
-from django.db import models
-from django.contrib.auth.models import User
 from typing import Union
-from ..config import OMISE_SECRET
+
 import omise
+from django.contrib.auth.models import User
+from django.db import models
+
+from ..config import OMISE_SECRET
 
 
 class UserProfile(models.Model):

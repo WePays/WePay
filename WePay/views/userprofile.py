@@ -1,11 +1,12 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
-from django.shortcuts import render, reverse
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
+from django.shortcuts import render, reverse
 from django.views.generic import DetailView
 
-from ..models import UserProfile, omise
 from ..config import OMISE_SECRET
+from ..models import UserProfile, omise
+
 
 class UserProfileView(LoginRequiredMixin, DetailView):
     """Template view for user profile page."""

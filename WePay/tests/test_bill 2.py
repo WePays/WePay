@@ -4,7 +4,6 @@ from WePay.models.bill import Topic
 from .setUp import BaseSetUp
 from django.contrib.auth.models import User
 from ..models import UserProfile, Bills
-from ..views import create
 from django.utils import timezone
 from unittest import skip
 
@@ -67,7 +66,6 @@ class BillCreateViewTest(BaseViewTest):
     #     """test navigate to create bill page."""
     #     response = self.client.get("/bill/create/")
     #     self.assertEqual(response.status_code, 302)
-
     def test_navigate_create_bill_page(self):
         """test navigate to bill page"""
         response = self.client.get("/bill/create/")
@@ -77,65 +75,17 @@ class BillCreateViewTest(BaseViewTest):
         """test created bill."""
         self.assertEqual(Bills.objects.get(pk=1), self.bill)  # create success
 
-    def test_create_only_initial_topic(self):
+    def test_create_initial_topic(self):
         """test create a bill with initial topic."""
-        self.new_bill = Bills.objects.create(
-            header=self.user_profile, name="Beverage(s)"
-        )
+        self.new_bill = Bills.objects.create(header=self.user_profile, name="Food Bill")
         self.est = Topic.objects.create(title="Est", price=20, bill=self.new_bill)
         self.est.add_user(self.user1)
         self.est.add_user(self.user2)
         self.new_bill.add_topic(self.est)
-        self.assertEqual(Bills.objects.get(pk=2), self.new_bill)
-        self.assertEqual(Bills.objects.get(pk=2).name, self.new_bill.name)
-        self.assertEqual(Topic.objects.get(pk=3).title, self.est.title)
-        self.assertEqual(Topic.objects.get(pk=3).price, self.est.price)
-        self.assertEqual(Bills.objects.get(pk=2).all_user, [self.user1, self.user2])
-        create(self.client.post("/bill/"), 2)
-        self.assertTrue(Bills.objects.get(pk=2).is_created)
-        # create(self.new_bill, 2)
-        # self.assertTrue(self.new_bill.is_created)
-        # self.assertEqual(Topic.objects.all().count(), 1)
         # response1 = self.client.post(reverse("bills:create"),{"title":"Food Bill", "topic_name":"Est", "topic_price":20, "username":"test_user1", "create":"Create Title"})
-        # self.client.post(reverse("bills:create"), {"user": self.est.user.all()})
-        # self.assertEqual(Topic.objects.get(user=self.user1), self.bill)
-        # print("Tomato", Topic.objects.get(user=self.user1).user)
+        # self.assertEqual(Bills.objects.get(pk=3), self.bill)
+        # print("Tomato", self.client.post("/bill/create/")['lst_user'])
         # self.assertQuerysetEqual(response.context[''], [])
-
-    def test_response_with_create_bill(self):
-        data = {
-            "title": "Est",
-            "topic_name": "Toast",
-            "username": [self.user1, self.user2],
-            "topic_price": 2000,
-        }
-        self.client.post(reverse("bills:create"), data=data)
-        self.assertFalse(Bills.objects.last().is_created)
-
-    def test_create_bill_with_more_topic(self):
-        """test create a bill with initial topic and add more topic."""
-        self.new_bill = Bills.objects.create(
-            header=self.user_profile, name="Beverage(s)"
-        )
-        self.est = Topic.objects.create(title="Est", price=20, bill=self.new_bill)
-        self.est.add_user(self.user1)
-        self.est.add_user(self.user2)
-        self.new_bill.add_topic(self.est)
-        self.fanta = Topic.objects.create(title="Fanta", price=30, bill=self.new_bill)
-        self.fanta.add_user(self.user1)
-        self.fanta.add_user(self.user2)
-        self.fanta.add_user(self.user3)
-        self.new_bill.add_topic(self.fanta)
-        self.assertEqual(Bills.objects.get(pk=2), self.new_bill)
-        self.assertEqual(Bills.objects.get(pk=2).name, self.new_bill.name)
-        self.assertEqual(Topic.objects.get(pk=3).title, self.est.title)
-        self.assertEqual(Topic.objects.get(pk=4).title, self.fanta.title)
-        self.assertEqual(
-            Bills.objects.get(pk=2).all_user, [self.user1, self.user2, self.user3]
-        )
-        self.assertEqual(self.new_bill.total_price, 50)
-        create(self.client.post("/bill/"), 2)
-        self.assertTrue(Bills.objects.get(pk=2).is_created)
 
 
 class DetailViewTest(BaseViewTest):
@@ -147,8 +97,3 @@ class DetailViewTest(BaseViewTest):
         """test navigation after bill object has created"""
         response = self.client.get("/bill/1/")
         self.assertEqual(response.status_code, 302)
-
-    def test_bill_not_exist(self):
-        """test navigation if go to bill that does not exist"""
-        response = self.client.get("/bill/2")
-        self.assertEqual(response.status_code, 301)

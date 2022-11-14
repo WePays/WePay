@@ -1,7 +1,7 @@
 from django.contrib import admin
-
-from .models import Bills, Topic, UserProfile, Payment
 from django.template.defaulttags import register
+
+from .models import Bills, Payment, Topic, UserProfile
 
 
 @register.filter

@@ -1,9 +1,10 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views import generic
-from django.http import HttpResponseRedirect, HttpRequest
-from django.urls import reverse
 from django.contrib import messages
-from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpRequest, HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render
+from django.urls import reverse
+from django.views import generic
+
 from ..models import Bills, Topic, UserProfile
 
 
