@@ -22,7 +22,7 @@ jobs:
         with:
           envkey_DEBUG: ${{ secrets.DEBUG }}
           envkey_SECRET_KEY: ${{ secrets.SECRET_KEY }}
-          envkey_TIMEZONE: ${{ secrets.TIMEZONE }}
+          envkey_TIME_ZONE: ${{ secrets.TIME_ZONE }}
           envkey_OMISE_PUBLIC: ${{ secrets.OMISE_PUBLIC }}
           envkey_OMISE_SECRET: ${{ secrets.OMISE_SECRET }}
 
