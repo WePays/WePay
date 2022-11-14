@@ -1,2 +1,4 @@
-OMISE_PUBLIC = "pkey_test_5tgganhu45npoycv190"
-OMISE_SECRET = "skey_test_5tecjczxmlxrbtfxhw9"
+from decouple import config
+
+OMISE_PUBLIC = config('OMISE_PUBLIC', cast=str, default='missing-omise-public')
+OMISE_SECRET = config('OMISE_SECRET', cast=str, default='missing-omise-secret')
