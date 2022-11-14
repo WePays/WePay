@@ -8,9 +8,7 @@ from django.utils import timezone
 
 from .bill import Bills
 from .userprofile import UserProfile
-
-OMISE_PUBLIC = "pkey_test_5tgganhu45npoycv190"
-OMISE_SECRET = "skey_test_5tecjczxmlxrbtfxhw9"
+from ..config import OMISE_PUBLIC, OMISE_SECRET
 
 omise.api_public = OMISE_PUBLIC
 omise.api_secret = OMISE_SECRET
