@@ -1,18 +1,21 @@
-{% load static %}
+{% load tailwind_tags %}
+<html lang="en">
 
-<html>
+	<head>
+		{% tailwind_css %}
+		<title>{% block head_title %} WePay {% endblock head_title%}</title>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>sidebar</title>
+		<script src="https://cdn.tailwindcss.com"></script>
+		<!-- <script src="./tailwind3.js"></script> -->
+		<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;800&display=swap"
+		  rel="stylesheet">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+		{% block extra_head %}{% endblock extra_head %}
+	</head>
 
-    <head>
-        <title>{% block head_title %} WePay {% endblock head_title%}</title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="{% static 'wepay/create_bill.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'wepay/bill.css' %}">
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-        {% block extra_head %}{% endblock extra_head %}
-    </head>
 
 	<body class="bg-[#D2E7FE]">
 		<!-- <button class="absolute text-white text-4xl top-5 left-200 cursor-pointer" onclick="Open()">
