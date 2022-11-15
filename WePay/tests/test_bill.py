@@ -13,11 +13,12 @@ class BaseViewTest(BaseSetUp):
     def setUp(self):
         """Setup before running a tests."""
         super(BaseViewTest, self).setUp()
-        self.test_header = User.objects.create(username="test_header")
+        self.test_header = User.objects.create(username="test_header", email="test@example.com")
         self.test_header.set_password("header123")
+        self.test_header.save()
         self.user_profile = UserProfile.objects.create(user=self.test_header)
         self.user_profile.save()
-        self.client.login(username="test_header", password="header123")
+        self.client.force_login(self.test_header)
 
     def test_logout(self):
         """After logout bring user back to login page."""
@@ -111,6 +112,7 @@ class BillCreateViewTest(BaseViewTest):
         }
         self.client.post(reverse("bills:create"), data=data)
         self.assertFalse(Bills.objects.last().is_created)
+        print(Topic.objects.all())
 
     def test_create_bill_with_more_topic(self):
         """test create a bill with initial topic and add more topic."""

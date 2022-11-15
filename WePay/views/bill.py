@@ -78,6 +78,7 @@ class BillCreateView(LoginRequiredMixin, generic.DetailView):
             header = UserProfile.objects.get(user=user)
         except Exception as e:
             messages.error(request, f"Error occured: {e}")
+
         else:
             bill = Bills.objects.create(name=name, header=header)
             topic = Topic.objects.create(title=topic_name, price=topic_price, bill=bill)
