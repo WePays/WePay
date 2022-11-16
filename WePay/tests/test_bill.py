@@ -13,11 +13,14 @@ class BaseViewTest(BaseSetUp):
     def setUp(self):
         """Setup before running a tests."""
         super(BaseViewTest, self).setUp()
-        self.test_header = User.objects.create(username="test_header")
+        self.test_header = User.objects.create(
+            username="test_header", email="test@example.com"
+        )
         self.test_header.set_password("header123")
+        self.test_header.save()
         self.user_profile = UserProfile.objects.create(user=self.test_header)
         self.user_profile.save()
-        self.client.login(username="test_header", password="header123")
+        self.client.force_login(self.test_header)
 
     def test_logout(self):
         """After logout bring user back to login page."""
@@ -53,7 +56,7 @@ class BillViewTest(BaseViewTest):
     def test_bill_page(self):
         """After login its will goes to bill page."""
         response = self.client.get("/bill/")
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 200)
 
 
 class BillCreateViewTest(BaseViewTest):
@@ -71,7 +74,7 @@ class BillCreateViewTest(BaseViewTest):
     def test_navigate_create_bill_page(self):
         """test navigate to bill page"""
         response = self.client.get("/bill/create/")
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 200)
 
     def test_create_bill(self):
         """test created bill."""
@@ -91,23 +94,13 @@ class BillCreateViewTest(BaseViewTest):
         self.assertEqual(Topic.objects.get(pk=3).title, self.est.title)
         self.assertEqual(Topic.objects.get(pk=3).price, self.est.price)
         self.assertEqual(Bills.objects.get(pk=2).all_user, [self.user1, self.user2])
-        create(self.client.post("/bill/"), 2)
+        self.client.post(reverse('bills:create'))
+        self.client.post(reverse('bills:success', kwargs={'pk': 2}))
         self.assertTrue(Bills.objects.get(pk=2).is_created)
-        # create(self.new_bill, 2)
-        # self.assertTrue(self.new_bill.is_created)
-        # self.assertEqual(Topic.objects.all().count(), 1)
-        # response1 = self.client.post(reverse("bills:create"),{"title":"Food Bill", "topic_name":"Est", "topic_price":20, "username":"test_user1", "create":"Create Title"})
-        # self.client.post(reverse("bills:create"), {"user": self.est.user.all()})
-        # self.assertEqual(Topic.objects.get(user=self.user1), self.bill)
-        # print("Tomato", Topic.objects.get(user=self.user1).user)
-        # self.assertQuerysetEqual(response.context[''], [])
 
     def test_response_with_create_bill(self):
         data = {
-            "title": "Est",
-            "topic_name": "Toast",
-            "username": [self.user1, self.user2],
-            "topic_price": 2000,
+            "title": "Est", "topic_name": "Toast", "username": [self.user1, self.user2], "topic_price": 2000
         }
         self.client.post(reverse("bills:create"), data=data)
         self.assertFalse(Bills.objects.last().is_created)
@@ -134,7 +127,7 @@ class BillCreateViewTest(BaseViewTest):
             Bills.objects.get(pk=2).all_user, [self.user1, self.user2, self.user3]
         )
         self.assertEqual(self.new_bill.total_price, 50)
-        create(self.client.post("/bill/"), 2)
+        self.client.post(reverse('bills:success', kwargs={'pk': 2}))
         self.assertTrue(Bills.objects.get(pk=2).is_created)
 
 
@@ -145,10 +138,12 @@ class DetailViewTest(BaseViewTest):
 
     def test_navigation(self):
         """test navigation after bill object has created"""
+        self.client.login(username="test_header", password="header123")
         response = self.client.get("/bill/1/")
         self.assertEqual(response.status_code, 302)
 
     def test_bill_not_exist(self):
         """test navigation if go to bill that does not exist"""
+        self.client.login(username="test_header", password="header123")
         response = self.client.get("/bill/2")
         self.assertEqual(response.status_code, 301)
