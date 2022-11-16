@@ -13,7 +13,9 @@ class BaseViewTest(BaseSetUp):
     def setUp(self):
         """Setup before running a tests."""
         super(BaseViewTest, self).setUp()
-        self.test_header = User.objects.create(username="test_header", email="test@example.com")
+        self.test_header = User.objects.create(
+            username="test_header", email="test@example.com"
+        )
         self.test_header.set_password("header123")
         self.test_header.save()
         self.user_profile = UserProfile.objects.create(user=self.test_header)

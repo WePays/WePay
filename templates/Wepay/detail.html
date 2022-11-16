@@ -64,7 +64,7 @@
                                             <td class="px-6 py-4 text-sm text-gray-900">{{price.amount}}</td>
                                             <td class="px-8 py-4 text-sm text-gray-900">{{price.status}}</td>
                                             {% if price.is_confirmable %}
-                                                <td class="px-12 py-4 text-sm text-[#171f99] text-center"><a href="{% url 'payments:confirm' price.id%}">Click to Verify</a></td>
+                                                <td class="px-12 py-4 text-sm text-[#171f99] text-center"><a {% if price.payment_type != 'Cash' %}target="_blank"{% endif %} href="{% url 'payments:confirm' price.id%}">Click to Verify</a></td>
                                             {% else %}
                                                 <td class="px-12 py-4 text-sm text-[#171f99] text-center">-</td>
                                             {% endif %}

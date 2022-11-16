@@ -186,14 +186,6 @@ class OmisePayment(BasePayment):
         omise.api_secret = self.payment.header.chain.key
         charge = omise.Charge.retrieve(self.charge_id)
         if charge:
-            #! dont need this anymore2
-            # print(self.charge_id)
-            # if isinstance(charge, omise.Collection):
-            #     # print(self.charge_id)
-            #     # print(self.payment.bill.header)
-            #     # print(self.payment.payment_type)
-            #     print('banana')
-                # charge = charge[-1]
             status = charge.status
             print(status)
             if status == "successful":
@@ -207,18 +199,13 @@ class OmisePayment(BasePayment):
         omise.api_secret = OMISE_SECRET
         self.save()
 
+    @property
+    def payment_link(self):
+        return f"https://dashboard.omise.co/test/charges/{self.charge_id}"
+
 
 class PromptPayPayment(OmisePayment):
     payment_type = "promptpay"
-
-    def confirm(self):
-        """confirm payment"""
-        print('This is INvokedddd')
-        omise.api_secret = self.payment.header.chain.key
-        charge = omise.Charge.retrieve(self.charge_id)
-        charge.capture()
-        self.update_status()
-        omise.api_secret = OMISE_SECRET
 
 
 class SCBPayment(OmisePayment):
@@ -239,9 +226,11 @@ class BAYPayment(OmisePayment):
 
 class CashPayment(BasePayment):
     def confirm(self):
-        if self.payment.status in (self.payment.Status_choice.PAID, self.payment.Status_choice.UNPAID):
+        if self.payment.status in (
+            self.payment.Status_choice.PAID,
+            self.payment.Status_choice.UNPAID,
+        ):
             return
-
 
         self.payment.status = self.payment.Status_choice.PAID
         self.payment.save()
@@ -251,11 +240,8 @@ class CashPayment(BasePayment):
             return
 
         # this will send notification to header to confirm
-
         self.payment.status = self.payment.Status_choice.PENDING
         self.payment.save()
-        print(self.payment.status)
-        print('PAYYYYYY', self)
 
 
 class AlreadyPayError(Exception):

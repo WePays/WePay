@@ -6,7 +6,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views import generic
 
-from ..models import Bills, Payment, Topic, UserProfile
+from ..models import Bills, Payment, Topic, UserProfile, OmisePayment
 
 
 class BillView(LoginRequiredMixin, generic.DetailView):
@@ -111,6 +111,8 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
         lst = []
         for each_user in bill.all_user:
             payment = Payment.objects.get(bill=bill, user=each_user)
+            if isinstance(payment.instance, OmisePayment) and payment.status == Payment.Status_choice.PENDING:
+                payment.instance.update_status()
             lst.append(payment)
         return render(request, "Wepay/detail.html", {"bill": bill, "payment": lst})
 

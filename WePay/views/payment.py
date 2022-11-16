@@ -14,7 +14,7 @@ from ..models import (
     PromptPayPayment,
     SCBPayment,
     OmisePayment,
-    BasePayment
+    BasePayment,
 )
 
 
@@ -97,20 +97,16 @@ def update(request, pk: int, *arg, **kwargs):
     except Http404:
         messages.error(request, "Payment not found")
         return HttpResponseRedirect(reverse("payments:payment"))
-    print(payment.instance.charge_id)
     payment_type = payment.selected_payment
     if not issubclass(payment_type, OmisePayment):
         messages.error(request, "Payment is not omise payment")
         return HttpResponseRedirect(reverse("payments:payment"))
-    print('banannanan: ', payment)
     payment.instance.update_status()
-    print('hey yooo', payment)
 
     return HttpResponseRedirect(reverse("payments:payment"))
 
 
 def confirm_payment(request, pk: int, *arg, **kwargs):
-    user = request.user
     try:
         payment = get_object_or_404(Payment, pk=pk)
     except Http404:
@@ -126,6 +122,8 @@ def confirm_payment(request, pk: int, *arg, **kwargs):
                 ],
             )
         )
+    if isinstance(payment.instance, PromptPayPayment):
+        return HttpResponseRedirect(payment.instance.payment_link)
     payment.instance.confirm()
     payment.save()
 

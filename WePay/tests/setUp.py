@@ -52,7 +52,6 @@ class BaseSetUp(TestCase):
         self.user6 = UserProfile.objects.create(user=user6)
         self.user6.save()
 
-
         self.bill = Bills.objects.create(header=self.header, name="Food Bill")
         self.pepsi = Topic.objects.create(title="Pepsi", price=20, bill=self.bill)
         self.coke = Topic.objects.create(title="Coke", price=15, bill=self.bill)
