@@ -49,9 +49,10 @@
                                 <thead class="bg-gray-50">
                                     <tr>
                                         <th class="px-6 py-4 text-xl text-gray-500">No</th>
-                                        <th class="px-20 py-4 text-xl text-gray-500">Name</th>
-                                        <th class="px-12 py-4 text-xl text-gray-500">Price</th>
-                                        <th class="px-12 py-4 text-xl text-gray-500">Status</th>
+                                        <th class="px-12 py-4 text-xl text-gray-500">Name</th>
+                                        <th class="px-6 py-4 text-xl text-gray-500">Price</th>
+                                        <th class="px-8 py-4 text-xl text-gray-500">Status</th>
+                                        <th class="px-12 py-4 text-xl text-gray-500">Confirm</th>
                                     </tr>
                                 </thead>
                                 {% for price in payment %}
@@ -59,10 +60,14 @@
                                         <tr class="whitespace-nowrap">
 
                                             <td class="px-6 py-4 text-sm text-gray-600">{{forloop.counter0|add:"1"}}</td>
-                                            <td class="px-20 py-4 text-sm text-gray-900 font-bold">{{price.user.name}}</td>
-                                            <td class="px-12 py-4 text-sm text-gray-900">{{price.amount}}</td>
-                                            <td class="px-12 py-4 text-sm text-gray-900">{{price.status}}</td>
-
+                                            <td class="px-12 py-4 text-sm text-gray-900 font-bold">{{price.user.name}}</td>
+                                            <td class="px-6 py-4 text-sm text-gray-900">{{price.amount}}</td>
+                                            <td class="px-8 py-4 text-sm text-gray-900">{{price.status}}</td>
+                                            {% if price.is_confirmable %}
+                                                <td class="px-12 py-4 text-sm text-[#171f99] text-center"><a href="{% url 'payments:confirm' price.id%}">Click to Verify</a></td>
+                                            {% else %}
+                                                <td class="px-12 py-4 text-sm text-[#171f99] text-center">-</td>
+                                            {% endif %}
                                         </tr>
                                     </tbody>
                                 {% endfor %}

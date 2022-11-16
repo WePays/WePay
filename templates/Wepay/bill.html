@@ -91,15 +91,15 @@
                     </div>
                 </div>
                 {% if uncreated_bill %}
-                    <h3 class="ml-96 mt-10 text-red-700">You have an Initialized bill that havent create yet, lets create by clicking <a class="text-[#171f99]" href="{% url 'bills:add' uncreated_bill.id %}">here</a></h3>
+                    <h3 class="text-xl text-red-500 mt-5 flex justify-center">You have an Initialized bill that havent create yet, lets create by clicking <a class="text-[#171f99]" href="{% url 'bills:add' uncreated_bill.id %}">here</a></h3>
                 {% endif %}
 
             </body>
 
-            <div class="relative">
+            <div>
                 <form action="" method="post">
                     {% csrf_token %}
-                    <button class="absolute bottom-0 right-0 bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded" type="submit">Create Bill</button>
+                    <button class="absolute bottom-10 right-10 bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded mt-64 flex justify-center" type="submit">Create Bill</button>
                     {% if messages %}
                         <p class="messages">
                             {% for message in messages %}
@@ -114,7 +114,11 @@
 
 
         {% else %}
-            <h2 class="text-4xl text-red-500">No Bills are available.</h2>
+            <h2 class="text-4xl text-red-500 mt-64 flex justify-center ">No Bills are available.</h2>
+            <form action="" method="post">
+                {% csrf_token %}
+                <button class="absolute bottom-10 right-10 bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded mt-64 flex justify-center" type="submit">Create Bill</button>
+            </form>
         {% endif %}
 
     {% endblock body%}

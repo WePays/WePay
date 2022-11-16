@@ -85,20 +85,36 @@ class Payment(models.Model):
         """get now payment"""
         return self.payment_dct[self.payment_type]
 
+    @property
+    def instance(self):
+        selected = self.selected_payment
+        if selected == CashPayment:
+            return self.cashpayment.first()
+        if selected == PromptPayPayment:
+            return self.promptpaypayment.first()
+        if selected == SCBPayment:
+            return self.scbpayment.first()
+        if selected == KTBPayment:
+            return self.ktbpayment.first()
+        if selected == BAYPayment:
+            return self.baypayment.first()
+        if selected == BBLPayment:
+            return self.bblpayment.first()
+
     def can_pay(self) -> bool:
         return self.status == self.Status_choice.UNPAID
 
     def pay(self) -> None:
         """Pay to header"""
         if not self.can_pay():
-            print(f"hoYAAAAAAAAAAAAAAAAA: {self.status}")
             raise AlreadyPayError("You are2 in PENDING or PAID Status")
 
         now_payment = self.selected_payment.objects.get_or_create(payment=self)[0]
+        print(now_payment)
         now_payment.pay()
         self.save()
 
-    def is_comfirmable(self) -> bool:
+    def is_confirmable(self) -> bool:
         return self.status == self.Status_choice.PENDING and self.selected_payment in (
             CashPayment,
             PromptPayPayment,
@@ -162,11 +178,8 @@ class OmisePayment(BasePayment):
 
             self.charge_id = charge.id
             self.payment.uri = charge.authorize_uri
-        print(omise.api_secret)
 
     def update_status(self):  # TODO: Move this mothod to Payment class
-        print(omise.api_secret)
-        print(self.charge_id)
         omise.api_secret = self.payment.header.chain.key
         charge = omise.Charge.retrieve(self.charge_id)
         if charge:
@@ -181,7 +194,7 @@ class OmisePayment(BasePayment):
         else:
             self.payment.status = self.payment.Status_choice.UNPAID
         self.payment.save()
-        print(self.payment.status)
+        print(self.payment)
         omise.api_secret = OMISE_SECRET
         self.save()
 
@@ -216,8 +229,9 @@ class BAYPayment(OmisePayment):
 
 class CashPayment(BasePayment):
     def confirm(self):
-        if self.payment.status == self.payment.Status_choice.PAID:
+        if self.payment.status in (self.payment.Status_choice.PAID, self.payment.Status_choice.UNPAID):
             return
+
 
         self.payment.status = self.payment.Status_choice.PAID
         self.payment.save()
@@ -230,6 +244,8 @@ class CashPayment(BasePayment):
 
         self.payment.status = self.payment.Status_choice.PENDING
         self.payment.save()
+        print(self.payment.status)
+        print('PAYYYYYY', self)
 
 
 class AlreadyPayError(Exception):
