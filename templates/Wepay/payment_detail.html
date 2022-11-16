@@ -1,4 +1,7 @@
 {% extends 'WePay/base_wepay.html' %}
+{% load tailwind_tags %}
+{% tailwind_css %}
+
 {% block body %}
     <h1 class="mt-32 ml-96 justify-center font-bold text-3xl">Select Payment method</h1>
     <h3 class="mt-5 ml-96 font-bold text-[#171f99]">Pay to {{payment.bill.header}}</h3>

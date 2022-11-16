@@ -1,8 +1,10 @@
 {% extends 'WePay/base_wepay.html' %}
+{% load tailwind_tags %}
+{% tailwind_css %}
 
 {% block body %}
     {% if my_payment %}
-        <div class="mt-32 ml-96 justify-center">
+        <div class="mt-32 ml-64 justify-center">
             <h1 class="text-3xl font-bold ml-36">You need to pay</h1>
             <h1 class="mt-5 ml-36 text-red-500">Click pay to select payment</h1>
 
