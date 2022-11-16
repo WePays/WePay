@@ -66,11 +66,6 @@ class BillCreateViewTest(BaseViewTest):
         """Setup before running a tests."""
         super(BillCreateViewTest, self).setUp()
 
-    # def test_create_page(self):
-    #     """test navigate to create bill page."""
-    #     response = self.client.get("/bill/create/")
-    #     self.assertEqual(response.status_code, 302)
-
     def test_navigate_create_bill_page(self):
         """test navigate to bill page"""
         response = self.client.get("/bill/create/")
@@ -129,6 +124,11 @@ class BillCreateViewTest(BaseViewTest):
         self.assertEqual(self.new_bill.total_price, 50)
         self.client.post(reverse('bills:success', kwargs={'pk': 2}))
         self.assertTrue(Bills.objects.get(pk=2).is_created)
+
+    def test_delete_bill(self):
+        """test delete bill."""
+        self.client.post(reverse("bills:delete", kwargs={"pk": 1}))
+        self.assertFalse(Bills.objects.get(pk=1).is_created)
 
 
 class DetailViewTest(BaseViewTest):
