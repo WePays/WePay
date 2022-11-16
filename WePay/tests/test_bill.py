@@ -138,7 +138,8 @@ class BillCreateViewTest(BaseViewTest):
             Bills.objects.get(pk=2).all_user, [self.user1, self.user2, self.user3]
         )
         self.assertEqual(self.new_bill.total_price, 50)
-        create(self.client.post("/bill/"), 2)
+        self.client.post(reverse('bills:success', kwargs={'pk': 2}))
+
         self.assertTrue(Bills.objects.get(pk=2).is_created)
 
 
