@@ -172,21 +172,30 @@ class OmisePayment(BasePayment):
             charge = omise.Charge.create(
                 amount=self.payment.amount,
                 currency="thb",
+                capturable=True,
                 source=source.id,
                 return_uri=f"http://127.0.0.1:8000/payment/{self.payment.id}/update",
             )
+            print(charge.id)
 
             self.charge_id = charge.id
             self.payment.uri = charge.authorize_uri
+            self.save()
 
     def update_status(self):  # TODO: Move this mothod to Payment class
         omise.api_secret = self.payment.header.chain.key
         charge = omise.Charge.retrieve(self.charge_id)
         if charge:
-            if isinstance(charge, omise.Collection):
-                charge = charge[0]
-            print(type(charge), "BBBBBBBBBB")
+            #! dont need this anymore2
+            # print(self.charge_id)
+            # if isinstance(charge, omise.Collection):
+            #     # print(self.charge_id)
+            #     # print(self.payment.bill.header)
+            #     # print(self.payment.payment_type)
+            #     print('banana')
+                # charge = charge[-1]
             status = charge.status
+            print(status)
             if status == "successful":
                 self.payment.status = self.payment.Status_choice.PAID
             elif status == "pending":
@@ -204,6 +213,7 @@ class PromptPayPayment(OmisePayment):
 
     def confirm(self):
         """confirm payment"""
+        print('This is INvokedddd')
         omise.api_secret = self.payment.header.chain.key
         charge = omise.Charge.retrieve(self.charge_id)
         charge.capture()

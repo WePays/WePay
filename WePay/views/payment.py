@@ -89,6 +89,7 @@ class PaymentDetailView(LoginRequiredMixin, generic.DetailView):
         # * after this will involked update status function
         return HttpResponseRedirect(payment.uri)
 
+
 def update(request, pk: int, *arg, **kwargs):
     user = request.user
     try:
@@ -96,12 +97,14 @@ def update(request, pk: int, *arg, **kwargs):
     except Http404:
         messages.error(request, "Payment not found")
         return HttpResponseRedirect(reverse("payments:payment"))
+    print(payment.instance.charge_id)
     payment_type = payment.selected_payment
     if not issubclass(payment_type, OmisePayment):
         messages.error(request, "Payment is not omise payment")
         return HttpResponseRedirect(reverse("payments:payment"))
-
+    print('banannanan: ', payment)
     payment.instance.update_status()
+    print('hey yooo', payment)
 
     return HttpResponseRedirect(reverse("payments:payment"))
 
@@ -123,7 +126,6 @@ def confirm_payment(request, pk: int, *arg, **kwargs):
                 ],
             )
         )
-    print(payment.instance)
     payment.instance.confirm()
     payment.save()
 
