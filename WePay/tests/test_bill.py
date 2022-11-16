@@ -66,11 +66,6 @@ class BillCreateViewTest(BaseViewTest):
         """Setup before running a tests."""
         super(BillCreateViewTest, self).setUp()
 
-    # def test_create_page(self):
-    #     """test navigate to create bill page."""
-    #     response = self.client.get("/bill/create/")
-    #     self.assertEqual(response.status_code, 302)
-
     def test_navigate_create_bill_page(self):
         """test navigate to bill page"""
         response = self.client.get("/bill/create/")
@@ -96,14 +91,7 @@ class BillCreateViewTest(BaseViewTest):
         self.assertEqual(Bills.objects.get(pk=2).all_user, [self.user1, self.user2])
         create(self.client.post("/bill/"), 2)
         self.assertTrue(Bills.objects.get(pk=2).is_created)
-        # create(self.new_bill, 2)
-        # self.assertTrue(self.new_bill.is_created)
-        # self.assertEqual(Topic.objects.all().count(), 1)
-        # response1 = self.client.post(reverse("bills:create"),{"title":"Food Bill", "topic_name":"Est", "topic_price":20, "username":"test_user1", "create":"Create Title"})
-        # self.client.post(reverse("bills:create"), {"user": self.est.user.all()})
-        # self.assertEqual(Topic.objects.get(user=self.user1), self.bill)
-        # print("Tomato", Topic.objects.get(user=self.user1).user)
-        # self.assertQuerysetEqual(response.context[''], [])
+
 
     def test_response_with_create_bill(self):
         data = {
@@ -114,7 +102,6 @@ class BillCreateViewTest(BaseViewTest):
         }
         self.client.post(reverse("bills:create"), data=data)
         self.assertFalse(Bills.objects.last().is_created)
-        print(Topic.objects.all())
 
     def test_create_bill_with_more_topic(self):
         """test create a bill with initial topic and add more topic."""

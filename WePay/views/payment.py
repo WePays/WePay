@@ -4,6 +4,7 @@ from django.db.models import QuerySet
 from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import get_object_or_404, render, reverse
 from django.views import generic
+from django.core.mail import send_mail
 
 from ..config import OMISE_SECRET
 from ..models import (
@@ -45,7 +46,6 @@ class PaymentDetailView(LoginRequiredMixin, generic.DetailView):
             messages.error(request, "Payment not found")
             return HttpResponseRedirect(reverse("payments:payment"))
         status = payment.status
-        print(status)
         payment_type = payment.payment_type
         if payment.price <= 20 or payment.price > 150000:
             messages.info(
@@ -102,6 +102,9 @@ def update(request, pk: int, *arg, **kwargs):
         messages.error(request, "Payment is not omise payment")
         return HttpResponseRedirect(reverse("payments:payment"))
     payment.instance.update_status()
+    header_mail = payment.bill.header.user.email
+    # TODO send email here
+
 
     return HttpResponseRedirect(reverse("payments:payment"))
 

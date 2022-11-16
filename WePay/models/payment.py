@@ -110,7 +110,6 @@ class Payment(models.Model):
             raise AlreadyPayError("You are2 in PENDING or PAID Status")
 
         now_payment = self.selected_payment.objects.get_or_create(payment=self)[0]
-        print(now_payment)
         now_payment.pay()
         self.save()
 
@@ -152,7 +151,6 @@ class BasePayment(models.Model):
 class OmisePayment(BasePayment):
     charge_id = models.CharField(max_length=100, null=True, blank=True)
     payment_type = models.CharField(max_length=100, default="promptpay")
-    # i dont know how to call this on Payment class, So I will move up it up to payment class
 
     class Meta:
         abstract = True
@@ -176,7 +174,6 @@ class OmisePayment(BasePayment):
                 source=source.id,
                 return_uri=f"http://127.0.0.1:8000/payment/{self.payment.id}/update",
             )
-            print(charge.id)
 
             self.charge_id = charge.id
             self.payment.uri = charge.authorize_uri
@@ -187,7 +184,6 @@ class OmisePayment(BasePayment):
         charge = omise.Charge.retrieve(self.charge_id)
         if charge:
             status = charge.status
-            print(status)
             if status == "successful":
                 self.payment.status = self.payment.Status_choice.PAID
             elif status == "pending":
@@ -195,7 +191,6 @@ class OmisePayment(BasePayment):
         else:
             self.payment.status = self.payment.Status_choice.UNPAID
         self.payment.save()
-        print(self.payment)
         omise.api_secret = OMISE_SECRET
         self.save()
 
