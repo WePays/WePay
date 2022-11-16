@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import QuerySet
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import get_object_or_404, render, reverse
 from django.views import generic
 
@@ -14,6 +14,7 @@ from ..models import (
     PromptPayPayment,
     SCBPayment,
     OmisePayment,
+    BasePayment
 )
 
 
@@ -88,12 +89,11 @@ class PaymentDetailView(LoginRequiredMixin, generic.DetailView):
         # * after this will involked update status function
         return HttpResponseRedirect(payment.uri)
 
-
 def update(request, pk: int, *arg, **kwargs):
     user = request.user
     try:
         payment = get_object_or_404(Payment, pk=pk, user__user=user)
-    except Payment.DoesNotExist:
+    except Http404:
         messages.error(request, "Payment not found")
         return HttpResponseRedirect(reverse("payments:payment"))
     payment_type = payment.selected_payment
@@ -101,8 +101,7 @@ def update(request, pk: int, *arg, **kwargs):
         messages.error(request, "Payment is not omise payment")
         return HttpResponseRedirect(reverse("payments:payment"))
 
-    now_payment = payment_type.objects.get(payment=payment)
-    now_payment.update_status()
+    payment.instance.update_status()
 
     return HttpResponseRedirect(reverse("payments:payment"))
 
@@ -110,11 +109,11 @@ def update(request, pk: int, *arg, **kwargs):
 def confirm_payment(request, pk: int, *arg, **kwargs):
     user = request.user
     try:
-        payment = get_object_or_404(Payment, pk=pk, user__user=user)
-    except Payment.DoesNotExist:
+        payment = get_object_or_404(Payment, pk=pk)
+    except Http404:
         messages.error(request, "Payment not found")
         return HttpResponseRedirect(reverse("payments:payment"))
-    if not payment.is_comfirmable():
+    if not payment.is_confirmable():
         messages.error(request, "Payment is not comfirmable")
         return HttpResponseRedirect(
             reverse(
@@ -124,10 +123,9 @@ def confirm_payment(request, pk: int, *arg, **kwargs):
                 ],
             )
         )
-    payment_type = payment.selected_payment
-    now_payment = payment_type.objects.get(payment=payment)
-    now_payment.confirm_payment()
+    payment.instance.confirm_payment()
     payment.save()
+
     return HttpResponseRedirect(
         reverse(
             "bills:detail",
