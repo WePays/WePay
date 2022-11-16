@@ -228,7 +228,7 @@ class BAYPayment(OmisePayment):
 
 
 class CashPayment(BasePayment):
-    def confirm_payment(self):
+    def confirm(self):
         if self.payment.status in (self.payment.Status_choice.PAID, self.payment.Status_choice.UNPAID):
             return
 

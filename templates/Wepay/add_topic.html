@@ -3,15 +3,15 @@
 {% tailwind_css %}
 
 {%block title%}
-{{ block.super }}
-Add Topic
+    {{ block.super }}
+    Add Topic
 {% endblock title%}
 
 {% block body%}
 
-    <div class="mt-24 ml-96 justify-center static">
+    <div class="mt-24 ml-32 justify-center flex flex-row">
 
-        <div class="border-b border-gray-200 shadow static">
+        <div class="border-b border-gray-200 shadow">
 
             <table class="divide-y divide-[#171f99]">
                 <thead class="bg-gray-50">
@@ -25,46 +25,46 @@ Add Topic
 
 
                 {% for topic in all_topic %}
-                <tbody class="bg-white divide-y divide-[#171f99] text-center text-sm">
-                    <tr class="whitespace-nowrap">
-                        <td>{{forloop.counter0|add:"1"}}</td>
-                        <td>{{topic.title}}</td> 
-                        <td>{{topic.price}}</td>
-                        <td>{% for each_user in topic.user.all %}{{each_user}}, {% endfor %}</td>
-                    </tr>
-                </tbody>
+                    <tbody class="bg-white divide-y divide-[#171f99] text-center text-sm">
+                        <tr class="whitespace-nowrap">
+                            <td>{{forloop.counter0|add:"1"}}</td>
+                            <td>{{topic.title}}</td>
+                            <td>{{topic.price}}</td>
+                            <td>{% for each_user in topic.user.all %}{{each_user}}, {% endfor %}</td>
+                        </tr>
+                    </tbody>
                 {% endfor %}
-                </list>
-            </table>
-        </div>
+            </list>
+        </table>
+    </div>
 
 
-        <div class="inline-block">
+    <div class="ml-20 border-b border-gray-200 shadow">
 
-            <h2 class="">Add Topic</h2> 
+        <h2 class="">Add Topic</h2>
 
-            Name of Bill: {{bill.name}} 
-            <br><br>
-            Total price: {{bill.total_price}}
+        Name of Bill: {{bill.name}}
+        <br><br>
+        Total price: {{bill.total_price}}
 
-            <form action="" method="post">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <div class="topic-name" style="margin-top: 2%;"> Name: <br>
-                    <input type="text" name="topic_name" id="topic_name" placeholder="Enter the topic name" required style="width: 40%; font-weight: lighter;"></div>
-                <div class="topic-price" style="margin-top: 2%;"> Price: <br>
-                    <input type="number" min="0" name="topic_price" id="topic_price" placeholder="Enter the topic price" required style="width: 40%; font-weight: lighter;"></div>
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="topic-name" style="margin-top: 2%;"> Name: <br>
+                <input type="text" name="topic_name" id="topic_name" placeholder="Enter the topic name" required style="width: 40%; font-weight: lighter;"></div>
+            <div class="topic-price" style="margin-top: 2%;"> Price: <br>
+                <input type="number" min="0" name="topic_price" id="topic_price" placeholder="Enter the topic price" required style="width: 40%; font-weight: lighter;"></div>
 
-                <div class="add-user" style="margin-top: 2%;" for="username">Enter user to assign:<br>
-                    <select id="username" name="username"  multiple required style="width: 40%; height: 20%; color: navy;">
-                        {% for name in lst_user %}
-                            <option value="{{name}}">{{name}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="add-topic" style="margin-top: 2%; margin-left: 30%;"><input type="submit" value="Add topic"></div>
+            <div class="add-user" style="margin-top: 2%;" for="username">Enter user to assign:<br>
+                <select id="username" name="username"  multiple required style="width: 40%; height: 20%; color: navy;">
+                    {% for name in lst_user %}
+                        <option value="{{name}}">{{name}}</option>
+                    {% endfor %}
+                </select>
             </div>
-        </form>
+            <div class="add-topic" style="margin-top: 2%; margin-left: 30%;"><input type="submit" value="Add topic"></div>
+        </div>
+    </form>
     </div>
 
 

@@ -123,7 +123,8 @@ def confirm_payment(request, pk: int, *arg, **kwargs):
                 ],
             )
         )
-    payment.instance.confirm_payment()
+    print(payment.instance)
+    payment.instance.confirm()
     payment.save()
 
     return HttpResponseRedirect(

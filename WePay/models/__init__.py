@@ -26,5 +26,5 @@ __all__ = [
     "Payment",
     "omise",
     "OmisePayment",
-    "BasePaymenr"
+    "BasePayment"
 ]
