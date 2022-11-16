@@ -104,7 +104,10 @@ class BillCreateViewTest(BaseViewTest):
 
     def test_response_with_create_bill(self):
         data = {
-            "title": "Est", "topic_name": "Toast", "username": [self.user1, self.user2], "topic_price": 2000
+            "title": "Est",
+            "topic_name": "Toast",
+            "username": [self.user1, self.user2],
+            "topic_price": 2000,
         }
         self.client.post(reverse("bills:create"), data=data)
         self.assertFalse(Bills.objects.last().is_created)

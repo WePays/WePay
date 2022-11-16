@@ -8,6 +8,8 @@ from .payment import (
     BAYPayment,
     Payment,
     omise,
+    OmisePayment,
+    BasePayment
 )
 from .userprofile import UserProfile
 
@@ -23,4 +25,6 @@ __all__ = [
     "UserProfile",
     "Payment",
     "omise",
+    "OmisePayment",
+    "BasePayment"
 ]

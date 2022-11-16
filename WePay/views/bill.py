@@ -1,7 +1,8 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render, redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views import generic
 
@@ -109,13 +110,17 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
         lst = []
         for each_user in bill.all_user:
             payment = Payment.objects.get(bill=bill, user=each_user)
-            print(payment)
             lst.append(payment)
         return render(request, "Wepay/detail.html", {"bill": bill, "payment": lst})
 
 
+@login_required(login_url="/accounts/login/")
 def create(request: HttpRequest, pk: int):
-    bill = Bills.objects.get(pk=pk)
+    try:
+        bill = Bills.objects.get(pk=pk)
+    except Bills.DoesNotExist:
+        messages.error(request, " this Bill dosen't exist")
+        return HttpResponseRedirect(reverse("bills:bill"))
     bill.is_created = True
     for user in bill.all_user:
         each_user_payment = Payment.objects.create(user=user, bill=bill)
@@ -127,6 +132,29 @@ def create(request: HttpRequest, pk: int):
     return HttpResponseRedirect(reverse("bills:bill"))
 
 
+@login_required(login_url="/accounts/login/")
+def delete(request: HttpRequest, pk: int):
+    header = request.user
+    try:
+        bill = Bills.objects.get(pk=pk, header__user=header)
+    except Bills.DoesNotExist:
+        messages.error(request, " This bill Bill dosen't exist")
+        return HttpResponseRedirect(reverse("bills:bill"))
+    any_one_pay = any(
+        payment.status in (Payment.Status_choice.PAID, Payment.Status_choice.PENDING)
+        for payment in bill.payments.all()
+        if payment.user.user != header
+    )
+    if any_one_pay:
+        messages.warning(request, "You can't delete this bill because someone has paid")
+        return HttpResponseRedirect(reverse("bills:bill"))
+    name = bill.name
+    bill.delete()
+    messages.success(request, f"Bill:{name} deleted")
+    return HttpResponseRedirect(reverse("bills:bill"))
+
+
+@login_required(login_url="/accounts/login/")
 def close(request: HttpRequest, pk: int):
     bill = Bills.objects.get(pk=pk)
     print(bill)

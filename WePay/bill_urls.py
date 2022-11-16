@@ -8,12 +8,10 @@ urlpatterns = [
     # path("", views.bill, name="bill"),
     path("", views.BillView.as_view(), name="bill"),
     path("create/", views.BillCreateView.as_view(), name="create"),
-    path("<int:pk>/add/", views.AddTopicView.as_view(), name="add"),
+    path("<int:pk>/add", views.AddTopicView.as_view(), name="add"),
     path("<int:pk>/", views.DetailView.as_view(), name="detail"),
     path("<int:pk>/add/success", views.create, name="success"),
     path("<int:pk>/add/close", views.close, name="close"),
-    # # /polls/5/results/
-    # path("<int:pk>/results/", views.ResultsView.as_view(), name="results"),
-    # # /polls/5/vote/
-    # path("<int:question_id>/vote/", views.vote, name="vote"),
+    path("<int:pk>/delete", views.delete, name="delete"),
+
 ]

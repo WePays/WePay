@@ -1,9 +1,8 @@
-from .bill import BillView, DetailView, BillCreateView, create, close
-from .payment import PaymentView, PaymentDetailView, update
-from .userprofile import UserProfileView, fetch_key
-from .topic import AddTopicView
+from .bill import BillCreateView, BillView, DetailView, close, create, delete
 from .history import HistoryView
-
+from .payment import PaymentDetailView, PaymentView, update, confirm_payment
+from .topic import AddTopicView
+from .userprofile import UserProfileView, fetch_key
 
 __all__ = [
     "BillView",
@@ -18,4 +17,6 @@ __all__ = [
     "fetch_key",
     "HistoryView",
     "close",
+    "delete",
+    "confirm_payment",
 ]

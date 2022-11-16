@@ -1,7 +1,10 @@
-from django.db import models
-from django.contrib.auth.models import User
 from typing import Union
+
 import omise
+from django.contrib.auth.models import User
+from django.db import models
+
+from ..config import OMISE_SECRET
 
 
 class UserProfile(models.Model):
@@ -14,7 +17,7 @@ class UserProfile(models.Model):
 
     @property
     def chain(self) -> Union[omise.Chain, None]:
-        print(self.chain_id)
+        omise.api_secret = OMISE_SECRET
         return omise.Chain.retrieve(self.chain_id) if self.chain_id else None
 
     def __repr__(self) -> str:
