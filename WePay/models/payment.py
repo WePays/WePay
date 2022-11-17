@@ -32,6 +32,8 @@ class Payment(models.Model):
         PAID = "PAID"
         PENDING = "PENDING"
         UNPAID = "UNPAID"
+        FAIL = "FAIL"
+        EXPIRED = "EXPIRED"
 
     status = models.CharField(
         choices=Status_choice.choices, default=Status_choice.UNPAID, max_length=10
@@ -170,7 +172,6 @@ class OmisePayment(BasePayment):
             charge = omise.Charge.create(
                 amount=self.payment.amount,
                 currency="thb",
-                capturable=True,
                 source=source.id,
                 return_uri=f"http://127.0.0.1:8000/payment/{self.payment.id}/update",
             )
@@ -188,6 +189,13 @@ class OmisePayment(BasePayment):
                 self.payment.status = self.payment.Status_choice.PAID
             elif status == "pending":
                 self.payment.status = self.payment.Status_choice.PENDING
+            elif status == 'failed':
+                self.payment.status = self.payment.Status_choice.FAIL
+            elif status == 'expired':
+                self.payment.status = self.payment.Status_choice.EXPIRED
+                # self.payment.status = self.payment.Status_choice.UNPAID
+                # self.charge_id = None
+                # self.payment.uri = None
         else:
             self.payment.status = self.payment.Status_choice.UNPAID
         self.payment.save()
@@ -195,8 +203,10 @@ class OmisePayment(BasePayment):
         self.save()
 
     @property
-    def payment_link(self):
-        return f"https://dashboard.omise.co/test/charges/{self.charge_id}"
+    def payment_link(self) -> str:
+        if self.charge_id:
+            return f"https://dashboard.omise.co/test/charges/{self.charge_id}"
+        return ''
 
 
 class PromptPayPayment(OmisePayment):
