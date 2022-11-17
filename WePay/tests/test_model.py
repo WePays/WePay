@@ -71,11 +71,11 @@ class PaymentModelTest(BaseSetUp):
 
     def setUp(self):
         """SetUp before test"""
-        super(PaymentModelTest, self).setUp()
-
-    def test_create_duplicate_payment(self):
-        """Test create duplicate payment object."""
-        self.test = Payment.objects.create(bill=self.bill, user=self.user1)
+        test_header = User.objects.create(
+            username="test_header",password="1234", email="test@example.com")
+        self.test_header = UserProfile.objects.create(user=test_header)
+        self.test_header.save()
+        self.client.force_login(self.test_header.user)
 
     def test_payment_choice(self):
         """test payment type."""

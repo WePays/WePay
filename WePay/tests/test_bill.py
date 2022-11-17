@@ -205,6 +205,7 @@ class AddTopicView(BaseViewTest):
         response4 = self.client.get(reverse("bills:success", kwargs={"pk": 2}))
         self.assertRedirects(response4, "/bill/", 302)  # POST Success
         self.assertTrue(Bills.objects.get(pk=2).is_created)  # Bill is created.
+        # Checked Value in Bill.
         this_bill = Bills.objects.get(pk=2)
         first_topic = Topic.objects.get(bill=this_bill, title="Toast")
         second_topic = Topic.objects.get(bill=this_bill, title="Toasting")
