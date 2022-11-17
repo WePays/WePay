@@ -127,7 +127,7 @@ def update(request, pk: int, *arg, **kwargs):
     )
 
     if payment.bill.status:  # this mean bills is ready to verify and close
-        # TODO: send mail to header to verify and close the bill
+        # send mail to header to verify and close the bill
         html_message_to_header = render_to_string(
             "message/header/mail_to_header.html",
             {
