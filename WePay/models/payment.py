@@ -107,7 +107,7 @@ class Payment(models.Model):
     def pay(self) -> None:
         """Pay to header"""
         if not self.can_pay():
-            raise AlreadyPayError("You are2 in PENDING or PAID Status")
+            raise AlreadyPayError("You are in PENDING or PAID Status")
 
         now_payment = self.selected_payment.objects.get_or_create(payment=self)[0]
         now_payment.pay()
@@ -237,7 +237,6 @@ class CashPayment(BasePayment):
         # this will send notification to header to confirm
         self.payment.status = self.payment.Status_choice.PENDING
         self.payment.save()
-
 
 class AlreadyPayError(Exception):
     "This payment already paid"

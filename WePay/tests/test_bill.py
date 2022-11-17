@@ -3,7 +3,7 @@ from django.urls import reverse
 from WePay.models.bill import Topic
 from .setUp import BaseSetUp
 from django.contrib.auth.models import User
-from ..models import UserProfile, Bills
+from ..models import UserProfile, Bills, Payment
 from ..views import create
 from django.utils import timezone
 from unittest import skip
@@ -101,7 +101,8 @@ class BillCreateViewTest(BaseViewTest):
             "topic_price": 2000,
         }
         self.client.post(reverse("bills:create"), data=data)
-        self.assertFalse(Bills.objects.last().is_created)
+        bill = Bills.objects.last()
+        self.assertFalse(bill.is_created)
 
     def test_create_bill_with_more_topic(self):
         """test create a bill with initial topic and add more topic."""

@@ -4,15 +4,12 @@ from WePay.models.payment import AlreadyPayError
 from .setUp import BaseSetUp
 from django.contrib.auth.models import User
 from WePay.models.userprofile import UserProfile
-from ..models import Bills, Topic, Payment
+from ..models import Bills, Topic, Payment, CashPayment, PromptPayPayment, SCBPayment, KTBPayment, BBLPayment, BAYPayment
 from unittest import SkipTest
 
 
 class BillModelTest(BaseSetUp):
     """test for Bill model"""
-
-    def SetUp(self):
-        super(BaseSetUp, self).setUp()
 
     def test_calculate_price(self):
         """test calculate price for each user."""
@@ -47,9 +44,6 @@ class BillModelTest(BaseSetUp):
 class TopicModelTest(BaseSetUp):
     """test for Food model."""
 
-    def SetUp(self):
-        super(BaseSetUp, self).setUp()
-
     def test_each_price(self):
         """test food price for each user."""
         self.pepsi.add_user(user=self.user1)
@@ -82,17 +76,14 @@ class PaymentModelTest(BaseSetUp):
         """Test create duplicate payment object."""
         self.test = Payment.objects.create(bill=self.bill, user=self.user1)
 
-    @SkipTest
-    def test_payment_choice(
-        self,
-    ):  # TODO Change to get or post selected payment instead of string
+    def test_payment_choice(self):
         """test payment type."""
-        self.assertEqual(self.cash_payment.selected_payment, "Cash")
-        self.assertEqual(self.promptpay_payment.selected_payment, "PromptPay")
-        self.assertEqual(self.scb_payment.selected_payment, "SCB")
-        self.assertEqual(self.ktb_payment.selected_payment, "KTB")
-        self.assertEqual(self.bay_payment.selected_payment, "BAY")
-        self.assertEqual(self.bbl_payment.selected_payment, "BBL")
+        self.assertEqual(self.cash_payment.selected_payment, CashPayment)
+        self.assertEqual(self.promptpay_payment.selected_payment, PromptPayPayment)
+        self.assertEqual(self.scb_payment.selected_payment, SCBPayment)
+        self.assertEqual(self.ktb_payment.selected_payment, KTBPayment)
+        self.assertEqual(self.bay_payment.selected_payment, BAYPayment)
+        self.assertEqual(self.bbl_payment.selected_payment, BBLPayment)
 
     def test_payment_status(self):
         """test payment status for each payment"""
