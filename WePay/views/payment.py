@@ -18,7 +18,7 @@ from ..models import (
     PromptPayPayment,
     SCBPayment,
     OmisePayment,
-    BasePayment,
+    CashPayment
 )
 
 
@@ -152,3 +152,18 @@ def confirm_payment(request, pk: int, *arg, **kwargs):
             ],
         )
     )
+
+
+def reset(request, pk: int, *arg, **kwargs):
+    try:
+        payment = get_object_or_404(Payment, pk=pk)
+    except Http404:
+        messages.error(request, "Payment not found")
+        return HttpResponseRedirect(reverse("payments:payment"))
+    if not payment.is_resetable():
+        messages.error(request, "Payment is not resetable")
+        return HttpResponseRedirect(reverse("payments:payment"))
+    payment.instance.reset()
+    payment.save()
+
+    return HttpResponseRedirect(reverse("payments:payment"))

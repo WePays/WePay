@@ -1,6 +1,6 @@
 from .bill import BillCreateView, BillView, DetailView, close, create, delete
 from .history import HistoryView
-from .payment import PaymentDetailView, PaymentView, update, confirm_payment
+from .payment import PaymentDetailView, PaymentView, update, confirm_payment, reset
 from .topic import AddTopicView
 from .userprofile import UserProfileView, fetch_key
 
@@ -19,4 +19,5 @@ __all__ = [
     "close",
     "delete",
     "confirm_payment",
+    "reset"
 ]
