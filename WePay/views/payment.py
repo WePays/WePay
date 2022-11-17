@@ -160,10 +160,26 @@ def reset(request, pk: int, *arg, **kwargs):
     except Http404:
         messages.error(request, "Payment not found")
         return HttpResponseRedirect(reverse("payments:payment"))
-    if not payment.is_resetable():
+    if not payment.is_repayable():
         messages.error(request, "Payment is not resetable")
         return HttpResponseRedirect(reverse("payments:payment"))
     payment.instance.reset()
     payment.save()
 
     return HttpResponseRedirect(reverse("payments:payment"))
+
+def reject(request, pk: int, *arg, **kwargs):
+    # cash payment only
+    try:
+        payment = get_object_or_404(Payment, pk=pk)
+    except Http404:
+        messages.error(request, "Payment not found")
+        return HttpResponseRedirect(request.path)
+    if not isinstance(payment.instance, CashPayment):
+        messages.error(request, "Payment is not rejectable")
+        return HttpResponseRedirect(reverse("bills:detail", args=[payment.bill.id]))
+    payment.instance.reject()
+    payment.save()
+    messages.success(request, "Payment is rejected")
+
+    return HttpResponseRedirect(reverse("bills:detail", args=[payment.bill.id]))

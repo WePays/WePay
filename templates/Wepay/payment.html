@@ -29,7 +29,7 @@
                                 {% if payment.can_pay %}
                                     <a class="font-bold text-center text-green-500 underline" href="{% url 'payments:detail' payment.id %}">Pay</a>
                                 {% else %}
-                                    <p class="text-center text-yellow-400">{{payment.status}} {% if payment.is_repayable %} <a href="{% url '' %}"></a> {% endif %}</p>
+                                    <p class="text-center text-yellow-400">{{payment.status}} {% if payment.is_repayable %} <a href="{% url 'payments:reset' payment.id %}">repay?</a> {% endif %}</p>
                                 {% endif %}
                             </td>
                             <td class="px-12 py-4 text-sm text-[#171f99]">{{payment.bill.header}} </td>

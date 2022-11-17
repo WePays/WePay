@@ -162,6 +162,7 @@ class OmisePayment(BasePayment):
 
     def pay(self):
         """pay by omise"""
+        print(self.payment.status)
         # amount must morethan 20
         if self.payment.status == self.payment.Status_choice.UNPAID:
             source = omise.Source.create(
@@ -205,8 +206,8 @@ class OmisePayment(BasePayment):
 
     def reset(self):
         self.payment.status = self.payment.Status_choice.UNPAID
-        self.charge_id = None
-        self.payment.uri = None
+        self.charge_id = ''
+        self.payment.uri = ''
         self.payment.save()
         self.save()
 
@@ -249,17 +250,28 @@ class CashPayment(BasePayment):
         self.payment.save()
 
     def pay(self):
+
+        print(self)
         if self.payment.status == self.payment.Status_choice.PAID:
             return
 
         # this will send notification to header to confirm
         self.payment.status = self.payment.Status_choice.PENDING
         self.payment.save()
+        self.save()
+
+    def reject(self):
+        if self.payment.status == self.payment.Status_choice.PAID:
+            return
+
+        self.payment.status = self.payment.Status_choice.FAIL
+        self.payment.save()
 
     def reset(self):
         # TODO: send message to user that you rejected this pls pay again
         self.payment.status = self.payment.Status_choice.UNPAID
         self.payment.save()
+        print('HOOOOOOO', self)
 
 
 class AlreadyPayError(Exception):
