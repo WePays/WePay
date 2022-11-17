@@ -157,13 +157,13 @@ def delete(request: HttpRequest, pk: int):
     name = bill.name
     bill.delete()
     messages.success(request, f"Bill:{name} deleted")
+    # TODO Send message to all user that have bill to pay
     return HttpResponseRedirect(reverse("bills:bill"))
 
 
 @login_required(login_url="/accounts/login/")
 def close(request: HttpRequest, pk: int):
     bill = Bills.objects.get(pk=pk)
-    print(bill)
     bill.is_closed = True
     bill.save()
     return HttpResponseRedirect(reverse("bills:bill"))

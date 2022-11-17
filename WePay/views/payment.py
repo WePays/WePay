@@ -5,6 +5,9 @@ from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import get_object_or_404, render, reverse
 from django.views import generic
 from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from django.conf import settings
 
 from ..config import OMISE_SECRET
 from ..models import (
@@ -103,7 +106,19 @@ def update(request, pk: int, *arg, **kwargs):
         return HttpResponseRedirect(reverse("payments:payment"))
     payment.instance.update_status()
     header_mail = payment.bill.header.user.email
-    # TODO send email here
+    html_message = render_to_string('message/header/someone_pay.html', {
+                                    'user': payment.user, 'bill_name': payment.bill.name, 'payment_type': payment.instance.payment_type, 'price': payment.price, 'bill_id': payment.bill.id})
+    plain_message = strip_tags(html_message)
+
+    message = f'{payment.user} has paid Bill\'s {payment.bill.name}'
+    message += f' with {payment.instance.payment_type}\n for {payment.price} Baht.'
+    send_mail(
+        subject='Someone Pay you a money',
+        message=plain_message,
+        from_email=settings.EMAIL_HOST_USER,
+        recipient_list=[header_mail],
+        html_message=html_message
+    )
 
     return HttpResponseRedirect(reverse("payments:payment"))
 

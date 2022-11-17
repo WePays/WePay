@@ -1,7 +1,12 @@
 {% extends 'message/base.html' %}
 
 {% block body %}
+<h1> Bill {{ bill_name }} </h1>
+<br>
 
-
+{{user}} paid {{bill_name}} 
+with {{payment_type}} for {{price}} Baht.
+<br>
+see more detail <a href="http://127.0.0.1:8000{% url 'bills:detail' bill_id %}"> here </a>
 
 {% endblock body %}
