@@ -1,31 +1,33 @@
 {% extends 'WePay/base_wepay.html' %}
+{% load tailwind_tags %}
+{% tailwind_css %}
+
 {% block body %}
 
-    <h1 class="title" style="margin-top: 5%;"> Setting </h1>
-    <br>
-    <br>
+<h1 class="text-3xl font-bold ml-96 mt-20"> Setting </h1>
+<div class="ml-96 mt-10">
+    <div>
     <form action="" method="post">
         {% csrf_token %}
         display name:
         <input type='text' name='display name' id='name' value={{user.username}}>
 
-        <div class="Create" style="margin-top: 0%;"><input type="submit" value="Update"></div>
-
+        <div><button class="bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded flex justify-center ml-56 mt-5" type="submit" value="Update">Update</button></div>
     </form>
-    <br><br>
+    </div>
 
-    <div class="chain-key" >
+    <div class="mt-10">
         <form action="{% url 'user-profile:fetch-key' %}" method="post">
             {% csrf_token %}
-            chain id:
-            <label>{{chain_id}}</label>
-            <input type='submit', name='fetch-key', value='fetch'>
-            <br>
+            chain id: 
+            <div class="text-[#171f99] flex flex-row ">{{chain_id}}</div>
+            <div class=""><button class="bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded flex justify-center text-sm ml-56 mt-5" type='submit', name='fetch-key', value='fetch'>fetch</button></div>
         </form>
+    </div>
         {% if messages %}
             <ul class="messages">
                 {% for message in messages %}
-                    <li class="{{ message.tags }}">
+                    <li class="text-red-500 font-bold text-sm absolute right-50 mt-10">
                         {% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}
                     </li>
                 {% endfor %}
@@ -33,5 +35,6 @@
         {% endif %}
         <br>
     </div>
+</div>
 
 {% endblock body%}
