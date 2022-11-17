@@ -49,14 +49,14 @@ class PaymentDetailView(LoginRequiredMixin, generic.DetailView):
         if payment.price <= 20 or payment.price > 150000:
             messages.info(
                 request,
-                "Your amount is less than 20 Baht or more than 150,000 Baht, you can only pay with cash",
+                "* Your amount is less than 20 Baht or more than 150,000 Baht, you can only pay with cash",
             )
             cash_only = True
 
         if not payment.bill.header.chain:
             messages.info(
                 request,
-                "This bill is not in chain, you can only pay with cash or tell header to register the chain \
+                "* This bill is not in chain, you can only pay with cash or tell header to register the chain \
                     \n<a href='/instruction/'>instruction here</a>",
                 extra_tags="safe",
             )

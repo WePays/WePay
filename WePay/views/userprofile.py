@@ -26,7 +26,7 @@ class UserProfileView(LoginRequiredMixin, DetailView):
 
         user.username = display_name
         user.save()
-        messages.success(request, f"display name has updated to {display_name}")
+        messages.success(request, f"* Display name has updated to {display_name}")
         return HttpResponseRedirect(reverse("user-profile:userprofile"))
 
 
@@ -47,7 +47,7 @@ def fetch_key(request, *args, **kwargs):
     else:
         messages.info(
             request,
-            "No Chain found, make sure you follow this \
+            "* No Chain found, make sure you follow this \
                 <a href='/instruction'>instructions</a> for appling a chain key",
             extra_tags="safe",
         )

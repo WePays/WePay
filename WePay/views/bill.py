@@ -44,7 +44,7 @@ class BillView(LoginRequiredMixin, generic.DetailView):
         ).order_by("-pub_date")
         if uncreated:
             messages.error(
-                request, "You have an uncreated bill, please create it first"
+                request, "* You have an uncreated bill, please create it first"
             )
             return redirect("/")
         return HttpResponseRedirect(reverse("bills:create"))
@@ -105,7 +105,7 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
         try:
             bill = Bills.objects.get(pk=pk, header__user=user)
         except Bills.DoesNotExist:
-            messages.error(request, "Bill dosen't exist")
+            messages.error(request, "! This bill dosen't exist")
             return HttpResponseRedirect(reverse("bills:bill"))
         lst = []
         for each_user in bill.all_user:
@@ -119,7 +119,7 @@ def create(request: HttpRequest, pk: int):
     try:
         bill = Bills.objects.get(pk=pk)
     except Bills.DoesNotExist:
-        messages.error(request, " this Bill dosen't exist")
+        messages.error(request, "! This Bill dosen't exist")
         return HttpResponseRedirect(reverse("bills:bill"))
     bill.is_created = True
     for user in bill.all_user:
@@ -138,7 +138,7 @@ def delete(request: HttpRequest, pk: int):
     try:
         bill = Bills.objects.get(pk=pk, header__user=header)
     except Bills.DoesNotExist:
-        messages.error(request, " This bill Bill dosen't exist")
+        messages.error(request, "! This bill Bill dosen't exist")
         return HttpResponseRedirect(reverse("bills:bill"))
     any_one_pay = any(
         payment.status in (Payment.Status_choice.PAID, Payment.Status_choice.PENDING)
@@ -146,7 +146,7 @@ def delete(request: HttpRequest, pk: int):
         if payment.user.user != header
     )
     if any_one_pay:
-        messages.warning(request, "You can't delete this bill because someone has paid")
+        messages.warning(request, "! You can't delete this bill because someone has paid")
         return HttpResponseRedirect(reverse("bills:bill"))
     name = bill.name
     bill.delete()
