@@ -86,7 +86,7 @@ class BillCreateView(LoginRequiredMixin, generic.DetailView):
             for each_user in topic_user:
                 user = UserProfile.objects.get(user__username=each_user)
                 topic.add_user(user)
-                bill.add_topic(topic)
+            bill.add_topic(topic)
             bill.save()
 
             return HttpResponseRedirect(f"/bill/{bill.id}/add")

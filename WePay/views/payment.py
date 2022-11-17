@@ -45,8 +45,8 @@ class PaymentDetailView(LoginRequiredMixin, generic.DetailView):
         cash_only = False
         try:
             payment = get_object_or_404(Payment, pk=kwargs["pk"], user__user=user)
-        except Payment.DoesNotExist:
-            messages.error(request, "Payment not found")
+        except Http404:
+            messages.error(request, "Payment not found") #! BUG IT DOESNT COMING WHEN REDIRECT
             return HttpResponseRedirect(reverse("payments:payment"))
         status = payment.status
         payment_type = payment.payment_type
