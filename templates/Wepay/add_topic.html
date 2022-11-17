@@ -28,10 +28,10 @@ Add Topic
                 {% for topic in all_topic %}
                 <tbody class="bg-white divide-y divide-[#171f99] text-center text-sm">
                     <tr class="whitespace-nowrap">
-                        <td>{{forloop.counter0|add:"1"}}</td>
-                        <td>{{topic.title}}</td> 
-                        <td>{{topic.price}}</td>
-                        <td>{% for each_user in topic.user.all %}{{each_user}}, {% endfor %}</td>
+                        <td class="px-6 py-4">{{forloop.counter0|add:"1"}}</td>
+                        <td class="px-10 py-4">{{topic.title}}</td> 
+                        <td class="px-6 py-4">{{topic.price}}</td>
+                        <td class="px-10 py-4">{% for each_user in topic.user.all %}{{each_user}}, {% endfor %}</td>
                     </tr>
                 </tbody>
                 {% endfor %}

@@ -1,4 +1,6 @@
 {% extends 'WePay/base_wepay.html' %}
+{% load tailwind_tags %}
+{% tailwind_css %}
 
 {% block title %}
     History
@@ -6,28 +8,27 @@
 
 {% block body %}
 
-    <br><br><br><br><br><br>
-    <div class="box" style="margin-top: 5%; margin-left: -10%;">
+    <div class="mt-20 ml-80 flex flex-row">
         {% if bill_history %}
-            <div class="first-section" style="margin-top: 5%; background: transparent;">
-                <table class="styled-table" style="width: 35%; height: 50%; margin-top: 5%; font-size: medium;">
-                    <thead>
+            <div class="">
+                <h2 class="text-xl font-bold">Bill History</h2>
+                <table class="divide-y divide-[#171f99] mt-3">
+                    <thead class="bg-[#171f99]">
                         <tr>
-                            <th> No. </th><style>th{padding-left: 0.5%;}</style>
-                            <th> title </th>
-                            <th> Price </th>
-                            <th> Pub date </th>
+                            <th class="px-6 py-4 text-xl text-white">No</th>
+                            <th class="px-8 py-4 text-xl text-white">Title</th>
+                            <th class="px-8 py-4 text-xl text-white">Price</th>
+                            <th class="px-8 py-4 text-xl text-white">Pub date</th>
                         </tr>
                     </thead>
 
                     {% for bill in bill_history %}
-                        <tbody><style>tbody{padding-block: -1%;}</style>
-                            <tr>
-                                <td>{{forloop.counter0|add:"1"}}</td>
-                                <td>{{bill.name}}</td> <!-- this will link to detail bill page-->
-                                <td>{{bill.total_price}}</td>
-                                <td>{{bill.pub_date}}</td>
-
+                        <tbody class="bg-white divide-y divide-[#171f99] text-center text-sm">
+                            <tr class="whitespace-nowrap">
+                                <td class="px-6 py-4">{{forloop.counter0|add:"1"}}</td>
+                                <td class="px-8 py-4">{{bill.name}}</td> <!-- this will link to detail bill page-->
+                                <td class="px-8 py-4">{{bill.total_price}}</td>
+                                <td class="px-8 py-4">{{bill.pub_date}}</td>
                             </tr>
                         </tbody>
                     {% endfor %}
@@ -36,42 +37,43 @@
             </table>
             </div>
         {% else %}
-            <div class="first-section" style="margin-top: 5%; background: transparent;">
-                <h1 style="text-align: center;">No bill history</h1>
+            <div class="text-red-700 justify-center font-bold ml-48">
+                <h1>No bill history</h1>
             </div>
         {% endif %}
 
         {% if payment_history %}
 
-            <h2>Payment_History</h2>
-            <table class="styled-table" style="width: 35%; height: 50%; margin-top: 5%; font-size: medium;">
-                <thead>
+        <div class="ml-10">
+            <h2 class="text-xl font-bold">Payment History</h2>
+            <table class="divide-y divide-[#171f99] mt-3">
+                <thead class="bg-[#171f99]">
                     <tr>
-                        <th> No. </th><style>th{padding-left: 0.5%;}</style>
-                        <th> Bill title </th>
-                        <th> Price </th>
-                        <th> date </th>
+                        <th class="px-6 py-4 text-xl text-white"> No. </th>
+                        <th class="px-8 py-4 text-xl text-white">Bill title </th>
+                        <th class="px-8 py-4 text-xl text-white">Price </th>
+                        <th class="px-8 py-4 text-xl text-white">Date </th>
                     </tr>
                 </thead>
 
                 {% for payment in payment_history %}
-                    <tbody><style>tbody{padding-block: -1%;}</style>
+                    <tbody class="bg-white divide-y divide-[#171f99] text-center text-sm">
                         <tr>
-                            <td>{{forloop.counter0|add:"1"}}</td>
-                            <td>{{payment.bill.name}}</td> <!-- this will link to detail bill page-->
-                            <td>{{payment.price}}</td>
-                            <td>{{payment.date}}</td>
-
+                            <td class="px-6 py-4">{{forloop.counter0|add:"1"}}</td>
+                            <td class="px-8 py-4">{{payment.bill.name}}</td> <!-- this will link to detail bill page-->
+                            <td class="px-8 py-4">{{payment.price}}</td>
+                            <td class="px-8 py-4">{{payment.date}}</td>
                         </tr>
                     </tbody>
                 {% endfor %}
             </list>
             </ul>
             </table>
+        </div>
 
 
         {% else %}
-            <div class="second-section" style="margin-left: 45%;margin-top: -25%; border:black solid 10%; background: transparent;">
+            <div class="ml-96 mt-32 text-red-700">
                 <h1 style="text-align: center;">No payment history</h1>
             </div>
         {% endif %}
