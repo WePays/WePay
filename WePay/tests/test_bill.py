@@ -129,6 +129,10 @@ class BillCreateViewTest(BaseViewTest):
         self.client.post(reverse("bills:success", kwargs={"pk": 2}))
         self.assertTrue(Bills.objects.get(pk=2).is_created)
 
+    def test_close_bill(self):
+        """test close bill."""
+        pass
+
     def test_delete_bill(self):
         """test delete bill."""
         self.client.post(reverse("bills:delete", kwargs={"pk": 1}))
