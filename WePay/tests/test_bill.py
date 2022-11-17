@@ -94,15 +94,20 @@ class BillCreateViewTest(BaseViewTest):
         self.assertTrue(Bills.objects.get(pk=2).is_created)
 
     def test_response_with_create_bill(self):
+        """Test create bill with response"""
         data = {
             "title": "Est",
             "topic_name": "Toast",
             "username": [self.user1, self.user2],
             "topic_price": 2000,
         }
-        self.client.post(reverse("bills:create"), data=data)
+        response = self.client.post(reverse("bills:create"), data=data)
         bill = Bills.objects.last()
         self.assertFalse(bill.is_created)
+        self.assertEqual(response["Location"], "/bill/2/add") # POST success
+        response2 = self.client.get(reverse("bills:success", kwargs={"pk":2}))
+        self.assertEqual(response2["Location"], "/bill/") # After success redirect to bill page
+        self.assertTrue(Bills.objects.get(pk=2).is_created)
 
     def test_create_bill_with_more_topic(self):
         """test create a bill with initial topic and add more topic."""
@@ -155,3 +160,11 @@ class DetailViewTest(BaseViewTest):
         self.client.login(username="test_header", password="header123")
         response = self.client.get("/bill/2")
         self.assertEqual(response.status_code, 301)
+
+class AddTopicView(BaseViewTest):
+    def setUp(self):
+        """Setup before running a tests."""
+        super(AddTopicView, self).setUp()
+
+    def test_add_topic(self):
+        pass

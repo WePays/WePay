@@ -8,6 +8,7 @@ from unittest import SkipTest
 
 class UserProfileViewTest(BaseSetUp):
     def setUp(self):
+        """Setup before test"""
         super(UserProfileViewTest, self).setUp()
         self.test_header = User.objects.create(
             username="test_header", email="test@example.com"
@@ -19,9 +20,12 @@ class UserProfileViewTest(BaseSetUp):
         self.client.force_login(self.test_header)
 
     def test_display_name(self):
+        """Test display name"""
         data = {"display name": "Toast"}
-        self.client.post(reverse("user-profile:userprofile"), data=data)
-        self.assertEqual(self.user_profile.name, "Toast")
+        response = self.client.post(reverse("user-profile:userprofile"), data=data)
+        self.assertEqual(response["Location"], "/user-profile/") # POST success
+        response2 = self.client.get(reverse("user-profile:userprofile"))
+        self.assertEqual(response2.context['user'].username, "Toast") # GET success
 
     @SkipTest
     def test_fetch_key(self):
