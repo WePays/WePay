@@ -9,6 +9,7 @@ from .payment import (
     Payment,
     omise,
     OmisePayment,
+    BasePayment
 )
 from .userprofile import UserProfile
 
@@ -25,4 +26,5 @@ __all__ = [
     "Payment",
     "omise",
     "OmisePayment",
+    "BasePayment"
 ]

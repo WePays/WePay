@@ -3,8 +3,8 @@
 {% tailwind_css %}
 
 {%block title%}
-{{ block.super }}
-Add Topic
+    {{ block.super }}
+    Add Topic
 {% endblock title%}
 
 {% block body%}
@@ -35,9 +35,9 @@ Add Topic
                     </tr>
                 </tbody>
                 {% endfor %}
-                </list>
-            </table>
-        </div>
+            </list>
+        </table>
+    </div>
 
 
         <div class="ml-20">
@@ -62,7 +62,9 @@ Add Topic
                 </div>
                 <div class="mt-5 ml-56 "><button class="bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded flex justify-center" type="submit" value="Add topic">Add topic</button></div>
             </div>
-        </form>
+            <div class="add-topic" style="margin-top: 2%; margin-left: 30%;"><input type="submit" value="Add topic"></div>
+        </div>
+    </form>
     </div>
 
 
