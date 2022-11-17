@@ -7,25 +7,25 @@
     <h3 class="mt-5 ml-96 font-bold text-[#171f99]">Pay to {{payment.bill.header}}</h3>
     <h4 class="mt-5 ml-96">Status: {{status}}</h4>
 
-{% comment %} 
+    {% comment %}
 {{payment_type}}
-{% endcomment %}
+    {% endcomment %}
 
     <div><p class="mt-5 ml-96" for="payment">Select Payment type:</p>
-    <form action="" method="post">
-        {% csrf_token %}
-        <select class="mt-3 ml-96 w-80" id="payment_type" name="payment_type" required>
-            {% for each_type in payment.PaymentChoice %}
-                {% if each_type != 'Cash' and cash_only %}
-                    <option value="{{each_type}}" disabled>{{each_type}}</option>
-                {% else %}
-                    <option value="{{each_type}}">{{each_type}}</option>
-                {% endif %}
-            {% endfor %}
-        </select>
-        <div class="ml-80"><button class="mt-5 ml-80 bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded flex justify-center" type="submit" value="Pay">Pay</button></div>
-    </form>
-</div>
+        <form action="" method="post">
+            {% csrf_token %}
+            <select class="mt-3 ml-96 w-80" id="payment_type" name="payment_type" required>
+                {% for each_type in payment.PaymentChoice %}
+                    {% if each_type != 'Cash' and cash_only %}
+                        <option value="{{each_type}}" disabled>{{each_type}}</option>
+                    {% else %}
+                        <option value="{{each_type}}">{{each_type}}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+            <div class="ml-80"><button class="mt-5 ml-80 bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded flex justify-center" type="submit" value="Pay">Pay</button></div>
+        </form>
+    </div>
 
 
     {% if messages %}

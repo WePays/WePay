@@ -20,20 +20,20 @@
                 </thead>
 
                 {% for payment in my_payment %}
-                <tbody class="bg-white divide-y divide-gray-300 text-center">
-                    <tr class="whitespace-nowrap">
-                        <td class="px-6 py-4 text-sm text-gray-600">{{forloop.counter0|add:"1"}}</td>
-                        <td class="px-12 py-4 text-sm text-black font-bold">{{payment.bill.name}}</td>
-                        <td class="px-6 py-4 text-sm text-black">{{payment.price}}</td>
-                        <td class="px-8 py-4 text-sm">
-                        {% if payment.can_pay %}
-                            <a class="font-bold text-center text-green-500 underline" href="{% url 'payments:detail' payment.id %}">Pay</a>
-                        {% else %}
-                            <p class="text-center text-yellow-400">{{payment.status}}</p>
-                        {% endif %}
-                        </td>
-                        <td class="px-12 py-4 text-sm text-[#171f99]">{{payment.bill.header}} </td>
-                    </tr>
+                    <tbody class="bg-white divide-y divide-gray-300 text-center">
+                        <tr class="whitespace-nowrap">
+                            <td class="px-6 py-4 text-sm text-gray-600">{{forloop.counter0|add:"1"}}</td>
+                            <td class="px-12 py-4 text-sm text-black font-bold">{{payment.bill.name}}</td>
+                            <td class="px-6 py-4 text-sm text-black">{{payment.price}}</td>
+                            <td class="px-8 py-4 text-sm">
+                                {% if payment.can_pay %}
+                                    <a class="font-bold text-center text-green-500 underline" href="{% url 'payments:detail' payment.id %}">Pay</a>
+                                {% else %}
+                                    <p class="text-center text-yellow-400">{{payment.status}}</p>
+                                {% endif %}
+                            </td>
+                            <td class="px-12 py-4 text-sm text-[#171f99]">{{payment.bill.header}} </td>
+                        </tr>
                     </tbody>
                 {% endfor %}
             </list>

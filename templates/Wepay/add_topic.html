@@ -11,8 +11,8 @@
 
     <div class="mt-24 ml-32 justify-center flex flex-row">
 
-        <div class=""> 
-            <p class="mt-3 font-bold">Total price: {{bill.total_price}} </p> 
+        <div class="">
+            <p class="mt-3 font-bold">Total price: {{bill.total_price}} </p>
 
             <table class="divide-y divide-[#171f99] mt-3">
                 <thead class="bg-[#171f99]">
@@ -26,44 +26,44 @@
 
 
                 {% for topic in all_topic %}
-                <tbody class="bg-white divide-y divide-[#171f99] text-center text-sm">
-                    <tr class="whitespace-nowrap">
-                        <td class="px-6 py-4">{{forloop.counter0|add:"1"}}</td>
-                        <td class="px-10 py-4">{{topic.title}}</td> 
-                        <td class="px-6 py-4">{{topic.price}}</td>
-                        <td class="px-10 py-4">{% for each_user in topic.user.all %}{{each_user}}, {% endfor %}</td>
-                    </tr>
-                </tbody>
+                    <tbody class="bg-white divide-y divide-[#171f99] text-center text-sm">
+                        <tr class="whitespace-nowrap">
+                            <td class="px-6 py-4">{{forloop.counter0|add:"1"}}</td>
+                            <td class="px-10 py-4">{{topic.title}}</td>
+                            <td class="px-6 py-4">{{topic.price}}</td>
+                            <td class="px-10 py-4">{% for each_user in topic.user.all %}{{each_user}}, {% endfor %}</td>
+                        </tr>
+                    </tbody>
                 {% endfor %}
             </list>
         </table>
     </div>
 
 
-        <div class="ml-20">
+    <div class="ml-20">
 
-            <h1 class="text-2xl font-bold">Add Topic</h1> 
+        <h1 class="text-2xl font-bold">Add Topic</h1>
 
-            <p class="mt-3">Name of Bill: {{bill.name}} </p>       
+        <p class="mt-3">Name of Bill: {{bill.name}} </p>
 
-            <form action="" method="post">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <div class="mt-5">Name:<br>
-                    <input class="w-80" type="text" name="topic_name" id="topic_name" placeholder="Enter the topic name" required></div>
-                <div class="mt-5"> Price: <br>
-                    <input class="w-80" type="number" min="0" name="topic_price" id="topic_price" placeholder="Enter the topic price" required></div>
-                <div class="mt-5" for="username">Enter user to assign:<br>
-                    <select class="w-80" id="username" name="username"  multiple required>
-                        {% for name in lst_user %}
-                            <option value="{{name}}">{{name}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="mt-5 ml-56 "><button class="bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded flex justify-center" type="submit" value="Add topic">Add topic</button></div>
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="mt-5">Name:<br>
+                <input class="w-80" type="text" name="topic_name" id="topic_name" placeholder="Enter the topic name" required></div>
+            <div class="mt-5"> Price: <br>
+                <input class="w-80" type="number" min="0" name="topic_price" id="topic_price" placeholder="Enter the topic price" required></div>
+            <div class="mt-5" for="username">Enter user to assign:<br>
+                <select class="w-80" id="username" name="username"  multiple required>
+                    {% for name in lst_user %}
+                        <option value="{{name}}">{{name}}</option>
+                    {% endfor %}
+                </select>
             </div>
-            <div class="add-topic" style="margin-top: 2%; margin-left: 30%;"><input type="submit" value="Add topic"></div>
+            <div class="mt-5 ml-56 "><button class="bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded flex justify-center" type="submit" value="Add topic">Add topic</button></div>
         </div>
+        <div class="add-topic" style="margin-top: 2%; margin-left: 30%;"><input type="submit" value="Add topic"></div>
+    </div>
     </form>
     </div>
 
