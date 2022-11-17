@@ -119,6 +119,21 @@ class Payment(models.Model):
             PromptPayPayment,
         )
 
+    def update_status(self):
+        omise.api_secret = self.payment.header.chain.key
+        charge = omise.Charge.retrieve(self.charge_id)
+        if charge:
+            status = charge.status
+            if status == "successful":
+                self.payment.status = self.payment.Status_choice.PAID
+            elif status == "pending":
+                self.payment.status = self.payment.Status_choice.PENDING
+        else:
+            self.payment.status = self.payment.Status_choice.UNPAID
+        self.payment.save()
+        omise.api_secret = OMISE_SECRET
+        self.save()
+
     def __repr__(self) -> str:
         """represent a payment"""
         return f"Payment(user={self.user}, date={self.date}, bill={self.bill}, status={self.status}, payment_type={self.payment_type})"
@@ -178,21 +193,6 @@ class OmisePayment(BasePayment):
             self.charge_id = charge.id
             self.payment.uri = charge.authorize_uri
             self.save()
-
-    def update_status(self):  # TODO: Move this mothod to Payment class
-        omise.api_secret = self.payment.header.chain.key
-        charge = omise.Charge.retrieve(self.charge_id)
-        if charge:
-            status = charge.status
-            if status == "successful":
-                self.payment.status = self.payment.Status_choice.PAID
-            elif status == "pending":
-                self.payment.status = self.payment.Status_choice.PENDING
-        else:
-            self.payment.status = self.payment.Status_choice.UNPAID
-        self.payment.save()
-        omise.api_secret = OMISE_SECRET
-        self.save()
 
     @property
     def payment_link(self):

@@ -5,6 +5,10 @@ from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views import generic
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from django.core.mail import send_mail
+from django.conf import settings
 
 from ..models import Bills, Payment, Topic, UserProfile, OmisePayment
 
@@ -136,6 +140,26 @@ def create(request: HttpRequest, pk: int):
     # TODO: send mail to all user who got assign except header file: create.html
     # to: all user in the bill
     # when: create bill(header assign all bill)
+        if user != bill.header:
+            html_message_to_user = render_to_string(
+            "message/user/assigned_bill.html",
+            {
+                "user": user.user.username,
+                "bill": bill.name,
+                "price": bill.total_price,
+                "topic": bill.topic_set.all(),
+            }
+            )
+
+            plain_message_to_user = strip_tags(html_message_to_user)
+
+            send_mail(
+                subject="You got assign to a bill",
+                message=plain_message_to_user,
+                from_email=settings.EMAIL_HOST_USER,
+                recipient_list=[user.user.email],
+                html_message=html_message_to_user,
+            )
     bill.save()
 
     return HttpResponseRedirect(reverse("bills:bill"))
@@ -162,7 +186,6 @@ def delete(request: HttpRequest, pk: int):
     name = bill.name
     bill.delete()
     messages.success(request, f"Bill:{name} deleted")
-    # TODO Send message to all user that have bill to pay
     return HttpResponseRedirect(reverse("bills:bill"))
 
 

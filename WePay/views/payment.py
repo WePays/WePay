@@ -128,7 +128,22 @@ def update(request, pk: int, *arg, **kwargs):
 
     if payment.bill.status:  # this mean bills is ready to verify and close
         # TODO: send mail to header to verify and close the bill
-        pass
+        html_message_to_header = render_to_string(
+            "message/header/mail_to_header.html",
+            {
+                "bill_name": payment.bill.name,
+            }
+        )
+
+        plain_message_for_header = strip_tags(html_message_to_header)
+
+        send_mail(
+            subject="You have to verify and close the bill",
+            message=plain_message_for_header,
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=[header_mail],
+            html_message=html_message_to_header,
+        )
 
     return HttpResponseRedirect(reverse("payments:payment"))
 
