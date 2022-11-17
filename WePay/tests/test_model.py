@@ -1,4 +1,6 @@
 from django.urls import reverse
+
+from WePay.models.payment import AlreadyPayError
 from .setUp import BaseSetUp
 from django.contrib.auth.models import User
 from WePay.models.userprofile import UserProfile
@@ -92,8 +94,7 @@ class PaymentModelTest(BaseSetUp):
         self.assertEqual(self.bay_payment.selected_payment, "BAY")
         self.assertEqual(self.bbl_payment.selected_payment, "BBL")
 
-    @SkipTest
-    def test_payment_status(self):  # TODO This so stupid please fix
+    def test_payment_status(self):
         """test payment status for each payment"""
         for payment in self.lst_payment:
             self.assertEqual(payment.status, "UNPAID")
@@ -102,7 +103,7 @@ class PaymentModelTest(BaseSetUp):
                 self.assertEqual(payment.status, "PENDING")
             else:
                 self.assertEqual(payment.status, "PAID")
-            payment.pay()  # After status == PAID its can still paid.
+            self.assertRaises(AlreadyPayError, payment.pay())  # After status == PAID its can still paid.
 
     def test_payment_calculate_price(self):
         """test calculate price for each user in bill."""
