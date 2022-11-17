@@ -105,7 +105,6 @@ def update(request, pk: int, *arg, **kwargs):
     header_mail = payment.bill.header.user.email
     # TODO send email here
 
-
     return HttpResponseRedirect(reverse("payments:payment"))
 
 

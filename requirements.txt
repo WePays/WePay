@@ -1,7 +1,8 @@
 django>=4.1
-django-allauth
-django-tailwind
-python-decouple
-omise
-docutils
-djhtml
+django-allauth>=0.43.0
+django-tailwind >= 3.4.0
+python-decouple >= 3.6
+omise >= 0.11.0
+docutils >=0.19
+djhtml >=1.5.2
+tblib >= 1.7.0

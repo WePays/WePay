@@ -56,7 +56,7 @@ class BillViewTest(BaseViewTest):
     def test_bill_page(self):
         """After login its will goes to bill page."""
         response = self.client.get("/bill/")
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 200)
 
 
 class BillCreateViewTest(BaseViewTest):
@@ -69,7 +69,7 @@ class BillCreateViewTest(BaseViewTest):
     def test_navigate_create_bill_page(self):
         """test navigate to bill page"""
         response = self.client.get("/bill/create/")
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 200)
 
     def test_create_bill(self):
         """test created bill."""
@@ -89,9 +89,9 @@ class BillCreateViewTest(BaseViewTest):
         self.assertEqual(Topic.objects.get(pk=3).title, self.est.title)
         self.assertEqual(Topic.objects.get(pk=3).price, self.est.price)
         self.assertEqual(Bills.objects.get(pk=2).all_user, [self.user1, self.user2])
-        create(self.client.post("/bill/"), 2)
+        self.client.post(reverse("bills:create"))
+        self.client.post(reverse("bills:success", kwargs={"pk": 2}))
         self.assertTrue(Bills.objects.get(pk=2).is_created)
-
 
     def test_response_with_create_bill(self):
         data = {
@@ -125,9 +125,13 @@ class BillCreateViewTest(BaseViewTest):
             Bills.objects.get(pk=2).all_user, [self.user1, self.user2, self.user3]
         )
         self.assertEqual(self.new_bill.total_price, 50)
-        self.client.post(reverse('bills:success', kwargs={'pk': 2}))
-
+        self.client.post(reverse("bills:success", kwargs={"pk": 2}))
         self.assertTrue(Bills.objects.get(pk=2).is_created)
+
+    def test_delete_bill(self):
+        """test delete bill."""
+        self.client.post(reverse("bills:delete", kwargs={"pk": 1}))
+        self.assertFalse(Bills.objects.get(pk=1).is_created)
 
 
 class DetailViewTest(BaseViewTest):
@@ -137,10 +141,12 @@ class DetailViewTest(BaseViewTest):
 
     def test_navigation(self):
         """test navigation after bill object has created"""
+        self.client.login(username="test_header", password="header123")
         response = self.client.get("/bill/1/")
         self.assertEqual(response.status_code, 302)
 
     def test_bill_not_exist(self):
         """test navigation if go to bill that does not exist"""
+        self.client.login(username="test_header", password="header123")
         response = self.client.get("/bill/2")
         self.assertEqual(response.status_code, 301)

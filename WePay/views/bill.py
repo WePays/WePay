@@ -111,7 +111,10 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
         lst = []
         for each_user in bill.all_user:
             payment = Payment.objects.get(bill=bill, user=each_user)
-            if isinstance(payment.instance, OmisePayment) and payment.status == Payment.Status_choice.PENDING:
+            if (
+                isinstance(payment.instance, OmisePayment)
+                and payment.status == Payment.Status_choice.PENDING
+            ):
                 payment.instance.update_status()
             lst.append(payment)
         return render(request, "Wepay/detail.html", {"bill": bill, "payment": lst})
