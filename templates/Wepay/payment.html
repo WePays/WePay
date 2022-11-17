@@ -1,47 +1,47 @@
 {% extends 'WePay/base_wepay.html' %}
+{% load tailwind_tags %}
+{% tailwind_css %}
 
 {% block body %}
     {% if my_payment %}
-        <div class="box" style="margin-left: 3%; margin-top: 5%">
-            <h1>You need to pay</h1>
-            {% comment %} <p>Click pay to select payment</p><style>p{color: navy;}</style> {% endcomment %}<!--โง่ -->
-            <table class="styled-table" style="width: 60%; height: 50%; background-color: aliceblue;">
-                <thead>
+        <div class="mt-32 ml-64 justify-center">
+            <h1 class="text-3xl font-bold ml-36">You need to pay</h1>
+            <h1 class="mt-5 ml-36 text-red-500">Click pay to select payment</h1>
+
+            <table class="divide-y divide-[#171f99] mt-5 ml-36">
+                <thead class="bg-[#171f99] text-white text-center">
                     <tr>
-                        <th> No. </th><style>th{padding-left: 1%;}</style>
-                        <th> Bills Topics </th>
-                        <th> Prices </th>
-                        <th> Status </th>
-                        <th> Header </th>
+                        <th class="px-6 py-4 text-xl text-white">No</th>
+                        <th class="px-20 py-4 text-xl text-white">Bill topic</th>
+                        <th class="px-6 py-4 text-xl text-white">Price</th>
+                        <th class="px-8 py-4 text-xl text-white">Status</th>
+                        <th class="px-12 py-4 text-xl text-white">Header</th>
                     </tr>
                 </thead>
 
                 {% for payment in my_payment %}
-                    <tbody style="font-size: medium;">
-                        <tr>
-                            <td>{{forloop.counter0|add:"1"}}</td><style>td{padding: 1%;}</style>
-                            <td>{{ payment.bill.name }}</td> <!-- this will link to detail bill page-->
-                            <td>{{ payment.price}}</td>
-                            <td>
-                                {% if payment.can_pay %}
-                                    <a href="{% url 'payments:detail' payment.id %}">Pay</a><style>a{color: mediumseagreen;}</style>
-                                {% else %}
-                                    {{payment.status}}
-                                {% endif %}
-                            </td>
-                            <td class="header" style="color:midnightblue;">{{payment.bill.header}} </td>
-                        </tr>
+                <tbody class="bg-white divide-y divide-gray-300 text-center">
+                    <tr class="whitespace-nowrap">
+                        <td class="px-6 py-4 text-sm text-gray-600">{{forloop.counter0|add:"1"}}</td>
+                        <td class="px-12 py-4 text-sm text-black font-bold">{{payment.bill.name}}</td>
+                        <td class="px-6 py-4 text-sm text-black">{{payment.price}}</td>
+                        <td class="px-8 py-4 text-sm">
+                        {% if payment.can_pay %}
+                            <a class="font-bold text-center text-green-500 underline" href="{% url 'payments:detail' payment.id %}">Pay</a>
+                        {% else %}
+                            <p class="text-center text-yellow-400">{{payment.status}}</p>
+                        {% endif %}
+                        </td>
+                        <td class="px-12 py-4 text-sm text-[#171f99]">{{payment.bill.header}} </td>
+                    </tr>
                     </tbody>
                 {% endfor %}
             </list>
         </ul>
         </table>
         </div>
-
-
     {% else %}
-        <h1> No Payment Avalible </h1><style>h1{color:firebrick;}</style>
-
+        <h1 class="text-red-500 text-3xl font-bold"> No Payment Avalible </h1>
     {% endif %}
 
 {% endblock body%}
