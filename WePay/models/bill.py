@@ -127,3 +127,6 @@ class Topic(models.Model):
             self.save()
         else:
             logging.info("user already in this food")
+
+    def __repr__(self):
+        return f"Topic(title={self.title}, price={self.price}, bill={self.bill}, user={self.user.all()})"

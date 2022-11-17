@@ -4,6 +4,10 @@ from django.db.models import QuerySet
 from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import get_object_or_404, render, reverse
 from django.views import generic
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from django.conf import settings
 
 from ..config import OMISE_SECRET
 from ..models import (
@@ -14,7 +18,7 @@ from ..models import (
     PromptPayPayment,
     SCBPayment,
     OmisePayment,
-    BasePayment
+    BasePayment,
 )
 
 
@@ -45,7 +49,6 @@ class PaymentDetailView(LoginRequiredMixin, generic.DetailView):
             messages.error(request, "Payment not found")
             return HttpResponseRedirect(reverse("payments:payment"))
         status = payment.status
-        print(status)
         payment_type = payment.payment_type
         if payment.price <= 20 or payment.price > 150000:
             messages.info(
@@ -89,6 +92,7 @@ class PaymentDetailView(LoginRequiredMixin, generic.DetailView):
         # * after this will involked update status function
         return HttpResponseRedirect(payment.uri)
 
+
 def update(request, pk: int, *arg, **kwargs):
     user = request.user
     try:
@@ -100,14 +104,26 @@ def update(request, pk: int, *arg, **kwargs):
     if not issubclass(payment_type, OmisePayment):
         messages.error(request, "Payment is not omise payment")
         return HttpResponseRedirect(reverse("payments:payment"))
-
     payment.instance.update_status()
+    header_mail = payment.bill.header.user.email
+    html_message = render_to_string('message/header/someone_pay.html', {
+                                    'user': payment.user, 'bill_name': payment.bill.name, 'payment_type': payment.instance.payment_type, 'price': payment.price, 'bill_id': payment.bill.id})
+    plain_message = strip_tags(html_message)
+
+    message = f'{payment.user} has paid Bill\'s {payment.bill.name}'
+    message += f' with {payment.instance.payment_type}\n for {payment.price} Baht.'
+    send_mail(
+        subject='Someone Pay you a money',
+        message=plain_message,
+        from_email=settings.EMAIL_HOST_USER,
+        recipient_list=[header_mail],
+        html_message=html_message
+    )
 
     return HttpResponseRedirect(reverse("payments:payment"))
 
 
 def confirm_payment(request, pk: int, *arg, **kwargs):
-    user = request.user
     try:
         payment = get_object_or_404(Payment, pk=pk)
     except Http404:
@@ -123,7 +139,8 @@ def confirm_payment(request, pk: int, *arg, **kwargs):
                 ],
             )
         )
-    print(payment.instance)
+    if isinstance(payment.instance, PromptPayPayment):
+        return HttpResponseRedirect(payment.instance.payment_link)
     payment.instance.confirm()
     payment.save()
 

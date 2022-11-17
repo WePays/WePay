@@ -6,7 +6,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views import generic
 
-from ..models import Bills, Payment, Topic, UserProfile
+from ..models import Bills, Payment, Topic, UserProfile, OmisePayment
 
 
 class BillView(LoginRequiredMixin, generic.DetailView):
@@ -78,6 +78,7 @@ class BillCreateView(LoginRequiredMixin, generic.DetailView):
             header = UserProfile.objects.get(user=user)
         except Exception as e:
             messages.error(request, f"Error occured: {e}")
+
         else:
             bill = Bills.objects.create(name=name, header=header)
             topic = Topic.objects.create(title=topic_name, price=topic_price, bill=bill)
@@ -110,6 +111,11 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
         lst = []
         for each_user in bill.all_user:
             payment = Payment.objects.get(bill=bill, user=each_user)
+            if (
+                isinstance(payment.instance, OmisePayment)
+                and payment.status == Payment.Status_choice.PENDING
+            ):
+                payment.instance.update_status()
             lst.append(payment)
         return render(request, "Wepay/detail.html", {"bill": bill, "payment": lst})
 
@@ -151,13 +157,13 @@ def delete(request: HttpRequest, pk: int):
     name = bill.name
     bill.delete()
     messages.success(request, f"Bill:{name} deleted")
+    # TODO Send message to all user that have bill to pay
     return HttpResponseRedirect(reverse("bills:bill"))
 
 
 @login_required(login_url="/accounts/login/")
 def close(request: HttpRequest, pk: int):
     bill = Bills.objects.get(pk=pk)
-    print(bill)
     bill.is_closed = True
     bill.save()
     return HttpResponseRedirect(reverse("bills:bill"))

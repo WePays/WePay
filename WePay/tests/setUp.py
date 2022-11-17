@@ -52,14 +52,6 @@ class BaseSetUp(TestCase):
         self.user6 = UserProfile.objects.create(user=user6)
         self.user6.save()
 
-        self.client.login(user="header", password="header123")
-        self.client.login(user="test_user1", password="user1")
-        self.client.login(user="test_user2", password="user2")
-        self.client.login(user="test_user3", password="user3")
-        self.client.login(user="test_user4", password="user4")
-        self.client.login(user="test_user5", password="user5")
-        self.client.login(user="test_user6", password="user6")
-
         self.bill = Bills.objects.create(header=self.header, name="Food Bill")
         self.pepsi = Topic.objects.create(title="Pepsi", price=20, bill=self.bill)
         self.coke = Topic.objects.create(title="Coke", price=15, bill=self.bill)

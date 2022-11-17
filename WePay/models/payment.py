@@ -110,7 +110,6 @@ class Payment(models.Model):
             raise AlreadyPayError("You are2 in PENDING or PAID Status")
 
         now_payment = self.selected_payment.objects.get_or_create(payment=self)[0]
-        print(now_payment)
         now_payment.pay()
         self.save()
 
@@ -152,7 +151,6 @@ class BasePayment(models.Model):
 class OmisePayment(BasePayment):
     charge_id = models.CharField(max_length=100, null=True, blank=True)
     payment_type = models.CharField(max_length=100, default="promptpay")
-    # i dont know how to call this on Payment class, So I will move up it up to payment class
 
     class Meta:
         abstract = True
@@ -172,20 +170,19 @@ class OmisePayment(BasePayment):
             charge = omise.Charge.create(
                 amount=self.payment.amount,
                 currency="thb",
+                capturable=True,
                 source=source.id,
                 return_uri=f"http://127.0.0.1:8000/payment/{self.payment.id}/update",
             )
 
             self.charge_id = charge.id
             self.payment.uri = charge.authorize_uri
+            self.save()
 
     def update_status(self):  # TODO: Move this mothod to Payment class
         omise.api_secret = self.payment.header.chain.key
         charge = omise.Charge.retrieve(self.charge_id)
         if charge:
-            if isinstance(charge, omise.Collection):
-                charge = charge[0]
-            print(type(charge), "BBBBBBBBBB")
             status = charge.status
             if status == "successful":
                 self.payment.status = self.payment.Status_choice.PAID
@@ -194,21 +191,16 @@ class OmisePayment(BasePayment):
         else:
             self.payment.status = self.payment.Status_choice.UNPAID
         self.payment.save()
-        print(self.payment)
         omise.api_secret = OMISE_SECRET
         self.save()
+
+    @property
+    def payment_link(self):
+        return f"https://dashboard.omise.co/test/charges/{self.charge_id}"
 
 
 class PromptPayPayment(OmisePayment):
     payment_type = "promptpay"
-
-    def confirm(self):
-        """confirm payment"""
-        omise.api_secret = self.payment.header.chain.key
-        charge = omise.Charge.retrieve(self.charge_id)
-        charge.capture()
-        self.update_status()
-        omise.api_secret = OMISE_SECRET
 
 
 class SCBPayment(OmisePayment):
@@ -229,9 +221,11 @@ class BAYPayment(OmisePayment):
 
 class CashPayment(BasePayment):
     def confirm(self):
-        if self.payment.status in (self.payment.Status_choice.PAID, self.payment.Status_choice.UNPAID):
+        if self.payment.status in (
+            self.payment.Status_choice.PAID,
+            self.payment.Status_choice.UNPAID,
+        ):
             return
-
 
         self.payment.status = self.payment.Status_choice.PAID
         self.payment.save()
@@ -241,11 +235,8 @@ class CashPayment(BasePayment):
             return
 
         # this will send notification to header to confirm
-
         self.payment.status = self.payment.Status_choice.PENDING
         self.payment.save()
-        print(self.payment.status)
-        print('PAYYYYYY', self)
 
 
 class AlreadyPayError(Exception):
