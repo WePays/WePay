@@ -8,6 +8,7 @@ from .models import Bills, Payment, Topic, UserProfile
 def get_item(dictionary, key):
     return dictionary.get(key)
 
+
 class BillsAdmin(admin.ModelAdmin):
     list_display = ("header", "name", "pub_date")
 

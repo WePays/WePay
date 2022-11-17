@@ -133,6 +133,9 @@ def create(request: HttpRequest, pk: int):
         if user == bill.header:
             each_user_payment.status = Payment.Status_choice.PAID
         each_user_payment.save()
+    # TODO: send mail to all user who got assign except header file: create.html
+    # to: all user in the bill
+    # when: create bill(header assign all bill)
     bill.save()
 
     return HttpResponseRedirect(reverse("bills:bill"))
@@ -152,7 +155,9 @@ def delete(request: HttpRequest, pk: int):
         if payment.user.user != header
     )
     if any_one_pay:
-        messages.warning(request, "! You can't delete this bill because someone has paid")
+        messages.warning(
+            request, "! You can't delete this bill because someone has paid"
+        )
         return HttpResponseRedirect(reverse("bills:bill"))
     name = bill.name
     bill.delete()

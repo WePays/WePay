@@ -106,19 +106,29 @@ def update(request, pk: int, *arg, **kwargs):
         return HttpResponseRedirect(reverse("payments:payment"))
     payment.instance.update_status()
     header_mail = payment.bill.header.user.email
-    html_message = render_to_string('message/header/someone_pay.html', {
-                                    'user': payment.user, 'bill_name': payment.bill.name, 'payment_type': payment.instance.payment_type, 'price': payment.price, 'bill_id': payment.bill.id})
+    html_message = render_to_string(
+        "message/header/someone_pay.html",
+        {
+            "user": payment.user,
+            "bill_name": payment.bill.name,
+            "payment_type": payment.instance.payment_type,
+            "price": payment.price,
+            "bill_id": payment.bill.id,
+        })
+
     plain_message = strip_tags(html_message)
 
-    message = f'{payment.user} has paid Bill\'s {payment.bill.name}'
-    message += f' with {payment.instance.payment_type}\n for {payment.price} Baht.'
     send_mail(
-        subject='Someone Pay you a money',
+        subject="Someone Pay you a money",
         message=plain_message,
         from_email=settings.EMAIL_HOST_USER,
         recipient_list=[header_mail],
-        html_message=html_message
+        html_message=html_message,
     )
+
+    if payment.bill.status:  # this mean bills is ready to verify and close
+        # TODO: send mail to header to verify and close the bill
+        pass
 
     return HttpResponseRedirect(reverse("payments:payment"))
 
