@@ -86,7 +86,7 @@ class BillCreateView(LoginRequiredMixin, generic.DetailView):
             for each_user in topic_user:
                 user = UserProfile.objects.get(user__username=each_user)
                 topic.add_user(user)
-                bill.add_topic(topic)
+            bill.add_topic(topic)
             bill.save()
 
             return HttpResponseRedirect(f"/bill/{bill.id}/add")
@@ -152,7 +152,9 @@ def delete(request: HttpRequest, pk: int):
         if payment.user.user != header
     )
     if any_one_pay:
-        messages.warning(request, "! You can't delete this bill because someone has paid")
+        messages.warning(
+            request, "! You can't delete this bill because someone has paid"
+        )
         return HttpResponseRedirect(reverse("bills:bill"))
     name = bill.name
     bill.delete()
