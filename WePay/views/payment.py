@@ -18,7 +18,7 @@ from ..models import (
     PromptPayPayment,
     SCBPayment,
     OmisePayment,
-    BasePayment,
+    CashPayment,
 )
 
 
@@ -45,8 +45,10 @@ class PaymentDetailView(LoginRequiredMixin, generic.DetailView):
         cash_only = False
         try:
             payment = get_object_or_404(Payment, pk=kwargs["pk"], user__user=user)
-        except Payment.DoesNotExist:
-            messages.error(request, "Payment not found")
+        except Http404:
+            messages.error(
+                request, "Payment not found"
+            )  #! BUG IT DOESNT COMING WHEN REDIRECT
             return HttpResponseRedirect(reverse("payments:payment"))
         status = payment.status
         payment_type = payment.payment_type
@@ -177,3 +179,38 @@ def confirm_payment(request, pk: int, *arg, **kwargs):
             ],
         )
     )
+
+
+def reset(request, pk: int, *arg, **kwargs):
+    try:
+        payment = get_object_or_404(Payment, pk=pk)
+    except Http404:
+        messages.error(request, "Payment not found")
+        return HttpResponseRedirect(reverse("payments:payment"))
+    if not payment.is_repayable():
+        messages.error(request, "Payment is not resetable")
+        return HttpResponseRedirect(reverse("payments:payment"))
+    payment.instance.reset()
+    payment.save()
+    print(payment.uri)
+
+    return HttpResponseRedirect(reverse("payments:payment"))
+
+
+def reject(request, pk: int, *arg, **kwargs):
+    # cash payment only
+    print(pk)
+    print(request.path)
+    try:
+        payment = get_object_or_404(Payment, pk=pk)
+    except Http404:
+        messages.error(request, "Payment not found")
+        return HttpResponseRedirect(request.path)
+    if not isinstance(payment.instance, CashPayment):
+        messages.error(request, "Payment is not rejectable")
+        return HttpResponseRedirect(reverse("bills:detail", args=[payment.bill.id]))
+    payment.instance.reject()
+    payment.save()
+    messages.success(request, "Payment is rejected")
+
+    return HttpResponseRedirect(reverse("bills:detail", args=[payment.bill.id]))

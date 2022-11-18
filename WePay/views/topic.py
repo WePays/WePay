@@ -44,3 +44,17 @@ class AddTopicView(LoginRequiredMixin, generic.DetailView):
             topic.add_user(user)
 
         return HttpResponseRedirect(reverse("bills:add", args=(bill.id,)))
+
+
+def delete_topic(request, pk):
+    try:
+        topic = Topic.objects.get(pk=pk)
+    except Topic.DoesNotExist:
+        messages.warning(request, "Topic does not exist")
+        return HttpResponseRedirect(reverse("bills:bill"))
+    bill = topic.bill
+    if len(Topic.objects.filter(bill=bill)) == 1:
+        messages.warning(request, "Bill must have at least one topic")
+        return HttpResponseRedirect(reverse("bills:add", args=(bill.id,)))
+    topic.delete()
+    return HttpResponseRedirect(reverse("bills:add", args=(bill.id,)))
