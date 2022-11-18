@@ -1,6 +1,6 @@
 {% extends 'account/base.html' %}
-
-{% load static %}
+{% load tailwind_tags %}
+{% tailwind_css %}
 {% load socialaccount %}
 {% load i18n %}
 
@@ -44,11 +44,10 @@
 			<a href="{% url 'account_reset_password' %}" class="forget-password">Forget Password?</a>
 
 		</div>
-			
 			<br>
 				<button type="button" onclick={% url 'account_signup' %}>Signup</button>
 				<button type="button" onclick={% url 'account_login' %}>Login</button>
-		</div> 
+		</div>
 	</div>
 	{% endcomment %}
 {% endblock content%}

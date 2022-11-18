@@ -107,7 +107,10 @@ def update(request, pk: int, *arg, **kwargs):
     payment.instance.update_status()
     header_mail = payment.bill.header.user.email
     html_message = render_to_string('message/header/someone_pay.html', {
-                                    'user': payment.user, 'bill_name': payment.bill.name, 'payment_type': payment.instance.payment_type, 'price': payment.price, 'bill_id': payment.bill.id})
+                                    'user': payment.user, 'bill_name': payment.bill.name, 
+                                    'payment_type': payment.instance.payment_type, 
+                                    'price': payment.price, 
+                                    'bill_id': payment.bill.id})
     plain_message = strip_tags(html_message)
 
     message = f'{payment.user} has paid Bill\'s {payment.bill.name}'

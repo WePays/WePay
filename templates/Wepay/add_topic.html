@@ -50,27 +50,26 @@
             {% csrf_token %}
             {{ form.as_p }}
             <div class="mt-5">Name:<br>
-                <input class="w-80" type="text" name="topic_name" id="topic_name" placeholder="Enter the topic name" required></div>
+                <input class="w-80 rounded" type="text" name="topic_name" id="topic_name" placeholder="Enter the topic name" required></div>
             <div class="mt-5"> Price: <br>
-                <input class="w-80" type="number" min="0" name="topic_price" id="topic_price" placeholder="Enter the topic price" required></div>
+                <input class="w-80 rounded" type="number" min="0" name="topic_price" id="topic_price" placeholder="Enter the topic price" required></div>
             <div class="mt-5" for="username">Enter user to assign:<br>
-                <select class="w-80" id="username" name="username"  multiple required>
+                <select class="w-80 rounded" id="username" name="username"  multiple required>
                     {% for name in lst_user %}
                         <option value="{{name}}">{{name}}</option>
                     {% endfor %}
                 </select>
             </div>
-            <div class="mt-5 ml-56 "><button class="bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded flex justify-center" type="submit" value="Add topic">Add topic</button></div>
+            <div class="mt-5 ml-56 rounded"><button class="bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded flex justify-center" type="submit" value="Add topic">Add topic</button></div>
         </div>
     </div>
     </form>
     </div>
 
-
     {% if messages %}
         <ul class="messages">
             {% for message in messages %}
-                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
             {% endfor %}
         </ul>
     {% endif %}
