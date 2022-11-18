@@ -1,10 +1,14 @@
 # from django.contrib import admin
 from abc import abstractmethod
-from typing import Any, Collection
+from typing import Any
 
 import omise
 from django.db import models
 from django.utils import timezone
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from django.core.mail import send_mail
+from django.conf import settings
 
 from .bill import Bills
 from .userprofile import UserProfile
@@ -32,6 +36,8 @@ class Payment(models.Model):
         PAID = "PAID"
         PENDING = "PENDING"
         UNPAID = "UNPAID"
+        FAIL = "FAIL"
+        EXPIRED = "EXPIRED"
 
     status = models.CharField(
         choices=Status_choice.choices, default=Status_choice.UNPAID, max_length=10
@@ -104,10 +110,13 @@ class Payment(models.Model):
     def can_pay(self) -> bool:
         return self.status == self.Status_choice.UNPAID
 
+    def is_repayable(self) -> bool:
+        return self.status in (self.Status_choice.FAIL, self.Status_choice.EXPIRED)
+
     def pay(self) -> None:
         """Pay to header"""
         if not self.can_pay():
-            raise AlreadyPayError("You are2 in PENDING or PAID Status")
+            raise AlreadyPayError("You are in PENDING or PAID Status")
 
         now_payment = self.selected_payment.objects.get_or_create(payment=self)[0]
         now_payment.pay()
@@ -118,6 +127,21 @@ class Payment(models.Model):
             CashPayment,
             PromptPayPayment,
         )
+
+    # def update_status(self):
+    #     omise.api_secret = self.payment.header.chain.key
+    #     charge = omise.Charge.retrieve(self.charge_id)
+    #     if charge:
+    #         status = charge.status
+    #         if status == "successful":
+    #             self.payment.status = self.payment.Status_choice.PAID
+    #         elif status == "pending":
+    #             self.payment.status = self.payment.Status_choice.PENDING
+    #     else:
+    #         self.payment.status = self.payment.Status_choice.UNPAID
+    #     self.payment.save()
+    #     omise.api_secret = OMISE_SECRET
+    #     self.save()
 
     def __repr__(self) -> str:
         """represent a payment"""
@@ -157,6 +181,7 @@ class OmisePayment(BasePayment):
 
     def pay(self):
         """pay by omise"""
+        print(self.payment.status)
         # amount must morethan 20
         if self.payment.status == self.payment.Status_choice.UNPAID:
             source = omise.Source.create(
@@ -170,7 +195,6 @@ class OmisePayment(BasePayment):
             charge = omise.Charge.create(
                 amount=self.payment.amount,
                 currency="thb",
-                capturable=True,
                 source=source.id,
                 return_uri=f"http://127.0.0.1:8000/payment/{self.payment.id}/update",
             )
@@ -188,15 +212,30 @@ class OmisePayment(BasePayment):
                 self.payment.status = self.payment.Status_choice.PAID
             elif status == "pending":
                 self.payment.status = self.payment.Status_choice.PENDING
+            elif status == "failed":
+                self.payment.status = self.payment.Status_choice.FAIL
+            elif status == "expired":
+                self.payment.status = self.payment.Status_choice.EXPIRED
+
         else:
             self.payment.status = self.payment.Status_choice.UNPAID
         self.payment.save()
         omise.api_secret = OMISE_SECRET
         self.save()
 
+    def reset(self):
+        self.payment.status = self.payment.Status_choice.UNPAID
+        self.charge_id = ""
+        self.payment.uri = ""
+        self.payment_type = "promptpay"
+        self.payment.save()
+        self.save()
+
     @property
-    def payment_link(self):
-        return f"https://dashboard.omise.co/test/charges/{self.charge_id}"
+    def payment_link(self) -> str:
+        if self.charge_id:
+            return f"https://dashboard.omise.co/test/charges/{self.charge_id}"
+        return ""
 
 
 class PromptPayPayment(OmisePayment):
@@ -231,11 +270,47 @@ class CashPayment(BasePayment):
         self.payment.save()
 
     def pay(self):
+
+        print(self)
         if self.payment.status == self.payment.Status_choice.PAID:
             return
 
         # this will send notification to header to confirm
         self.payment.status = self.payment.Status_choice.PENDING
+        self.payment.save()
+        self.save()
+
+        html_message_to_user = render_to_string(
+            "message/header/mail_to_header.html",
+            {
+                "user": self.payment.user,
+                "bill": self.payment.bill.name,
+                "header": self.payment.bill.header.name,
+                "price": self.payment.bill.total_price,
+                "topic": self.payment.bill.topic_set.all(),
+            },
+        )
+
+        plain_message_to_user = strip_tags(html_message_to_user)
+
+        send_mail(
+            subject="You got assign to a bill",
+            message=plain_message_to_user,
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=[self.payment.user.user.email],
+            html_message=html_message_to_user,
+        )
+
+    def reject(self):
+        if self.payment.status == self.payment.Status_choice.PAID:
+            return
+
+        self.payment.status = self.payment.Status_choice.FAIL
+        self.payment.save()
+
+    def reset(self):
+        # TODO: send message to user that you rejected this pls pay again
+        self.payment.status = self.payment.Status_choice.UNPAID
         self.payment.save()
 
 

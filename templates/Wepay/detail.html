@@ -59,7 +59,7 @@
                                         <tr class="whitespace-nowrap">
                                             <td class="px-6 py-4 text-sm text-gray-600">{{forloop.counter0|add:"1"}}</td>
                                             <td class="px-12 py-4 text-sm text-gray-900 font-bold">{{price.user.name}}</td>
-                                            <td class="px-6 py-4 text-sm text-gray-900">{{price.amount}}</td>
+                                            <td class="px-6 py-4 text-sm text-gray-900">{{price.price}}</td>
                                             <td class="px-8 py-4 text-sm text-gray-900">{{price.status}}</td>
                                             {% if price.is_confirmable %}
                                                 {% if price.payment_type != 'Cash' %}
