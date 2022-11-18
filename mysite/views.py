@@ -31,11 +31,14 @@ class About(TemplateView):
 
     template_name = "Wepay/about.html"
 
+
 class Instruction(TemplateView):
     """Template view for instruction page."""
 
     template_name = "Wepay/instruction.html"
 
+
 class Tailwind(TemplateView):
     """Test page for tailwind"""
+
     template_name = "Wepay/test_tailwind.html"

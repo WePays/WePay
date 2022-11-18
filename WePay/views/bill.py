@@ -1,12 +1,16 @@
+from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.mail import send_mail
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
+from django.template.loader import render_to_string
 from django.urls import reverse
+from django.utils.html import strip_tags
 from django.views import generic
 
-from ..models import Bills, Payment, Topic, UserProfile, OmisePayment
+from ..models import Bills, OmisePayment, Payment, Topic, UserProfile
 
 
 class BillView(LoginRequiredMixin, generic.DetailView):
@@ -69,13 +73,15 @@ class BillCreateView(LoginRequiredMixin, generic.DetailView):
         )
 
     def post(self, request, *args, **kwargs):
+        print(request.POST)
         try:
             user = request.user
             name = request.POST["title"]
             topic_name = request.POST["topic_name"]
-            topic_user = request.POST.getlist("username")
+            topic_user = request.POST.getlist("username[]")
             topic_price = request.POST["topic_price"]
             header = UserProfile.objects.get(user=user)
+            print(topic_user)
         except Exception as e:
             messages.error(request, f"Error occured: {e}")
 
@@ -86,7 +92,7 @@ class BillCreateView(LoginRequiredMixin, generic.DetailView):
             for each_user in topic_user:
                 user = UserProfile.objects.get(user__username=each_user)
                 topic.add_user(user)
-                bill.add_topic(topic)
+            bill.add_topic(topic)
             bill.save()
 
             return HttpResponseRedirect(f"/bill/{bill.id}/add")
@@ -133,6 +139,30 @@ def create(request: HttpRequest, pk: int):
         if user == bill.header:
             each_user_payment.status = Payment.Status_choice.PAID
         each_user_payment.save()
+        # send mail to all user who got assign except header file: create.html
+        # to: all user in the bill
+        # when: create bill(header assign all bill)
+        if user != bill.header:
+            html_message_to_user = render_to_string(
+                "message/user/assigned_bill.html",
+                {
+                    "user": user.user.username,
+                    "bill": bill.name,
+                    "header": bill.header.name,
+                    "price": bill.total_price,
+                    "topic": bill.topic_set.all(),
+                },
+            )
+
+            plain_message_to_user = strip_tags(html_message_to_user)
+
+            send_mail(
+                subject="You got assign to a bill",
+                message=plain_message_to_user,
+                from_email=settings.EMAIL_HOST_USER,
+                recipient_list=[user.user.email],
+                html_message=html_message_to_user,
+            )
     bill.save()
 
     return HttpResponseRedirect(reverse("bills:bill"))
@@ -152,12 +182,13 @@ def delete(request: HttpRequest, pk: int):
         if payment.user.user != header
     )
     if any_one_pay:
-        messages.warning(request, "! You can't delete this bill because someone has paid")
+        messages.warning(
+            request, "! You can't delete this bill because someone has paid"
+        )
         return HttpResponseRedirect(reverse("bills:bill"))
     name = bill.name
     bill.delete()
     messages.success(request, f"Bill:{name} deleted")
-    # TODO Send message to all user that have bill to pay
     return HttpResponseRedirect(reverse("bills:bill"))
 
 

@@ -6,3 +6,5 @@ omise >= 0.11.0
 docutils >=0.19
 djhtml >=1.5.2
 tblib >= 1.7.0
+requests >= 2.28.1
+selenium >= 4.6.0

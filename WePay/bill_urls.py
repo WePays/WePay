@@ -13,5 +13,4 @@ urlpatterns = [
     path("<int:pk>/add/success", views.create, name="success"),
     path("<int:pk>/add/close", views.close, name="close"),
     path("<int:pk>/delete", views.delete, name="delete"),
-
 ]

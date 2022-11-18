@@ -16,6 +16,8 @@ class BaseSetUp(TestCase):
         )
         self.header.save()
 
+        # header = create_user('header', 'header123, ''header@exmple.com')
+
         user1 = User.objects.create_user(
             username="test_user1", email="user1@example.com", password="user1"
         )

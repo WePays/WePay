@@ -18,7 +18,7 @@ from ..models import (
     PromptPayPayment,
     SCBPayment,
     OmisePayment,
-    BasePayment,
+    CashPayment,
 )
 
 
@@ -45,8 +45,10 @@ class PaymentDetailView(LoginRequiredMixin, generic.DetailView):
         cash_only = False
         try:
             payment = get_object_or_404(Payment, pk=kwargs["pk"], user__user=user)
-        except Payment.DoesNotExist:
-            messages.error(request, "Payment not found")
+        except Http404:
+            messages.error(
+                request, "Payment not found"
+            )  #! BUG IT DOESNT COMING WHEN REDIRECT
             return HttpResponseRedirect(reverse("payments:payment"))
         status = payment.status
         payment_type = payment.payment_type
@@ -106,19 +108,45 @@ def update(request, pk: int, *arg, **kwargs):
         return HttpResponseRedirect(reverse("payments:payment"))
     payment.instance.update_status()
     header_mail = payment.bill.header.user.email
-    html_message = render_to_string('message/header/someone_pay.html', {
-                                    'user': payment.user, 'bill_name': payment.bill.name, 'payment_type': payment.instance.payment_type, 'price': payment.price, 'bill_id': payment.bill.id})
+    html_message = render_to_string(
+        "message/header/someone_pay.html",
+        {
+            "user": payment.user,
+            "bill_name": payment.bill.name,
+            "payment_type": payment.instance.payment_type,
+            "price": payment.price,
+            "bill_id": payment.bill.id,
+        },
+    )
+
     plain_message = strip_tags(html_message)
 
-    message = f'{payment.user} has paid Bill\'s {payment.bill.name}'
-    message += f' with {payment.instance.payment_type}\n for {payment.price} Baht.'
     send_mail(
-        subject='Someone Pay you a money',
+        subject="Someone Pay you a money",
         message=plain_message,
         from_email=settings.EMAIL_HOST_USER,
         recipient_list=[header_mail],
-        html_message=html_message
+        html_message=html_message,
     )
+
+    if payment.bill.status:  # this mean bills is ready to verify and close
+        # send mail to header to verify and close the bill
+        html_message_to_header = render_to_string(
+            "message/header/mail_to_header.html",
+            {
+                "bill_name": payment.bill.name,
+            },
+        )
+
+        plain_message_to_header = strip_tags(html_message_to_header)
+
+        send_mail(
+            subject="You have to verify and close the bill",
+            message=plain_message_to_header,
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=[header_mail],
+            html_message=html_message_to_header,
+        )
 
     return HttpResponseRedirect(reverse("payments:payment"))
 
@@ -152,3 +180,38 @@ def confirm_payment(request, pk: int, *arg, **kwargs):
             ],
         )
     )
+
+
+def reset(request, pk: int, *arg, **kwargs):
+    try:
+        payment = get_object_or_404(Payment, pk=pk)
+    except Http404:
+        messages.error(request, "Payment not found")
+        return HttpResponseRedirect(reverse("payments:payment"))
+    if not payment.is_repayable():
+        messages.error(request, "Payment is not resetable")
+        return HttpResponseRedirect(reverse("payments:payment"))
+    payment.instance.reset()
+    payment.save()
+    print(payment.uri)
+
+    return HttpResponseRedirect(reverse("payments:payment"))
+
+
+def reject(request, pk: int, *arg, **kwargs):
+    # cash payment only
+    print(pk)
+    print(request.path)
+    try:
+        payment = get_object_or_404(Payment, pk=pk)
+    except Http404:
+        messages.error(request, "Payment not found")
+        return HttpResponseRedirect(request.path)
+    if not isinstance(payment.instance, CashPayment):
+        messages.error(request, "Payment is not rejectable")
+        return HttpResponseRedirect(reverse("bills:detail", args=[payment.bill.id]))
+    payment.instance.reject()
+    payment.save()
+    messages.success(request, "Payment is rejected")
+
+    return HttpResponseRedirect(reverse("bills:detail", args=[payment.bill.id]))
