@@ -146,6 +146,7 @@ def create(request: HttpRequest, pk: int):
             {
                 "user": user.user.username,
                 "bill": bill.name,
+                "header": bill.header.name,
                 "price": bill.total_price,
                 "topic": bill.topic_set.all(),
             }

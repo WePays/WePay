@@ -137,11 +137,11 @@ def update(request, pk: int, *arg, **kwargs):
             }
         )
 
-        plain_message_for_header = strip_tags(html_message_to_header)
+        plain_message_to_header = strip_tags(html_message_to_header)
 
         send_mail(
             subject="You have to verify and close the bill",
-            message=plain_message_for_header,
+            message=plain_message_to_header,
             from_email=settings.EMAIL_HOST_USER,
             recipient_list=[header_mail],
             html_message=html_message_to_header,
