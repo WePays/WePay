@@ -106,10 +106,13 @@ class Payment(models.Model):
     def can_pay(self) -> bool:
         return self.status == self.Status_choice.UNPAID
 
+    def is_repayable(self) -> bool:
+        return self.status in (self.Status_choice.FAIL, self.Status_choice.EXPIRED)
+
     def pay(self) -> None:
         """Pay to header"""
         if not self.can_pay():
-            raise AlreadyPayError("You are2 in PENDING or PAID Status")
+            raise AlreadyPayError("You are in PENDING or PAID Status")
 
         now_payment = self.selected_payment.objects.get_or_create(payment=self)[0]
         now_payment.pay()
@@ -159,6 +162,7 @@ class OmisePayment(BasePayment):
 
     def pay(self):
         """pay by omise"""
+        print(self.payment.status)
         # amount must morethan 20
         if self.payment.status == self.payment.Status_choice.UNPAID:
             source = omise.Source.create(
@@ -189,24 +193,30 @@ class OmisePayment(BasePayment):
                 self.payment.status = self.payment.Status_choice.PAID
             elif status == "pending":
                 self.payment.status = self.payment.Status_choice.PENDING
-            elif status == 'failed':
+            elif status == "failed":
                 self.payment.status = self.payment.Status_choice.FAIL
-            elif status == 'expired':
+            elif status == "expired":
                 self.payment.status = self.payment.Status_choice.EXPIRED
-                # self.payment.status = self.payment.Status_choice.UNPAID
-                # self.charge_id = None
-                # self.payment.uri = None
+
         else:
             self.payment.status = self.payment.Status_choice.UNPAID
         self.payment.save()
         omise.api_secret = OMISE_SECRET
         self.save()
 
+    def reset(self):
+        self.payment.status = self.payment.Status_choice.UNPAID
+        self.charge_id = ""
+        self.payment.uri = ""
+        self.payment_type = "promptpay"
+        self.payment.save()
+        self.save()
+
     @property
     def payment_link(self) -> str:
         if self.charge_id:
             return f"https://dashboard.omise.co/test/charges/{self.charge_id}"
-        return ''
+        return ""
 
 
 class PromptPayPayment(OmisePayment):
@@ -241,12 +251,28 @@ class CashPayment(BasePayment):
         self.payment.save()
 
     def pay(self):
+
+        print(self)
         if self.payment.status == self.payment.Status_choice.PAID:
             return
 
         # this will send notification to header to confirm
         self.payment.status = self.payment.Status_choice.PENDING
         self.payment.save()
+        self.save()
+
+    def reject(self):
+        if self.payment.status == self.payment.Status_choice.PAID:
+            return
+
+        self.payment.status = self.payment.Status_choice.FAIL
+        self.payment.save()
+
+    def reset(self):
+        # TODO: send message to user that you rejected this pls pay again
+        self.payment.status = self.payment.Status_choice.UNPAID
+        self.payment.save()
+        print("HOOOOOOO", self)
 
 
 class AlreadyPayError(Exception):

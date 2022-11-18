@@ -60,15 +60,20 @@
                                         <tr class="whitespace-nowrap">
                                             <td class="px-6 py-4 text-sm text-gray-600">{{forloop.counter0|add:"1"}}</td>
                                             <td class="px-12 py-4 text-sm text-gray-900 font-bold">{{price.user.name}}</td>
-                                            <td class="px-6 py-4 text-sm text-gray-900">{{price.amount}}</td>
+                                            <td class="px-6 py-4 text-sm text-gray-900">{{price.price}}</td>
                                             <td class="px-8 py-4 text-sm text-gray-900">{{price.status}}</td>
                                             {% if price.is_confirmable %}
-                                                <td class="px-12 py-4 text-sm text-[#171f99] text-center"><a {% if price.payment_type != 'Cash' %}target="_blank"{% endif %} href="{% url 'payments:confirm' price.id%}">Click to Verify</a></td>
+                                                {% if price.payment_type != 'Cash' %}
+                                                    <td class="px-12 py-4 text-sm text-[#171f99] text-center"><a target="_blank" href="{% url 'payments:confirm' price.id%}">Click to Verify</a></td>
+                                                {% else %}
+                                                    <td class="bi bi-check-circle-fill px-12 py-4 text-green-500 text-center"><a href="{% url 'payments:confirm' price.id%}"></a>
+                                                        <a class="bi bi-x-circle-fill text-red-500" href=""></a></td>
+                                                {% endif %}
                                             {% else %}
-                                            <td class="px-12 py-4 text-sm text-red-500 text-center font-bold"><a href="{% url 'payments:confirm' price.id %}"> - </a></td>
+                                                <td class="px-12 py-4 text-sm text-red-500 text-center font-bold"><a href="{% url 'payments:confirm' price.id %}"> - </a></td>
                                             {% endif %}
                                         </tr>
-                                     </tbody>
+                                    </tbody>
                                 {% endfor %}
                             </table>
                         </div>

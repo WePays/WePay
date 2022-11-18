@@ -2,6 +2,14 @@
 {% load tailwind_tags %}
 {% tailwind_css %}
 
+{% block extra_head %}
+    <link
+        href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.css"
+        rel="stylesheet"
+    />
+
+{% endblock extra_head %}
+
 {%block title%}
     {{ block.super }}
     Add Topic
@@ -11,8 +19,8 @@
 
     <div class="mt-24 ml-32 justify-center flex flex-row">
 
-        <div class=""> 
-            <p class="mt-3 font-bold">Total price: {{bill.total_price}} </p> 
+        <div class="">
+            <p class="mt-3 font-bold">Total price: {{bill.total_price}} </p>
 
             <table class="divide-y divide-[#171f99] mt-3">
                 <thead class="bg-[#171f99]">
@@ -21,50 +29,132 @@
                         <th class="px-10 py-4 text-xl text-white">Title</th>
                         <th class="px-6 py-4 text-xl text-white">Price</th>
                         <th class="px-10 py-4 text-xl text-white">User to assign</th>
+                        <th class="px-6 py-4 text-xl text-white">Delete</th>
                     </tr>
                 </thead>
 
 
                 {% for topic in all_topic %}
-                <tbody class="bg-white divide-y divide-[#171f99] text-center text-sm">
-                    <tr class="whitespace-nowrap">
-                        <td class="px-6 py-4">{{forloop.counter0|add:"1"}}</td>
-                        <td class="px-10 py-4">{{topic.title}}</td> 
-                        <td class="px-6 py-4">{{topic.price}}</td>
-                        <td class="px-10 py-4">{% for each_user in topic.user.all %}{{each_user}}, {% endfor %}</td>
-                    </tr>
-                </tbody>
+                    <tbody class="bg-white divide-y divide-[#171f99] text-center text-sm">
+                        <tr class="whitespace-nowrap">
+                            <td class="px-6 py-4">{{forloop.counter0|add:"1"}}</td>
+                            <td class="px-10 py-4">{{topic.title}}</td>
+                            <td class="px-6 py-4">{{topic.price}}</td>
+                            <td class="px-10 py-4">{{ topic.user.all| join:', '}}</td>
+                            <td class="px-6 py-4">
+                                <a href="{% url 'topic:delete' topic.id %}">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        class="w-6 h-6 text-red-400"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5
+                                                4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                        />
+                                    </svg>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
                 {% endfor %}
             </list>
         </table>
     </div>
 
 
-        <div class="ml-20">
+    <div class="ml-20">
 
-            <h1 class="text-2xl font-bold">Add Topic</h1> 
+        <h1 class="text-2xl font-bold">Add Topic</h1>
 
-            <p class="mt-3">Name of Bill: {{bill.name}} </p>       
+        <p class="mt-3">Name of Bill: {{bill.name}} </p>
 
-            <form action="" method="post">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <div class="mt-5">Name:<br>
-                    <input class="w-80" type="text" name="topic_name" id="topic_name" placeholder="Enter the topic name" required></div>
-                <div class="mt-5"> Price: <br>
-                    <input class="w-80" type="number" min="0" name="topic_price" id="topic_price" placeholder="Enter the topic price" required></div>
-                <div class="mt-5" for="username">Enter user to assign:<br>
-                    <select class="w-80" id="username" name="username"  multiple required>
-                        {% for name in lst_user %}
-                            <option value="{{name}}">{{name}}</option>
-                        {% endfor %}
-                    </select>
+        <form action="" method="post", if='form'>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="mt-5">Name:<br>
+                <input class="w-80" type="text" name="topic_name" id="topic_name" placeholder="Enter the topic name" required></div>
+            <div class="mt-5"> Price: <br>
+                <input class="w-80" type="number" min="0" name="topic_price" id="topic_price" placeholder="Enter the topic price" required></div>
+            <div class="mt-5 w-1/2">
+                <label class="inline-block text-sm text-gray-600" for="Multiselect"
+                >Enter user to assign:</label
+                    >
+                    <div class="relative flex w-full">
+                        <select
+                            id="username"
+                            name="username[]"
+                            multiple
+                            placeholder="Enter user to assign"
+                            autocomplete="on"
+                            class="block w-full rounded-sm cursor-pointer focus:outline-none"
+                            multiple
+                            required
+                        >
+                            {% for name in lst_user %}
+                                <option value="{{name}}" style="color: seagreen;">{{name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
                 </div>
+                <script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
+                <script>
+                    var user_select =  new TomSelect('#username', {
+                        plugins:['remove_button', 'clear_button'],
+
+                        render:{
+                            item: function(data, escape) {
+                                return '<div>' + escape(data.text) + '</div>';
+                            },
+                        }
+                    });
+
+
+                </script>
+
                 <div class="mt-5 ml-56 "><button class="bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded flex justify-center" type="submit" value="Add topic">Add topic</button></div>
             </div>
-            <div class="add-topic" style="margin-top: 2%; margin-left: 30%;"><input type="submit" value="Add topic"></div>
+            <div class="mt-5 ml-56 "><button class="bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded flex justify-center" type="submit" value="Add topic">Add topic</button></div>
         </div>
+        <div class="add-topic" style="margin-top: 2%; margin-left: 30%;"><input type="submit" value="Add topic"></div>
+    </div>
     </form>
+    <script>
+        document.getElementById('form').addEventListener("submit", function(e){
+
+            e.preventDefault();
+
+            topic_name = document.getElementById('topic_name').value
+            topic_price = document.getElementById('topic_price').value
+            username = user_select.getValue()
+
+
+            const formdata = new FormData(form);
+            formdata.append('topic_price', topic_price);
+            formdata.append('username', username);
+            formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+            console.log(formData);
+
+            fetch("{% url 'bills:add' bill.id %}", {
+                method: 'POST',
+                body: formdata
+            })
+                .then(response => response.json())
+                .then(data => {
+                console.log('Success:', data);
+            })
+                .catch(error => {
+                console.error('Error:', error);
+            });
+        );
+        }
+
+    </script>
     </div>
 
 
@@ -79,5 +169,6 @@
         {% csrf_token %}
         <button class="absolute bottom-10 right-10 bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded flex justify-center" type="submit" value="Create Bill"> Create Bill</button>
     </form>
+
 
 {% endblock body%}
