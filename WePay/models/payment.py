@@ -128,20 +128,29 @@ class Payment(models.Model):
             PromptPayPayment,
         )
 
-    # def update_status(self):
-    #     omise.api_secret = self.payment.header.chain.key
-    #     charge = omise.Charge.retrieve(self.charge_id)
-    #     if charge:
-    #         status = charge.status
-    #         if status == "successful":
-    #             self.payment.status = self.payment.Status_choice.PAID
-    #         elif status == "pending":
-    #             self.payment.status = self.payment.Status_choice.PENDING
-    #     else:
-    #         self.payment.status = self.payment.Status_choice.UNPAID
-    #     self.payment.save()
-    #     omise.api_secret = OMISE_SECRET
-    #     self.save()
+    def update_status(self):
+        """update status of payment"""
+        if isinstance(self.instance, CashPayment):
+            return
+
+        omise.api_secret = self.header.chain.key
+        charge = omise.Charge.retrieve(self.instance.charge_id)
+        if charge:
+            status = charge.status
+            if status == "successful":
+                self.status = self.Status_choice.PAID
+            elif status == "pending":
+                self.status = self.Status_choice.PENDING
+            elif status == "failed":
+                self.status = self.Status_choice.FAIL
+            elif status == "expired":
+                self.status = self.Status_choice.EXPIRED
+
+        else:
+            self.status = self.Status_choice.UNPAID
+        self.instance.save()
+        omise.api_secret = settings.OMISE_SECRET
+        self.save()
 
     def __repr__(self) -> str:
         """represent a payment"""
@@ -202,26 +211,6 @@ class OmisePayment(BasePayment):
             self.charge_id = charge.id
             self.payment.uri = charge.authorize_uri
             self.save()
-
-    def update_status(self):  # TODO: Move this mothod to Payment class
-        omise.api_secret = self.payment.header.chain.key
-        charge = omise.Charge.retrieve(self.charge_id)
-        if charge:
-            status = charge.status
-            if status == "successful":
-                self.payment.status = self.payment.Status_choice.PAID
-            elif status == "pending":
-                self.payment.status = self.payment.Status_choice.PENDING
-            elif status == "failed":
-                self.payment.status = self.payment.Status_choice.FAIL
-            elif status == "expired":
-                self.payment.status = self.payment.Status_choice.EXPIRED
-
-        else:
-            self.payment.status = self.payment.Status_choice.UNPAID
-        self.payment.save()
-        omise.api_secret = settings.OMISE_SECRET
-        self.save()
 
     def reset(self):
         self.payment.status = self.payment.Status_choice.UNPAID

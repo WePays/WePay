@@ -106,7 +106,7 @@ def update(request, pk: int, *arg, **kwargs):
     if not issubclass(payment_type, OmisePayment):
         messages.error(request, "Payment is not omise payment")
         return HttpResponseRedirect(reverse("payments:payment"))
-    payment.instance.update_status()
+    payment.update_status()
     header_mail = payment.bill.header.user.email
 
     if payment.status == Payment.Status_choice.PAID:

@@ -73,7 +73,6 @@ class BillCreateView(LoginRequiredMixin, generic.DetailView):
         )
 
     def post(self, request, *args, **kwargs):
-        print(request.POST)
         try:
             user = request.user
             name = request.POST["title"]
@@ -127,6 +126,7 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
 
 @login_required(login_url="/accounts/login/")
 def create(request: HttpRequest, pk: int):
+    print('HOYAAAAAAAAAAA        AAAAYYYOOOOOOOO')
     try:
         bill = Bills.objects.get(pk=pk)
     except Bills.DoesNotExist:
@@ -135,6 +135,7 @@ def create(request: HttpRequest, pk: int):
     bill.is_created = True
     for user in bill.all_user:
         each_user_payment = Payment.objects.create(user=user, bill=bill)
+        print(each_user_payment, 'AAAAAAAAAA')
         if user == bill.header:
             each_user_payment.status = Payment.Status_choice.PAID
         each_user_payment.save()

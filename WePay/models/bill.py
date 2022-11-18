@@ -104,7 +104,7 @@ class Bills(models.Model):
     def delete(self, *args, **kwargs):
         for payment in self.payments.all():
             payment.delete()
-        for topic in self.topic.all():
+        for topic in self.topic_set.all():
             topic.delete()
         super().delete(*args, **kwargs)
 
