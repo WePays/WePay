@@ -81,7 +81,6 @@ class BillCreateView(LoginRequiredMixin, generic.DetailView):
             topic_user = request.POST.getlist("username[]")
             topic_price = request.POST["topic_price"]
             header = UserProfile.objects.get(user=user)
-            print(topic_user)
         except Exception as e:
             messages.error(request, f"Error occured: {e}")
 
@@ -139,9 +138,7 @@ def create(request: HttpRequest, pk: int):
         if user == bill.header:
             each_user_payment.status = Payment.Status_choice.PAID
         each_user_payment.save()
-        # send mail to all user who got assign except header file: create.html
-        # to: all user in the bill
-        # when: create bill(header assign all bill)
+
         if user != bill.header:
             html_message_to_user = render_to_string(
                 "message/user/assigned_bill.html",

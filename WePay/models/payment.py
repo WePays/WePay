@@ -12,10 +12,9 @@ from django.conf import settings
 
 from .bill import Bills
 from .userprofile import UserProfile
-from ..config import OMISE_PUBLIC, OMISE_SECRET
 
-omise.api_public = OMISE_PUBLIC
-omise.api_secret = OMISE_SECRET
+omise.api_public = settings.OMISE_PUBLIC
+omise.api_secret = settings.OMISE_SECRET
 
 
 class Payment(models.Model):
@@ -119,6 +118,7 @@ class Payment(models.Model):
             raise AlreadyPayError("You are in PENDING or PAID Status")
 
         now_payment = self.selected_payment.objects.get_or_create(payment=self)[0]
+        print(now_payment)
         now_payment.pay()
         self.save()
 
@@ -220,7 +220,7 @@ class OmisePayment(BasePayment):
         else:
             self.payment.status = self.payment.Status_choice.UNPAID
         self.payment.save()
-        omise.api_secret = OMISE_SECRET
+        omise.api_secret = settings.OMISE_SECRET
         self.save()
 
     def reset(self):
