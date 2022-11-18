@@ -1,0 +1,9 @@
+{% extends 'message/base.html' %}
+
+{% block body %}
+
+Sorry {{user}}, Your payment for {{header}} has been rejected at {% now "SHORT_DATETIME_FORMAT" %}
+
+
+you may check your payment <a href="http://127.0.0.1:8000{% url 'payments:payment' %}"> here </a>
+{% endblock body %}
