@@ -172,7 +172,6 @@ class DetailViewTest(BaseViewTest):
 
 
 class AddTopicView(BaseViewTest):
-
     def test_add_topic(self):
         data = {
             "title": "Est",

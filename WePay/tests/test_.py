@@ -1,10 +1,12 @@
+from unittest import skip
+
 from django.contrib.auth.models import User
-from WePay.models.userprofile import UserProfile
 from django.test import LiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from unittest import skip
+
+from WePay.models.userprofile import UserProfile
 
 
 class BillFormTest(LiveServerTestCase):

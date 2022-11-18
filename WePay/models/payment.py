@@ -1,6 +1,6 @@
 # from django.contrib import admin
 from abc import abstractmethod
-from typing import Any, Collection
+from typing import Any
 
 import omise
 from django.db import models
@@ -288,18 +288,18 @@ class CashPayment(BasePayment):
                 "header": self.payment.bill.header.name,
                 "price": self.payment.bill.total_price,
                 "topic": self.payment.bill.topic_set.all(),
-            }
-            )
+            },
+        )
 
         plain_message_to_user = strip_tags(html_message_to_user)
 
         send_mail(
-                subject="You got assign to a bill",
-                message=plain_message_to_user,
-                from_email=settings.EMAIL_HOST_USER,
-                recipient_list=[self.payment.user.user.email],
-                html_message=html_message_to_user,
-            )
+            subject="You got assign to a bill",
+            message=plain_message_to_user,
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=[self.payment.user.user.email],
+            html_message=html_message_to_user,
+        )
 
     def reject(self):
         if self.payment.status == self.payment.Status_choice.PAID:
@@ -312,7 +312,6 @@ class CashPayment(BasePayment):
         # TODO: send message to user that you rejected this pls pay again
         self.payment.status = self.payment.Status_choice.UNPAID
         self.payment.save()
-        print("HOOOOOOO", self)
 
 
 class AlreadyPayError(Exception):

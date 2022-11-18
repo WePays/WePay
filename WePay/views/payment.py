@@ -116,7 +116,8 @@ def update(request, pk: int, *arg, **kwargs):
             "payment_type": payment.instance.payment_type,
             "price": payment.price,
             "bill_id": payment.bill.id,
-        })
+        },
+    )
 
     plain_message = strip_tags(html_message)
 
@@ -134,7 +135,7 @@ def update(request, pk: int, *arg, **kwargs):
             "message/header/mail_to_header.html",
             {
                 "bill_name": payment.bill.name,
-            }
+            },
         )
 
         plain_message_to_header = strip_tags(html_message_to_header)

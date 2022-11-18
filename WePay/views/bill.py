@@ -1,16 +1,16 @@
+from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.mail import send_mail
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
-from django.urls import reverse
-from django.views import generic
 from django.template.loader import render_to_string
+from django.urls import reverse
 from django.utils.html import strip_tags
-from django.core.mail import send_mail
-from django.conf import settings
+from django.views import generic
 
-from ..models import Bills, Payment, Topic, UserProfile, OmisePayment
+from ..models import Bills, OmisePayment, Payment, Topic, UserProfile
 
 
 class BillView(LoginRequiredMixin, generic.DetailView):
@@ -139,19 +139,19 @@ def create(request: HttpRequest, pk: int):
         if user == bill.header:
             each_user_payment.status = Payment.Status_choice.PAID
         each_user_payment.save()
-    # send mail to all user who got assign except header file: create.html
-    # to: all user in the bill
-    # when: create bill(header assign all bill)
+        # send mail to all user who got assign except header file: create.html
+        # to: all user in the bill
+        # when: create bill(header assign all bill)
         if user != bill.header:
             html_message_to_user = render_to_string(
-            "message/user/assigned_bill.html",
-            {
-                "user": user.user.username,
-                "bill": bill.name,
-                "header": bill.header.name,
-                "price": bill.total_price,
-                "topic": bill.topic_set.all(),
-            }
+                "message/user/assigned_bill.html",
+                {
+                    "user": user.user.username,
+                    "bill": bill.name,
+                    "header": bill.header.name,
+                    "price": bill.total_price,
+                    "topic": bill.topic_set.all(),
+                },
             )
 
             plain_message_to_user = strip_tags(html_message_to_user)
