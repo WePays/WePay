@@ -1,0 +1,8 @@
+{% extends 'message/base.html' %}
+
+{% block body %}
+
+Sorry {{user}}, Your payment for {{header}} has been rejected at {% now "SHORT_DATETIME_FORMAT" %}
+
+
+{% endblock body %}

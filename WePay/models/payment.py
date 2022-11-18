@@ -128,21 +128,6 @@ class Payment(models.Model):
             PromptPayPayment,
         )
 
-    # def update_status(self):
-    #     omise.api_secret = self.payment.header.chain.key
-    #     charge = omise.Charge.retrieve(self.charge_id)
-    #     if charge:
-    #         status = charge.status
-    #         if status == "successful":
-    #             self.payment.status = self.payment.Status_choice.PAID
-    #         elif status == "pending":
-    #             self.payment.status = self.payment.Status_choice.PENDING
-    #     else:
-    #         self.payment.status = self.payment.Status_choice.UNPAID
-    #     self.payment.save()
-    #     omise.api_secret = OMISE_SECRET
-    #     self.save()
-
     def __repr__(self) -> str:
         """represent a payment"""
         return f"Payment(user={self.user}, date={self.date}, bill={self.bill}, status={self.status}, payment_type={self.payment_type})"
@@ -285,7 +270,7 @@ class CashPayment(BasePayment):
             {
                 "user": self.payment.user,
                 "bill": self.payment.bill.name,
-                "header": self.payment.bill.header.name,
+                "header": self.payment.header.name,
                 "price": self.payment.bill.total_price,
                 "topic": self.payment.bill.topic_set.all(),
             },
@@ -305,11 +290,29 @@ class CashPayment(BasePayment):
         if self.payment.status == self.payment.Status_choice.PAID:
             return
 
+         # TODO: send message to user that you rejected this pls pay again
+         html_message = render_to_string(
+            'message/user/rejected_bill.html',{
+                'user': self.payment.user,
+                'bill_title': self.payment.bill.name,
+                'header': self.payment.header.name,
+            }
+            )
+
+        plain_message = strip_tags(html_message)
+
+        send_mail(
+            subject=f"Your payment for {self.payment.bill.name} has been rejected",
+            message=plain_message,
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=[self.payment.user.user.email],
+            html_message=html_message,
+        )
+
         self.payment.status = self.payment.Status_choice.FAIL
         self.payment.save()
 
     def reset(self):
-        # TODO: send message to user that you rejected this pls pay again
         self.payment.status = self.payment.Status_choice.UNPAID
         self.payment.save()
 
