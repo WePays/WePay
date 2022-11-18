@@ -91,7 +91,7 @@
                     </div>
                 </div>
                 {% if uncreated_bill %}
-                    <h3 class="text-sm text-red-500 mt-5 ml-96">You have an Initialized bill that havent create yet, lets create by clicking<a class="text-[#171f99] text-sm underline" href="{% url 'bills:add' uncreated_bill.id %}"> >>here</a></h3>
+                    <h3 class="text-sm text-red-500 mt-5 ml-96">You have an Initialized bill that havent create yet, lets create by clicking<a class="text-[#171f99] text-sm underline" href="{% url 'bills:add' uncreated_bill.id %}">here</a></h3>
                 {% endif %}
 
             </body>
@@ -103,7 +103,7 @@
                     {% if messages %}
                         <p class="messages">
                             {% for message in messages %}
-                                <li class="font-bold text-red-500">
+                                <li class="text-[#171f99] absolute top-10 right-10">
                                     {% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}
                                 </li>
                             {% endfor %}
