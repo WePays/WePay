@@ -5,6 +5,10 @@ from typing import Any, Collection
 import omise
 from django.db import models
 from django.utils import timezone
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from django.core.mail import send_mail
+from django.conf import settings
 
 from .bill import Bills
 from .userprofile import UserProfile
@@ -123,6 +127,21 @@ class Payment(models.Model):
             CashPayment,
             PromptPayPayment,
         )
+
+    # def update_status(self):
+    #     omise.api_secret = self.payment.header.chain.key
+    #     charge = omise.Charge.retrieve(self.charge_id)
+    #     if charge:
+    #         status = charge.status
+    #         if status == "successful":
+    #             self.payment.status = self.payment.Status_choice.PAID
+    #         elif status == "pending":
+    #             self.payment.status = self.payment.Status_choice.PENDING
+    #     else:
+    #         self.payment.status = self.payment.Status_choice.UNPAID
+    #     self.payment.save()
+    #     omise.api_secret = OMISE_SECRET
+    #     self.save()
 
     def __repr__(self) -> str:
         """represent a payment"""
@@ -260,6 +279,27 @@ class CashPayment(BasePayment):
         self.payment.status = self.payment.Status_choice.PENDING
         self.payment.save()
         self.save()
+
+        html_message_to_user = render_to_string(
+            "message/header/mail_to_header.html",
+            {
+                "user": self.payment.user,
+                "bill": self.payment.bill.name,
+                "header": self.payment.bill.header.name,
+                "price": self.payment.bill.total_price,
+                "topic": self.payment.bill.topic_set.all(),
+            }
+            )
+
+        plain_message_to_user = strip_tags(html_message_to_user)
+
+        send_mail(
+                subject="You got assign to a bill",
+                message=plain_message_to_user,
+                from_email=settings.EMAIL_HOST_USER,
+                recipient_list=[self.payment.user.user.email],
+                html_message=html_message_to_user,
+            )
 
     def reject(self):
         if self.payment.status == self.payment.Status_choice.PAID:
