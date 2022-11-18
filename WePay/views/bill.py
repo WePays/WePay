@@ -69,13 +69,15 @@ class BillCreateView(LoginRequiredMixin, generic.DetailView):
         )
 
     def post(self, request, *args, **kwargs):
+        print(request.POST)
         try:
             user = request.user
             name = request.POST["title"]
             topic_name = request.POST["topic_name"]
-            topic_user = request.POST.getlist("username")
+            topic_user = request.POST.getlist("username[]")
             topic_price = request.POST["topic_price"]
             header = UserProfile.objects.get(user=user)
+            print(topic_user)
         except Exception as e:
             messages.error(request, f"Error occured: {e}")
 

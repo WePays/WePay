@@ -172,9 +172,6 @@ class DetailViewTest(BaseViewTest):
 
 
 class AddTopicView(BaseViewTest):
-    def setUp(self):
-        """Setup before running a tests."""
-        super(AddTopicView, self).setUp()
 
     def test_add_topic(self):
         data = {

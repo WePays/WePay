@@ -33,7 +33,7 @@ class AddTopicView(LoginRequiredMixin, generic.DetailView):
     def post(self, request: HttpRequest, *args, **kwargs):
         bill = Bills.objects.get(pk=kwargs["pk"])
         topic_name = request.POST["topic_name"]
-        topic_user = request.POST.getlist("username")
+        topic_user = request.POST.getlist("username[]")
         topic_price = request.POST["topic_price"]
         topic = Topic.objects.create(
             title=topic_name, price=float(topic_price), bill=bill
