@@ -73,28 +73,24 @@ class BillCreateView(LoginRequiredMixin, generic.DetailView):
         )
 
     def post(self, request, *args, **kwargs):
-        try:
-            user = request.user
-            name = request.POST["title"]
-            topic_name = request.POST["topic_name"]
-            topic_user = request.POST.getlist("username[]")
-            topic_price = request.POST["topic_price"]
-            header = UserProfile.objects.get(user=user)
-        except Exception as e:
-            messages.error(request, f"Error occured: {e}")
+        user = request.user
+        name = request.POST["title"]
+        topic_name = request.POST["topic_name"]
+        topic_user = request.POST.getlist("username[]")
+        topic_price = request.POST["topic_price"]
+        header = UserProfile.objects.get(user=user)
+        messages.error(request, f"Error occured: {e}")
 
-        else:
-            bill = Bills.objects.create(name=name, header=header)
-            topic = Topic.objects.create(title=topic_name, price=topic_price, bill=bill)
+        bill = Bills.objects.create(name=name, header=header)
+        topic = Topic.objects.create(title=topic_name, price=topic_price, bill=bill)
 
-            for each_user in topic_user:
-                user = UserProfile.objects.get(user__username=each_user)
-                topic.add_user(user)
-            bill.add_topic(topic)
-            bill.save()
+        for each_user in topic_user:
+            user = UserProfile.objects.get(user__username=each_user)
+            topic.add_user(user)
+        bill.add_topic(topic)
+        bill.save()
 
-            return HttpResponseRedirect(f"/bill/{bill.id}/add")
-        return HttpResponseRedirect(reverse("bills:bill"))
+        return HttpResponseRedirect(f"/bill/{bill.id}/add")
 
 
 class DetailView(LoginRequiredMixin, generic.DetailView):
