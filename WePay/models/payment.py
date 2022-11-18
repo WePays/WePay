@@ -193,9 +193,9 @@ class OmisePayment(BasePayment):
                 self.payment.status = self.payment.Status_choice.PAID
             elif status == "pending":
                 self.payment.status = self.payment.Status_choice.PENDING
-            elif status == 'failed':
+            elif status == "failed":
                 self.payment.status = self.payment.Status_choice.FAIL
-            elif status == 'expired':
+            elif status == "expired":
                 self.payment.status = self.payment.Status_choice.EXPIRED
 
         else:
@@ -206,9 +206,9 @@ class OmisePayment(BasePayment):
 
     def reset(self):
         self.payment.status = self.payment.Status_choice.UNPAID
-        self.charge_id = ''
-        self.payment.uri = ''
-        self.payment_type = 'promptpay'
+        self.charge_id = ""
+        self.payment.uri = ""
+        self.payment_type = "promptpay"
         self.payment.save()
         self.save()
 
@@ -216,7 +216,7 @@ class OmisePayment(BasePayment):
     def payment_link(self) -> str:
         if self.charge_id:
             return f"https://dashboard.omise.co/test/charges/{self.charge_id}"
-        return ''
+        return ""
 
 
 class PromptPayPayment(OmisePayment):
@@ -272,7 +272,7 @@ class CashPayment(BasePayment):
         # TODO: send message to user that you rejected this pls pay again
         self.payment.status = self.payment.Status_choice.UNPAID
         self.payment.save()
-        print('HOOOOOOO', self)
+        print("HOOOOOOO", self)
 
 
 class AlreadyPayError(Exception):

@@ -18,7 +18,7 @@ from ..models import (
     PromptPayPayment,
     SCBPayment,
     OmisePayment,
-    CashPayment
+    CashPayment,
 )
 
 
