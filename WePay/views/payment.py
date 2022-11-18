@@ -175,11 +175,15 @@ def reset(request, pk: int, *arg, **kwargs):
         return HttpResponseRedirect(reverse("payments:payment"))
     payment.instance.reset()
     payment.save()
+    print(payment.uri)
 
     return HttpResponseRedirect(reverse("payments:payment"))
 
+
 def reject(request, pk: int, *arg, **kwargs):
     # cash payment only
+    print(pk)
+    print(request.path)
     try:
         payment = get_object_or_404(Payment, pk=pk)
     except Http404:

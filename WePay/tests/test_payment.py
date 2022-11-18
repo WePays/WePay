@@ -101,7 +101,7 @@ class TestPayment(TestCase):
         self.assertEqual(resp.status_code, 302)
 
     def test_cash_only_payment(self):
-        """when pay lessthan 20 bath or morethan 150k baht it need to pay cash only"""
+        """when pay lessthan 20 baht or morethan 150k baht it need to pay cash only"""
         self.client.logout()
         self.client.force_login(self.user2.user)
         resp = self.client.get(reverse("payments:detail", kwargs={"pk": 3}))

@@ -208,6 +208,7 @@ class OmisePayment(BasePayment):
         self.payment.status = self.payment.Status_choice.UNPAID
         self.charge_id = ''
         self.payment.uri = ''
+        self.payment_type = 'promptpay'
         self.payment.save()
         self.save()
 
