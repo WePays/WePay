@@ -20,7 +20,8 @@ class UserProfileViewTest(BaseSetUp):
         self.client.force_login(self.test_header)
 
         test_user = User.objects.create(
-            username="test_user", password=1234, email="example@example.com")
+            username="test_user", password=1234, email="example@example.com"
+        )
         self.test_user = UserProfile.objects.create(user=test_user)
         self.test_user.save()
 
@@ -30,7 +31,7 @@ class UserProfileViewTest(BaseSetUp):
         response = self.client.post(reverse("user-profile:userprofile"), data=data)
         self.assertEqual(response["Location"], "/user-profile/")  # POST success
         response2 = self.client.get(reverse("user-profile:userprofile"))
-        self.assertEqual(response2.context['user'].username, "Toast")  # GET success
+        self.assertEqual(response2.context["user"].username, "Toast")  # GET success
 
     def test_fetch_key_with_example_email(self):
         """Test fetch chain id with example email."""
@@ -39,7 +40,7 @@ class UserProfileViewTest(BaseSetUp):
         response = self.client.post(reverse("user-profile:fetch-key"))
         self.assertEqual(response.status_code, 302)
         response2 = self.client.get(reverse("user-profile:userprofile"))
-        self.assertEqual(response2.context['chain_id'], "")
+        self.assertEqual(response2.context["chain_id"], "")
         response3 = self.client.get(reverse("user-profile:fetch-key"))
         self.assertContains(response3, "", status_code=302)
 
@@ -48,4 +49,4 @@ class UserProfileViewTest(BaseSetUp):
         response = self.client.post(reverse("user-profile:fetch-key"))
         self.assertEqual(response.status_code, 302)
         response2 = self.client.get(reverse("user-profile:userprofile"))
-        self.assertEqual(response2.context['chain_id'], "acch_test_5tmytw2wqewbq05abwu")
+        self.assertEqual(response2.context["chain_id"], "acch_test_5tmytw2wqewbq05abwu")

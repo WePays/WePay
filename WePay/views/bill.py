@@ -152,7 +152,9 @@ def delete(request: HttpRequest, pk: int):
         if payment.user.user != header
     )
     if any_one_pay:
-        messages.warning(request, "! You can't delete this bill because someone has paid")
+        messages.warning(
+            request, "! You can't delete this bill because someone has paid"
+        )
         return HttpResponseRedirect(reverse("bills:bill"))
     name = bill.name
     bill.delete()

@@ -106,7 +106,9 @@ class BillCreateViewTest(BaseViewTest):
         self.assertFalse(bill.is_created)
         self.assertEqual(response["Location"], "/bill/2/add")  # POST success
         response2 = self.client.get(reverse("bills:success", kwargs={"pk": 2}))
-        self.assertEqual(response2["Location"], "/bill/")  # After success redirect to bill page
+        self.assertEqual(
+            response2["Location"], "/bill/"
+        )  # After success redirect to bill page
         self.assertRedirects(response2, "/bill/", 302, 200)
         bills = Bills.objects.get(pk=2)
         topic = Topic.objects.get(title="Toast")
@@ -184,12 +186,12 @@ class AddTopicView(BaseViewTest):
         data2 = {
             "topic_name": "Toasting",
             "username": [self.user1, self.user2, self.user3],
-            "topic_price": 3000
+            "topic_price": 3000,
         }
         data3 = {
             "topic_name": "Tea",
             "username": [self.user2, self.user3],
-            "topic_price": 4000
+            "topic_price": 4000,
         }
         response = self.client.post(reverse("bills:create"), data=data)
         self.assertFalse(Bills.objects.last().is_created)
@@ -214,17 +216,17 @@ class AddTopicView(BaseViewTest):
             "title": this_bill.name,
             "topic_name": first_topic.title,
             "username": list(first_topic.user.all()),
-            "topic_price": first_topic.price
+            "topic_price": first_topic.price,
         }
         topic_data1 = {
             "topic_name": second_topic.title,
             "username": list(second_topic.user.all()),
-            "topic_price": second_topic.price
+            "topic_price": second_topic.price,
         }
         topic_data2 = {
             "topic_name": third_topic.title,
             "username": list(third_topic.user.all()),
-            "topic_price": third_topic.price
+            "topic_price": third_topic.price,
         }
         self.assertDictEqual(data, bill_data)
         self.assertDictEqual(data2, topic_data1)

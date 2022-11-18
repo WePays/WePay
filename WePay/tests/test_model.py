@@ -4,7 +4,17 @@ from WePay.models.payment import AlreadyPayError
 from .setUp import BaseSetUp
 from django.contrib.auth.models import User
 from WePay.models.userprofile import UserProfile
-from ..models import Bills, Topic, Payment, CashPayment, PromptPayPayment, SCBPayment, KTBPayment, BBLPayment, BAYPayment
+from ..models import (
+    Bills,
+    Topic,
+    Payment,
+    CashPayment,
+    PromptPayPayment,
+    SCBPayment,
+    KTBPayment,
+    BBLPayment,
+    BAYPayment,
+)
 from unittest import SkipTest
 
 
@@ -72,7 +82,8 @@ class PaymentModelTest(BaseSetUp):
     def setUp(self):
         """SetUp before test"""
         test_header = User.objects.create(
-            username="test_header",password="1234", email="test@example.com")
+            username="test_header", password="1234", email="test@example.com"
+        )
         self.test_header = UserProfile.objects.create(user=test_header)
         self.test_header.save()
         self.client.force_login(self.test_header.user)

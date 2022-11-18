@@ -8,7 +8,6 @@ from unittest import skip
 
 
 class BillFormTest(LiveServerTestCase):
-
     def setUp(self):
         header = User.objects.create_user(
             username="header", email="header@example.com", password="header123"
@@ -22,10 +21,10 @@ class BillFormTest(LiveServerTestCase):
 
     @skip("ERR_CONNECTION_REFUSED")
     def test_login(self):
-        self.browser.get('http://127.0.0.1:8000/accounts/login/')
-        username_input = self.browser.find_element(By.NAME, 'login')
-        password_input = self.browser.find_element(By.NAME, 'password')
-        submit_button = self.browser.find_element(By.ID, 'submit')
+        self.browser.get("http://127.0.0.1:8000/accounts/login/")
+        username_input = self.browser.find_element(By.NAME, "login")
+        password_input = self.browser.find_element(By.NAME, "password")
+        submit_button = self.browser.find_element(By.ID, "submit")
 
         username_input.send_keys(self.header.name)
         username_input.send_keys(Keys.RETURN)
@@ -33,7 +32,7 @@ class BillFormTest(LiveServerTestCase):
         password_input.send_keys(Keys.RETURN)
         submit_button.click()
 
-        assert 'header' in self.browser.page_source
+        assert "header" in self.browser.page_source
 
     # def test_create_bill_form(self):
     #     self.browser.get('http://127.0.0.1:8000/bill/create/')

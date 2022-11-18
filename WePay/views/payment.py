@@ -46,7 +46,9 @@ class PaymentDetailView(LoginRequiredMixin, generic.DetailView):
         try:
             payment = get_object_or_404(Payment, pk=kwargs["pk"], user__user=user)
         except Http404:
-            messages.error(request, "Payment not found") #! BUG IT DOESNT COMING WHEN REDIRECT
+            messages.error(
+                request, "Payment not found"
+            )  #! BUG IT DOESNT COMING WHEN REDIRECT
             return HttpResponseRedirect(reverse("payments:payment"))
         status = payment.status
         payment_type = payment.payment_type
@@ -106,18 +108,26 @@ def update(request, pk: int, *arg, **kwargs):
         return HttpResponseRedirect(reverse("payments:payment"))
     payment.instance.update_status()
     header_mail = payment.bill.header.user.email
-    html_message = render_to_string('message/header/someone_pay.html', {
-                                    'user': payment.user, 'bill_name': payment.bill.name, 'payment_type': payment.instance.payment_type, 'price': payment.price, 'bill_id': payment.bill.id})
+    html_message = render_to_string(
+        "message/header/someone_pay.html",
+        {
+            "user": payment.user,
+            "bill_name": payment.bill.name,
+            "payment_type": payment.instance.payment_type,
+            "price": payment.price,
+            "bill_id": payment.bill.id,
+        },
+    )
     plain_message = strip_tags(html_message)
 
-    message = f'{payment.user} has paid Bill\'s {payment.bill.name}'
-    message += f' with {payment.instance.payment_type}\n for {payment.price} Baht.'
+    message = f"{payment.user} has paid Bill's {payment.bill.name}"
+    message += f" with {payment.instance.payment_type}\n for {payment.price} Baht."
     send_mail(
-        subject='Someone Pay you a money',
+        subject="Someone Pay you a money",
         message=plain_message,
         from_email=settings.EMAIL_HOST_USER,
         recipient_list=[header_mail],
-        html_message=html_message
+        html_message=html_message,
     )
 
     return HttpResponseRedirect(reverse("payments:payment"))

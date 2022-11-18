@@ -7,14 +7,12 @@ from django.test import TestCase
 
 
 class TestPayment(TestCase):
-
     def setUp(self):
         """Setup before running a tests."""
         header1 = User.objects.create_user(
             username="header1", email="header1@example.com", password="header123"
         )
-        self.header1 = UserProfile.objects.create(
-            user=header1)
+        self.header1 = UserProfile.objects.create(user=header1)
         self.header1.save()
 
         header2 = User.objects.create_user(
@@ -48,7 +46,7 @@ class TestPayment(TestCase):
         self.bill = Bills.objects.create(header=self.header1, name="Food Bill")
         self.pepsi = Topic.objects.create(title="Pepsi", price=50)
         self.coke = Topic.objects.create(title="Coke", price=20)
-        self.salmon = Topic.objects.create(title='Salmon', price=500)
+        self.salmon = Topic.objects.create(title="Salmon", price=500)
 
         self.pepsi.add_user(self.user1)
         self.pepsi.add_user(self.user3)
@@ -65,10 +63,10 @@ class TestPayment(TestCase):
         self.bill.add_topic(self.salmon)
         self.bill.save()
 
-        self.bill1 = Bills.objects.create(header=self.header2, name='Bowling bill')
+        self.bill1 = Bills.objects.create(header=self.header2, name="Bowling bill")
 
-        socks = Topic.objects.create(title='Socks', price=100)
-        bowling = Topic.objects.create(title='bowling 2 game', price='300')
+        socks = Topic.objects.create(title="Socks", price=100)
+        bowling = Topic.objects.create(title="bowling 2 game", price="300")
         socks.add_user(self.user1)
         bowling.add_user(self.user2)
         bowling.add_user(self.header2)
@@ -84,10 +82,18 @@ class TestPayment(TestCase):
         self.user2_payment = Payment.objects.create(user=self.user2, bill=self.bill)
         self.user3_payment = Payment.objects.create(user=self.user3, bill=self.bill)
 
-        self.header2_payment = Payment.objects.create(user=self.header2, bill=self.bill1)
-        self.user1_bill1_payment = Payment.objects.create(user=self.user1, bill=self.bill1)
-        self.user2_bill1_payment = Payment.objects.create(user=self.user2, bill=self.bill1)
-        self.user3_bill1_payment = Payment.objects.create(user=self.user3, bill=self.bill1)
+        self.header2_payment = Payment.objects.create(
+            user=self.header2, bill=self.bill1
+        )
+        self.user1_bill1_payment = Payment.objects.create(
+            user=self.user1, bill=self.bill1
+        )
+        self.user2_bill1_payment = Payment.objects.create(
+            user=self.user2, bill=self.bill1
+        )
+        self.user3_bill1_payment = Payment.objects.create(
+            user=self.user3, bill=self.bill1
+        )
 
     def test_payment_doesnt_exist(self):
         """get payment that not exist will not have detail"""
@@ -99,26 +105,41 @@ class TestPayment(TestCase):
         self.client.logout()
         self.client.force_login(self.user2.user)
         resp = self.client.get(reverse("payments:detail", kwargs={"pk": 3}))
-        self.assertContains(resp, "* Your amount is less than 20 Baht or more than 150,000 Baht, you can only pay with cash", status_code=200)
+        self.assertContains(
+            resp,
+            "* Your amount is less than 20 Baht or more than 150,000 Baht, you can only pay with cash",
+            status_code=200,
+        )
 
     def test_paid_header_no_chain(self):
         """Cant pay with other choice when header not have chain"""
         self.client.logout()
         self.client.force_login(self.user1.user)
         resp = self.client.get(reverse("payments:detail", kwargs={"pk": 2}))
-        self.assertContains(resp, "* This bill is not in chain, you can only pay with cash or tell header to register the chain \
-                    \n<a href='/instruction/'>instruction here</a>", status_code=200)
+        self.assertContains(
+            resp,
+            "* This bill is not in chain, you can only pay with cash or tell header to register the chain \
+                    \n<a href='/instruction/'>instruction here</a>",
+            status_code=200,
+        )
 
     def test_verify_cash_payment(self):
         """test verify cash payment by header."""
         # cashpayment
         self.client.logout()
         self.client.force_login(self.user1.user)
-        resp1 = self.client.post(reverse("payments:detail", kwargs={"pk": 2}), data={"payment_type": "Cash"})
-        self.assertRedirects(resp1, reverse("payments:payment"), status_code=302, target_status_code=200)
-        resp2 = self.client.get(reverse("payments:detail", kwargs={"pk":2}))
-        self.assertEqual(resp2.context['payment_type'], "Cash")
-        self.assertEqual(resp2.context['status'], Payment.Status_choice.PENDING) #This is PENDING NOW.
+        resp1 = self.client.post(
+            reverse("payments:detail", kwargs={"pk": 2}), data={"payment_type": "Cash"}
+        )
+        self.assertRedirects(
+            resp1, reverse("payments:payment"), status_code=302, target_status_code=200
+        )
+
+        resp2 = self.client.get(reverse("payments:detail", kwargs={"pk": 2}))
+        self.assertEqual(resp2.context["payment_type"], "Cash")
+        self.assertEqual(
+            resp2.context["status"], Payment.Status_choice.PENDING
+        )  # This is PENDING NOW.
 
         self.client.logout()
         self.client.force_login(self.header1.user)
@@ -126,28 +147,38 @@ class TestPayment(TestCase):
         #! Paid in bill 2 but redirect into bill 1 instead (Its can be my mistake please check)
         self.assertRedirects(resp3, "/bill/2/", 302)
 
-
     def test_pay_redirect(self):
-        """testing whether pay button truly redirect"""
+        """testing whether pay truly redirect"""
         # cashpayment
         self.client.logout()
         self.client.force_login(self.user2.user)
-        resp1 = self.client.post(reverse("payments:detail", kwargs={"pk": 3}), data={"payment_type": "Cash"})
-        self.assertRedirects(resp1, reverse("payments:payment"), status_code=302, target_status_code=200)
-        resp2 = self.client.get(reverse("payments:detail", kwargs={"pk":3}))
-        self.assertEqual(resp2.context['payment_type'], "Cash")
+        resp1 = self.client.post(
+            reverse("payments:detail", kwargs={"pk": 3}), data={"payment_type": "Cash"}
+        )
+        self.assertRedirects(
+            resp1, reverse("payments:payment"), status_code=302, target_status_code=200
+        )
+        resp2 = self.client.get(reverse("payments:detail", kwargs={"pk": 3}))
+        self.assertEqual(resp2.context["payment_type"], "Cash")
         #! BUG PENDING in Context But UNPAID on user status
-        self.assertEqual(resp2.context['status'], Payment.Status_choice.PENDING)
+        self.assertEqual(resp2.context["status"], Payment.Status_choice.PENDING)
         #! BUG
         # self.assertEqual(self.user2_payment.status, Payment.Status_choice.PENDING)
 
         # other payment
         self.client.logout()
         self.client.force_login(self.user2.user)
-        resp = self.client.post(reverse("payments:detail", kwargs={"pk": 7}), data={"payment_type": "SCB"})
+        resp = self.client.post(
+            reverse("payments:detail", kwargs={"pk": 7}), data={"payment_type": "SCB"}
+        )
         resp1 = self.client.get(reverse("payments:detail", kwargs={"pk": 7}))
-        self.assertEqual(resp1.context['payment_type'], "SCB")
-        self.assertRedirects(resp, resp1.context['payment'].uri, status_code=302, fetch_redirect_response=False)
+        self.assertEqual(resp1.context["payment_type"], "SCB")
+        self.assertRedirects(
+            resp,
+            resp1.context["payment"].uri,
+            status_code=302,
+            fetch_redirect_response=False,
+        )
         resp2 = self.client.get(reverse("payments:update", kwargs={"pk": 7}))
         self.assertRedirects(resp2, "/payment/", 302)
 
@@ -156,9 +187,17 @@ class TestPayment(TestCase):
 
         self.client.logout()
         self.client.force_login(self.user3.user)
-        resp = self.client.post(reverse("payments:detail", kwargs={"pk": 8}), data={"payment_type": "PromptPay"})
+        resp = self.client.post(
+            reverse("payments:detail", kwargs={"pk": 8}),
+            data={"payment_type": "PromptPay"},
+        )
         resp1 = self.client.get(reverse("payments:detail", kwargs={"pk": 8}))
-        self.assertEqual(resp1.context['payment_type'], "PromptPay")
-        self.assertRedirects(resp, resp1.context['payment'].uri, status_code=302, fetch_redirect_response=False)
+        self.assertEqual(resp1.context["payment_type"], "PromptPay")
+        self.assertRedirects(
+            resp,
+            resp1.context["payment"].uri,
+            status_code=302,
+            fetch_redirect_response=False,
+        )
         resp2 = self.client.get(reverse("payments:update", kwargs={"pk": 8}))
         self.assertRedirects(resp2, "/payment/", 302)

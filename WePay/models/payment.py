@@ -238,5 +238,6 @@ class CashPayment(BasePayment):
         self.payment.status = self.payment.Status_choice.PENDING
         self.payment.save()
 
+
 class AlreadyPayError(Exception):
     "This payment already paid"
