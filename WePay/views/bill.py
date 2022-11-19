@@ -225,7 +225,7 @@ def close(request: HttpRequest, pk: int):
         plain_message_to_user = strip_tags(html_message_to_user)
 
         send_mail(
-            subject="This bill is deleted.",
+            subject="This bill is closed.",
             message=plain_message_to_user,
             from_email=settings.EMAIL_HOST_USER,
             recipient_list=[user.user.email],
