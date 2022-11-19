@@ -9,7 +9,7 @@ from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.conf import settings
 
-from ..config import OMISE_SECRET
+
 from ..models import (
     BAYPayment,
     BBLPayment,
@@ -48,7 +48,7 @@ class PaymentDetailView(LoginRequiredMixin, generic.DetailView):
         except Http404:
             messages.error(
                 request, "Payment not found"
-            )  #! BUG IT DOESNT COMING WHEN REDIRECT
+            )  # !BUG IT DOESNT COMING WHEN REDIRECT
             return HttpResponseRedirect(reverse("payments:payment"))
         status = payment.status
         payment_type = payment.payment_type
@@ -91,7 +91,7 @@ class PaymentDetailView(LoginRequiredMixin, generic.DetailView):
         payment.save()
         if payment_type == "Cash":
             return HttpResponseRedirect(reverse("payments:payment"))
-        # * after this will involked update status function
+
         return HttpResponseRedirect(payment.uri)
 
 
@@ -106,47 +106,50 @@ def update(request, pk: int, *arg, **kwargs):
     if not issubclass(payment_type, OmisePayment):
         messages.error(request, "Payment is not omise payment")
         return HttpResponseRedirect(reverse("payments:payment"))
-    payment.instance.update_status()
+    payment.update_status()
     header_mail = payment.bill.header.user.email
-    html_message = render_to_string(
-        "message/header/someone_pay.html",
-        {
-            "user": payment.user,
-            "bill_name": payment.bill.name,
-            "payment_type": payment.instance.payment_type,
-            "price": payment.price,
-            "bill_id": payment.bill.id,
-        },
-    )
 
-    plain_message = strip_tags(html_message)
+    if payment.status == Payment.Status_choice.PAID:
 
-    send_mail(
-        subject="Someone Pay you a money",
-        message=plain_message,
-        from_email=settings.EMAIL_HOST_USER,
-        recipient_list=[header_mail],
-        html_message=html_message,
-    )
-
-    if payment.bill.status:  # this mean bills is ready to verify and close
-        # send mail to header to verify and close the bill
-        html_message_to_header = render_to_string(
-            "message/header/mail_to_header.html",
+        html_message = render_to_string(
+            "message/header/someone_pay.html",
             {
+                "user": payment.user,
                 "bill_name": payment.bill.name,
+                "payment_type": payment.instance.payment_type,
+                "price": payment.price,
+                "bill_id": payment.bill.id,
             },
         )
 
-        plain_message_to_header = strip_tags(html_message_to_header)
+        plain_message = strip_tags(html_message)
 
         send_mail(
-            subject="You have to verify and close the bill",
-            message=plain_message_to_header,
+            subject="Someone Pay you a money",
+            message=plain_message,
             from_email=settings.EMAIL_HOST_USER,
             recipient_list=[header_mail],
-            html_message=html_message_to_header,
+            html_message=html_message,
         )
+
+        if payment.bill.status:  # this mean bills is ready to verify and close
+            # send mail to header to verify and close the bill
+            html_message_to_header = render_to_string(
+                "message/header/mail_to_header.html",
+                {
+                    "bill_name": payment.bill.name,
+                },
+            )
+
+            plain_message_to_header = strip_tags(html_message_to_header)
+
+            send_mail(
+                subject="You have to verify and close the bill",
+                message=plain_message_to_header,
+                from_email=settings.EMAIL_HOST_USER,
+                recipient_list=[header_mail],
+                html_message=html_message_to_header,
+            )
 
     return HttpResponseRedirect(reverse("payments:payment"))
 

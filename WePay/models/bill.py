@@ -101,6 +101,13 @@ class Bills(models.Model):
     def status(self):
         return all(payment.status == "PAID" for payment in self.payments.all())
 
+    def delete(self, *args, **kwargs):
+        for payment in self.payments.all():
+            payment.delete()
+        for topic in self.topic_set.all():
+            topic.delete()
+        super().delete(*args, **kwargs)
+
     def __repr__(self) -> str:
         """represent Bill objects in str form"""
 

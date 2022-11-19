@@ -44,15 +44,6 @@
                         <input class="mt-3" type="number" min="0" name="topic_price" id="topic_price" placeholder="Enter the topic price" required>
                     </div>
 
-                    {% comment %} <div class="mt-10 ml-36"> Enter user to assign:
-                        <br>
-                        <select class="mt-4 w-96" id="username" name="username"  multiple required>
-                            {% for name in lst_user %}
-                                <option value="{{name}}" style="color: seagreen;">{{name}}</option>
-                            {% endfor %}
-                        </select> {% endcomment %}
-                    {% comment %} <input class="mt-5 w-96" name="all_user" id="all_user" multiple="multiple" placeholder="username" list="username" required> {% endcomment %}
-
                     <div class="mt-10 ml-36 w-1/2">
                         <label class="inline-block text-sm text-gray-600" for="Multiselect"
                         >Enter user to assign:</label
@@ -62,7 +53,6 @@
                                     id="username"
                                     name="username[]"
                                     multiple
-                                    placeholder="Enter user to assign"
                                     autocomplete="on"
                                     class="block w-full rounded-sm cursor-pointer focus:outline-none"
                                     multiple
