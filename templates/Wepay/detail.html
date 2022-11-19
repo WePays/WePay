@@ -32,9 +32,9 @@
                                     {% if messages %}
                                         <p class="messages">
                                             {% for message in messages %}
-                                                <li class="{{ message.tags }}" style="margin-left: 55%; color:crimson ">
+                                                <p class="absolute top-10 right-10">
                                                     {% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}
-                                                </li>
+                                                </p>
                                             {% endfor %}
                                         </p>
                                     {% endif %}
