@@ -23,7 +23,7 @@
                     <div class="w-full">
                         <div class="static">
 
-                            <div class="inline-block text-2xl text-[#171f99] mt-40 font-bold">Bill: {{bill.name}}</div>
+                            <div class="inline-block text-2xl text-black mt-40 font-bold ml-72">Bill: {{bill.name}}</div>
 
                             <div class="inline-block text-xl ml-80 font-bold">
                                 <form action="" method="post">
@@ -43,8 +43,7 @@
                         </div>
 
 
-                        <div class="border-b border-gray-200 shadow">
-                            <table class="divide-y divide-[#171f99] mt-5 overflow-scroll">
+                            <table class="divide-y divide-[#171f99] mt-5 ml-72 overflow-scroll rounded-lg">
 
                                 <thead class="bg-[#171f99]">
                                     <tr>
@@ -64,9 +63,9 @@
                                             <td class="px-8 py-4 text-sm text-gray-900">{{price.status}}</td>
                                             {% if price.is_confirmable %}
                                                 {% if price.payment_type != 'Cash' %}
-                                                    <td class="px-12 py-4 text-sm text-[#171f99] text-center"><a target="_blank" href="{% url 'payments:confirm' price.id%}">Click to Verify</a></td>
+                                                    <td><a class="px-12 py-4 text-sm text-[#171f99] text-center" target="_blank" href="{% url 'payments:confirm' price.id%}">Click to Verify</a></td>
                                                 {% else %}
-                                                    <td class="bi bi-check-circle-fill px-12 py-4 text-green-500 text-center"><a href="{% url 'payments:confirm' price.id%}"></a>
+                                                    <td><a class="bi bi-check-circle-fill px-12 py-4 text-green-500 text-center" href="{% url 'payments:confirm' price.id%}"></a>
                                                         <a class="bi bi-x-circle-fill text-red-500" href="{% url 'payments:reject' price.id %}"></a></td>
                                                 {% endif %}
                                             {% else %}
@@ -76,7 +75,6 @@
                                     </tbody>
                                 {% endfor %}
                             </table>
-                        </div>
                     </div>
                 </div>
             </div>

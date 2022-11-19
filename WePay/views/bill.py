@@ -212,4 +212,24 @@ def close(request: HttpRequest, pk: int):
     bill = Bills.objects.get(pk=pk)
     bill.is_closed = True
     bill.save()
+
+    for user in bill.all_user:
+
+        html_message_to_user = render_to_string(
+            "message/user/closed_bill.html",
+            {
+                "bill_name": bill.name,
+            }
+        )
+
+        plain_message_to_user = strip_tags(html_message_to_user)
+
+        send_mail(
+            subject="This bill is deleted.",
+            message=plain_message_to_user,
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=[user.user.email],
+            html_message=html_message_to_user,
+        )
+
     return HttpResponseRedirect(reverse("bills:bill"))
