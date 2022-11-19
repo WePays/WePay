@@ -1,25 +1,15 @@
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import QuerySet
-from django.http import HttpResponseRedirect, Http404
-from django.shortcuts import get_object_or_404, render, reverse
-from django.views import generic
 from django.core.mail import send_mail
+from django.db.models import QuerySet
+from django.http import Http404, HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render, reverse
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
-from django.conf import settings
+from django.views import generic
 
-
-from ..models import (
-    BAYPayment,
-    BBLPayment,
-    KTBPayment,
-    Payment,
-    PromptPayPayment,
-    SCBPayment,
-    OmisePayment,
-    CashPayment,
-)
+from ..models import CashPayment, OmisePayment, Payment, PromptPayPayment
 
 
 class PaymentView(LoginRequiredMixin, generic.ListView):
@@ -203,8 +193,7 @@ def reset(request, pk: int, *arg, **kwargs):
 
 def reject(request, pk: int, *arg, **kwargs):
     # cash payment only
-    print(pk)
-    print(request.path)
+
     try:
         payment = get_object_or_404(Payment, pk=pk)
     except Http404:

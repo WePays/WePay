@@ -122,7 +122,7 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
 
 @login_required(login_url="/accounts/login/")
 def create(request: HttpRequest, pk: int):
-    print('HOYAAAAAAAAAAA        AAAAYYYOOOOOOOO')
+    print("HOYAAAAAAAAAAA        AAAAYYYOOOOOOOO")
     try:
         bill = Bills.objects.get(pk=pk)
     except Bills.DoesNotExist:
@@ -131,7 +131,7 @@ def create(request: HttpRequest, pk: int):
     bill.is_created = True
     for user in bill.all_user:
         each_user_payment = Payment.objects.create(user=user, bill=bill)
-        print(each_user_payment, 'AAAAAAAAAA')
+        print(each_user_payment, "AAAAAAAAAA")
         if user == bill.header:
             each_user_payment.status = Payment.Status_choice.PAID
         each_user_payment.save()
@@ -188,7 +188,7 @@ def delete(request: HttpRequest, pk: int):
             "message/user/deleted_bill.html",
             {
                 "bill_name": name,
-            }
+            },
         )
 
         plain_message_to_user = strip_tags(html_message_to_user)
@@ -219,7 +219,7 @@ def close(request: HttpRequest, pk: int):
             "message/user/closed_bill.html",
             {
                 "bill_name": bill.name,
-            }
+            },
         )
 
         plain_message_to_user = strip_tags(html_message_to_user)

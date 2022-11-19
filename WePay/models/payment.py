@@ -1,23 +1,28 @@
-# from django.contrib import admin
 from abc import abstractmethod
 from typing import Any
 
 import omise
-from django.db import models
-from django.utils import timezone
-from django.template.loader import render_to_string
-from django.utils.html import strip_tags
-from django.core.mail import send_mail
 from django.conf import settings
+from django.core.mail import send_mail
+from django.db import models
+from django.template.loader import render_to_string
+from django.utils import timezone
+from django.utils.html import strip_tags
 
 from .bill import Bills
 from .userprofile import UserProfile
 
+# set omise key
 omise.api_public = settings.OMISE_PUBLIC
 omise.api_secret = settings.OMISE_SECRET
 
 
 class Payment(models.Model):
+    """Payment for each person in each bill
+    user -> :model:`Wepay.UserProfile` user for that bill
+    date: date that those payment published
+    bill -> :model:`WePay.Bills` bill of that payment
+    """
     user = models.ForeignKey(
         UserProfile, on_delete=models.CASCADE, null=True, blank=True
     )
@@ -30,7 +35,7 @@ class Payment(models.Model):
     uri = models.CharField(max_length=100, null=True, blank=True)
 
     class Status_choice(models.TextChoices):
-        """choice for status whether PAID, PENDING, or UNPAID"""
+        """choice for status whether PAID, PENDING, UNPAID, EXPIRED or FAILED"""
 
         PAID = "PAID"
         PENDING = "PENDING"
@@ -74,7 +79,7 @@ class Payment(models.Model):
         return self.bill.header
 
     @property
-    def price(self):
+    def price(self) -> float:
         """get price of each payment"""
         return self.bill.calculate_price(self.user)
 
@@ -91,10 +96,15 @@ class Payment(models.Model):
         return self.payment_dct[self.payment_type]
 
     @property
-    def instance(self):
+    def instance(self) -> 'BasePayment':
+        """instance for each payment whether Cash, Promptpay, etc..
+
+        Returns:
+            _type_ -- payment that user selected to pay with
+        """
         selected = self.selected_payment
         if selected == CashPayment:
-            return self.cashpayment.first()
+            return self.cashpayment.first(                     )
         if selected == PromptPayPayment:
             return self.promptpaypayment.first()
         if selected == SCBPayment:
@@ -294,13 +304,13 @@ class CashPayment(BasePayment):
         if self.payment.status == self.payment.Status_choice.PAID:
             return
 
-        # TODO: send message to user that you rejected this pls pay again
         html_message = render_to_string(
-            'message/user/rejected_bill.html',{
-                'user': self.payment.user,
-                'bill_title': self.payment.bill.name,
-                'header': self.payment.header.name,
-            }
+            "message/user/rejected_bill.html",
+            {
+                "user": self.payment.user,
+                "bill_title": self.payment.bill.name,
+                "header": self.payment.header.name,
+            },
         )
 
         plain_message = strip_tags(html_message)
