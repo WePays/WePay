@@ -265,7 +265,7 @@ class CashPayment(BasePayment):
         self.payment.save()
         self.save()
 
-        html_message_to_user = render_to_string(
+        html_message_to_header = render_to_string(
             "message/header/mail_to_header.html",
             {
                 "user": self.payment.user,
@@ -276,28 +276,28 @@ class CashPayment(BasePayment):
             },
         )
 
-        plain_message_to_user = strip_tags(html_message_to_user)
+        plain_message_to_header = strip_tags(html_message_to_header)
 
         send_mail(
             subject="You got assign to a bill",
-            message=plain_message_to_user,
+            message=plain_message_to_header,
             from_email=settings.EMAIL_HOST_USER,
             recipient_list=[self.payment.user.user.email],
-            html_message=html_message_to_user,
+            html_message=html_message_to_header,
         )
 
     def reject(self):
         if self.payment.status == self.payment.Status_choice.PAID:
             return
 
-         # TODO: send message to user that you rejected this pls pay again
-         html_message = render_to_string(
+        # TODO: send message to user that you rejected this pls pay again
+        html_message = render_to_string(
             'message/user/rejected_bill.html',{
                 'user': self.payment.user,
                 'bill_title': self.payment.bill.name,
                 'header': self.payment.header.name,
             }
-            )
+        )
 
         plain_message = strip_tags(html_message)
 
