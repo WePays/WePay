@@ -79,7 +79,7 @@ class BillCreateView(LoginRequiredMixin, generic.DetailView):
         topic_user = request.POST.getlist("username[]")
         topic_price = request.POST["topic_price"]
         header = UserProfile.objects.get(user=user)
-        messages.error(request, f"Error occured: {e}")
+        messages.error(request, "Error occured")
 
         bill = Bills.objects.create(name=name, header=header)
         topic = Topic.objects.create(title=topic_name, price=topic_price, bill=bill)
@@ -115,7 +115,7 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
                 isinstance(payment.instance, OmisePayment)
                 and payment.status == Payment.Status_choice.PENDING
             ):
-                payment.instance.update_status()
+                payment.update_status()
             lst.append(payment)
         return render(request, "Wepay/detail.html", {"bill": bill, "payment": lst})
 
@@ -181,8 +181,29 @@ def delete(request: HttpRequest, pk: int):
         )
         return HttpResponseRedirect(reverse("bills:bill"))
     name = bill.name
+
+    for user in bill.all_user:
+
+        html_message_to_user = render_to_string(
+            "message/user/deleted_bill.html",
+            {
+                "bill_name": name,
+            }
+        )
+
+        plain_message_to_user = strip_tags(html_message_to_user)
+
+        send_mail(
+            subject="This bill is deleted.",
+            message=plain_message_to_user,
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=[user.user.email],
+            html_message=html_message_to_user,
+        )
+
     bill.delete()
     messages.success(request, f"Bill:{name} deleted")
+
     return HttpResponseRedirect(reverse("bills:bill"))
 
 
