@@ -73,30 +73,24 @@ class BillCreateView(LoginRequiredMixin, generic.DetailView):
         )
 
     def post(self, request, *args, **kwargs):
-        print(request.POST)
-        try:
-            user = request.user
-            name = request.POST["title"]
-            topic_name = request.POST["topic_name"]
-            topic_user = request.POST.getlist("username[]")
-            topic_price = request.POST["topic_price"]
-            header = UserProfile.objects.get(user=user)
-            print(topic_user)
-        except Exception as e:
-            messages.error(request, f"Error occured: {e}")
+        user = request.user
+        name = request.POST["title"]
+        topic_name = request.POST["topic_name"]
+        topic_user = request.POST.getlist("username[]")
+        topic_price = request.POST["topic_price"]
+        header = UserProfile.objects.get(user=user)
+        messages.error(request, "Error occured")
 
-        else:
-            bill = Bills.objects.create(name=name, header=header)
-            topic = Topic.objects.create(title=topic_name, price=topic_price, bill=bill)
+        bill = Bills.objects.create(name=name, header=header)
+        topic = Topic.objects.create(title=topic_name, price=topic_price, bill=bill)
 
-            for each_user in topic_user:
-                user = UserProfile.objects.get(user__username=each_user)
-                topic.add_user(user)
-            bill.add_topic(topic)
-            bill.save()
+        for each_user in topic_user:
+            user = UserProfile.objects.get(user__username=each_user)
+            topic.add_user(user)
+        bill.add_topic(topic)
+        bill.save()
 
-            return HttpResponseRedirect(f"/bill/{bill.id}/add")
-        return HttpResponseRedirect(reverse("bills:bill"))
+        return HttpResponseRedirect(f"/bill/{bill.id}/add")
 
 
 class DetailView(LoginRequiredMixin, generic.DetailView):
@@ -121,13 +115,14 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
                 isinstance(payment.instance, OmisePayment)
                 and payment.status == Payment.Status_choice.PENDING
             ):
-                payment.instance.update_status()
+                payment.update_status()
             lst.append(payment)
         return render(request, "Wepay/detail.html", {"bill": bill, "payment": lst})
 
 
 @login_required(login_url="/accounts/login/")
 def create(request: HttpRequest, pk: int):
+    print('HOYAAAAAAAAAAA        AAAAYYYOOOOOOOO')
     try:
         bill = Bills.objects.get(pk=pk)
     except Bills.DoesNotExist:
@@ -136,12 +131,11 @@ def create(request: HttpRequest, pk: int):
     bill.is_created = True
     for user in bill.all_user:
         each_user_payment = Payment.objects.create(user=user, bill=bill)
+        print(each_user_payment, 'AAAAAAAAAA')
         if user == bill.header:
             each_user_payment.status = Payment.Status_choice.PAID
         each_user_payment.save()
-        # send mail to all user who got assign except header file: create.html
-        # to: all user in the bill
-        # when: create bill(header assign all bill)
+
         if user != bill.header:
             html_message_to_user = render_to_string(
                 "message/user/assigned_bill.html",
@@ -187,8 +181,29 @@ def delete(request: HttpRequest, pk: int):
         )
         return HttpResponseRedirect(reverse("bills:bill"))
     name = bill.name
+
+    for user in bill.all_user:
+
+        html_message_to_user = render_to_string(
+            "message/user/deleted_bill.html",
+            {
+                "bill_name": name,
+            }
+        )
+
+        plain_message_to_user = strip_tags(html_message_to_user)
+
+        send_mail(
+            subject="This bill is deleted.",
+            message=plain_message_to_user,
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=[user.user.email],
+            html_message=html_message_to_user,
+        )
+
     bill.delete()
     messages.success(request, f"Bill:{name} deleted")
+
     return HttpResponseRedirect(reverse("bills:bill"))
 
 
@@ -197,4 +212,24 @@ def close(request: HttpRequest, pk: int):
     bill = Bills.objects.get(pk=pk)
     bill.is_closed = True
     bill.save()
+
+    for user in bill.all_user:
+
+        html_message_to_user = render_to_string(
+            "message/user/closed_bill.html",
+            {
+                "bill_name": bill.name,
+            }
+        )
+
+        plain_message_to_user = strip_tags(html_message_to_user)
+
+        send_mail(
+            subject="This bill is closed.",
+            message=plain_message_to_user,
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=[user.user.email],
+            html_message=html_message_to_user,
+        )
+
     return HttpResponseRedirect(reverse("bills:bill"))

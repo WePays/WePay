@@ -203,3 +203,6 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = config("EMAIL_HOST_USER", cast=str, default="")
 EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", cast=str, default="")
+
+OMISE_PUBLIC = config("OMISE_PUBLIC", cast=str, default="missing-omise-public")
+OMISE_SECRET = config("OMISE_SECRET", cast=str, default="missing-omise-secret")

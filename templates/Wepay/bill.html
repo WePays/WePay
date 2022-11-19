@@ -24,13 +24,12 @@
                         <div class="w-full">
                             <div class="static">
 
-                                <div class="inline-block text-3xl text-grey mt-36 font-bold ">Bill list</div>
+                                <div class="inline-block text-3xl text-grey mt-36 font-bold ml-72">Bill list</div>
 
                             </div>
 
 
-                            <div class="border-b border-gray-200 shadow">
-                                <table class="divide-y divide-[#171f99] mt-5">
+                                <table class="divide-y divide-[#171f99] mt-5 ml-72 overflow-scroll">
 
                                     <thead class="bg-[#171f99]">
                                         <tr>
@@ -86,12 +85,11 @@
                                         </tbody>
                                     {% endfor %}
                                 </table>
-                            </div>
                         </div>
                     </div>
                 </div>
                 {% if uncreated_bill %}
-                    <h3 class="text-xl text-red-500 mt-5 flex justify-center">You have an Initialized bill that havent create yet, lets create by clicking <a class="text-[#171f99]" href="{% url 'bills:add' uncreated_bill.id %}">here</a></h3>
+                    <h3 class="text-sm text-red-500 mt-5 ml-96">You have an Initialized bill that havent create yet, lets create by clicking<a class="text-[#171f99] text-sm underline" href="{% url 'bills:add' uncreated_bill.id %}">here</a></h3>
                 {% endif %}
 
             </body>
@@ -103,7 +101,7 @@
                     {% if messages %}
                         <p class="messages">
                             {% for message in messages %}
-                                <li class="{{ message.tags }}" style="margin-left: 55%; color:crimson ">
+                                <li class="text-[#171f99] absolute top-10 right-10">
                                     {% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}
                                 </li>
                             {% endfor %}

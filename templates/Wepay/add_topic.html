@@ -17,12 +17,12 @@
 
 {% block body%}
 
-    <div class="mt-24 ml-32 justify-center flex flex-row">
+    <div class="mt-24 ml-80 justify-center flex flex-row">
 
         <div class="">
             <p class="mt-3 font-bold">Total price: {{bill.total_price}} </p>
 
-            <table class="divide-y divide-[#171f99] mt-3">
+            <table class="divide-y divide-[#171f99] mt-3 overflow-scroll">
                 <thead class="bg-[#171f99]">
                     <tr>
                         <th class="px-6 py-4 text-xl text-white">No</th>
@@ -78,7 +78,7 @@
             {% csrf_token %}
             {{ form.as_p }}
             <div class="mt-5">Name:<br>
-                <input class="w-80" type="text" name="topic_name" id="topic_name" placeholder="Enter the topic name" required></div>
+                <input class="w-80 rounded" type="text" name="topic_name" id="topic_name" placeholder="Enter the topic name" required></div>
             <div class="mt-5"> Price: <br>
                 <input class="w-80" type="number" min="0" name="topic_price" id="topic_price" placeholder="Enter the topic price" required></div>
             <div class="mt-5 w-1/2">
@@ -90,7 +90,6 @@
                             id="username"
                             name="username[]"
                             multiple
-                            placeholder="Enter user to assign"
                             autocomplete="on"
                             class="block w-full rounded-sm cursor-pointer focus:outline-none"
                             multiple
@@ -119,9 +118,8 @@
 
                 <div class="mt-5 ml-56 "><button class="bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded flex justify-center" type="submit" value="Add topic">Add topic</button></div>
             </div>
-            <div class="mt-5 ml-56 "><button class="bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded flex justify-center" type="submit" value="Add topic">Add topic</button></div>
+            <div class="mt-5 ml-56 rounded"><button class="bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded flex justify-center" type="submit" value="Add topic">Add topic</button></div>
         </div>
-        <div class="add-topic" style="margin-top: 2%; margin-left: 30%;"><input type="submit" value="Add topic"></div>
     </div>
     </form>
     <script>
@@ -157,11 +155,10 @@
     </script>
     </div>
 
-
     {% if messages %}
         <ul class="messages">
             {% for message in messages %}
-                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
             {% endfor %}
         </ul>
     {% endif %}

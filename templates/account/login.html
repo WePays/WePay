@@ -1,6 +1,6 @@
 {% extends 'account/base.html' %}
-
-{% load static %}
+{% load tailwind_tags %}
+{% tailwind_css %}
 {% load socialaccount %}
 {% load i18n %}
 
@@ -16,7 +16,7 @@
 
 
 {% block content %}
-    <div class="left-box" style="margin-left: -5%;">
+    <div class="">
         <h5>Login</h5>
         <form class="login" method="POST" action="{% url 'account_login' %}">
             {% csrf_token %}
@@ -31,9 +31,7 @@
         <p>Don't have an account? <a href={% url 'account_signup' %}>Create Your Account</a> Click Signup for create account</p>
         {% comment %} <div class="inputs">
 		</div>
-			
-			<br><br>
-			
+						
 		<div class="remember-me--forget-password">
 
 			<label>
@@ -44,11 +42,10 @@
 			<a href="{% url 'account_reset_password' %}" class="forget-password">Forget Password?</a>
 
 		</div>
-			
 			<br>
 				<button type="button" onclick={% url 'account_signup' %}>Signup</button>
 				<button type="button" onclick={% url 'account_login' %}>Login</button>
-		</div> 
+		</div>
 	</div>
 	{% endcomment %}
 {% endblock content%}
