@@ -100,11 +100,11 @@ class Payment(models.Model):
         """instance for each payment whether Cash, Promptpay, etc..
 
         Returns:
-            _type_ -- payment that user selected to pay with
+            BasePayment -- payment that user selected to pay with
         """
         selected = self.selected_payment
         if selected == CashPayment:
-            return self.cashpayment.first(                     )
+            return self.cashpayment.first()
         if selected == PromptPayPayment:
             return self.promptpaypayment.first()
         if selected == SCBPayment:
@@ -117,34 +117,55 @@ class Payment(models.Model):
             return self.bblpayment.first()
 
     def can_pay(self) -> bool:
+        """check whether that payment can pay or not
+
+        Returns:
+            bool -- True if payment status is UNPAID else False
+        """
         return self.status == self.Status_choice.UNPAID
 
     def is_repayable(self) -> bool:
+        """check whether that payment can repay or not
+
+        Returns:
+            bool -- True if payment is fail or expired
+        """
         return self.status in (self.Status_choice.FAIL, self.Status_choice.EXPIRED)
 
     def pay(self) -> None:
-        """Pay to header"""
+        """Pay to header
+        
+        Raises:
+            AlreadyPayError: if user repay and now payment status is pending or paid
+        """
+        # if payment cant pay it will raise error
         if not self.can_pay():
             raise AlreadyPayError("You are in PENDING or PAID Status")
 
         now_payment = self.selected_payment.objects.get_or_create(payment=self)[0]
-        print(now_payment)
         now_payment.pay()
         self.save()
 
     def is_confirmable(self) -> bool:
+        """check whether payment is confirmable
+
+        Returns:
+            bool -- True is user pay with :model:`WePay.CashPayment` and :model:`WePay.PromptPaypayment` false otherwise
+        """
         return self.status == self.Status_choice.PENDING and self.selected_payment in (
             CashPayment,
             PromptPayPayment,
         )
 
-    def update_status(self):
+    def update_status(self) -> None:
         """update status of payment"""
+        # id it is cash payment bypass it
         if isinstance(self.instance, CashPayment):
             return
-
+        # change omise secret key to header chain key
         omise.api_secret = self.header.chain.key
         charge = omise.Charge.retrieve(self.instance.charge_id)
+        # if those payment is charged before it will check status
         if charge:
             status = charge.status
             if status == "successful":
@@ -157,6 +178,7 @@ class Payment(models.Model):
                 self.status = self.Status_choice.EXPIRED
 
         else:
+            # it mean that the payent is unpaid otherwise
             self.status = self.Status_choice.UNPAID
         self.instance.save()
         omise.api_secret = settings.OMISE_SECRET
@@ -170,35 +192,51 @@ class Payment(models.Model):
 
 
 class BasePayment(models.Model):
-    """Entry model"""
+    """Base class for EveryPayment
+    it contain :model:`WePay.Payment` (Forign Key) (it is instance of Payment)
+    """
 
+    # related name = #(class)s mean that Payment class can use name of class to call this instance
     payment = models.ForeignKey(
         Payment, on_delete=models.CASCADE, default=None, related_name="%(class)s"
     )
 
     @abstractmethod
-    def pay(self):
+    def pay(self) -> None:
+        """method for paying
+        """
         pass
 
+    # make this class inheritable
     class Meta:
         abstract = True
 
     def __init_subclass__(cls) -> None:
+        """make string method equal to represent method (magic method) if other inherited from this model
+        """
         super().__init_subclass__()
         cls.__str__ = cls.__repr__
 
     def __repr__(self) -> str:
-        return f"{self.__class__.__name__}({self.payment.payment_type}, {self.payment.status}, {self.payment.user})"
+        """represent object to classname status and user that link with this payment.
+        """
+        return f"{self.__class__.__name__}({self.payment.status}, {self.payment.user})"
 
 
 class OmisePayment(BasePayment):
+    """abstract model for paying through Promptpay and Internet Banking
+
+    Attr:
+        charge_id: id of each omise charge(if pay) to check status of each payment.
+        payment_type: Omise payment type whether PromptPay, InternetBanking...
+    """
     charge_id = models.CharField(max_length=100, null=True, blank=True)
     payment_type = models.CharField(max_length=100, default="promptpay")
 
     class Meta:
         abstract = True
 
-    def pay(self):
+    def pay(self) -> None:
         """pay by omise"""
         print(self.payment.status)
         # amount must morethan 20
@@ -208,21 +246,23 @@ class OmisePayment(BasePayment):
                 amount=self.payment.amount,
                 currency="thb",
             )
-
+            # change omise secret key to header's key
             omise.api_secret = self.payment.bill.header.chain.key
-
+            # then make a charge
             charge = omise.Charge.create(
                 amount=self.payment.amount,
                 currency="thb",
                 source=source.id,
                 return_uri=f"http://127.0.0.1:8000/payment/{self.payment.id}/update",
             )
-
+            # assign charge id  and uri to payment
             self.charge_id = charge.id
             self.payment.uri = charge.authorize_uri
             self.save()
 
-    def reset(self):
+    def reset(self) -> None:
+        """reset a payment
+        """
         self.payment.status = self.payment.Status_choice.UNPAID
         self.charge_id = ""
         self.payment.uri = ""
@@ -232,33 +272,54 @@ class OmisePayment(BasePayment):
 
     @property
     def payment_link(self) -> str:
+        """get a payment link to header for update status via omise
+
+        Returns:
+            str -- uri of link to go to each charge
+        """
+        # id header has pay or mark as paud it will return a link to update srarus
+        # it will return blank string otherwise
         if self.charge_id:
             return f"https://dashboard.omise.co/test/charges/{self.charge_id}"
         return ""
 
 
 class PromptPayPayment(OmisePayment):
+    """Inherited model from :model:`OmisePayment` that type is promptpay
+    """
     payment_type = "promptpay"
 
 
 class SCBPayment(OmisePayment):
+    """Inherited model from :model:`OmisePayment` that type is Scb
+    """
+
     payment_type = "internet_banking_scb"
 
 
 class KTBPayment(OmisePayment):
+    """Inherited model from :model:`OmisePayment` that type is KTB"""
     payment_type = "internet_banking_ktb"
 
 
 class BBLPayment(OmisePayment):
+    """Inherited model from :model:`OmisePayment` that type is BBL """
     payment_type = "internet_banking_bbl"
 
 
 class BAYPayment(OmisePayment):
+    """Inherited model from :model:`OmisePayment` that type is Bay"""
     payment_type = "internet_banking_bay"
 
 
 class CashPayment(BasePayment):
-    def confirm(self):
+    """Cash Payment for user to pay
+    
+    """
+
+    def confirm(self) -> None:
+        """Confrom the payment when payment to header"""
+        # it work when paymentstatus id pending
         if self.payment.status in (
             self.payment.Status_choice.PAID,
             self.payment.Status_choice.UNPAID,
@@ -268,7 +329,8 @@ class CashPayment(BasePayment):
         self.payment.status = self.payment.Status_choice.PAID
         self.payment.save()
 
-    def pay(self):
+    def pay(self) -> None:
+        """mark the status as paid and send mail to header to confirm this payment"""
 
         print(self)
         if self.payment.status == self.payment.Status_choice.PAID:
@@ -300,7 +362,8 @@ class CashPayment(BasePayment):
             html_message=html_message_to_header,
         )
 
-    def reject(self):
+    def reject(self) -> None:
+        """this payment was rejecred and reset it to unpiad status"""
         if self.payment.status == self.payment.Status_choice.PAID:
             return
 
@@ -326,7 +389,8 @@ class CashPayment(BasePayment):
         self.payment.status = self.payment.Status_choice.FAIL
         self.payment.save()
 
-    def reset(self):
+    def reset(self) -> None:
+        """reset the payment status"""
         self.payment.status = self.payment.Status_choice.UNPAID
         self.payment.save()
 
