@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import send_mail
-from django.http import HttpRequest, HttpResponse, HttpResponseRedirect, Http404
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.urls import reverse
@@ -20,8 +20,9 @@ def get_bill(pk, header: User):
         bill = Bills.objects.get(pk=pk, header__user=header)
     except Bills.DoesNotExist:
 
-        return None, Http404("This bill doesnt exists")
+        return None, HttpResponseNotFound("This bill doesnt exists")
     return bill, None
+
 
 class BillView(LoginRequiredMixin, generic.DetailView):
     """Display a list of bill and create userProfile if user dont have it before
@@ -84,7 +85,7 @@ class BillView(LoginRequiredMixin, generic.DetailView):
             messages.error(
                 request, "* You have an uncreated bill, please create it first"
             )
-            return redirect('/')
+            return redirect("/")
         return HttpResponseRedirect(reverse("bills:create"))
 
 
@@ -105,6 +106,7 @@ class BillCreateView(LoginRequiredMixin, generic.DetailView):
     :template:`WePay/create_bills.html`
 
     """
+
     template_name = "Wepay/create_bills.html"
     model = Bills
 
@@ -125,8 +127,7 @@ class BillCreateView(LoginRequiredMixin, generic.DetailView):
         )
 
     def post(self, request, *args, **kwargs):
-        """Initialize a bill and redirect to add topic page
-        """
+        """Initialize a bill and redirect to add topic page"""
         # get all component from user input
         user = request.user
         name = request.POST["title"]
@@ -178,7 +179,6 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
         # get all payment in that bill
         lst = []
         for each_user in bill.all_user:
-            print(Payment.objects.filter(bill=bill, user=each_user))
             payment = Payment.objects.get(bill=bill, user=each_user)
             if (  # update status of OmisePayment if it in PENDING status
                 isinstance(payment.instance, OmisePayment)
