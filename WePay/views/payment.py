@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import send_mail
 from django.db.models import QuerySet
-from django.http import Http404, HttpResponseRedirect
+from django.http import Http404, HttpResponseRedirect, HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, render, reverse
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
@@ -13,24 +13,58 @@ from ..models import CashPayment, OmisePayment, Payment, PromptPayPayment
 
 
 class PaymentView(LoginRequiredMixin, generic.ListView):
-    """views for payment of each bill."""
+    """Display a list of all payment that each user need to pay
+
+    **Context**
+
+    ``my_payment`` 
+        all user :model:`Payment` (need to pay)
+
+    **Template:**
+
+    :template:`Wepay/payment.html`
+    """
 
     template_name = "Wepay/payment.html"
     context_object_name = "my_payment"
 
     def get_queryset(self) -> QuerySet:
+        """get all user payment thst exclude PAID payment
+        """
         return Payment.objects.filter(user__user=self.request.user).exclude(
             status=Payment.Status_choice.PAID
         )
 
 
 class PaymentDetailView(LoginRequiredMixin, generic.DetailView):
-    """views for payment detail of each bill."""
+    """view for choosing payment and redirect to payment page
+
+    **Context**
+
+    ``payment``
+        payment that user need to pay
+    
+    ``status``
+        status of each payment
+
+    ``payment_type``
+        type of each payment
+
+    ``cash_only``
+        True if header not have OmiseChain
+        or amout to pay is less than 20 baht or more than 150,000 baht.
+
+
+    **Template**
+
+    :template:`Wepay/payment_detail.html`
+    """
 
     template_name = "Wepay/payment_detail.html"
     Model = Payment
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
+        """get everything to choose payment type"""
         user = request.user
         cash_only = False
         try:

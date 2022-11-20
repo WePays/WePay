@@ -13,6 +13,7 @@ from django.views import generic
 
 from ..models import Bills, OmisePayment, Payment, Topic, UserProfile
 
+
 def get_bill(pk, header: User):
     """get the bill"""
     try:
@@ -99,9 +100,9 @@ class BillCreateView(LoginRequiredMixin, generic.DetailView):
         list of all user in the application
 
 
-    ****Template:**
+    **Template:**
 
-    :template:`WePay/bill_create.html`
+    :template:`WePay/create_bills.html`
 
     """
     template_name = "Wepay/create_bills.html"
