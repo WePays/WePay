@@ -218,9 +218,10 @@ def reset(request, pk: int, *arg, **kwargs):
     if not payment.is_repayable():
         messages.error(request, "Payment is not resetable")
         return HttpResponseRedirect(reverse("payments:payment"))
-    payment.instance.reset()
-    payment.save()
-    print(payment.uri)
+    bill, user, date, payment_type = payment.get_payment_data()
+    payment.delete()
+    new_payment = Payment.objects.create(user=user, bill=bill, date=date, payment_type=payment_type)
+    new_payment.save()
 
     return HttpResponseRedirect(reverse("payments:payment"))
 

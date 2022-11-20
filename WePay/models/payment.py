@@ -185,6 +185,15 @@ class Payment(models.Model):
         omise.api_secret = settings.OMISE_SECRET
         self.save()
 
+    def get_payment_data(self):
+        """get the bill, user and date of this payment"""
+        return self.bill, self.user, self.date, self.payment_type
+
+    def delete(self, using=None, keep_parents=False):
+        """delete payment and its instance"""
+        self.instance.delete()
+        super().delete(using, keep_parents)
+
     def __repr__(self) -> str:
         """represent a payment"""
         return f"Payment(user={self.user}, date={self.date}, bill={self.bill}, status={self.status}, payment_type={self.payment_type})"
@@ -237,7 +246,6 @@ class OmisePayment(BasePayment):
 
     def pay(self) -> None:
         """pay by omise"""
-        print(self.payment.status)
         # amount must morethan 20
         if self.payment.status == self.payment.Status_choice.UNPAID:
             source = omise.Source.create(
@@ -330,7 +338,6 @@ class CashPayment(BasePayment):
     def pay(self) -> None:
         """mark the status as paid and send mail to header to confirm this payment"""
 
-        print(self)
         if self.payment.status == self.payment.Status_choice.PAID:
             return
 

@@ -134,7 +134,6 @@ class BillCreateView(LoginRequiredMixin, generic.DetailView):
         topic_user = request.POST.getlist("username[]")
         topic_price = request.POST["topic_price"]
         header = UserProfile.objects.get(user=user)
-        messages.error(request, "Error occured")
 
         # initialize a bill
         bill = Bills.objects.create(name=name, header=header)
