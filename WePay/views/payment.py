@@ -17,7 +17,7 @@ class PaymentView(LoginRequiredMixin, generic.ListView):
 
     **Context**
 
-    ``my_payment`` 
+    ``my_payment``
         all user :model:`Payment` (need to pay)
 
     **Template:**
@@ -29,8 +29,7 @@ class PaymentView(LoginRequiredMixin, generic.ListView):
     context_object_name = "my_payment"
 
     def get_queryset(self) -> QuerySet:
-        """get all user payment thst exclude PAID payment
-        """
+        """get all user payment thst exclude PAID payment"""
         return Payment.objects.filter(user__user=self.request.user).exclude(
             status=Payment.Status_choice.PAID
         )
@@ -43,7 +42,7 @@ class PaymentDetailView(LoginRequiredMixin, generic.DetailView):
 
     ``payment``
         payment that user need to pay
-    
+
     ``status``
         status of each payment
 
@@ -220,7 +219,9 @@ def reset(request, pk: int, *arg, **kwargs):
         return HttpResponseRedirect(reverse("payments:payment"))
     bill, user, date, payment_type = payment.get_payment_data()
     payment.delete()
-    new_payment = Payment.objects.create(user=user, bill=bill, date=date, payment_type=payment_type)
+    new_payment = Payment.objects.create(
+        user=user, bill=bill, date=date, payment_type=payment_type
+    )
     new_payment.save()
 
     return HttpResponseRedirect(reverse("payments:payment"))

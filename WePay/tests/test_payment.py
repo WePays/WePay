@@ -55,7 +55,7 @@ class TestPayment(TestCase):
 
         self.user_tup = (self.user1, self.user2, self.user3, self.user4, self.user5)
 
-        #bill1
+        # bill1
         self.bill = Bills.objects.create(header=self.header1, name="Food Bill")
         self.pepsi = Topic.objects.create(title="Pepsi", price=50)
         self.coke = Topic.objects.create(title="Coke", price=20)
@@ -76,7 +76,7 @@ class TestPayment(TestCase):
         self.bill.add_topic(self.salmon)
         self.bill.save()
 
-        #bill2
+        # bill2
         self.bill1 = Bills.objects.create(header=self.header2, name="Bowling bill")
 
         socks = Topic.objects.create(title="Socks", price=100)
@@ -233,7 +233,8 @@ class TestPayment(TestCase):
         self.client.logout()
         self.client.force_login(self.user4.user)
         resp = self.client.post(
-            reverse("payments:detail", kwargs={"pk": 9}), data={"payment_type":"KTB"})
+            reverse("payments:detail", kwargs={"pk": 9}), data={"payment_type": "KTB"}
+        )
         resp1 = self.client.get(reverse("payments:detail", kwargs={"pk": 9}))
         self.assertEqual(resp1.context["payment_type"], "KTB")
         self.assertRedirects(

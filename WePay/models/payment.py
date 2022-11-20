@@ -191,7 +191,8 @@ class Payment(models.Model):
 
     def delete(self, using=None, keep_parents=False):
         """delete payment and its instance"""
-        self.instance.delete()
+        if self.instance:
+            self.instance.delete()
         super().delete(using, keep_parents)
 
     def __repr__(self) -> str:
