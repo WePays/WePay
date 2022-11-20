@@ -41,8 +41,21 @@ class TestPayment(TestCase):
         self.user3 = UserProfile.objects.create(user=user3)
         self.user3.save()
 
-        self.user_tup = (self.user1, self.user2, self.user3)
+        user4 = User.objects.create_user(
+            username="test_user4", email="user4@example.com", password="user4"
+        )
+        self.user4 = UserProfile.objects.create(user=user4)
+        self.user4.save()
 
+        user5 = User.objects.create_user(
+            username="test_user5", email="user5@example.com", password="user5"
+        )
+        self.user5 = UserProfile.objects.create(user=user5)
+        self.user5.save()
+
+        self.user_tup = (self.user1, self.user2, self.user3, self.user4, self.user5)
+
+        #bill1
         self.bill = Bills.objects.create(header=self.header1, name="Food Bill")
         self.pepsi = Topic.objects.create(title="Pepsi", price=50)
         self.coke = Topic.objects.create(title="Coke", price=20)
@@ -63,14 +76,18 @@ class TestPayment(TestCase):
         self.bill.add_topic(self.salmon)
         self.bill.save()
 
+        #bill2
         self.bill1 = Bills.objects.create(header=self.header2, name="Bowling bill")
 
         socks = Topic.objects.create(title="Socks", price=100)
         bowling = Topic.objects.create(title="bowling 2 game", price="300")
         socks.add_user(self.user1)
+        socks.add_user(self.user5)
+        socks.add_user(self.user4)
         bowling.add_user(self.user2)
         bowling.add_user(self.header2)
         bowling.add_user(self.user1)
+        bowling.add_user(self.user3)
         self.bill1.add_topic(socks)
         self.bill1.add_topic(bowling)
         self.bill1.save()
@@ -93,6 +110,12 @@ class TestPayment(TestCase):
         )
         self.user3_bill1_payment = Payment.objects.create(
             user=self.user3, bill=self.bill1
+        )
+        self.user4_bill1_payment = Payment.objects.create(
+            user=self.user4, bill=self.bill1
+        )
+        self.user5_bill1_payment = Payment.objects.create(
+            user=self.user5, bill=self.bill1
         )
 
     def test_payment_doesnt_exist(self):
@@ -147,8 +170,8 @@ class TestPayment(TestCase):
         #! Paid in bill 2 but redirect into bill 1 instead (Its can be my mistake please check)
         self.assertRedirects(resp3, "/bill/2/", 302)
 
-    def test_pay_redirect(self):
-        """testing whether pay truly redirect"""
+    def test_pay_redirect_on_cash_payment(self):
+        """testing whether pay truly redirect on CashPayment"""
         # cashpayment
         self.client.logout()
         self.client.force_login(self.user2.user)
@@ -165,6 +188,8 @@ class TestPayment(TestCase):
         #! BUG
         # self.assertEqual(self.user2_payment.status, Payment.Status_choice.PENDING)
 
+    def test_pay_redirect_on_scb_payment(self):
+        """testing whether pay truly redirect on SCBPayment"""
         # other payment
         self.client.logout()
         self.client.force_login(self.user2.user)
@@ -185,6 +210,8 @@ class TestPayment(TestCase):
         #! BUG or I'm misunderstood.
         # self.assertEqual(self.user2_bill1_payment.status, Payment.Status_choice.PAID)
 
+    def test_pay_redirect_on_promptpay_payment(self):
+        """testing whether pay truly redirect on PromptPayPayment"""
         self.client.logout()
         self.client.force_login(self.user3.user)
         resp = self.client.post(
@@ -200,4 +227,20 @@ class TestPayment(TestCase):
             fetch_redirect_response=False,
         )
         resp2 = self.client.get(reverse("payments:update", kwargs={"pk": 8}))
+        self.assertRedirects(resp2, "/payment/", 302)
+
+    def test_pay_redirect_on_ktb_payment(self):
+        self.client.logout()
+        self.client.force_login(self.user4.user)
+        resp = self.client.post(
+            reverse("payments:detail", kwargs={"pk": 9}), data={"payment_type":"KTB"})
+        resp1 = self.client.get(reverse("payments:detail", kwargs={"pk": 9}))
+        self.assertEqual(resp1.context["payment_type"], "KTB")
+        self.assertRedirects(
+            resp,
+            resp1.context["payment"].uri,
+            status_code=302,
+            fetch_redirect_response=False,
+        )
+        resp2 = self.client.get(reverse("payments:update", kwargs={"pk": 9}))
         self.assertRedirects(resp2, "/payment/", 302)
