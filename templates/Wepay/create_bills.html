@@ -20,7 +20,7 @@
     <body>
         {% if user.is_authenticated %}
             <div class="justify-center mx-auto ml-96">
-                <form action="" method="POST", id='form'>
+                <form action="" method="POST", id='form' onsubmit="create_title.disabled = true; return true;">
                     {% csrf_token %}
                     <div class="first-body">
 
@@ -89,10 +89,13 @@
                         {% endif %}
                         <br>
                         <button class="absolute bottom-10 right-10 bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded mt-64 flex justify-center "><input type="submit" name="create_title" value="Create Title"></button>
-                        {% comment %} </ul> {% endcomment %}
+
                     </form>
                     <script>
+                        clicked = false;
+
                         document.getElementById('form').addEventListener("submit", function(e){
+
 
                             e.preventDefault();
 

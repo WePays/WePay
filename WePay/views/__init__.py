@@ -3,10 +3,10 @@ from .history import HistoryView
 from .payment import (
     PaymentDetailView,
     PaymentView,
-    update,
     confirm_payment,
-    reset,
     reject,
+    reset,
+    update,
 )
 from .topic import AddTopicView, delete_topic
 from .userprofile import UserProfileView, fetch_key

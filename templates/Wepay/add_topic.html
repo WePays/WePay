@@ -74,7 +74,7 @@
 
         <p class="mt-5 text-xl">Name of Bill: {{bill.name}} </p>
 
-        <form action="" method="post", if='form'>
+        <form action="" method="post", id='form'>
             {% csrf_token %}
             {{ form.as_p }}
             <div class="mt-7">Name:<br>
@@ -161,9 +161,9 @@
             {% endfor %}
         </ul>
     {% endif %}
-    <form action="{% url 'bills:success' bill.id %}" method="post">
+    <form action="{% url 'bills:success' bill.id %}" method="post" onsubmit="create_button.disabled = true; return true;">
         {% csrf_token %}
-        <button class="absolute bottom-10 right-10 bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded flex justify-center" type="submit" value="Create Bill"> Create Bill</button>
+        <button class="absolute bottom-10 right-10 bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded flex justify-center" type="submit" value="Create Bill" name="create_button"> Create Bill</button>
     </form>
 
 

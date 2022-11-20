@@ -65,7 +65,6 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django_browser_reload.middleware.BrowserReloadMiddleware",
-    # 'auth_remember.middleware.AuthRememberMiddleware',
 ]
 
 ROOT_URLCONF = "mysite.urls"

@@ -55,7 +55,6 @@ def delete_topic(request, pk):
     bill = topic.bill
     if len(Topic.objects.filter(bill=bill)) == 1:
         messages.warning(request, "! Bill must have at least one topic")
-        print("banana")
         return HttpResponseRedirect(reverse("bills:add", args=(bill.id,)))
     topic.delete()
     return HttpResponseRedirect(reverse("bills:add", args=(bill.id,)))

@@ -1,9 +1,10 @@
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import send_mail
-from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.urls import reverse
@@ -13,23 +14,51 @@ from django.views import generic
 from ..models import Bills, OmisePayment, Payment, Topic, UserProfile
 
 
+def get_bill(pk, header: User):
+    """get the bill"""
+    try:
+        bill = Bills.objects.get(pk=pk, header__user=header)
+    except Bills.DoesNotExist:
+
+        return None, HttpResponseNotFound("This bill doesnt exists")
+    return bill, None
+
+
 class BillView(LoginRequiredMixin, generic.DetailView):
-    """views for bill.html"""
+    """Display a list of bill and create userProfile if user dont have it before
+
+    **Context**
+
+    ``created_bill``
+        A list of :model:`WePay.Bills` that is created
+
+    ``Uncreated_bill``
+        an instance of :model:`WePay.Bills` that havent created(but initailized)
+
+    **Template:**
+
+    :template:`WePay/bill.html`
+    """
 
     template_name = "Wepay/bill.html"
 
-    def get(self, request, *arg, **kwargs):
+    def get(self, request: HttpRequest, *arg, **kwargs) -> HttpResponse:
+        """create a UserProfile object if User doesnt have
+        and display a list of bill
+        """
+        # get a user
         user = request.user
-        if (
-            user.is_authenticated
-            and not UserProfile.objects.filter(user_id=user.id).exists()
-        ):
+        # check whether userprofile is created or not,
+        # if not it will create a UserProfile for that user
+        if not UserProfile.objects.filter(user_id=user.id).exists():
             UserProfile.objects.create(user_id=user.id)
 
+        # get a list of bills that is created that ordering ny pubdate of bill
         created_bill_lst = Bills.objects.filter(
             header__user=request.user, is_created=True, is_closed=False
         ).order_by("-pub_date")
-        try:
+
+        try:  # get the last uncreated bill
             uncreated_bill = Bills.objects.get(
                 header__user=request.user, is_created=False
             )
@@ -43,6 +72,12 @@ class BillView(LoginRequiredMixin, generic.DetailView):
         )
 
     def post(self, request, *args, **kwargs):
+        """Create a Bill object and redirect to bill page
+
+        **messages**
+        :error: if user initialized a bill before and not created it
+
+        """
         uncreated = Bills.objects.filter(
             header__user=request.user, is_created=False
         ).order_by("-pub_date")
@@ -55,14 +90,33 @@ class BillView(LoginRequiredMixin, generic.DetailView):
 
 
 class BillCreateView(LoginRequiredMixin, generic.DetailView):
+    """Page for Initialize :model:`WePay.Bills`
+
+    **Context**
+
+    ``header``
+        an instance of :model:`WePay.UserProfile` that is the header of the bill(user)
+
+    ``lst_user``
+        list of all user in the application
+
+
+    **Template:**
+
+    :template:`WePay/create_bills.html`
+
+    """
+
     template_name = "Wepay/create_bills.html"
     model = Bills
 
     def get(self, request, *args, **kwargs):
+        """get everything that ready to be displayed in the page
+        if it has uncreated bill it will redirect to Bills Page
+        """
         user = request.user
         header = UserProfile.objects.get(user=user)
         lst_user = UserProfile.objects.all()
-        # get all user of the bills by calling bills.all_user
 
         uncreated_bill = Bills.objects.filter(header__user=user, is_created=False)
         if uncreated_bill:
@@ -73,17 +127,18 @@ class BillCreateView(LoginRequiredMixin, generic.DetailView):
         )
 
     def post(self, request, *args, **kwargs):
+        """Initialize a bill and redirect to add topic page"""
+        # get all component from user input
         user = request.user
         name = request.POST["title"]
         topic_name = request.POST["topic_name"]
         topic_user = request.POST.getlist("username[]")
         topic_price = request.POST["topic_price"]
         header = UserProfile.objects.get(user=user)
-        messages.error(request, "Error occured")
 
+        # initialize a bill
         bill = Bills.objects.create(name=name, header=header)
         topic = Topic.objects.create(title=topic_name, price=topic_price, bill=bill)
-
         for each_user in topic_user:
             user = UserProfile.objects.get(user__username=each_user)
             topic.add_user(user)
@@ -94,24 +149,38 @@ class BillCreateView(LoginRequiredMixin, generic.DetailView):
 
 
 class DetailView(LoginRequiredMixin, generic.DetailView):
-    """views for detail of each bill."""
+    """Display a detail of a bill
+
+    **Context**
+
+    ``bill``
+        an instance of :model:`WePay.Bills` that is that bil
+
+    ``payment``
+        list of each user payment (:model:`WePay.Payment`)
+
+    **Template:**
+
+    :template:`WePay/bill_detail.html`
+
+    """
 
     template_name = "Wepay/detail.html"
     model = Bills, Topic
 
     def get(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
-        user = request.user
+        """get each bill detail"""
+
         pk: int = kwargs["pk"]
 
-        try:
-            bill = Bills.objects.get(pk=pk, header__user=user)
-        except Bills.DoesNotExist:
-            messages.error(request, "! This bill dosen't exist")
-            return HttpResponseRedirect(reverse("bills:bill"))
+        bill, error_resp = get_bill(pk, request.user)
+        if error_resp:
+            return error_resp
+        # get all payment in that bill
         lst = []
         for each_user in bill.all_user:
             payment = Payment.objects.get(bill=bill, user=each_user)
-            if (
+            if (  # update status of OmisePayment if it in PENDING status
                 isinstance(payment.instance, OmisePayment)
                 and payment.status == Payment.Status_choice.PENDING
             ):
@@ -121,18 +190,47 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
 
 
 @login_required(login_url="/accounts/login/")
-def create(request: HttpRequest, pk: int):
-    print('HOYAAAAAAAAAAA        AAAAYYYOOOOOOOO')
-    try:
-        bill = Bills.objects.get(pk=pk)
-    except Bills.DoesNotExist:
-        messages.error(request, "! This Bill dosen't exist")
-        return HttpResponseRedirect(reverse("bills:bill"))
+def create(request: HttpRequest, pk: int) -> HttpResponse:
+    """create a bill that Initialized and send email notification
+    to all user in that bill
+
+    Arguments:
+        pk {int} -- id of each bill
+
+    **Context**
+
+    render when send mail
+    ``user``
+        an instance of :model:`WePay.UserProfile` that is each user in the bill
+
+    ``bill``
+        name of that bill
+
+    ``header``
+        instance of :model:`WePay.UserProfile` that is header of bill
+
+    ``price``
+        price that each user need to pay
+
+    ``topic``
+        all topic in that bill
+        (maybe refactor to topic that each user in that)
+
+    **Template**
+
+    :template:`message/user/assigned_bill.html`
+
+    """
+    bill, error_resp = get_bill(pk, request.user)
+    if error_resp:
+        return error_resp
+    # set bill to created
     bill.is_created = True
+
+    # assigin each payment to user and send email notification
     for user in bill.all_user:
         each_user_payment = Payment.objects.create(user=user, bill=bill)
-        print(each_user_payment, 'AAAAAAAAAA')
-        if user == bill.header:
+        if user == bill.header:  # header is alway paid
             each_user_payment.status = Payment.Status_choice.PAID
         each_user_payment.save()
 
@@ -163,13 +261,24 @@ def create(request: HttpRequest, pk: int):
 
 
 @login_required(login_url="/accounts/login/")
-def delete(request: HttpRequest, pk: int):
+def delete(request: HttpRequest, pk: int) -> HttpResponse:
+    """delete a bill that requested
+
+    Arguments:
+        pk {int} -- id of each bill
+
+    **Context**
+    render when send mail
+
+    ``bill_name``
+        name for that bill
+
+    """
     header = request.user
-    try:
-        bill = Bills.objects.get(pk=pk, header__user=header)
-    except Bills.DoesNotExist:
-        messages.error(request, "! This bill Bill dosen't exist")
-        return HttpResponseRedirect(reverse("bills:bill"))
+    bill, error_resp = get_bill(pk, header)
+    if error_resp:
+        return error_resp
+    # if anyone is paid or in pending status except header it will cant delete
     any_one_pay = any(
         payment.status in (Payment.Status_choice.PAID, Payment.Status_choice.PENDING)
         for payment in bill.payments.all()
@@ -182,13 +291,13 @@ def delete(request: HttpRequest, pk: int):
         return HttpResponseRedirect(reverse("bills:bill"))
     name = bill.name
 
+    # send notification to each user that this bill is deleted
     for user in bill.all_user:
-
         html_message_to_user = render_to_string(
             "message/user/deleted_bill.html",
             {
                 "bill_name": name,
-            }
+            },
         )
 
         plain_message_to_user = strip_tags(html_message_to_user)
@@ -208,8 +317,17 @@ def delete(request: HttpRequest, pk: int):
 
 
 @login_required(login_url="/accounts/login/")
-def close(request: HttpRequest, pk: int):
-    bill = Bills.objects.get(pk=pk)
+def close(request: HttpRequest, pk: int) -> HttpResponse:
+    """close the bill after header click verify button
+    then send notification to all user that this bill is closed
+
+    Arguments:
+        pk {int} -- id of each bill
+
+    """
+    bill, error_resp = get_bill(pk, request.user)
+    if error_resp:
+        return error_resp
     bill.is_closed = True
     bill.save()
 
@@ -219,7 +337,7 @@ def close(request: HttpRequest, pk: int):
             "message/user/closed_bill.html",
             {
                 "bill_name": bill.name,
-            }
+            },
         )
 
         plain_message_to_user = strip_tags(html_message_to_user)
