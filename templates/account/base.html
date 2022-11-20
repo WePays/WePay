@@ -4,28 +4,28 @@
 
 <!DOCTYPE html>
 <html lang="en" >
-<head>
-    <meta charset="UTF-8">
-    <title>{% block head_title %} {% endblock head_title%}</title>
-    <link rel="stylesheet" href="{% static 'WePay/login.css' %}">
-    <link rel="stylesheet" media="screen" href="https://fontlibrary.org//face/hk-grotesk" type="text/css"/>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block head_title %} {% endblock head_title%}</title>
+        <link rel="stylesheet" href="{% static 'WePay/login.css' %}">
+        <link rel="stylesheet" media="screen" href="https://fontlibrary.org//face/hk-grotesk" type="text/css"/>
 
-    {% block extra_head %}{% endblock extra_head %}
-</head>
+        {% block extra_head %}{% endblock extra_head %}
+    </head>
 
-<body class="bg-[#D2E7FE]">
-    {% block body%}
-        {% if messages %}
-            <div class="absolute top-10 right-10 text-black">
-            <strong>Messages:</strong>
-                <ul>
-                    {% for message in messages %}
-                        <li>{{message}}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-        {% endif %}
-              
+    <body class="bg-[#D2E7FE]">
+        {% block body%}
+            {% if messages %}
+                <div class="absolute top-10 right-10 text-black">
+                    <strong>Messages:</strong>
+                    <ul>
+                        {% for message in messages %}
+                            <li>{{message}}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
             <!-- partial:index.partial.html -->
             <div class="box-form">
                 <div class="left" style="width: 60%;">

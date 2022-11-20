@@ -178,6 +178,7 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
         # get all payment in that bill
         lst = []
         for each_user in bill.all_user:
+            print(Payment.objects.filter(bill=bill, user=each_user))
             payment = Payment.objects.get(bill=bill, user=each_user)
             if (  # update status of OmisePayment if it in PENDING status
                 isinstance(payment.instance, OmisePayment)
@@ -273,7 +274,8 @@ def delete(request: HttpRequest, pk: int) -> HttpResponse:
         name for that bill
 
     """
-    bill, error_resp = get_bill(pk, request.user)
+    header = request.user
+    bill, error_resp = get_bill(pk, header)
     if error_resp:
         return error_resp
     # if anyone is paid or in pending status except header it will cant delete
