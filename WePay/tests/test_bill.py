@@ -83,7 +83,7 @@ class BillCreateViewTest(BaseViewTest):
         data = {
             "title": "Est",
             "topic_name": "Toast",
-            "username": [self.user1, self.user2],
+            "username[]": [self.user1, self.user2],
             "topic_price": 2000,
         }
         response = self.client.post(reverse("bills:create"), data=data)
@@ -157,21 +157,22 @@ class DetailViewTest(BaseViewTest):
 
 
 class AddTopicView(BaseViewTest):
+
     def test_add_topic(self):
         data = {
             "title": "Est",
             "topic_name": "Toast",
-            "username": [self.user1, self.user2],
+            "username[]": [self.user1, self.user2],
             "topic_price": 2000,
         }
         data2 = {
             "topic_name": "Toasting",
-            "username": [self.user1, self.user2, self.user3],
+            "username[]": [self.user1, self.user2, self.user3],
             "topic_price": 3000,
         }
         data3 = {
             "topic_name": "Tea",
-            "username": [self.user2, self.user3],
+            "username[]": [self.user2, self.user3],
             "topic_price": 4000,
         }
         response = self.client.post(reverse("bills:create"), data=data)
@@ -196,17 +197,17 @@ class AddTopicView(BaseViewTest):
         bill_data = {
             "title": this_bill.name,
             "topic_name": first_topic.title,
-            "username": list(first_topic.user.all()),
+            "username[]": list(first_topic.user.all()),
             "topic_price": first_topic.price,
         }
         topic_data1 = {
             "topic_name": second_topic.title,
-            "username": list(second_topic.user.all()),
+            "username[]": list(second_topic.user.all()),
             "topic_price": second_topic.price,
         }
         topic_data2 = {
             "topic_name": third_topic.title,
-            "username": list(third_topic.user.all()),
+            "username[]": list(third_topic.user.all()),
             "topic_price": third_topic.price,
         }
         self.assertDictEqual(data, bill_data)
