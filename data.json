@@ -3,7 +3,7 @@
     "model": "admin.logentry",
     "pk": 1,
     "fields": {
-        "action_time": "2022-11-18T14:36:01.174Z",
+        "action_time": "2022-11-20T14:46:47.524Z",
         "user": 1,
         "content_type": 7,
         "object_id": "1",
@@ -16,11 +16,11 @@
     "model": "admin.logentry",
     "pk": 2,
     "fields": {
-        "action_time": "2022-11-18T14:36:37.158Z",
+        "action_time": "2022-11-20T14:47:18.507Z",
         "user": 1,
         "content_type": 11,
         "object_id": "1",
-        "object_repr": "Line",
+        "object_repr": "Discord",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -29,11 +29,11 @@
     "model": "admin.logentry",
     "pk": 3,
     "fields": {
-        "action_time": "2022-11-18T14:37:02.187Z",
+        "action_time": "2022-11-20T14:47:55.526Z",
         "user": 1,
         "content_type": 11,
         "object_id": "2",
-        "object_repr": "GitHub",
+        "object_repr": "Line",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -42,33 +42,7 @@
     "model": "admin.logentry",
     "pk": 4,
     "fields": {
-        "action_time": "2022-11-18T14:37:07.353Z",
-        "user": 1,
-        "content_type": 11,
-        "object_id": "2",
-        "object_repr": "GitHub",
-        "action_flag": 2,
-        "change_message": "[{\"changed\": {\"fields\": [\"Sites\"]}}]"
-    }
-},
-{
-    "model": "admin.logentry",
-    "pk": 5,
-    "fields": {
-        "action_time": "2022-11-18T14:37:11.704Z",
-        "user": 1,
-        "content_type": 11,
-        "object_id": "2",
-        "object_repr": "GitHub",
-        "action_flag": 3,
-        "change_message": ""
-    }
-},
-{
-    "model": "admin.logentry",
-    "pk": 6,
-    "fields": {
-        "action_time": "2022-11-18T14:37:35.923Z",
+        "action_time": "2022-11-20T14:48:24.710Z",
         "user": 1,
         "content_type": 11,
         "object_id": "3",
@@ -79,39 +53,13 @@
 },
 {
     "model": "admin.logentry",
-    "pk": 7,
+    "pk": 5,
     "fields": {
-        "action_time": "2022-11-18T14:38:05.872Z",
+        "action_time": "2022-11-20T14:48:52.945Z",
         "user": 1,
         "content_type": 11,
         "object_id": "4",
         "object_repr": "Google",
-        "action_flag": 1,
-        "change_message": "[{\"added\": {}}]"
-    }
-},
-{
-    "model": "admin.logentry",
-    "pk": 8,
-    "fields": {
-        "action_time": "2022-11-18T14:39:46.676Z",
-        "user": 1,
-        "content_type": 11,
-        "object_id": "4",
-        "object_repr": "Google",
-        "action_flag": 2,
-        "change_message": "[]"
-    }
-},
-{
-    "model": "admin.logentry",
-    "pk": 9,
-    "fields": {
-        "action_time": "2022-11-18T14:40:15.504Z",
-        "user": 1,
-        "content_type": 11,
-        "object_id": "5",
-        "object_repr": "Discord",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -912,8 +860,8 @@
     "model": "auth.user",
     "pk": 1,
     "fields": {
-        "password": "pbkdf2_sha256$390000$RGmPQ10ntLKzYZxSMWiN9v$F9g38F31OUarmP2Nj0JU1TgFDgQTFETtfXpjMn7PBM0=",
-        "last_login": "2022-11-18T14:34:53.804Z",
+        "password": "pbkdf2_sha256$390000$gCIbjQq3TVYTZkpfOgVJQW$z01+38E8KxY43ibTbJEBm/tgPzqm+q+yOzowYIuO9UE=",
+        "last_login": "2022-11-20T14:45:24.280Z",
         "is_superuser": true,
         "username": "Wepay",
         "first_name": "",
@@ -921,7 +869,7 @@
         "email": "wepay.isp@gmail.com",
         "is_staff": true,
         "is_active": true,
-        "date_joined": "2022-11-18T14:34:26.399Z",
+        "date_joined": "2022-11-20T14:43:14.237Z",
         "groups": [],
         "user_permissions": []
     }
@@ -1103,14 +1051,6 @@
     }
 },
 {
-    "model": "sessions.session",
-    "pk": "vofrw87g8f570l24ntos4koqu1eudic9",
-    "fields": {
-        "session_data": ".eJxVjD0OwyAUg-_CXCH-QqBbexH08gCBGhGpwFT17iVRhnSz_dn-EAe9JddreLvsyZ1wcrtmC-ArlB3Auu4xBcStl0aPzokrfQwXSssILW_lea7-rhLUNH6imr1gUwwGpFYyDmkCCojaWD4c82bWkwTLGSJaAZ4rrY1YIoK3jJPvD7ilPEg:1ow2SD:uHIwpQ-zXDGTjNGrDIOdoPePRB71QbfSq8iNhf9knGw",
-        "expire_date": "2022-12-02T14:34:53.806Z"
-    }
-},
-{
     "model": "sites.site",
     "pk": 1,
     "fields": {
@@ -1121,6 +1061,20 @@
 {
     "model": "socialaccount.socialapp",
     "pk": 1,
+    "fields": {
+        "provider": "discord",
+        "name": "Discord",
+        "client_id": "1032665615443443774",
+        "secret": "pbQfEMna3_wL9G_dIUleqKBR7345B1B5",
+        "key": "",
+        "sites": [
+            1
+        ]
+    }
+},
+{
+    "model": "socialaccount.socialapp",
+    "pk": 2,
     "fields": {
         "provider": "line",
         "name": "Line",
@@ -1139,7 +1093,7 @@
         "provider": "github",
         "name": "GitHub",
         "client_id": "aa42db2facbb11ebe3d7",
-        "secret": "988fe3ac7496fb3befe6d872d126924efa014938",
+        "secret": "fbe99ea99817165e8ad2bbfecc44fe3c8ae5a7d5",
         "key": "",
         "sites": [
             1
@@ -1161,17 +1115,11 @@
     }
 },
 {
-    "model": "socialaccount.socialapp",
-    "pk": 5,
+    "model": "WePay.userprofile",
+    "pk": 1,
     "fields": {
-        "provider": "discord",
-        "name": "Discord",
-        "client_id": "1032665615443443774",
-        "secret": "pbQfEMna3_wL9G_dIUleqKBR7345B1B5",
-        "key": "",
-        "sites": [
-            1
-        ]
+        "user": 1,
+        "chain_id": ""
     }
 }
 ]
