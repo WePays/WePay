@@ -23,6 +23,7 @@ class Payment(models.Model):
     date: date that those payment published
     bill -> :model:`WePay.Bills` bill of that payment
     """
+
     user = models.ForeignKey(
         UserProfile, on_delete=models.CASCADE, null=True, blank=True
     )
@@ -96,7 +97,7 @@ class Payment(models.Model):
         return self.payment_dct[self.payment_type]
 
     @property
-    def instance(self) -> 'BasePayment':
+    def instance(self) -> "BasePayment":
         """instance for each payment whether Cash, Promptpay, etc..
 
         Returns:
@@ -134,7 +135,7 @@ class Payment(models.Model):
 
     def pay(self) -> None:
         """Pay to header
-        
+
         Raises:
             AlreadyPayError: if user repay and now payment status is pending or paid
         """
@@ -203,8 +204,7 @@ class BasePayment(models.Model):
 
     @abstractmethod
     def pay(self) -> None:
-        """method for paying
-        """
+        """method for paying"""
         pass
 
     # make this class inheritable
@@ -212,14 +212,12 @@ class BasePayment(models.Model):
         abstract = True
 
     def __init_subclass__(cls) -> None:
-        """make string method equal to represent method (magic method) if other inherited from this model
-        """
+        """make string method equal to represent method (magic method) if other inherited from this model"""
         super().__init_subclass__()
         cls.__str__ = cls.__repr__
 
     def __repr__(self) -> str:
-        """represent object to classname status and user that link with this payment.
-        """
+        """represent object to classname status and user that link with this payment."""
         return f"{self.__class__.__name__}({self.payment.status}, {self.payment.user})"
 
 
@@ -230,6 +228,7 @@ class OmisePayment(BasePayment):
         charge_id: id of each omise charge(if pay) to check status of each payment.
         payment_type: Omise payment type whether PromptPay, InternetBanking...
     """
+
     charge_id = models.CharField(max_length=100, null=True, blank=True)
     payment_type = models.CharField(max_length=100, default="promptpay")
 
@@ -261,8 +260,7 @@ class OmisePayment(BasePayment):
             self.save()
 
     def reset(self) -> None:
-        """reset a payment
-        """
+        """reset a payment"""
         self.payment.status = self.payment.Status_choice.UNPAID
         self.charge_id = ""
         self.payment.uri = ""
@@ -285,37 +283,37 @@ class OmisePayment(BasePayment):
 
 
 class PromptPayPayment(OmisePayment):
-    """Inherited model from :model:`OmisePayment` that type is promptpay
-    """
+    """Inherited model from :model:`OmisePayment` that type is promptpay"""
+
     payment_type = "promptpay"
 
 
 class SCBPayment(OmisePayment):
-    """Inherited model from :model:`OmisePayment` that type is Scb
-    """
+    """Inherited model from :model:`OmisePayment` that type is Scb"""
 
     payment_type = "internet_banking_scb"
 
 
 class KTBPayment(OmisePayment):
     """Inherited model from :model:`OmisePayment` that type is KTB"""
+
     payment_type = "internet_banking_ktb"
 
 
 class BBLPayment(OmisePayment):
-    """Inherited model from :model:`OmisePayment` that type is BBL """
+    """Inherited model from :model:`OmisePayment` that type is BBL"""
+
     payment_type = "internet_banking_bbl"
 
 
 class BAYPayment(OmisePayment):
     """Inherited model from :model:`OmisePayment` that type is Bay"""
+
     payment_type = "internet_banking_bay"
 
 
 class CashPayment(BasePayment):
-    """Cash Payment for user to pay
-    
-    """
+    """Cash Payment for user to pay"""
 
     def confirm(self) -> None:
         """Confrom the payment when payment to header"""
@@ -363,7 +361,7 @@ class CashPayment(BasePayment):
         )
 
     def reject(self) -> None:
-        """this payment was rejecred and reset it to unpiad status"""
+        """this payment was rejecred and set it to FAIL status"""
         if self.payment.status == self.payment.Status_choice.PAID:
             return
 
