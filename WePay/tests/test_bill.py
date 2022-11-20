@@ -78,13 +78,12 @@ class BillCreateViewTest(BaseViewTest):
         self.client.post(reverse("bills:success", kwargs={"pk": 2}))
         self.assertTrue(Bills.objects.get(pk=2).is_created)
 
-    @skip("AssertionError: Lists differ: [] != [test_user1, test_user2], : Response redirected to '/bill/1/', expected '/bill/2/'Expected '/bill/1/' to equal '/bill/2/'.")
     def test_response_with_create_bill(self):
         """Test create bill with response"""
         data = {
             "title": "Est",
             "topic_name": "Toast",
-            "username": [self.user1, self.user2],
+            "username[]": [self.user1, self.user2],
             "topic_price": 2000,
         }
         response = self.client.post(reverse("bills:create"), data=data)
@@ -159,22 +158,21 @@ class DetailViewTest(BaseViewTest):
 
 class AddTopicView(BaseViewTest):
 
-    @skip("AssertionError: {'tit[30 chars]st', 'username': [test_user1, test_user2], 'topic_price': 2000} != {'tit[30 chars]st', 'username': [], 'topic_price': 2000}")
     def test_add_topic(self):
         data = {
             "title": "Est",
             "topic_name": "Toast",
-            "username": [self.user1, self.user2],
+            "username[]": [self.user1, self.user2],
             "topic_price": 2000,
         }
         data2 = {
             "topic_name": "Toasting",
-            "username": [self.user1, self.user2, self.user3],
+            "username[]": [self.user1, self.user2, self.user3],
             "topic_price": 3000,
         }
         data3 = {
             "topic_name": "Tea",
-            "username": [self.user2, self.user3],
+            "username[]": [self.user2, self.user3],
             "topic_price": 4000,
         }
         response = self.client.post(reverse("bills:create"), data=data)
@@ -199,17 +197,17 @@ class AddTopicView(BaseViewTest):
         bill_data = {
             "title": this_bill.name,
             "topic_name": first_topic.title,
-            "username": list(first_topic.user.all()),
+            "username[]": list(first_topic.user.all()),
             "topic_price": first_topic.price,
         }
         topic_data1 = {
             "topic_name": second_topic.title,
-            "username": list(second_topic.user.all()),
+            "username[]": list(second_topic.user.all()),
             "topic_price": second_topic.price,
         }
         topic_data2 = {
             "topic_name": third_topic.title,
-            "username": list(third_topic.user.all()),
+            "username[]": list(third_topic.user.all()),
             "topic_price": third_topic.price,
         }
         self.assertDictEqual(data, bill_data)
