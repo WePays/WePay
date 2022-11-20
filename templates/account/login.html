@@ -29,23 +29,4 @@
 
 
         <p>Don't have an account? <a href={% url 'account_signup' %}>Create Your Account</a> Click Signup for create account</p>
-        {% comment %} <div class="inputs">
-		</div>
-						
-		<div class="remember-me--forget-password">
-
-			<label>
-				<input type="checkbox" name="remember-me" id="remember-me">
-				<span>Remember me</span>
-			</label>
-
-			<a href="{% url 'account_reset_password' %}" class="forget-password">Forget Password?</a>
-
-		</div>
-			<br>
-				<button type="button" onclick={% url 'account_signup' %}>Signup</button>
-				<button type="button" onclick={% url 'account_login' %}>Login</button>
-		</div>
-	</div>
-	{% endcomment %}
 {% endblock content%}

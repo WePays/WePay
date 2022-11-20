@@ -29,21 +29,6 @@ class BaseViewTest(BaseSetUp):
         self.client.logout()
         response = self.client.get("/accounts/login/")
         self.assertEqual(response.status_code, 200)
-        # last = Bills.objects.last()
-        # print(last)
-        # all_redirected_url = ["/bill/", "/bill/create/"]
-        # if last:
-        #     all_redirected_url.append(f"/bill/{last.id-1}")
-        # for url in all_redirected_url:
-        #     resp = self.client.get(url)
-        #     print(url)
-        #     self.assertEqual(resp.status_code, 302)
-
-        # # no bills exist in here
-        # if last:
-        #     url = f"/bill/{last.id+1}"
-        #     resp = self.client.get(url)
-        #     self.assertEqual(resp.status_code, 301)
 
 
 class BillViewTest(BaseViewTest):
