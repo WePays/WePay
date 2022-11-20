@@ -1,9 +1,10 @@
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import send_mail
-from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.urls import reverse
@@ -12,6 +13,14 @@ from django.views import generic
 
 from ..models import Bills, OmisePayment, Payment, Topic, UserProfile
 
+def get_bill(pk, header: User):
+    """get the bill"""
+    try:
+        bill = Bills.objects.get(pk=pk, header__user=header)
+    except Bills.DoesNotExist:
+
+        return None, Http404("This bill doesnt exists")
+    return bill, None
 
 class BillView(LoginRequiredMixin, generic.DetailView):
     """Display a list of bill and create userProfile if user dont have it before
@@ -161,14 +170,11 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
     def get(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
         """get each bill detail"""
 
-        user = request.user
         pk: int = kwargs["pk"]
 
-        try:
-            bill = Bills.objects.get(pk=pk, header__user=user)
-        except Bills.DoesNotExist:
-            messages.error(request, "! This bill dosen't exist")
-            return HttpResponseRedirect(reverse("bills:bill"))
+        bill, error_resp = get_bill(pk, request.user)
+        if error_resp:
+            return error_resp
         # get all payment in that bill
         lst = []
         for each_user in bill.all_user:
@@ -214,12 +220,9 @@ def create(request: HttpRequest, pk: int) -> HttpResponse:
     :template:`message/user/assigned_bill.html`
 
     """
-    # get the bill
-    try:
-        bill = Bills.objects.get(pk=pk)
-    except Bills.DoesNotExist:
-        messages.error(request, "! This Bill dosen't exist")
-        return HttpResponseRedirect(reverse("bills:bill"))
+    bill, error_resp = get_bill(pk, request.user)
+    if error_resp:
+        return error_resp
     # set bill to created
     bill.is_created = True
 
@@ -270,13 +273,9 @@ def delete(request: HttpRequest, pk: int) -> HttpResponse:
         name for that bill
 
     """
-    header = request.user
-    try:
-        bill = Bills.objects.get(pk=pk, header__user=header)
-    except Bills.DoesNotExist:
-        # TODO: change it to HTTP404 later
-        messages.error(request, "! This bill Bill dosen't exist")
-        return HttpResponseRedirect(reverse("bills:bill"))
+    bill, error_resp = get_bill(pk, request.user)
+    if error_resp:
+        return error_resp
     # if anyone is paid or in pending status except header it will cant delete
     any_one_pay = any(
         payment.status in (Payment.Status_choice.PAID, Payment.Status_choice.PENDING)
@@ -324,12 +323,9 @@ def close(request: HttpRequest, pk: int) -> HttpResponse:
         pk {int} -- id of each bill
 
     """
-    try:
-        bill = Bills.objects.get(pk=pk, header__user=header)
-    except Bills.DoesNotExist:
-        # TODO: change it to HTTP404 later
-        messages.error(request, "! This bill Bill dosen't exist")
-        return HttpResponseRedirect(reverse("bills:bill"))
+    bill, error_resp = get_bill(pk, request.user)
+    if error_resp:
+        return error_resp
     bill.is_closed = True
     bill.save()
 
