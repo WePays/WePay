@@ -23,11 +23,11 @@ class HistoryView(LoginRequiredMixin, generic.DetailView):
         :template:`WePay/history.html`
 
     """
+
     template_name = "WePay/history.html"
 
     def get(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
-        """get a list of bill and payment history
-        """
+        """get a list of bill and payment history"""
         user = UserProfile.objects.get(user=request.user)
         bill_history = Bills.objects.filter(header=user, is_closed=True)
         payment_history = Payment.objects.filter(

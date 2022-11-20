@@ -1,7 +1,16 @@
 from .bill import Bills, Topic
-from .payment import (BasePayment, BAYPayment, BBLPayment, CashPayment,
-                      KTBPayment, OmisePayment, Payment, PromptPayPayment,
-                      SCBPayment, omise)
+from .payment import (
+    BasePayment,
+    BAYPayment,
+    BBLPayment,
+    CashPayment,
+    KTBPayment,
+    OmisePayment,
+    Payment,
+    PromptPayPayment,
+    SCBPayment,
+    omise,
+)
 from .userprofile import UserProfile
 
 __all__ = [

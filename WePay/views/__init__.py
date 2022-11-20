@@ -1,7 +1,13 @@
 from .bill import BillCreateView, BillView, DetailView, close, create, delete
 from .history import HistoryView
-from .payment import (PaymentDetailView, PaymentView, confirm_payment, reject,
-                      reset, update)
+from .payment import (
+    PaymentDetailView,
+    PaymentView,
+    confirm_payment,
+    reject,
+    reset,
+    update,
+)
 from .topic import AddTopicView, delete_topic
 from .userprofile import UserProfileView, fetch_key
 
