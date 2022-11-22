@@ -34,7 +34,7 @@
 
                 <hr class="my-3 text-[#171f99]">
 
-                <a href="/user-profile">
+                <a href="{% url 'user-profile:userprofile' %}">
                     <div class="p-2.5 mt-2 flex items-center rounded-md px-4 duration-300 cursor-pointer  hover:bg-gray-200">
                         <i class="bi bi-person-circle"></i>
                         <span class="text-[15px] ml-4 text-[#171f99]">{{user.username}}</span>
@@ -44,20 +44,20 @@
 
                 <hr class="my-4 text-gray-600">
 
-                <a href="/bill">
+                <a href="{% url 'bills:bill' %}">
                     <div class="p-2.5 mt-2 flex items-center rounded-md px-4 duration-300 cursor-pointer  hover:bg-gray-200">
                         <i class="bi bi-receipt-cutoff"></i>
                         <span class="text-[15px] ml-4 text-[#171f99]">Bills</span>
                     </div>
                 </a>
-                <a href="/payment">
+                <a href="{% url 'payments:payment' %}">
                     <div class="p-2.5 mt-2 flex items-center rounded-md px-4 duration-300 cursor-pointer  hover:bg-gray-200">
                         <i class="bi bi-credit-card"></i>
                         <span class="text-[15px] ml-4 text-[#171f99]">Payment</span>
                     </div>
                 </a>
 
-                <a href="/history">
+                <a href="{% url 'history:history' %}">
                     <div class="p-2.5 mt-2 flex items-center rounded-md px-4 duration-300 cursor-pointer  hover:bg-gray-200">
                         <i class="bi bi-clock-history"></i>
                         <span class="text-[15px] ml-4 text-[#171f99]">History</span>
@@ -66,13 +66,13 @@
 
                 <hr class="my-3 text-[#171f99]">
 
-                <a href="/instruction">
+                <a href="{% url 'instruction' %}">
                     <div class="p-2.5 mt-2 flex items-center rounded-md px-4 duration-300 cursor-pointer  hover:bg-gray-200">
                         <i class="bi bi-wrench"></i>
                         <span class="text-[15px] ml-4 text-[#171f99]">Instruction</span>
                     </div>
                 </a>
-                <a href="/about">
+                <a href="{% url 'about' %}">
                     <div class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer  hover:bg-gray-200">
                         <i class="bi bi-people"></i>
                         <span class="text-[15px] ml-4 text-[#171f99]">About Us</span>

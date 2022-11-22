@@ -24,7 +24,7 @@ class HistoryView(LoginRequiredMixin, generic.DetailView):
 
     """
 
-    template_name = "WePay/history.html"
+    template_name = "Wepay/history.html"
 
     def get(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
         """get a list of bill and payment history"""
