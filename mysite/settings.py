@@ -205,6 +205,8 @@ INTERNAL_IPS = [
     "*"
 ]
 
+CSRF_TRUSTED_ORIGINS = ['https://wepays.herokuapp.com','127.0.0.1']
+
 if "CI" in os.environ:
     TEST_RUNNER = "gettingstarted.settings.HerokuDiscoverRunner"
 
@@ -221,3 +223,4 @@ EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", cast=str, default="")
 OMISE_PUBLIC = config("OMISE_PUBLIC", cast=str, default="missing-omise-public")
 OMISE_SECRET = config("OMISE_SECRET", cast=str, default="missing-omise-secret")
 django_heroku.settings(locals())
+
