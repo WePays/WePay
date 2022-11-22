@@ -43,6 +43,10 @@ class BillViewTest(BaseViewTest):
         response = self.client.get("/bill/")
         self.assertEqual(response.status_code, 200)
 
+    def test_uncreated_bill(self):
+        """test redirect and error if user has uncreated bill."""
+        pass
+
 
 class BillCreateViewTest(BaseViewTest):
     """Test for BillCreateView"""
@@ -152,8 +156,8 @@ class DetailViewTest(BaseViewTest):
     def test_bill_not_exist(self):
         """test navigation if go to bill that does not exist it will return to bill page"""
         response = self.client.get(reverse("bills:detail", kwargs={"pk": 1000}))
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, "/bill/", 302, 200)
+        self.assertEqual(response.status_code, 404)
+        self.assertRedirects(response, "/bill/", 302, 200) #TODO change this to 404 page.
 
 
 class AddTopicView(BaseViewTest):
