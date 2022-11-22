@@ -12,11 +12,14 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 import os
 from pathlib import Path
 
+import dj_database_url
+import django_heroku
 from decouple import Csv, config
+from django.test.runner import DiscoverRunner
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -57,6 +60,7 @@ INSTALLED_APPS = [
 TAILWIND_APP_NAME = "theme"
 
 MIDDLEWARE = [
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -85,6 +89,12 @@ TEMPLATES = [
     },
 ]
 
+
+TEMPLATE_DIRS = (
+    os.path.join(BASE_DIR,  'templates'),
+    # Add to this list all the locations containing your static files 
+    os.path.join(os.path.join(BASE_DIR,  'WePay'), 'static'),
+)
 
 AUTHENTICATION_BACKENDS = [
     # username/password authentication
@@ -143,7 +153,7 @@ DATABASES = {
     }
 }
 
-
+DATABASES['default'].update(dj_database_url.config(conn_max_age=500, ssl_require=True))
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
@@ -163,8 +173,18 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+# Test Runner Config
+class HerokuDiscoverRunner(DiscoverRunner):
+    """Test Runner for Heroku CI, which provides a database for you.
+    This requires you to set the TEST database (done for you by settings().)"""
+
+    def setup_databases(self, **kwargs):
+        self.keepdb = True
+        return super(HerokuDiscoverRunner, self).setup_databases(**kwargs)
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
+
 
 LANGUAGE_CODE = "en-us"
 
@@ -179,7 +199,11 @@ USE_THOUSAND_SEPARATOR = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_URL = "/static/"
+
+# Enable WhiteNoise's GZip compression of static assets.
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -191,7 +215,13 @@ LOGOUT_REDIRECT_URL = "/accounts/login/"
 
 INTERNAL_IPS = [
     "127.0.0.1",
+    "*"
 ]
+
+CSRF_TRUSTED_ORIGINS = ['https://wepays.herokuapp.com', 'http://127.0.0.1']
+
+if "CI" in os.environ:
+    TEST_RUNNER = "gettingstarted.settings.HerokuDiscoverRunner"
 
 
 NPM_BIN_PATH = "/usr/local/bin/npm"
@@ -205,3 +235,4 @@ EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", cast=str, default="")
 
 OMISE_PUBLIC = config("OMISE_PUBLIC", cast=str, default="missing-omise-public")
 OMISE_SECRET = config("OMISE_SECRET", cast=str, default="missing-omise-secret")
+django_heroku.settings(locals())
