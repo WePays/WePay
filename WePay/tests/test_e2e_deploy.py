@@ -54,6 +54,21 @@ class E2ETestDeploy(LiveServerTestCase):
         self.browser.find_element(By.XPATH, "/html/body/div/div[2]/form/button").click()
         self.assertEqual(self.browser.current_url, "https://wepays.herokuapp.com/accounts/login/")
 
+    def test_update_display(self):
+        """Test for update display"""
+        self.login_with_deploy_web()
+        self.browser.implicitly_wait(5)
+        self.browser.find_element(By.XPATH, "/html/body/div[1]/div/a[1]").click() #click userprofile
+        self.assertEqual(self.browser.current_url, "https://wepays.herokuapp.com/user-profile/")
+        self.browser.find_element(By.NAME, "display name").clear()
+        self.browser.find_element(By.NAME, "display name").send_keys("Halo")
+        self.browser.find_element(By.XPATH, "/html/body/div[2]/div[1]/form/div/button").click() #update userprofile
+        self.assertEqual(self.browser.find_element(By.NAME, "display name").is_displayed(), True)
+        self.browser.find_element(By.NAME, "display name").clear()
+        self.browser.find_element(By.NAME, "display name").send_keys("wepay") #change back to Wepay
+        self.browser.find_element(By.XPATH, "/html/body/div[2]/div[1]/form/div/button").click() #update userprofile
+        self.assertEqual(self.browser.find_element(By.NAME, "display name").is_displayed(), True)
+
     def test_create_bill_and_add_topic_with_deploy_web(self):
         """Test create bill & add topic with deploy web"""
         self.login_with_deploy_web()
