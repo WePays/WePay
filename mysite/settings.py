@@ -11,10 +11,11 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
 from pathlib import Path
-import dj_database_url
-from decouple import Csv, config
-import django_heroku
 
+import dj_database_url
+import django_heroku
+from decouple import Csv, config
+from django.test.runner import DiscoverRunner
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -166,8 +167,18 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+# Test Runner Config
+class HerokuDiscoverRunner(DiscoverRunner):
+    """Test Runner for Heroku CI, which provides a database for you.
+    This requires you to set the TEST database (done for you by settings().)"""
+
+    def setup_databases(self, **kwargs):
+        self.keepdb = True
+        return super(HerokuDiscoverRunner, self).setup_databases(**kwargs)
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
+
 
 LANGUAGE_CODE = "en-us"
 
@@ -185,10 +196,6 @@ USE_THOUSAND_SEPARATOR = True
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_URL = "/static/"
 
-STATICFILES_DIRS = [
-    os.path.join(PROJECT_ROOT, 'static'),
-]
-
 # Enable WhiteNoise's GZip compression of static assets.
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
@@ -205,7 +212,7 @@ INTERNAL_IPS = [
     "*"
 ]
 
-CSRF_TRUSTED_ORIGINS = ['https://wepays.herokuapp.com','127.0.0.1']
+CSRF_TRUSTED_ORIGINS = ['https://wepays.herokuapp.com', 'http://127.0.0.1']
 
 if "CI" in os.environ:
     TEST_RUNNER = "gettingstarted.settings.HerokuDiscoverRunner"
@@ -223,4 +230,3 @@ EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", cast=str, default="")
 OMISE_PUBLIC = config("OMISE_PUBLIC", cast=str, default="missing-omise-public")
 OMISE_SECRET = config("OMISE_SECRET", cast=str, default="missing-omise-secret")
 django_heroku.settings(locals())
-
