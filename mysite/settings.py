@@ -93,7 +93,7 @@ TEMPLATES = [
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR,  'templates'),
     # Add to this list all the locations containing your static files 
-    os.path.join(os.path.join(BASE_DIR,  'WePay'), 'static'),
+    os.path.join(BASE_DIR,  'WePay')
 )
 
 AUTHENTICATION_BACKENDS = [
@@ -130,7 +130,9 @@ SOCIALACCOUNT_PROVIDERS = {
             "profile",
             "email",
         ],
-
+        "AUTH_PARAMS": {
+            "access_type": "online",
+        },
     },
     "line": {
         "APP": {
@@ -197,8 +199,9 @@ USE_THOUSAND_SEPARATOR = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = "/static/"
+# STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
 # Enable WhiteNoise's GZip compression of static assets.
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
@@ -234,3 +237,5 @@ EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", cast=str, default="")
 OMISE_PUBLIC = config("OMISE_PUBLIC", cast=str, default="missing-omise-public")
 OMISE_SECRET = config("OMISE_SECRET", cast=str, default="missing-omise-secret")
 django_heroku.settings(locals())
+
+SOCIALACCOUNT_ADAPTER = "WePay.whatever.SocialAccountAdapter"
