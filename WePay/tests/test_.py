@@ -1,52 +1,66 @@
 from unittest import skip
 
 from django.contrib.auth.models import User
-from django.test import LiveServerTestCase
-from selenium import webdriver
+from django.test import Client, LiveServerTestCase
+from selenium.webdriver import Chrome, ChromeOptions
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 
 from WePay.models.userprofile import UserProfile
 
 
-class BillFormTest(LiveServerTestCase):
+class E2ETest(LiveServerTestCase):
     def setUp(self):
+        self.client = Client()
         header = User.objects.create_user(
             username="header", email="header@example.com", password="header123"
         )
+        header.save()
         self.header = UserProfile.objects.create(
             user=header, chain_id="acch_test_5tl5qdsa0cbli76hwoj"
         )
         self.header.save()
+        # user = User.objects.create_user(
+        #     username="test_user", email="user1@example.com", password="user"
+        # )
+        # user.save()
+        # self.user = UserProfile.objects.create(user=user)
+        # self.user.save()
+        self.browser = Chrome()
+        self.browser.get(self.live_server_url + "/accounts/login/")
+        self.login()
 
-        user = User.objects.create_user(
-            username="test_user", email="user1@example.com", password="user"
+    def login(self):
+        self.client.login(username=self.header.name, password="header123")
+        cookie = self.client.cookies['sessionid']
+        self.browser.add_cookie(
+            {
+                "name": "sessionid",
+                "value": cookie.value,
+                "secure": False,
+                "path": "/",
+            }
         )
-        self.user = UserProfile.objects.create(user=user)
-        self.user.save()
-        # self.client.force_login(self.header)
-        self.browser = webdriver.Chrome()
+        self.browser.refresh()
 
     # @skip("Temporalily skip")
-    def test_login(self):
-        # url to visit
-        self.browser.get("http://127.0.0.1:8000/accounts/login/")
+    # def test_login(self):
+    #     # url to visit
+    #     self.browser.get("http://127.0.0.1:8000/accounts/login/")
 
-        # find the elements we need to submit form
-        username_input = self.browser.find_element(By.ID, "id_login")
-        password_input = self.browser.find_element(By.ID, "id_password")
-        submit_button = self.browser.find_element(By.ID, "id_submit")
+    #     # find the elements we need to submit form
+    #     username_input = self.browser.find_element(By.ID, "id_login")
+    #     password_input = self.browser.find_element(By.ID, "id_password")
+    #     submit_button = self.browser.find_element(By.ID, "id_submit")
 
-        # populate the form with data
-        username_input.send_keys(self.header.name)
-        password_input.send_keys(self.header.user.password)
+    #     # populate the form with data
+    #     username_input.send_keys(self.header.name)
+    #     password_input.send_keys(self.header.user.password)
 
-        # submit form
-        # submit_button.send_keys(Keys.RETURN)
-        # click the button to login
-        submit_button.click()
+    #     # submit form
+    #     # submit_button.send_keys(Keys.RETURN)
+    #     # click the button to login
+    #     submit_button.click()
 
         # assert "header" in self.browser.page_source
     @skip("it still not work, i will try later after reading a selenium docs")
