@@ -1,12 +1,8 @@
 from unittest import skip
-
-from django.contrib.auth.models import User
-from django.test import Client, LiveServerTestCase
+from selenium.common.exceptions import NoSuchElementException
+from django.test import LiveServerTestCase
 from selenium.webdriver import Chrome, ChromeOptions
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-
-from WePay.models.userprofile import UserProfile
 
 
 class E2ETestDeploy(LiveServerTestCase):
@@ -18,6 +14,7 @@ class E2ETestDeploy(LiveServerTestCase):
 
     # Test with deploy web
     def login_with_deploy_web(self):
+        """login function"""
         username = "wepay"
         password = "wepay123"
         self.browser.get("https://wepays.herokuapp.com/accounts/login/")
@@ -61,8 +58,9 @@ class E2ETestDeploy(LiveServerTestCase):
         """Test create bill & add topic with deploy web"""
         self.login_with_deploy_web()
         self.browser.implicitly_wait(5)
-        #click create bill button
-        self.browser.find_element(By.XPATH, "/html/body/div[3]/form/button").click()
+        #click create bill button #TODO add name into create button html.
+        # self.browser.find_element(By.XPATH, "/html/body/div[2]/form/button").click() #This is the button when no bills
+        self.browser.find_element(By.XPATH, "/html/body/div[3]/form/button").click() #This button when user have bills.
         # if user have initialize bill its will goes to bill page
         if self.browser.current_url == "https://wepays.herokuapp.com/bill/":
             self.browser.find_element(By.XPATH, "/html/body/h3/a").click()
@@ -94,4 +92,13 @@ class E2ETestDeploy(LiveServerTestCase):
         self.browser.find_element(By.NAME, "create_button").click() # create bill
         # redirect back to bills page
         self.assertEqual(self.browser.current_url, "https://wepays.herokuapp.com/bill/")
+        
 
+    def test_delete_button(self):
+        """Test delete button"""
+        self.test_create_bill_and_add_topic_with_deploy_web()
+        self.browser.implicitly_wait(5)
+        self.browser.find_element(By.XPATH, "/html/body/div[1]/div/a[2]").click()
+        #delete button
+        self.browser.implicitly_wait(5)
+        self.browser.find_element(By.XPATH, "/html/body/div[2]/div/div/table/tbody[1]/tr/td[6]/a").click() # delete first bill
