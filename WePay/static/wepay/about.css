@@ -44,7 +44,7 @@ body {
 }
 .circle {
   background-color: #fee7d3;
-  background-image: url("wepay/logo2_wepay.png");
+  background-image: url("webpages/logo2_wepay.png");
   background-repeat: no-repeat;
   border-radius: 50%;
   cursor: pointer;
