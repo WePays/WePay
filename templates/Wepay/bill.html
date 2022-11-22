@@ -1,124 +1,117 @@
-{% extends 'Wepay/base_wepay.html' %}
-{% load tailwind_tags %}
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        {% tailwind_css %}
-        {% block header %}{% endblock header %}
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Tailwind tables</title>
-        <link rel="stylesheet" href="style.css" />
-        <!-- <link rel=¨stylesheet¨ type=¨text/css¨ href=¨wepay/bill.css¨> -->
-    </head>
+{% extends 'Wepay/base.html' %}
 
 
-    {% block body%}
-        {{block.super}}
 
-        {% if created_bill %}
-            <body>
-                <div class="container flex justify-center mx-auto">
-                    <div class="flex flex-col">
-                        <div class="w-full">
-                            <div class="static">
-
-                                <div class="inline-block text-3xl text-grey mt-36 font-bold ">Bill list</div>
-
-                            </div>
+{% block extra_head %}
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tailwind tables</title>
+    <link rel="stylesheet" href="style.css" />
+    <!-- <link rel=¨stylesheet¨ type=¨text/css¨ href=¨wepay/bill.css¨> -->
+{% endblock extra_head %}
 
 
-                            <div class="border-b border-gray-200 shadow">
-                                <table class="divide-y divide-[#171f99] mt-5">
+{% block body%}
 
-                                    <thead class="bg-[#171f99]">
-                                        <tr>
-                                            <th class="px-6 py-4 text-xl text-white">No</th>
-                                            <th class="px-10 py-4 text-xl text-white">Topic</th>
-                                            <th class="px-8 py-4 text-xl text-white">Price</th>
-                                            <th class="px-10 py-4 text-xl text-white">Status</th>
-                                            <th class="px-8 py-4 text-xl text-white">Verify</th>
-                                            <th class="px-6 py-4 text-xl text-white">Delete</th>
-                                        </tr>
-                                    </thead>
+    {% if created_bill %}
+        <div class="container flex justify-center mx-auto">
+            <div class="flex flex-col">
+                <div class="w-full">
+                    <div class="static">
 
-                                    {% for bill in created_bill %}
-                                        <tbody class="bg-white divide-y divide-gray-300">
-                                            <tr class="whitespace-nowrap">
+                        <div class="inline-block text-3xl text-grey mt-36 font-bold ml-72">Bill list</div>
 
-                                                <td class="px-6 py-4 text-sm text-gray-600">{{forloop.counter0|add:"1"}}</td>
-                                                <td class="px-10 py-4 text-sm text-gray-900 font-bold"><a href="{% url 'bills:detail' bill.id %}"> {{ bill.name }}</a></td>
-                                                <td class="px-8 py-4 text-sm text-gray-900">{{ bill.total_price}}</td>
-
-                                                {% if bill.status%}
-                                                    <td class="px-10 py-4 text-sm text-green-500">PAID</td>
-                                                {% else %}
-                                                    <td class="px-10 py-4 text-sm text-red-500">UNPAID</td>
-                                                {% endif %}
-
-                                                {% if bill.status %}
-                                                    <td class="px-8 py-4 text-sm text-green-500"><a href="{% url 'bills:close' bill.id %}">Verify</a></td>
-                                                {% else %}
-                                                    <td class="px-8 py-4 text-sm text-red-500">Not Verify</td>
-                                                {% endif %}
-
-                                                <td class="px-6 py-4">
-                                                    <a href="{% url 'bills:delete' bill.id %}">
-                                                        <svg
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            class="w-6 h-6 text-red-400"
-                                                            fill="none"
-                                                            viewBox="0 0 24 24"
-                                                            stroke="currentColor"
-                                                        >
-                                                            <path
-                                                                stroke-linecap="round"
-                                                                stroke-linejoin="round"
-                                                                stroke-width="2"
-                                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5
-                                                                    4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                                                            />
-                                                        </svg>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    {% endfor %}
-                                </table>
-                            </div>
-                        </div>
                     </div>
+
+
+                    <table class="divide-y divide-[#171f99] mt-5 ml-72 overflow-scroll">
+
+                        <thead class="bg-[#171f99]">
+                            <tr>
+                                <th class="px-6 py-4 text-xl text-white">No</th>
+                                <th class="px-10 py-4 text-xl text-white">Topic</th>
+                                <th class="px-8 py-4 text-xl text-white">Price</th>
+                                <th class="px-10 py-4 text-xl text-white">Status</th>
+                                <th class="px-8 py-4 text-xl text-white">Verify</th>
+                                <th class="px-6 py-4 text-xl text-white">Delete</th>
+                            </tr>
+                        </thead>
+
+                        {% for bill in created_bill %}
+                            <tbody class="bg-white divide-y divide-gray-300">
+                                <tr class="whitespace-nowrap">
+
+                                    <td class="px-6 py-4 text-sm text-gray-600">{{forloop.counter0|add:"1"}}</td>
+                                    <td class="px-10 py-4 text-sm text-gray-900 font-bold underline"><a href="{% url 'bills:detail' bill.id %}"> {{ bill.name }}</a></td>
+                                    <td class="px-8 py-4 text-sm text-gray-900">{{ bill.total_price}}</td>
+
+                                    {% if bill.status%}
+                                        <td class="px-10 py-4 text-sm text-green-500">PAID</td>
+                                    {% else %}
+                                        <td class="px-10 py-4 text-sm text-red-500">UNPAID</td>
+                                    {% endif %}
+
+                                    {% if bill.status %}
+                                        <td class="px-8 py-4 text-sm text-green-500"><a href="{% url 'bills:close' bill.id %}">Verify</a></td>
+                                    {% else %}
+                                        <td class="px-8 py-4 text-sm text-red-500">Not Verify</td>
+                                    {% endif %}
+
+                                    <td class="px-6 py-4">
+                                        <a href="{% url 'bills:delete' bill.id %}">
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                class="w-6 h-6 text-red-400"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                stroke="currentColor"
+                                            >
+                                                <path
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    stroke-width="2"
+                                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5
+                                                        4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                                />
+                                            </svg>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        {% endfor %}
+                    </table>
                 </div>
-                {% if uncreated_bill %}
-                    <h3 class="text-xl text-red-500 mt-5 flex justify-center">You have an Initialized bill that havent create yet, lets create by clicking <a class="text-[#171f99]" href="{% url 'bills:add' uncreated_bill.id %}">here</a></h3>
-                {% endif %}
-
-            </body>
-
-            <div>
-                <form action="" method="post">
-                    {% csrf_token %}
-                    <button class="absolute bottom-10 right-10 bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded mt-64 flex justify-center" type="submit">Create Bill</button>
-                    {% if messages %}
-                        <p class="messages">
-                            {% for message in messages %}
-                                <li class="{{ message.tags }}" style="margin-left: 55%; color:crimson ">
-                                    {% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}
-                                </li>
-                            {% endfor %}
-                        </p>
-                    {% endif %}
-                </form>
             </div>
+        </div>
 
 
-        {% else %}
-            <h2 class="text-4xl text-red-500 mt-64 flex justify-center ">No Bills are available.</h2>
-            <form action="" method="post">
-                {% csrf_token %}
-                <button class="absolute bottom-10 right-10 bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded mt-64 flex justify-center" type="submit">Create Bill</button>
-            </form>
+
+
+
+
+    {% else %}
+        <h2 class="text-4xl text-red-500 mt-64 flex justify-center ">No Bills are available.</h2>
+    {% endif %}
+    {% if uncreated_bill %}
+        <h3 class="text-red-500 absolute top-10 right-10 tab">You have an Initialized bill that havent create yet, lets create by clicking  <a class="bi bi-pencil-square  text-[#171f99]" href="{% url 'bills:add' uncreated_bill.id %}"></a></h3>
+    {% endif %}
+    <div>
+
+        {% if messages %}
+            <p class="messages">
+                {% for message in messages %}
+                    <p class="text-red-500 absolute bottom-20 right-10">
+                        {% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}
+                    </p>
+                {% endfor %}
+            </p>
         {% endif %}
+        <form action="" method="post">
+            {% csrf_token %}
+            <button class="absolute bottom-10 right-10 bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded mt-64 flex justify-center" type="submit">Create Bill</button>
+        </form>
 
-    {% endblock body%}
+    </div>
+
+{% endblock body%}

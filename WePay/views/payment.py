@@ -1,46 +1,69 @@
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import QuerySet
-from django.http import HttpResponseRedirect, Http404
-from django.shortcuts import get_object_or_404, render, reverse
-from django.views import generic
 from django.core.mail import send_mail
+from django.db.models import QuerySet
+from django.http import Http404, HttpResponseRedirect, HttpRequest, HttpResponse
+from django.shortcuts import get_object_or_404, render, reverse
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
-from django.conf import settings
+from django.views import generic
 
-from ..config import OMISE_SECRET
-from ..models import (
-    BAYPayment,
-    BBLPayment,
-    KTBPayment,
-    Payment,
-    PromptPayPayment,
-    SCBPayment,
-    OmisePayment,
-    CashPayment,
-)
+from ..models import CashPayment, OmisePayment, Payment, PromptPayPayment
 
 
 class PaymentView(LoginRequiredMixin, generic.ListView):
-    """views for payment of each bill."""
+    """Display a list of all payment that each user need to pay
+
+    **Context**
+
+    ``my_payment``
+        all user :model:`Payment` (need to pay)
+
+    **Template:**
+
+    :template:`Wepay/payment.html`
+    """
 
     template_name = "Wepay/payment.html"
     context_object_name = "my_payment"
 
     def get_queryset(self) -> QuerySet:
+        """get all user payment thst exclude PAID payment"""
         return Payment.objects.filter(user__user=self.request.user).exclude(
             status=Payment.Status_choice.PAID
         )
 
 
 class PaymentDetailView(LoginRequiredMixin, generic.DetailView):
-    """views for payment detail of each bill."""
+    """view for choosing payment and redirect to payment page
+
+    **Context**
+
+    ``payment``
+        payment that user need to pay
+
+    ``status``
+        status of each payment
+
+    ``payment_type``
+        type of each payment
+
+    ``cash_only``
+        True if header not have OmiseChain
+        or amout to pay is less than 20 baht or more than 150,000 baht.
+
+
+    **Template**
+
+    :template:`Wepay/payment_detail.html`
+    """
 
     template_name = "Wepay/payment_detail.html"
     Model = Payment
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
+        """get everything to choose payment type"""
         user = request.user
         cash_only = False
         try:
@@ -48,7 +71,7 @@ class PaymentDetailView(LoginRequiredMixin, generic.DetailView):
         except Http404:
             messages.error(
                 request, "Payment not found"
-            )  #! BUG IT DOESNT COMING WHEN REDIRECT
+            )  # !BUG IT DOESNT COMING WHEN REDIRECT
             return HttpResponseRedirect(reverse("payments:payment"))
         status = payment.status
         payment_type = payment.payment_type
@@ -91,7 +114,7 @@ class PaymentDetailView(LoginRequiredMixin, generic.DetailView):
         payment.save()
         if payment_type == "Cash":
             return HttpResponseRedirect(reverse("payments:payment"))
-        # * after this will involked update status function
+
         return HttpResponseRedirect(payment.uri)
 
 
@@ -106,29 +129,50 @@ def update(request, pk: int, *arg, **kwargs):
     if not issubclass(payment_type, OmisePayment):
         messages.error(request, "Payment is not omise payment")
         return HttpResponseRedirect(reverse("payments:payment"))
-    payment.instance.update_status()
+    payment.update_status()
     header_mail = payment.bill.header.user.email
-    html_message = render_to_string(
-        "message/header/someone_pay.html",
-        {
-            "user": payment.user,
-            "bill_name": payment.bill.name,
-            "payment_type": payment.instance.payment_type,
-            "price": payment.price,
-            "bill_id": payment.bill.id,
-        },
-    )
-    plain_message = strip_tags(html_message)
 
-    message = f"{payment.user} has paid Bill's {payment.bill.name}"
-    message += f" with {payment.instance.payment_type}\n for {payment.price} Baht."
-    send_mail(
-        subject="Someone Pay you a money",
-        message=plain_message,
-        from_email=settings.EMAIL_HOST_USER,
-        recipient_list=[header_mail],
-        html_message=html_message,
-    )
+    if payment.status == Payment.Status_choice.PAID:
+
+        html_message = render_to_string(
+            "message/header/someone_pay.html",
+            {
+                "user": payment.user,
+                "bill_name": payment.bill.name,
+                "payment_type": payment.instance.payment_type,
+                "price": payment.price,
+                "bill_id": payment.bill.id,
+            },
+        )
+
+        plain_message = strip_tags(html_message)
+
+        send_mail(
+            subject="Someone Pay you a money",
+            message=plain_message,
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=[header_mail],
+            html_message=html_message,
+        )
+
+        if payment.bill.status:  # this mean bills is ready to verify and close
+            # send mail to header to verify and close the bill
+            html_message_to_header = render_to_string(
+                "message/header/mail_to_header.html",
+                {
+                    "bill_name": payment.bill.name,
+                },
+            )
+
+            plain_message_to_header = strip_tags(html_message_to_header)
+
+            send_mail(
+                subject="You have to verify and close the bill",
+                message=plain_message_to_header,
+                from_email=settings.EMAIL_HOST_USER,
+                recipient_list=[header_mail],
+                html_message=html_message_to_header,
+            )
 
     return HttpResponseRedirect(reverse("payments:payment"))
 
@@ -173,17 +217,19 @@ def reset(request, pk: int, *arg, **kwargs):
     if not payment.is_repayable():
         messages.error(request, "Payment is not resetable")
         return HttpResponseRedirect(reverse("payments:payment"))
-    payment.instance.reset()
-    payment.save()
-    print(payment.uri)
+    bill, user, date, payment_type = payment.get_payment_data()
+    payment.delete()
+    new_payment = Payment.objects.create(
+        user=user, bill=bill, date=date, payment_type=payment_type
+    )
+    new_payment.save()
 
     return HttpResponseRedirect(reverse("payments:payment"))
 
 
 def reject(request, pk: int, *arg, **kwargs):
     # cash payment only
-    print(pk)
-    print(request.path)
+
     try:
         payment = get_object_or_404(Payment, pk=pk)
     except Http404:

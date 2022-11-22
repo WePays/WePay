@@ -1,21 +1,22 @@
 {% load static %}
 {% load socialaccount %}
 
+
 <!DOCTYPE html>
 <html lang="en" >
     <head>
         <meta charset="UTF-8">
         <title>{% block head_title %} {% endblock head_title%}</title>
-        <link rel="stylesheet" href="{% static 'WePay/login.css' %}">
+        <link rel="stylesheet" href="{% static 'wepay/login.css' %}">
         <link rel="stylesheet" media="screen" href="https://fontlibrary.org//face/hk-grotesk" type="text/css"/>
 
         {% block extra_head %}{% endblock extra_head %}
     </head>
-    <body>
 
+    <body class="bg-[#D2E7FE]">
         {% block body%}
             {% if messages %}
-                <div>
+                <div class="absolute top-10 right-10 text-black">
                     <strong>Messages:</strong>
                     <ul>
                         {% for message in messages %}
@@ -53,7 +54,5 @@
                 </div>
 
         {% endblock body %}
-        {% block extra_body %}
-        {% endblock extra_body %}
     </body>
 </html>

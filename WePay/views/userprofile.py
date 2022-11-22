@@ -3,8 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, reverse
 from django.views.generic import DetailView
-
-from ..config import OMISE_SECRET
+from django.conf import settings
 from ..models import UserProfile, omise
 
 
@@ -34,9 +33,8 @@ def fetch_key(request, *args, **kwargs):
     """Fetch chain key from user profile."""
     user = request.user
     userprofile = UserProfile.objects.get(user=user)
-    omise.api_secret = OMISE_SECRET
+    omise.api_secret = settings.OMISE_SECRET
     all_chain = omise.Chain.retrieve()
-    print(user.email)
 
     for each_chain in all_chain:
         if each_chain.email == user.email:

@@ -51,9 +51,13 @@ echo "activated"
 
 echo installing requirements...
 pip install -r requirements.txt > /dev/null 2>&1;
+echo "install complete"
+echo "migration..."
 python manage.py migrate > /dev/null 2>&1;
-
+echo "finished"
+echo "loading data..."
 python manage.py loaddata data.json > /dev/null 2>&1;
+echo "finished"
 
 echo "setup finished"
 echo "To run application, run 'python manage.py runserver' and goto '127.0.0.1:8000' in your browser"

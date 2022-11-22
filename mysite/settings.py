@@ -12,22 +12,25 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 import os
 from pathlib import Path
 
+import dj_database_url
+import django_heroku
 from decouple import Csv, config
+from django.test.runner import DiscoverRunner
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY', cast=str, default='missing-secret-key')
+SECRET_KEY = config("SECRET_KEY", cast=str, default="missing-secret-key")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', cast=bool, default=False)
+DEBUG = config("DEBUG", cast=bool, default=False)
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv(), default='')
+ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=Csv(), default="")
 
 
 # Application definition
@@ -54,9 +57,10 @@ INSTALLED_APPS = [
     "WePay.apps.WepayConfig",
 ]
 
-TAILWIND_APP_NAME = 'theme'
+TAILWIND_APP_NAME = "theme"
 
 MIDDLEWARE = [
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -65,7 +69,6 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django_browser_reload.middleware.BrowserReloadMiddleware",
-    # 'auth_remember.middleware.AuthRememberMiddleware',
 ]
 
 ROOT_URLCONF = "mysite.urls"
@@ -86,6 +89,12 @@ TEMPLATES = [
     },
 ]
 
+
+TEMPLATE_DIRS = (
+    os.path.join(BASE_DIR,  'templates'),
+    # Add to this list all the locations containing your static files 
+    os.path.join(BASE_DIR,  'WePay')
+)
 
 AUTHENTICATION_BACKENDS = [
     # username/password authentication
@@ -144,7 +153,7 @@ DATABASES = {
     }
 }
 
-
+DATABASES['default'].update(dj_database_url.config(conn_max_age=500, ssl_require=True))
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
@@ -164,12 +173,22 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+# Test Runner Config
+class HerokuDiscoverRunner(DiscoverRunner):
+    """Test Runner for Heroku CI, which provides a database for you.
+    This requires you to set the TEST database (done for you by settings().)"""
+
+    def setup_databases(self, **kwargs):
+        self.keepdb = True
+        return super(HerokuDiscoverRunner, self).setup_databases(**kwargs)
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
+
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = config('TIME_ZONE', cast=str, default='Asia/Bangkok')
+TIME_ZONE = config("TIME_ZONE", cast=str, default="Asia/Bangkok")
 
 USE_I18N = True
 USE_L10N = True
@@ -180,7 +199,15 @@ USE_THOUSAND_SEPARATOR = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = "/static/"
+
+STATICFILES_DIRS = [
+os.path.join(BASE_DIR, "static"),
+]
+
+# Enable WhiteNoise's GZip compression of static assets.
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -192,14 +219,26 @@ LOGOUT_REDIRECT_URL = "/accounts/login/"
 
 INTERNAL_IPS = [
     "127.0.0.1",
+    "*"
 ]
+
+CSRF_TRUSTED_ORIGINS = ['https://wepays.herokuapp.com', 'http://127.0.0.1']
+
+if "CI" in os.environ:
+    TEST_RUNNER = "gettingstarted.settings.HerokuDiscoverRunner"
 
 
 NPM_BIN_PATH = "/usr/local/bin/npm"
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = config('EMAIL_HOST_USER', cast=str, default='')
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', cast=str, default='')
+EMAIL_HOST_USER = config("EMAIL_HOST_USER", cast=str, default="")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", cast=str, default="")
+
+OMISE_PUBLIC = config("OMISE_PUBLIC", cast=str, default="missing-omise-public")
+OMISE_SECRET = config("OMISE_SECRET", cast=str, default="missing-omise-secret")
+django_heroku.settings(locals())
+
+SOCIALACCOUNT_ADAPTER = "WePay.whatever.SocialAccountAdapter"

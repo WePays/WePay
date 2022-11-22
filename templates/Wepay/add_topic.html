@@ -1,4 +1,4 @@
-{% extends 'Wepay/base_wepay.html' %}
+{% extends 'Wepay/base.html' %}
 {% load tailwind_tags %}
 {% tailwind_css %}
 
@@ -17,18 +17,18 @@
 
 {% block body%}
 
-    <div class="mt-24 ml-32 justify-center flex flex-row">
+    <div class="mt-24 ml-28 justify-center flex flex-row">
 
-        <div class="">
+        <div class="ml-48">
             <p class="mt-3 font-bold">Total price: {{bill.total_price}} </p>
 
-            <table class="divide-y divide-[#171f99] mt-3">
+            <table class="divide-y divide-[#171f99] mt-3 overflow-scroll">
                 <thead class="bg-[#171f99]">
                     <tr>
                         <th class="px-6 py-4 text-xl text-white">No</th>
                         <th class="px-10 py-4 text-xl text-white">Title</th>
                         <th class="px-6 py-4 text-xl text-white">Price</th>
-                        <th class="px-10 py-4 text-xl text-white">User to assign</th>
+                        <th class="px-10 py-4 text-xl text-white">Assigned</th>
                         <th class="px-6 py-4 text-xl text-white">Delete</th>
                     </tr>
                 </thead>
@@ -70,29 +70,28 @@
 
     <div class="ml-20">
 
-        <h1 class="text-2xl font-bold">Add Topic</h1>
+        <h1 class="text-4xl font-bold ">Add Topic</h1>
 
-        <p class="mt-3">Name of Bill: {{bill.name}} </p>
+        <p class="mt-5 text-xl">Name of Bill: {{bill.name}} </p>
 
-        <form action="" method="post", if='form'>
+        <form action="" method="post", id='form'>
             {% csrf_token %}
             {{ form.as_p }}
-            <div class="mt-5">Name:<br>
-                <input class="w-80" type="text" name="topic_name" id="topic_name" placeholder="Enter the topic name" required></div>
-            <div class="mt-5"> Price: <br>
-                <input class="w-80" type="number" min="0" name="topic_price" id="topic_price" placeholder="Enter the topic price" required></div>
-            <div class="mt-5 w-1/2">
-                <label class="inline-block text-sm text-gray-600" for="Multiselect"
+            <div class="mt-7">Name:<br>
+                <input class="w-80 rounded mt-5" type="text" name="topic_name" id="topic_name" placeholder="Enter the topic name" required></div>
+            <div class="mt-7"> Price: <br>
+                <input class="w-80 rounded mt-5" type="number" min="0" name="topic_price" id="topic_price" placeholder="Enter the topic price" required></div>
+            <div class="mt-7 w-1/2">
+                <label class="inline-block text-black" for="Multiselect"
                 >Enter user to assign:</label
                     >
-                    <div class="relative flex w-full">
+                    <div class="relative flex w-80">
                         <select
                             id="username"
                             name="username[]"
                             multiple
-                            placeholder="Enter user to assign"
                             autocomplete="on"
-                            class="block w-full rounded-sm cursor-pointer focus:outline-none"
+                            class="block w-full rounded cursor-pointer focus:outline-none mt-5"
                             multiple
                             required
                         >
@@ -117,11 +116,9 @@
 
                 </script>
 
-                <div class="mt-5 ml-56 "><button class="bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded flex justify-center" type="submit" value="Add topic">Add topic</button></div>
+                <div class="mt-10 ml-56 rounded"><button class="bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded flex justify-center" type="submit" value="Add topic">Add topic</button></div>
             </div>
-            <div class="mt-5 ml-56 "><button class="bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded flex justify-center" type="submit" value="Add topic">Add topic</button></div>
         </div>
-        <div class="add-topic" style="margin-top: 2%; margin-left: 30%;"><input type="submit" value="Add topic"></div>
     </div>
     </form>
     <script>
@@ -157,17 +154,16 @@
     </script>
     </div>
 
-
     {% if messages %}
-        <ul class="messages">
+        <ul class="">
             {% for message in messages %}
-                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                <li {% if message.tags %} class="absolute right-10 top-10 text-red-500"{% endif %}>{{ message }}</li>
             {% endfor %}
         </ul>
     {% endif %}
-    <form action="{% url 'bills:success' bill.id %}" method="post">
+    <form action="{% url 'bills:success' bill.id %}" method="post" onsubmit="create_button.disabled = true; return true;">
         {% csrf_token %}
-        <button class="absolute bottom-10 right-10 bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded flex justify-center" type="submit" value="Create Bill"> Create Bill</button>
+        <button class="absolute bottom-10 right-10 bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded flex justify-center" type="submit" value="Create Bill" name="create_button"> Create Bill</button>
     </form>
 
 

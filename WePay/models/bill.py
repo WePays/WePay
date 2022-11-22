@@ -4,6 +4,7 @@ from typing import List
 import omise
 from django.db import models
 from django.utils import timezone
+from django.contrib import messages
 
 from .userprofile import UserProfile
 
@@ -98,8 +99,18 @@ class Bills(models.Model):
         return list(result)
 
     @property
-    def status(self):
+    def status(self) -> bool:
+        """get whether all user is paid"""
         return all(payment.status == "PAID" for payment in self.payments.all())
+
+    def delete(self, *args, **kwargs) -> None:
+        """delete the bill"""
+        # delete all payment thaat link with this bill
+        for payment in self.payments.all():
+            payment.delete()
+        for topic in self.topic_set.all():
+            topic.delete()
+        super().delete(*args, **kwargs)
 
     def __repr__(self) -> str:
         """represent Bill objects in str form"""
@@ -110,23 +121,35 @@ class Bills(models.Model):
 
 
 class Topic(models.Model):
-    """Topic model"""
+    """Topic for each bill that contain
+    bill -> :model:`Wepay.Bills` (ForeignKey)
+    user -> :model:`Wepay.UserProfile` (ManyToManyField) user in each topic"""
 
     title = models.CharField(max_length=100)
     price = models.PositiveIntegerField()
     bill = models.ForeignKey(Bills, on_delete=models.CASCADE, null=True)
     user = models.ManyToManyField(UserProfile, related_name="topic")
 
-    def calculate_price(self):
+    def calculate_price(self) -> float:
+        """calculate price for each person in topic
 
+        Returns:
+            float -- price for each person
+        """
         return self.price / len(self.user.all())
 
-    def add_user(self, user):
-        if user not in self.user.all():
-            self.user.add(user)
-            self.save()
-        else:
-            logging.info("user already in this food")
+    def add_user(self, user: UserProfile) -> None:
+        """add user to topic
 
-    def __repr__(self):
+        Arguments:
+            user {UserProfile} -- user that you want to add
+        """
+        # check whether is added
+        if user in self.user.all():
+            messages.info("user already in this Topic")
+            return
+        self.user.add(user)
+        self.save()
+
+    def __repr__(self) -> str:
         return f"Topic(title={self.title}, price={self.price}, bill={self.bill}, user={self.user.all()})"
