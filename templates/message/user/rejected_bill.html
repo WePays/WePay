@@ -1,0 +1,10 @@
+{% extends 'message/base.html' %}
+
+{% block body %}
+
+Sorry {{user}}, Your payment for {{header}} has been rejected at {% now "SHORT_DATETIME_FORMAT" %}
+
+Please, try again.
+
+you may check your payment <a href="https://wepays.herokuapp.com{% url 'payments:payment' %}"> here </a>
+{% endblock body %}

@@ -1,0 +1,10 @@
+{% extends 'message/base.html' %}
+
+{% block body %}
+<h1>Hi {{user}}, you got assign to a {{bill}} bill, please check it out</h1>
+<br>
+<h2>Header: {{header}}</h2>
+
+<a href="https://wepays.herokuapp.com{% url 'payments:payment' %}"> here </a>
+
+{% endblock body %}
