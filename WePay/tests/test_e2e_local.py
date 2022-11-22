@@ -9,7 +9,7 @@ from selenium.webdriver.common.keys import Keys
 from WePay.models.userprofile import UserProfile
 
 
-class E2ETest(LiveServerTestCase):
+class E2ETestLocal(LiveServerTestCase):
     def setUp(self):
         self.client = Client()
         header = User.objects.create_user(
@@ -62,42 +62,43 @@ class E2ETest(LiveServerTestCase):
     #     # click the button to login
     #     submit_button.click()
 
-        # assert "header" in self.browser.page_source
-    @skip("it still not work, i will try later after reading a selenium docs")
-    def test_initialize_bill_form(self):
+    #     assert "header" in self.browser.page_source
 
-        self.browser.get("http://127.0.0.1:8000/accounts/login/")
+    # @skip("it still not work, i will try later after reading a selenium docs")
+    # def test_initialize_bill_form(self):
 
-        # find the elements we need to submit form
-        username_input = self.browser.find_element(By.ID, "id_login")
-        password_input = self.browser.find_element(By.ID, "id_password")
-        submit_button = self.browser.find_element(By.ID, "id_submit")
+    #     self.browser.get("http://127.0.0.1:8000/accounts/login/")
 
-        # populate the form with data
-        username_input.send_keys(self.header.name)
-        password_input.send_keys(self.header.user.password)
+    #     # find the elements we need to submit form
+    #     username_input = self.browser.find_element(By.ID, "id_login")
+    #     password_input = self.browser.find_element(By.ID, "id_password")
+    #     submit_button = self.browser.find_element(By.ID, "id_submit")
 
-        # submit form
-        submit_button.click()
+    #     # populate the form with data
+    #     username_input.send_keys(self.header.name)
+    #     password_input.send_keys(self.header.user.password)
 
-        self.browser.implicitly_wait(20)
+    #     # submit form
+    #     submit_button.click()
 
-        self.browser.get('http://127.0.0.1:8000/bill/create/')
+    #     self.browser.implicitly_wait(20)
 
-        title = self.browser.find_element(By.XPATH, "//input[@id='title']")
-        name = self.browser.find_element(By.ID, 'topic_name')
-        price = self.browser.find_element(By.ID, 'topic_price')
-        assign_to_users = self.browser.find_elements(By.ID, 'username')
-        # assign_to_users = self.browser.find_elements(By.XPATH, )
+    #     self.browser.get('http://127.0.0.1:8000/bill/create/')
 
-        create = self.browser.find_element(By.NAME, 'create_title')
+    #     title = self.browser.find_element(By.XPATH, "//input[@id='title']")
+    #     name = self.browser.find_element(By.ID, 'topic_name')
+    #     price = self.browser.find_element(By.ID, 'topic_price')
+    #     assign_to_users = self.browser.find_elements(By.ID, 'username')
+    #     # assign_to_users = self.browser.find_elements(By.XPATH, )
 
-        title.send_keys('Test Title')
-        name.send_keys('Test Food')
-        price.send_keys(100)
-        assign_to_users.send_keys('test_user')
+    #     create = self.browser.find_element(By.NAME, 'create_title')
 
-        create.send_keys(Keys.Return)
+    #     title.send_keys('Test Title')
+    #     name.send_keys('Test Food')
+    #     price.send_keys(100)
+    #     assign_to_users.send_keys('test_user')
+
+    #     create.send_keys(Keys.Return)
 
     #     assert 'Test Title' in self.browser.page_source
 
