@@ -89,9 +89,11 @@ TEMPLATES = [
     },
 ]
 
+
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR,  'templates'),
     # Add to this list all the locations containing your static files 
+    os.path.join(os.path.join(BASE_DIR,  'WePay'), 'static'),
 )
 
 AUTHENTICATION_BACKENDS = [
