@@ -71,7 +71,7 @@ go to `http://127.0.0.1:8000/` for application.
 
 | Username | Password  |
 | :------: | :-------: |
-|   test_wepay    | wepay123 |
+|   wepay   | wepay123 |
 
 ## Project Document
 
