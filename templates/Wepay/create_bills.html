@@ -19,7 +19,7 @@
 {% block body %}
     <body>
         {% if user.is_authenticated %}
-            <div class="justify-center mx-auto ml-96">
+            <div class="grid h-screen place-items-center">
                 <form action="" method="POST", id='form' onsubmit="create_title.disabled = true; return true;">
                     {% csrf_token %}
                     <div class="first-body">
