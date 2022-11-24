@@ -35,7 +35,7 @@ class About(TemplateView):
 class Instruction(TemplateView):
     """Template view for instruction page."""
 
-    template_name = "Wepay/instruction.html"
+    template_name = "Wepay/Instruction.html"
 
 
 class Tailwind(TemplateView):
