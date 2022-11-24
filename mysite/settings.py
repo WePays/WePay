@@ -240,7 +240,7 @@ OMISE_SECRET = config("OMISE_SECRET", cast=str, default="missing-omise-secret")
 
 SOCIALACCOUNT_ADAPTER = "WePay.whatever.SocialAccountAdapter"
 
-if DEBUG:
+if not DEBUG:
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     SECURE_SSL_REDIRECT = True
 
