@@ -155,7 +155,6 @@ DATABASES = {
 
 DATABASES['default'].update(dj_database_url.config(conn_max_age=500, ssl_require=True))
 
-print(DATABASES)
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
@@ -244,3 +243,6 @@ OMISE_SECRET = config("OMISE_SECRET", cast=str, default="missing-omise-secret")
 django_heroku.settings(locals())
 
 SOCIALACCOUNT_ADAPTER = "WePay.whatever.SocialAccountAdapter"
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_REDIRECT = True
