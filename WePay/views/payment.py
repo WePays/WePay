@@ -86,7 +86,7 @@ class PaymentDetailView(LoginRequiredMixin, generic.DetailView):
             messages.info(
                 request,
                 "* This bill is not in chain, you can only pay with cash or tell header to register the chain \
-                    \n<a href='/instruction/'>instruction here</a>",
+                    \n instruction<a href='/instruction/'> here</a>",
                 extra_tags="safe",
             )
             cash_only = True
