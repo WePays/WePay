@@ -143,7 +143,7 @@ class TestPayment(TestCase):
         self.assertContains(
             resp,
             "* This bill is not in chain, you can only pay with cash or tell header to register the chain \
-                    \n<a href='/instruction/'>instruction here</a>",
+                    \n instruction<a href='/instruction/'> here</a>",
             status_code=200,
         )
 
