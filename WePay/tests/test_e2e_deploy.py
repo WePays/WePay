@@ -37,13 +37,12 @@ class E2ETestDeploy(LiveServerTestCase):
         #click payment button
         self.browser.find_element(By.XPATH, "/html/body/div[1]/div/a[3]").click()
         self.assertEqual(self.browser.current_url, "https://wepays.herokuapp.com/payment/")
-        #! History and instruction is still bugged
         #click history button
-        # self.browser.find_element(By.XPATH, "/html/body/div[1]/div/a[4]").click()
-        # self.assertEqual(self.browser.current_url, "https://wepays.herokuapp.com/history/")
+        self.browser.find_element(By.XPATH, "/html/body/div[1]/div/a[4]").click()
+        self.assertEqual(self.browser.current_url, "https://wepays.herokuapp.com/history/")
         #click instruction button
-        # self.browser.find_element(By.XPATH, "/html/body/div[1]/div/a[5]").click()
-        # self.assertEqual(self.browser.current_url, "https://wepays.herokuapp.com/instruction/")
+        self.browser.find_element(By.XPATH, "/html/body/div[1]/div/a[5]").click()
+        self.assertEqual(self.browser.current_url, "https://wepays.herokuapp.com/instruction/")
         #click aboutus button
         self.browser.find_element(By.XPATH, "/html/body/div[1]/div/a[6]").click()
         self.assertEqual(self.browser.current_url, "https://wepays.herokuapp.com/about/")
@@ -87,8 +86,7 @@ class E2ETestDeploy(LiveServerTestCase):
             self.browser.find_element(By.XPATH, "/html/body/div[2]/form/div[5]/div/div/div[1]/input").click() # open select user
             # select three user at top
             self.browser.find_element(By.XPATH, "/html/body/div[2]/form/div[5]/div/div/div[2]/div/div[1]").click()
-            self.browser.find_element(By.XPATH, "/html/body/div[2]/form/div[5]/div/div/div[2]/div/div[1]").click()
-            self.browser.find_element(By.XPATH, "/html/body/div[2]/form/div[5]/div/div/div[2]/div/div[1]").click()
+            self.browser.find_element(By.XPATH, "/html/body/div[2]/form/div[5]/div/div/div[2]/div/div[4]").click()
             self.browser.implicitly_wait(5)
             self.browser.find_element(By.NAME, "create_title").click()
         # This should goes to add topic page
@@ -99,15 +97,19 @@ class E2ETestDeploy(LiveServerTestCase):
         self.browser.implicitly_wait(5)
         # select three user at top
         self.browser.find_element(By.XPATH, "/html/body/div[2]/div[2]/form/div[3]/div/div/div[2]/div/div[1]").click()
-        self.browser.find_element(By.XPATH, "/html/body/div[2]/div[2]/form/div[3]/div/div/div[2]/div/div[1]").click()
-        self.browser.find_element(By.XPATH, "/html/body/div[2]/div[2]/form/div[3]/div/div/div[2]/div/div[1]").click()
+        self.browser.find_element(By.XPATH, "/html/body/div[2]/div[2]/form/div[3]/div/div/div[2]/div/div[4]").click()
         self.browser.find_element(By.ID, "username-ts-control").click() #close select user
         self.browser.find_element(By.XPATH, "/html/body/div[2]/div[2]/form/div[4]/button").click() # add topic
         self.browser.implicitly_wait(20)
         self.browser.find_element(By.NAME, "create_button").click() # create bill
         # redirect back to bills page
         self.assertEqual(self.browser.current_url, "https://wepays.herokuapp.com/bill/")
-        
+
+    def test_payment_and_verify(self):
+        """Test payment and verify"""
+        #TODO try to add user toastwepay in test_create_bill_and_add_topic_with_deploy_web
+        username1 = "toastwepay"
+        password1 = "wepay123"
 
     def test_delete_button(self):
         """Test delete button"""
