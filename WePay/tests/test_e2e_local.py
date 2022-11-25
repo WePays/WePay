@@ -2,6 +2,7 @@ from unittest import skip
 
 from django.contrib.auth.models import User
 from django.test import Client, LiveServerTestCase
+from django.urls import reverse
 from selenium.webdriver import Chrome, ChromeOptions
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -20,12 +21,12 @@ class E2ETestLocal(LiveServerTestCase):
             user=header, chain_id="acch_test_5tl5qdsa0cbli76hwoj"
         )
         self.header.save()
-        # user = User.objects.create_user(
-        #     username="test_user", email="user1@example.com", password="user"
-        # )
-        # user.save()
-        # self.user = UserProfile.objects.create(user=user)
-        # self.user.save()
+        user = User.objects.create_user(
+            username="test_user", email="user1@example.com", password="user"
+        )
+        user.save()
+        self.user = UserProfile.objects.create(user=user)
+        self.user.save()
         self.browser = Chrome()
         # self.browser.get(self.live_server_url + "/accounts/login/")
         # self.browser.get("http://127.0.0.1:8000/accounts/login/")
@@ -66,28 +67,30 @@ class E2ETestLocal(LiveServerTestCase):
     #     assert "header" in self.browser.page_source
 
     # @skip("it still not work, i will try later after reading a selenium docs")
-    # def test_initialize_bill_form(self):
+    def test_initialize_bill_form(self):
 
-    #     self.login()
+        self.login()
 
-    #     self.browser.get(self.live_server_url + reverse("bills:create"))
+        self.browser.get(self.live_server_url + reverse("bills:create"))
 
-    #     title = self.browser.find_element(By.XPATH, "//input[@id='title']")
-    #     name = self.browser.find_element(By.ID, 'topic_name')
-    #     price = self.browser.find_element(By.ID, 'topic_price')
-    #     assign_to_users = self.browser.find_elements(By.ID, 'username')
-    #     # assign_to_users = self.browser.find_elements(By.XPATH, )
+        title = self.browser.find_element(By.XPATH, "//input[@id='title']")
+        name = self.browser.find_element(By.ID, 'topic_name')
+        price = self.browser.find_element(By.ID, 'topic_price')
+        assign_to_users = self.browser.find_element(By.TAG_NAME, 'select')
+        # assign_to_users = self.browser.find_elements(By.XPATH, )
 
-    #     create = self.browser.find_element(By.NAME, 'create_title')
+        create_title = self.browser.find_element(By.NAME, 'create_title')
 
-    #     title.send_keys('Test Title')
-    #     name.send_keys('Test Food')
-    #     price.send_keys(100)
-    #     assign_to_users.send_keys('test_user')
+        title.send_keys('Test Title')
+        name.send_keys('Test Food')
+        price.send_keys(100)
+        assign_to_users.send_keys(self.user.name)
+        # print(assign_to_users.text)
+        # users = assign_to_users.text.split('\n')
+        self.assertIn('test_user', assign_to_users.text.split('\n'))
+        # self.assertEqual('test_user', users[len(users) - 1])
 
-    #     create.send_keys(Keys.Return)
-
-    #     assert 'Test Title' in self.browser.page_source
+        create_title.click()
 
     def tearDown(self):
         self.browser.close()
