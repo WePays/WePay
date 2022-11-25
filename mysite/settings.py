@@ -129,7 +129,8 @@ SOCIALACCOUNT_PROVIDERS = {
     "github": {
         "SCOPE": [
             "profile",
-            "user:emails",
+            "user:email",
+            "read:user"
         ],
         "AUTH_PARAMS": {
             "access_type": "online",
