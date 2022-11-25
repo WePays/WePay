@@ -114,13 +114,15 @@ class PaymentDetailView(LoginRequiredMixin, generic.DetailView):
         payment.save()
         if payment_type == "Cash":
             return HttpResponseRedirect(reverse("payments:payment"))
-        if payment_type == "promptpay":
+        print(payment_type)
+        if payment_type == "PromptPay":
             return HttpResponseRedirect(reverse("payments:qr", kwargs={"pk": payment.id}))
 
         return HttpResponseRedirect(payment.uri)
 
+
 class QRViews(LoginRequiredMixin, generic.DetailView):
-    template_name: str = "Wepay/qr_prompt_pay.html"
+    template_name: str = "Wepay/qr.html"
     Model = Payment
 
     def get(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
@@ -134,7 +136,7 @@ class QRViews(LoginRequiredMixin, generic.DetailView):
             )
             return HttpResponseRedirect(reverse("payments:payment"))
 
-        if payment.payment_type != "promptpay":
+        if payment.payment_type != "PromptPay":
             messages.error(
                 request, "Payment not found"
             )

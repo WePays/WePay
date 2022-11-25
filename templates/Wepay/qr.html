@@ -1,0 +1,9 @@
+{% extends 'Wepay/base.html' %}
+{% load static %}
+
+{% block body%}
+<div class="container flex justify-center mx-auto">
+<img src="{% static 'wepay/qr/'|add:payment.instance.qr_name %}" alt="image" width="25%" height="10%">
+
+</div>
+{% endblock body %}

@@ -168,7 +168,7 @@ class Payment(models.Model):
         # change omise secret key to header chain key
         omise.api_secret = self.header.chain.key
         # if those payment is charged before it will check status
-        charge = omise.Charge.retrieve(self.instance.charge_id):
+        charge = omise.Charge.retrieve(self.instance.charge_id)
         if charge:
             status = charge.status
             if status == "successful":
@@ -263,7 +263,8 @@ class OmisePayment(BasePayment):
                 amount=self.payment.amount,
                 currency="thb",
                 source=source.id,
-                return_uri=f"https:///wepays.herokuapp.com/payment/{self.payment.id}/update",
+                # return_uri=f"https:///wepays.herokuapp.com/payment/{self.payment.id}/update",
+                return_uri=f"http:///127.0.0.1:8000/payment/{self.payment.id}/update",
             )
             # assign charge id  and uri to payment
             self.charge_id = charge.id
@@ -307,16 +308,19 @@ class PromptPayPayment(OmisePayment):
         """
         return f"promptpay{self.payment.id}.svg"
 
+    @property
+    def qr_path(self) -> str:
+        """get qr path for PromptPay payment"""
+        return f'WePay/static/wepay/qr/{self.qr_name}'
+
     def genetate_qr(self) -> None:
         """generate QR for prompytpay payment"""
-        if os.path.isfile(f'qr/{self.qr_name}'):
+        if os.path.isfile(self.qr_path):
             return
-        if not os.path.isdir('qr'):
-            os.mkdir('qr')
 
         if charge := omise.Charge.retrieve(self.charge_id):
             uri = charge.source.scannable_code.image.download_uri
-            urlretrieve(uri, f'qr/{self.qr_name}')
+            urlretrieve(uri, self.qr_path)
 
     def pay(self) -> None:
         super().pay()
