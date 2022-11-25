@@ -114,7 +114,6 @@ class PaymentDetailView(LoginRequiredMixin, generic.DetailView):
         payment.save()
         if payment_type == "Cash":
             return HttpResponseRedirect(reverse("payments:payment"))
-        print(payment_type)
         if payment_type == "PromptPay":
             return HttpResponseRedirect(reverse("payments:qr", kwargs={"pk": payment.id}))
 
