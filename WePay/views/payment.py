@@ -114,8 +114,40 @@ class PaymentDetailView(LoginRequiredMixin, generic.DetailView):
         payment.save()
         if payment_type == "Cash":
             return HttpResponseRedirect(reverse("payments:payment"))
+        if payment_type == "promptpay":
+            return HttpResponseRedirect(reverse("payments:qr", kwargs={"pk": payment.id}))
 
         return HttpResponseRedirect(payment.uri)
+
+class QRViews(LoginRequiredMixin, generic.DetailView):
+    template_name: str = "Wepay/qr_prompt_pay.html"
+    Model = Payment
+
+    def get(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
+        """get everything to choose payment type"""
+        user = request.user
+        try:
+            payment = get_object_or_404(Payment, pk=kwargs["pk"], user__user=user)
+        except Http404:
+            messages.error(
+                request, "Payment not found"
+            )
+            return HttpResponseRedirect(reverse("payments:payment"))
+
+        if payment.payment_type != "promptpay":
+            messages.error(
+                request, "Payment not found"
+            )
+            return HttpResponseRedirect(reverse("payments:payment"))
+
+        return render(
+            request,
+            self.template_name,
+            {
+                "payment": payment,
+            },
+        )
+
 
 
 def update(request, pk: int, *arg, **kwargs):

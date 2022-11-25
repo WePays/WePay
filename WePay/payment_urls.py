@@ -12,4 +12,5 @@ urlpatterns = [
     path("<int:pk>/confirm", views.confirm_payment, name="confirm"),
     path("<int:pk>/reset", views.reset, name="reset"),
     path("<int:pk>/reject", views.reject, name="reject"),
+    path("<int:pk>/qr", views.QRViews.as_view(), name="qr"),
 ]
