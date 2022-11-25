@@ -27,8 +27,11 @@ class E2ETestLocal(LiveServerTestCase):
         # self.user = UserProfile.objects.create(user=user)
         # self.user.save()
         self.browser = Chrome()
-        self.browser.get(self.live_server_url + "/accounts/login/")
-        self.login()
+        # self.browser.get(self.live_server_url + "/accounts/login/")
+        # self.browser.get("http://127.0.0.1:8000/accounts/login/")
+        self.browser.implicitly_wait(3)
+        self.browser.set_page_load_timeout(30)
+        self.browser.get(self.live_server_url)
 
     def login(self):
         self.client.login(username=self.header.name, password="header123")
@@ -44,46 +47,30 @@ class E2ETestLocal(LiveServerTestCase):
         self.browser.refresh()
 
     # @skip("Temporalily skip")
-    # def test_login(self):
-    #     # url to visit
-    #     self.browser.get("http://127.0.0.1:8000/accounts/login/")
+    def test_login(self):
+        # url to visit
+        # self.browser.get("http://127.0.0.1:8000/accounts/login/")
+        self.browser.get(self.live_server_url)
+        # find the elements we need to submit form
+        username_input = self.browser.find_element(By.ID, "id_login")
+        password_input = self.browser.find_element(By.ID, "id_password")
+        submit_button = self.browser.find_element(By.ID, "id_submit")
 
-    #     # find the elements we need to submit form
-    #     username_input = self.browser.find_element(By.ID, "id_login")
-    #     password_input = self.browser.find_element(By.ID, "id_password")
-    #     submit_button = self.browser.find_element(By.ID, "id_submit")
 
-    #     # populate the form with data
-    #     username_input.send_keys(self.header.name)
-    #     password_input.send_keys(self.header.user.password)
+        username_input.send_keys(self.header.name)
+        password_input.send_keys(self.header.user.password)
 
-    #     # submit form
-    #     # submit_button.send_keys(Keys.RETURN)
-    #     # click the button to login
-    #     submit_button.click()
+        # submit button
+        submit_button.click()
 
     #     assert "header" in self.browser.page_source
 
     # @skip("it still not work, i will try later after reading a selenium docs")
     # def test_initialize_bill_form(self):
 
-    #     self.browser.get("http://127.0.0.1:8000/accounts/login/")
+    #     self.login()
 
-    #     # find the elements we need to submit form
-    #     username_input = self.browser.find_element(By.ID, "id_login")
-    #     password_input = self.browser.find_element(By.ID, "id_password")
-    #     submit_button = self.browser.find_element(By.ID, "id_submit")
-
-    #     # populate the form with data
-    #     username_input.send_keys(self.header.name)
-    #     password_input.send_keys(self.header.user.password)
-
-    #     # submit form
-    #     submit_button.click()
-
-    #     self.browser.implicitly_wait(20)
-
-    #     self.browser.get('http://127.0.0.1:8000/bill/create/')
+    #     self.browser.get(self.live_server_url + reverse("bills:create"))
 
     #     title = self.browser.find_element(By.XPATH, "//input[@id='title']")
     #     name = self.browser.find_element(By.ID, 'topic_name')
