@@ -30,7 +30,7 @@ class E2ETestLocal(LiveServerTestCase):
         self.browser = Chrome()
         # self.browser.get(self.live_server_url + "/accounts/login/")
         # self.browser.get("http://127.0.0.1:8000/accounts/login/")
-        self.browser.implicitly_wait(3)
+        self.browser.implicitly_wait(5)
         self.browser.set_page_load_timeout(30)
         self.browser.get(self.live_server_url)
 
@@ -57,7 +57,6 @@ class E2ETestLocal(LiveServerTestCase):
         password_input = self.browser.find_element(By.ID, "id_password")
         submit_button = self.browser.find_element(By.ID, "id_submit")
 
-
         username_input.send_keys(self.header.name)
         password_input.send_keys(self.header.user.password)
 
@@ -67,7 +66,7 @@ class E2ETestLocal(LiveServerTestCase):
     #     assert "header" in self.browser.page_source
 
     # @skip("it still not work, i will try later after reading a selenium docs")
-    def test_initialize_bill_form(self):
+    def test_create_bill_form(self):
 
         self.login()
 
@@ -91,6 +90,42 @@ class E2ETestLocal(LiveServerTestCase):
         # self.assertEqual('test_user', users[len(users) - 1])
 
         create_title.click()
+
+    def test_create_bill(self):
+
+        self.login()
+
+        self.browser.get(self.live_server_url + reverse("bills:create"))
+
+        title = self.browser.find_element(By.XPATH, "//input[@id='title']")
+        name = self.browser.find_element(By.ID, 'topic_name')
+        price = self.browser.find_element(By.ID, 'topic_price')
+        assign_to_users = self.browser.find_element(By.TAG_NAME, 'select')
+        create_title = self.browser.find_element(By.NAME, 'create_title')
+
+        title.send_keys('Test Title')
+        name.send_keys('Test Food')
+        price.send_keys(100)
+        assign_to_users.send_keys(self.user.name)
+        self.assertIn('test_user', assign_to_users.text.split('\n'))
+
+        create_title.click()
+
+        topic_name = self.browser.find_element(By.NAME, 'topic_name')
+        price = self.browser.find_element(By.NAME, 'topic_price')
+        assign_to_users_topic = self.browser.find_element(By.TAG_NAME, 'select')
+        create_topic = self.browser.find_element(By.TAG_NAME, 'button')
+        # create_bill = self.browser.find_element(By.NAME, 'create_button')
+
+        topic_name.send_keys('Test Food')
+        price.send_keys(100)
+        # print(create_bill.text)
+        assign_to_users_topic.send_keys(self.user.name)
+        # print(create_topic.text)
+
+        create_topic.click()
+
+        # create_bill.click()
 
     def tearDown(self):
         self.browser.close()
