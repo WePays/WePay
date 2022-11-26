@@ -6,11 +6,13 @@
 
 {% block body %}
 
-    <div class="mt-20 ml-96 flex flex-col">
-        {% if bill_history %}
-            <div class="ml-48">
+<div class="flex flex-col h-screen place-items-center">
+        {% if not bill_history and not payment_history %}
+            <h1  class="text-red-500 text-5xl font-bold grid h-screen place-items-center ml-56">No history available</h1>
+        {% elif bill_history %}
+            <div class="">
                 <h2 class="text-xl font-bold">Bill History</h2>
-                <table class="divide-y divide-[#171f99] mt-3 overflow-scroll ml-36">
+                <table class="divide-y divide-[#171f99] mt-3 overflow-scroll">
                     <thead class="bg-[#171f99]">
                         <tr>
                             <th class="px-6 py-4 text-xl text-white">No</th>
@@ -34,17 +36,14 @@
             </ul>
             </table>
             </div>
-        {% else %}
-            <div class="text-red-700 justify-center font-bold ml-48">
-                <h1>* No bill history</h1>
-            </div>
-        {% endif %}
+        {% elif not bill_history %}
+            <h1  class="text-red-500 text-5xl font-bold grid h-screen place-items-center ml-56">No bill history</h1>
 
-        {% if payment_history %}
+        {% elif payment_history %}
 
-            <div class="ml-48 mt-20">
+            <div class="">
                 <h2 class="text-xl font-bold">Payment History</h2>
-                <table class="divide-y divide-[#171f99] mt-3 overflow-scroll ">
+                <table class="divide-y divide-[#171f99] mt-3 overflow-scroll">
                     <thead class="bg-[#171f99]">
                         <tr>
                             <th class="px-6 py-4 text-xl text-white"> No. </th>
@@ -69,10 +68,8 @@
             </table>
             </div>
 
-        {% else %}
-            <div class="text-red-700 justify-center font-bold ml-48">
-                <h1>* No payment history</h1>
-            </div>
+        {% elif not payment_history %}
+            <h1 class="text-red-500 text-5xl font-bold grid h-screen place-items-center ml-56">No payment history</h1>
         {% endif %}
     </div>
 
