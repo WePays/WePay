@@ -2,7 +2,7 @@
 
 {% block body %}
     {% if my_payment %}
-        <div class="mt-32 ml-56 justify-center">
+        <div class="mt-32 ml-56 justify-center grid h-screen place-items-center">
             <h1 class="text-3xl font-bold ml-72">You need to pay</h1>
             <h1 class="mt-3 ml-72 text-green-500">Click pay to select payment</h1>
 
@@ -39,7 +39,7 @@
         </table>
         </div>
     {% else %}
-        <h1 class="text-4xl text-red-500 mt-64 flex justify-center "> No Payment Avalible </h1>
+    <h1 class="text-red-500 text-5xl font-bold grid h-screen place-items-center ml-56"> No Payment Avalible </h1>
     {% endif %}
 
-{% endblock body%}
+{% endblock body %}

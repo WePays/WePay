@@ -116,7 +116,7 @@
 
                 </script>
 
-                <div class="mt-10 ml-56 rounded"><button class="bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded flex justify-center" type="submit" value="Add topic" name='create_button'>Add topic</button></div>
+                <div class="mt-10 ml-56 rounded"><button class="bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded flex justify-center text-xl" type="submit" value="Add topic">Add topic</button></div>
             </div>
         </div>
     </div>
@@ -163,7 +163,7 @@
     {% endif %}
     <form action="{% url 'bills:success' bill.id %}" method="post" onsubmit="create_button.disabled = true; return true;">
         {% csrf_token %}
-        <button class="absolute bottom-10 right-10 bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded flex justify-center" type="submit" value="Create Bill" name="create_button"> Create Bill</button>
+        <button class="absolute bottom-10 right-10 bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded flex justify-center text-2xl" type="submit" value="Create Bill" name="create_button"> Create Bill</button>
     </form>
 
 
