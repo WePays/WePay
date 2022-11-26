@@ -3,7 +3,13 @@ from typing import Tuple
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import QuerySet
-from django.http import Http404, HttpResponseRedirect, HttpRequest, HttpResponse, HttpResponseNotFound
+from django.http import (
+    Http404,
+    HttpResponseRedirect,
+    HttpRequest,
+    HttpResponse,
+    HttpResponseNotFound,
+)
 from django.shortcuts import get_object_or_404, render, reverse
 from django.template.loader import render_to_string
 from django.views import generic
@@ -132,6 +138,7 @@ class QRViews(LoginRequiredMixin, generic.DetailView):
     :template:`Wepay/qr.html`
 
     """
+
     template_name: str = "Wepay/qr.html"
     Model = Payment
 
