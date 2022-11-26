@@ -8,11 +8,11 @@
 
 {% block body %}
 
-    <div class="mt-20 ml-96 flex flex-col">
+    <div class="flex flex-col h-screen place-items-center">
         {% if bill_history %}
-            <div class="ml-48">
+            <div class="">
                 <h2 class="text-xl font-bold">Bill History</h2>
-                <table class="divide-y divide-[#171f99] mt-3 overflow-scroll ml-36">
+                <table class="divide-y divide-[#171f99] mt-3 overflow-scroll">
                     <thead class="bg-[#171f99]">
                         <tr>
                             <th class="px-6 py-4 text-xl text-white">No</th>
@@ -37,16 +37,14 @@
             </table>
             </div>
         {% else %}
-            <div class="text-4xl text-red-500 grid h-screen place-items-center">
-                <h1>* No bill history</h1>
-            </div>
+            <h1  class="text-red-500 text-5xl font-bold grid h-screen place-items-center ml-56">* No bill history</h1>
         {% endif %}
 
         {% if payment_history %}
 
-            <div class="ml-48 mt-20">
+            <div class="">
                 <h2 class="text-xl font-bold">Payment History</h2>
-                <table class="divide-y divide-[#171f99] mt-3 overflow-scroll ">
+                <table class="divide-y divide-[#171f99] mt-3 overflow-scroll">
                     <thead class="bg-[#171f99]">
                         <tr>
                             <th class="px-6 py-4 text-xl text-white"> No. </th>
@@ -72,9 +70,7 @@
             </div>
 
         {% else %}
-            <div class="text-4xl text-red-500 grid h-screen place-items-center">
-                <h1>* No payment history</h1>
-            </div>
+            <h1 class="text-red-500 text-5xl font-bold grid h-screen place-items-center ml-56">* No payment history</h1>
         {% endif %}
     </div>
 
