@@ -132,3 +132,5 @@ dmypy.json
 data/
 save.sh
 setup(dev).
+
+WePay/static/wepay/qr/*

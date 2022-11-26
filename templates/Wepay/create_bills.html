@@ -19,7 +19,7 @@
 {% block body %}
     <body>
         {% if user.is_authenticated %}
-            <div class="justify-center mx-auto ml-96">
+            <div class="grid h-screen place-items-center">
                 <form action="" method="POST", id='form' onsubmit="create_title.disabled = true; return true;">
                     {% csrf_token %}
                     <div class="first-body">
@@ -28,7 +28,7 @@
 
                         <div class="mt-10 ml-36 text-xl"> Bill's title:
                             <br>
-                            <input class="mt-5 w-96 rounded hover:bg-gray-100" type="text" name="title" id="title" placeholder="Enter the title of the bill" required>
+                            <input class="mt-5 w-96 rounded hover:bg-gray-100" type="text" name="title" id="title" maxlength="100" placeholder="Enter the title of the bill" required>
                         </div>
                     </div>
 
@@ -36,12 +36,12 @@
 
                     <div class="mt-5 ml-36">Topic Name:
                         <br>
-                        <input class="mt-5 w-96 mt-3 rounded hover:bg-gray-100" type="text" name="topic_name" id="topic_name" placeholder="Enter the topic name" required>
+                        <input class="mt-5 w-96 mt-3 rounded hover:bg-gray-100" type="text" name="topic_name" id="topic_name" maxlength="100" placeholder="Enter the topic name" required>
                     </div>
 
                     <div class="mt-10 ml-36"> Price:
                         <br>
-                        <input class="mt-3 rounded hover:bg-gray-100" type="number" min="0" name="topic_price" id="topic_price" placeholder="Enter the topic price" required>
+                        <input class="mt-3 rounded hover:bg-gray-100" type="number" min="0" name="topic_price" id="topic_price" max="9999999999" placeholder="Enter the topic price" required>
                     </div>
 
                     <div class="mt-10 ml-36 w-1/2">
@@ -88,7 +88,7 @@
                             </ul>
                         {% endif %}
                         <br>
-                        <button class="absolute bottom-10 right-10 bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded mt-64 flex justify-center "><input type="submit" name="create_title" value="Create Title"></button>
+                        <button class="absolute bottom-10 right-10 bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded  flex justify-center text-xl"><input type="submit" name="create_title" value="Create Title"></button>
 
                     </form>
                     <script>
@@ -137,5 +137,5 @@
             <a href="/accounts/login/">Sign Up</a>
         {% endif %}
 
-{% endblock body%}
+{% endblock body %}
 

@@ -91,10 +91,10 @@
 
 
     {% else %}
-        <h2 class="text-4xl text-red-500 mt-64 flex justify-center ">No Bills are available.</h2>
+        <h2 class="text-red-500 text-5xl font-bold grid h-screen place-items-center ml-56">No Bills are available.</h2>
     {% endif %}
     {% if uncreated_bill %}
-        <h3 class="text-red-500 absolute top-10 right-10 tab">You have an Initialized bill that havent create yet, lets create by clicking  <a class="bi bi-pencil-square  text-[#171f99]" href="{% url 'bills:add' uncreated_bill.id %}"></a></h3>
+        <h3 class="text-red-500 text-xl absolute top-10 right-10 tab">You have an Initialized bill that havent create yet, lets create by clicking  <a class="bi bi-pencil-square  text-[#171f99]" href="{% url 'bills:add' uncreated_bill.id %}"></a></h3>
     {% endif %}
     <div>
 
@@ -109,7 +109,7 @@
         {% endif %}
         <form action="" method="post">
             {% csrf_token %}
-            <button class="absolute bottom-10 right-10 bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded mt-64 flex justify-center" type="submit">Create Bill</button>
+            <button class="absolute bottom-10 right-10 bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded mt-64 flex justify-center text-2xl" type="submit">Create Bill</button>
         </form>
 
     </div>
