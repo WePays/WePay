@@ -251,6 +251,9 @@ class OmisePayment(BasePayment):
         """pay by omise"""
         # amount must morethan 20
         if self.payment.status == self.payment.Status_choice.UNPAID:
+            print(self.payment.amount)
+            print(self.payment.price)
+            print(self.payment.payment_type)
             source = omise.Source.create(
                 type=self.payment_type,
                 amount=self.payment.amount,

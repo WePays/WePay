@@ -109,9 +109,10 @@ class PaymentDetailView(LoginRequiredMixin, generic.DetailView):
         payment = Payment.objects.get(pk=kwargs["pk"], user__user=user)
         payment_type = request.POST["payment_type"]
         payment.payment_type = payment_type
+        print(payment_type)
 
-        payment.pay()
         payment.save()
+        payment.pay()
         if payment_type == "Cash":
             return HttpResponseRedirect(reverse("payments:payment"))
         if payment_type == "PromptPay":
