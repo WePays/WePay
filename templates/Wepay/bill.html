@@ -102,7 +102,25 @@
             <p class="messages">
                 {% for message in messages %}
                     <p class="text-red-500 absolute bottom-20 right-10">
-                        {% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}
+                        {% if 'safe' in message.tags %}
+                            <div class="alert alert-{{ message.tags }}">
+                                {{ message|safe }}
+                            </div>
+                        {% else %}
+                            {% if message.tags == 'warning' %}
+                                <div class="bg-red-500 border-r-4 border-red-500 text-red-700 p-4" role="alert">
+                                    <p>Warning</p>
+                                    <p>{{ message }}</p>
+                                </div>
+                            {% elif message.tags == 'success' %}
+                                <div class="bg-green-200 border-r-4 border-green-500 text-green-700 p-4" role="alert">
+                                    <p>Success</p>
+                                    <p>{{ message }}</p>
+                                </div>
+                            {% else %}
+                                
+                            {% endif %}
+                        {% endif %}
                     </p>
                 {% endfor %}
             </p>
