@@ -154,6 +154,8 @@ DATABASES = {
 }
 
 DATABASES['default'].update(dj_database_url.config(conn_max_age=500, ssl_require=True))
+
+
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
@@ -202,10 +204,6 @@ USE_THOUSAND_SEPARATOR = True
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = "/static/"
 
-STATICFILES_DIRS = [
-os.path.join(BASE_DIR, "static"),
-]
-
 # Enable WhiteNoise's GZip compression of static assets.
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
@@ -239,6 +237,11 @@ EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", cast=str, default="")
 
 OMISE_PUBLIC = config("OMISE_PUBLIC", cast=str, default="missing-omise-public")
 OMISE_SECRET = config("OMISE_SECRET", cast=str, default="missing-omise-secret")
-django_heroku.settings(locals())
 
 SOCIALACCOUNT_ADAPTER = "WePay.whatever.SocialAccountAdapter"
+
+if not DEBUG:
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_SSL_REDIRECT = True
+
+django_heroku.settings(locals())

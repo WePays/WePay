@@ -78,9 +78,9 @@
             {% csrf_token %}
             {{ form.as_p }}
             <div class="mt-7">Name:<br>
-                <input class="w-80 rounded mt-5" type="text" name="topic_name" id="topic_name" placeholder="Enter the topic name" required></div>
+                <input class="w-80 rounded mt-5" type="text" name="topic_name" id="topic_name" maxlength="100" placeholder="Enter the topic name" required></div>
             <div class="mt-7"> Price: <br>
-                <input class="w-80 rounded mt-5" type="number" min="0" name="topic_price" id="topic_price" placeholder="Enter the topic price" required></div>
+                <input class="w-80 rounded mt-5" type="number" min="0" name="topic_price" id="topic_price" max="9999999999" placeholder="Enter the topic price" required></div>
             <div class="mt-7 w-1/2">
                 <label class="inline-block text-black" for="Multiselect"
                 >Enter user to assign:</label
