@@ -313,7 +313,7 @@ def delete(request: HttpRequest, pk: int) -> HttpResponse:
 
     bill.delete()
     messages.success(request, f"Bill:{name} deleted")
-    print("Hello Dude")
+    # print("Hello Dude")
     return HttpResponseRedirect(reverse("bills:bill"))
 
 

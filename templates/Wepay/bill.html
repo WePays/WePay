@@ -103,9 +103,14 @@
                 {% for message in messages %}
                     <p class="text-red-500 absolute bottom-20 right-10">
                         {% if 'safe' in message.tags %}
-                            <div class="alert alert-{{ message.tags }}">
-                                {{ message|safe }}
-                            </div>
+                            {% comment %} <div class="alert alert-{{ message.tags }}"> {% endcomment %}
+                            {% comment %} {{ message|safe }} {% endcomment %}
+                            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                            <script>
+                                var msg = {{ message|safe }};
+                                swal("Information", msg, "info")
+                            </script>
+                            {% comment %} </div> {% endcomment %}
                         {% else %}
                             {% if message.tags == 'warning' %}
                                 {% comment %} <div class="bg-yellow-500 border-r-4 border-yellow-500 text-yellow-700 p-4" role="alert">

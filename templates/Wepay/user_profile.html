@@ -28,6 +28,11 @@
                     <li class="text-red-500 font-bold text-sm absolute right-50 mt-10">
                         {% if 'safe' in message.tags %}
                             {{ message|safe }}
+                            {% comment %} <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                            <script>
+                                var msg = "{{ message|safe}}";
+                                swal("Information", msg, "info")
+                            </script> {% endcomment %}
                         {% else %}
                             {% if message.tags == 'warning' %}
                                 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
