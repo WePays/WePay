@@ -111,21 +111,13 @@ class E2ETestLocal(LiveServerTestCase):
 
         create_title.click()
 
-        topic_name = self.browser.find_element(By.NAME, 'topic_name')
-        price = self.browser.find_element(By.NAME, 'topic_price')
-        assign_to_users_topic = self.browser.find_element(By.TAG_NAME, 'select')
-        create_topic = self.browser.find_element(By.TAG_NAME, 'button')
-        # create_bill = self.browser.find_element(By.NAME, 'create_button')
+        self.browser.find_element(By.NAME, 'topic_name').send_keys('Test Food') # Topic name
+        self.browser.find_element(By.NAME, 'topic_price').send_keys(100) # Topic price
+        self.browser.find_element(By.TAG_NAME, 'select').send_keys(self.user.name) # Assign to user (topic)
 
-        topic_name.send_keys('Test Food')
-        price.send_keys(100)
-        # print(create_bill.text)
-        assign_to_users_topic.send_keys(self.user.name)
-        # print(create_topic.text)
+        self.browser.find_element(By.TAG_NAME, 'button').click() # Create topic
 
-        create_topic.click()
-
-        # create_bill.click()
+        self.browser.find_element(By.NAME, 'create_button').click() # Create bill
 
     def tearDown(self):
         self.browser.close()
