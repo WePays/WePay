@@ -60,7 +60,7 @@ INSTALLED_APPS = [
 TAILWIND_APP_NAME = "theme"
 
 MIDDLEWARE = [
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -91,9 +91,9 @@ TEMPLATES = [
 
 
 TEMPLATE_DIRS = (
-    os.path.join(BASE_DIR,  'templates'),
-    # Add to this list all the locations containing your static files 
-    os.path.join(BASE_DIR,  'WePay')
+    os.path.join(BASE_DIR, "templates"),
+    # Add to this list all the locations containing your static files
+    os.path.join(BASE_DIR, "WePay"),
 )
 
 AUTHENTICATION_BACKENDS = [
@@ -112,7 +112,7 @@ ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_VERIFICATION = "optional"
 ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 3
 ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 300
-ACCOUNT_DEFAULT_HTTP_PROTOCOL='https'
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https"
 
 LOGIN_REDIRECT_URL = "/"
 
@@ -127,11 +127,7 @@ SOCIALACCOUNT_PROVIDERS = {
         },
     },
     "github": {
-        "SCOPE": [
-            "profile",
-            "user:email",
-            "read:user"
-        ],
+        "SCOPE": ["profile", "user:email", "read:user"],
         "AUTH_PARAMS": {
             "access_type": "online",
         },
@@ -155,7 +151,7 @@ DATABASES = {
     }
 }
 
-DATABASES['default'].update(dj_database_url.config(conn_max_age=500, ssl_require=True))
+DATABASES["default"].update(dj_database_url.config(conn_max_age=500, ssl_require=True))
 
 
 # Password validation
@@ -186,6 +182,7 @@ class HerokuDiscoverRunner(DiscoverRunner):
         self.keepdb = True
         return super(HerokuDiscoverRunner, self).setup_databases(**kwargs)
 
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
@@ -203,7 +200,7 @@ USE_THOUSAND_SEPARATOR = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATIC_URL = "/static/"
 
 # Enable WhiteNoise's GZip compression of static assets.
@@ -217,12 +214,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 LOGOUT_REDIRECT_URL = "/accounts/login/"
 
-INTERNAL_IPS = [
-    "127.0.0.1",
-    "*"
-]
+INTERNAL_IPS = ["127.0.0.1", "*"]
 
-CSRF_TRUSTED_ORIGINS = ['https://wepays.herokuapp.com', 'http://127.0.0.1']
+CSRF_TRUSTED_ORIGINS = ["https://wepays.herokuapp.com", "http://127.0.0.1"]
 
 if "CI" in os.environ:
     TEST_RUNNER = "gettingstarted.settings.HerokuDiscoverRunner"
@@ -240,10 +234,8 @@ EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", cast=str, default="")
 OMISE_PUBLIC = config("OMISE_PUBLIC", cast=str, default="missing-omise-public")
 OMISE_SECRET = config("OMISE_SECRET", cast=str, default="missing-omise-secret")
 
-SOCIALACCOUNT_ADAPTER = "WePay.whatever.SocialAccountAdapter"
-
 if not DEBUG:
-    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
     SECURE_SSL_REDIRECT = True
 
 django_heroku.settings(locals())

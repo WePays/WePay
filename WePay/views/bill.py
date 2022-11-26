@@ -1,10 +1,16 @@
+from typing import Tuple
+
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.mail import send_mail
-from django.http import HttpRequest, HttpResponse, HttpResponseRedirect, HttpResponseNotFound
+from django.http import (
+    HttpRequest,
+    HttpResponse,
+    HttpResponseRedirect,
+    HttpResponseNotFound,
+)
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.urls import reverse
@@ -12,14 +18,22 @@ from django.utils.html import strip_tags
 from django.views import generic
 
 from ..models import Bills, OmisePayment, Payment, Topic, UserProfile
+from ..utils import send_email
 
 
-def get_bill(pk, header: User):
-    """get the bill"""
+def get_bill(pk: int, header: User) -> Tuple[Bills, HttpResponse]:
+    """get the bill
+
+    Arguments:
+        pk {int} -- id of that bill
+        header {User} -- bill's header
+
+    Returns:
+        Tuple[Bills, HttpResponse] -- that bill and response if bill not found
+    """
     try:
         bill = Bills.objects.get(pk=pk, header__user=header)
     except Bills.DoesNotExist:
-
         return None, HttpResponseNotFound("This bill doesnt exists")
     return bill, None
 
@@ -246,15 +260,12 @@ def create(request: HttpRequest, pk: int) -> HttpResponse:
                 },
             )
 
-            plain_message_to_user = strip_tags(html_message_to_user)
-
-            send_mail(
+            send_email(
                 subject="You got assign to a bill",
-                message=plain_message_to_user,
-                from_email=settings.EMAIL_HOST_USER,
-                recipient_list=[user.user.email],
                 html_message=html_message_to_user,
+                recipient_list=[user.user.email],
             )
+
     bill.save()
 
     return HttpResponseRedirect(reverse("bills:bill"))
@@ -300,14 +311,10 @@ def delete(request: HttpRequest, pk: int) -> HttpResponse:
             },
         )
 
-        plain_message_to_user = strip_tags(html_message_to_user)
-
-        send_mail(
+        send_email(
             subject="This bill is deleted.",
-            message=plain_message_to_user,
-            from_email=settings.EMAIL_HOST_USER,
-            recipient_list=[user.user.email],
             html_message=html_message_to_user,
+            recipient_list=[user.user.email],
         )
 
     bill.delete()
@@ -340,14 +347,10 @@ def close(request: HttpRequest, pk: int) -> HttpResponse:
             },
         )
 
-        plain_message_to_user = strip_tags(html_message_to_user)
-
-        send_mail(
+        send_email(
             subject="This bill is closed.",
-            message=plain_message_to_user,
-            from_email=settings.EMAIL_HOST_USER,
-            recipient_list=[user.user.email],
             html_message=html_message_to_user,
+            recipient_list=[user.user.email],
         )
 
     return HttpResponseRedirect(reverse("bills:bill"))

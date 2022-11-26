@@ -51,3 +51,4 @@ typing_extensions==4.4.0
 urllib3==1.26.12
 whitenoise==6.2.0
 wsproto==1.2.0
+multitasking==0.0.11

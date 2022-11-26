@@ -1,12 +1,9 @@
-from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.mail import send_mail
 from django.db.models import QuerySet
 from django.http import Http404, HttpResponseRedirect, HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, render, reverse
 from django.template.loader import render_to_string
-from django.utils.html import strip_tags
 from django.views import generic
 
 from ..models import CashPayment, OmisePayment, Payment, PromptPayPayment
@@ -115,7 +112,9 @@ class PaymentDetailView(LoginRequiredMixin, generic.DetailView):
         if payment_type == "Cash":
             return HttpResponseRedirect(reverse("payments:payment"))
         if payment_type == "PromptPay":
-            return HttpResponseRedirect(reverse("payments:qr", kwargs={"pk": payment.id}))
+            return HttpResponseRedirect(
+                reverse("payments:qr", kwargs={"pk": payment.id})
+            )
 
         return HttpResponseRedirect(payment.uri)
 
@@ -130,15 +129,11 @@ class QRViews(LoginRequiredMixin, generic.DetailView):
         try:
             payment = get_object_or_404(Payment, pk=kwargs["pk"], user__user=user)
         except Http404:
-            messages.error(
-                request, "Payment not found"
-            )
+            messages.error(request, "Payment not found")
             return HttpResponseRedirect(reverse("payments:payment"))
 
         if payment.payment_type != "PromptPay":
-            messages.error(
-                request, "Payment not found"
-            )
+            messages.error(request, "Payment not found")
             return HttpResponseRedirect(reverse("payments:payment"))
 
         return render(
@@ -148,7 +143,6 @@ class QRViews(LoginRequiredMixin, generic.DetailView):
                 "payment": payment,
             },
         )
-
 
 
 def update(request, pk: int, *arg, **kwargs):
@@ -178,14 +172,10 @@ def update(request, pk: int, *arg, **kwargs):
             },
         )
 
-        plain_message = strip_tags(html_message)
-
-        send_mail(
+        send_email(
             subject="Someone Pay you a money",
-            message=plain_message,
-            from_email=settings.EMAIL_HOST_USER,
-            recipient_list=[header_mail],
             html_message=html_message,
+            recipient_list=[header_mail],
         )
 
         if payment.bill.status:  # this mean bills is ready to verify and close
@@ -197,14 +187,10 @@ def update(request, pk: int, *arg, **kwargs):
                 },
             )
 
-            plain_message_to_header = strip_tags(html_message_to_header)
-
-            send_mail(
+            send_email(
                 subject="You have to verify and close the bill",
-                message=plain_message_to_header,
-                from_email=settings.EMAIL_HOST_USER,
-                recipient_list=[header_mail],
                 html_message=html_message_to_header,
+                recipient_list=[header_mail],
             )
 
     return HttpResponseRedirect(reverse("payments:payment"))
