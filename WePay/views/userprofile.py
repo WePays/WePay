@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse, HttpRequest
 from django.shortcuts import render, reverse
 from django.views.generic import DetailView
 from django.conf import settings
@@ -8,12 +8,28 @@ from ..models import UserProfile, omise
 
 
 class UserProfileView(LoginRequiredMixin, DetailView):
-    """Template view for user profile page."""
+    """Username change handler and fetch key
+    
+    **Context**
+
+    ``user``
+        :model:`auth.User` current user
+
+    ``chain_id``
+        chain id of user to make payer can pay with Omise
+
+    **Template**
+
+    :template:`Wepay/userprofile.html`
+    """
 
     template_name = "Wepay/user_profile.html"
     Model = UserProfile
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request: HttpRequest, *args, **kwargs) -> HttpRequest:
+        """
+        get username and chainkey from user that authenticated
+        """
         user = request.user
         userprofile = UserProfile.objects.get(user=user)
         chain_id = userprofile.chain_id
@@ -46,8 +62,7 @@ def fetch_key(request, *args, **kwargs):
         messages.info(
             request,
             "* No Chain found, make sure you follow this \
-                <a href='/instruction'>instructions</a> for appling a chain key",
+                <font color='blue'><a href='/instruction'>instructions</a></font> for appling a chain key",
             extra_tags="safe",
         )
-
     return HttpResponseRedirect(reverse("user-profile:userprofile"))

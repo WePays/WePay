@@ -143,7 +143,7 @@ class TestPayment(TestCase):
         self.assertContains(
             resp,
             "* This bill is not in chain, you can only pay with cash or tell header to register the chain \
-                    \n<a href='/instruction/'>instruction here</a>",
+                    \n instruction<a href='/instruction/'> here</a>",
             status_code=200,
         )
 
@@ -172,7 +172,9 @@ class TestPayment(TestCase):
         #! Paid in bill 2 but redirect into bill 1 instead (Its can be my mistake please check)
         self.assertRedirects(resp3, "/bill/2/", 302)
 
-    @skip("omise.errors.InvalidChargeError: amount must be greater than or equal to ฿20 (2000 satangs)")
+    @skip(
+        "omise.errors.InvalidChargeError: amount must be greater than or equal to ฿20 (2000 satangs)"
+    )
     def test_pay_redirect_on_cash_payment(self):
         """testing whether pay truly redirect"""
         # cashpayment
