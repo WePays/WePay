@@ -19,7 +19,7 @@
 {% block body %}
     <body>
         {% if user.is_authenticated %}
-            <div class="justify-center mx-auto ml-96">
+            <div class="grid h-screen place-items-center">
                 <form action="" method="POST", id='form' onsubmit="create_title.disabled = true; return true;">
                     {% csrf_token %}
                     <div class="first-body">
@@ -88,7 +88,7 @@
                             </ul>
                         {% endif %}
                         <br>
-                        <button class="absolute bottom-10 right-10 bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded mt-64 flex justify-center "><input type="submit" name="create_title" value="Create Title"></button>
+                        <button class="absolute bottom-10 right-10 bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded  flex justify-center text-xl"><input type="submit" name="create_title" value="Create Title"></button>
 
                     </form>
                     <script>
