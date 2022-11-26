@@ -49,6 +49,7 @@ class BillFormTest(LiveServerTestCase):
         submit_button.click()
 
         # assert "header" in self.browser.page_source
+
     @skip("it still not work, i will try later after reading a selenium docs")
     def test_initialize_bill_form(self):
 
@@ -68,20 +69,20 @@ class BillFormTest(LiveServerTestCase):
 
         self.browser.implicitly_wait(20)
 
-        self.browser.get('http://127.0.0.1:8000/bill/create/')
+        self.browser.get("http://127.0.0.1:8000/bill/create/")
 
         title = self.browser.find_element(By.XPATH, "//input[@id='title']")
-        name = self.browser.find_element(By.ID, 'topic_name')
-        price = self.browser.find_element(By.ID, 'topic_price')
-        assign_to_users = self.browser.find_elements(By.ID, 'username')
+        name = self.browser.find_element(By.ID, "topic_name")
+        price = self.browser.find_element(By.ID, "topic_price")
+        assign_to_users = self.browser.find_elements(By.ID, "username")
         # assign_to_users = self.browser.find_elements(By.XPATH, )
 
-        create = self.browser.find_element(By.NAME, 'create_title')
+        create = self.browser.find_element(By.NAME, "create_title")
 
-        title.send_keys('Test Title')
-        name.send_keys('Test Food')
+        title.send_keys("Test Title")
+        name.send_keys("Test Food")
         price.send_keys(100)
-        assign_to_users.send_keys('test_user')
+        assign_to_users.send_keys("test_user")
 
         create.send_keys(Keys.Return)
 

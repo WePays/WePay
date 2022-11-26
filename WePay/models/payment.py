@@ -5,14 +5,13 @@ from typing import Any
 
 import omise
 from django.conf import settings
-from django.core.mail import send_mail
 from django.db import models
 from django.template.loader import render_to_string
 from django.utils import timezone
-from django.utils.html import strip_tags
 
 from .bill import Bills
 from .userprofile import UserProfile
+from ..utils import send_email
 
 # set omise key
 omise.api_public = settings.OMISE_PUBLIC
@@ -313,19 +312,27 @@ class PromptPayPayment(OmisePayment):
 
     @property
     def qr_path(self) -> str:
-        """get qr path for PromptPay payment"""
-        return f'WePay/static/wepay/qr/{self.qr_name}'
+        """get qr path for that payment
+
+        Returns:
+            str -- a full static path + {{qr name}}.svg
+                ex. WePay/static/wepay/qr/promptpay5.svg
+        """
+        return f"WePay/static/wepay/qr/{self.qr_name}"
 
     def genetate_qr(self) -> None:
         """generate QR for prompytpay payment"""
+        # check whether qr is in path or not,
+        # if it exist it will exit the function
         if os.path.isfile(self.qr_path):
             return
-
+        # if charge exist it will download the qr in to path
         if charge := omise.Charge.retrieve(self.charge_id):
             uri = charge.source.scannable_code.image.download_uri
             urlretrieve(uri, self.qr_path)
 
     def pay(self) -> None:
+        """pay to header"""
         super().pay()
         self.genetate_qr()
 
@@ -391,14 +398,10 @@ class CashPayment(BasePayment):
             },
         )
 
-        plain_message_to_header = strip_tags(html_message_to_header)
-
-        send_mail(
+        send_email(
             subject="You got assign to a bill",
-            message=plain_message_to_header,
-            from_email=settings.EMAIL_HOST_USER,
-            recipient_list=[self.payment.user.user.email],
             html_message=html_message_to_header,
+            recipient_list=[self.payment.user.user.email],
         )
 
     def reject(self) -> None:
@@ -415,14 +418,10 @@ class CashPayment(BasePayment):
             },
         )
 
-        plain_message = strip_tags(html_message)
-
-        send_mail(
+        send_email(
             subject=f"Your payment for {self.payment.bill.name} has been rejected",
-            message=plain_message,
-            from_email=settings.EMAIL_HOST_USER,
-            recipient_list=[self.payment.user.user.email],
             html_message=html_message,
+            recipient_list=[self.payment.user.user.email],
         )
 
         self.payment.status = self.payment.Status_choice.FAIL
