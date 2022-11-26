@@ -28,6 +28,7 @@ class HistoryView(LoginRequiredMixin, generic.DetailView):
 
     def get(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
         """get a list of bill and payment history"""
+
         user = UserProfile.objects.get(user=request.user)
         bill_history = Bills.objects.filter(header=user, is_closed=True)
         payment_history = Payment.objects.filter(

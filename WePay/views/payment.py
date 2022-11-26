@@ -1,12 +1,15 @@
+from typing import Tuple
+
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import QuerySet
-from django.http import Http404, HttpResponseRedirect, HttpRequest, HttpResponse
+from django.http import Http404, HttpResponseRedirect, HttpRequest, HttpResponse, HttpResponseNotFound
 from django.shortcuts import get_object_or_404, render, reverse
 from django.template.loader import render_to_string
 from django.views import generic
 
 from ..models import CashPayment, OmisePayment, Payment, PromptPayPayment
+from ..utils import send_email
 
 
 class PaymentView(LoginRequiredMixin, generic.ListView):
@@ -63,22 +66,19 @@ class PaymentDetailView(LoginRequiredMixin, generic.DetailView):
         """get everything to choose payment type"""
         user = request.user
         cash_only = False
-        try:
-            payment = get_object_or_404(Payment, pk=kwargs["pk"], user__user=user)
-        except Http404:
-            messages.error(
-                request, "Payment not found"
-            )  # !BUG IT DOESNT COMING WHEN REDIRECT
-            return HttpResponseRedirect(reverse("payments:payment"))
+
+        payment = get_object_or_404(Payment, pk=kwargs["pk"], user__user=user)
+
         status = payment.status
         payment_type = payment.payment_type
+        # payer cant pay with omise when price less than 20 or more than 150k Baht
         if payment.price <= 20 or payment.price > 150000:
             messages.info(
                 request,
                 "* Your amount is less than 20 Baht or more than 150,000 Baht, you can only pay with cash",
             )
             cash_only = True
-
+        # payer must have chain to paid with omise
         if not payment.bill.header.chain:
             messages.info(
                 request,
@@ -99,11 +99,11 @@ class PaymentDetailView(LoginRequiredMixin, generic.DetailView):
             },
         )
 
-    def post(self, request, *args, **kwargs):
-        """to be implement"""
+    def post(self, request, *args, **kwargs) -> HttpResponse:
+        """Choose a payment type and pay to header"""
 
         user = request.user
-        payment = Payment.objects.get(pk=kwargs["pk"], user__user=user)
+        payment = get_object_or_404(Payment, pk=kwargs["pk"], user__user=user)
         payment_type = request.POST["payment_type"]
         payment.payment_type = payment_type
 
@@ -120,17 +120,26 @@ class PaymentDetailView(LoginRequiredMixin, generic.DetailView):
 
 
 class QRViews(LoginRequiredMixin, generic.DetailView):
+    """QR-generator for PromptPay payment
+
+    **Context**
+
+    ``payment``
+        payment that user need to pay
+
+    **Template**
+
+    :template:`Wepay/qr.html`
+
+    """
     template_name: str = "Wepay/qr.html"
     Model = Payment
 
     def get(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
         """get everything to choose payment type"""
         user = request.user
-        try:
-            payment = get_object_or_404(Payment, pk=kwargs["pk"], user__user=user)
-        except Http404:
-            messages.error(request, "Payment not found")
-            return HttpResponseRedirect(reverse("payments:payment"))
+
+        payment = get_object_or_404(Payment, pk=kwargs["pk"], user__user=user)
 
         if payment.payment_type != "PromptPay":
             messages.error(request, "Payment not found")
@@ -145,14 +154,37 @@ class QRViews(LoginRequiredMixin, generic.DetailView):
         )
 
 
-def update(request, pk: int, *arg, **kwargs):
+def update(request: HttpRequest, pk: int, *arg, **kwargs) -> HttpResponse:
+    """update payment an OmisePaymentstatus
+
+    Arguments:
+        pk {int} -- id of each payment
+
+    **Context**
+
+    render when send mail
+    ``user``
+        an instance of :model:`WePay.UserProfile` that is each user in the bill
+
+    ``bill_name``
+        name of that bill
+
+    ``payment_type``
+        type of that payment
+
+    ``price``
+        price that each user need to pay
+
+    ``bill_id``
+        id of bill that link with that payment
+
+
+    """
     user = request.user
-    try:
-        payment = get_object_or_404(Payment, pk=pk, user__user=user)
-    except Http404:
-        messages.error(request, "Payment not found")
-        return HttpResponseRedirect(reverse("payments:payment"))
+
+    payment = get_object_or_404(Payment, pk=pk, user__user=user)
     payment_type = payment.selected_payment
+
     if not issubclass(payment_type, OmisePayment):
         messages.error(request, "Payment is not omise payment")
         return HttpResponseRedirect(reverse("payments:payment"))
@@ -196,12 +228,15 @@ def update(request, pk: int, *arg, **kwargs):
     return HttpResponseRedirect(reverse("payments:payment"))
 
 
-def confirm_payment(request, pk: int, *arg, **kwargs):
-    try:
-        payment = get_object_or_404(Payment, pk=pk)
-    except Http404:
-        messages.error(request, "Payment not found")
-        return HttpResponseRedirect(reverse("payments:payment"))
+def confirm_payment(request: HttpRequest, pk: int, *arg, **kwargs) -> HttpResponse:
+    """confirm payment to payer when payer is paid
+
+    Arguments:
+        pk {int} -- id of each payment
+
+    """
+    payment = get_object_or_404(Payment, pk=pk)
+
     if not payment.is_confirmable():
         messages.error(request, "Payment is not comfirmable")
         return HttpResponseRedirect(
@@ -212,6 +247,7 @@ def confirm_payment(request, pk: int, *arg, **kwargs):
                 ],
             )
         )
+    # if payer chose to pay with promptpay it will redirect to omise to confirm that you receive money
     if isinstance(payment.instance, PromptPayPayment):
         return HttpResponseRedirect(payment.instance.payment_link)
     payment.instance.confirm()
@@ -227,12 +263,18 @@ def confirm_payment(request, pk: int, *arg, **kwargs):
     )
 
 
-def reset(request, pk: int, *arg, **kwargs):
-    try:
-        payment = get_object_or_404(Payment, pk=pk)
-    except Http404:
-        messages.error(request, "Payment not found")
-        return HttpResponseRedirect(reverse("payments:payment"))
+def reset(request: HttpRequest, pk: int, *arg, **kwargs) -> HttpResponse:
+    """reset payment to UNPAID status
+
+    Arguments:
+        pk {int} -- id of payment to reset
+
+    Returns:
+        HttpResponse -- _description_
+    """
+    payment = get_object_or_404(Payment, pk=pk)
+
+    # if payment is fail or expired its mean it can repayable
     if not payment.is_repayable():
         messages.error(request, "Payment is not resetable")
         return HttpResponseRedirect(reverse("payments:payment"))
@@ -246,14 +288,15 @@ def reset(request, pk: int, *arg, **kwargs):
     return HttpResponseRedirect(reverse("payments:payment"))
 
 
-def reject(request, pk: int, *arg, **kwargs):
-    # cash payment only
+def reject(request: HttpRequest, pk: int, *arg, **kwargs) -> HttpResponse:
+    """reject a payment for user
 
-    try:
-        payment = get_object_or_404(Payment, pk=pk)
-    except Http404:
-        messages.error(request, "Payment not found")
-        return HttpResponseRedirect(request.path)
+    Arguments:
+        pk {int} -- id of payment to reject
+    """
+
+    payment = get_object_or_404(Payment, pk=pk)
+
     if not isinstance(payment.instance, CashPayment):
         messages.error(request, "Payment is not rejectable")
         return HttpResponseRedirect(reverse("bills:detail", args=[payment.bill.id]))

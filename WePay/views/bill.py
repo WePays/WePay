@@ -1,6 +1,5 @@
 from typing import Tuple
 
-from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -11,31 +10,30 @@ from django.http import (
     HttpResponseRedirect,
     HttpResponseNotFound,
 )
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.template.loader import render_to_string
 from django.urls import reverse
-from django.utils.html import strip_tags
 from django.views import generic
 
 from ..models import Bills, OmisePayment, Payment, Topic, UserProfile
 from ..utils import send_email
 
 
-def get_bill(pk: int, header: User) -> Tuple[Bills, HttpResponse]:
-    """get the bill
+# def get_bill(pk: int, header: User) -> Tuple[Bills, HttpResponse]:
+#     """get the bill
 
-    Arguments:
-        pk {int} -- id of that bill
-        header {User} -- bill's header
+#     Arguments:
+#         pk {int} -- id of that bill
+#         header {User} -- bill's header
 
-    Returns:
-        Tuple[Bills, HttpResponse] -- that bill and response if bill not found
-    """
-    try:
-        bill = Bills.objects.get(pk=pk, header__user=header)
-    except Bills.DoesNotExist:
-        return None, HttpResponseNotFound("This bill doesnt exists")
-    return bill, None
+#     Returns:
+#         Tuple[Bills, HttpResponse] -- that bill and response if bill not found
+#     """
+#     try:
+#         bill = Bills.objects.get(pk=pk, header__user=header)
+#     except Bills.DoesNotExist:
+#         return None, HttpResponseNotFound("This bill doesnt exists")
+#     return bill, None
 
 
 class BillView(LoginRequiredMixin, generic.DetailView):
@@ -187,9 +185,7 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
 
         pk: int = kwargs["pk"]
 
-        bill, error_resp = get_bill(pk, request.user)
-        if error_resp:
-            return error_resp
+        bill = get_object_or_404(Bills, pk=pk, header__user=request.user)
         # get all payment in that bill
         lst = []
         for each_user in bill.all_user:
@@ -235,9 +231,8 @@ def create(request: HttpRequest, pk: int) -> HttpResponse:
     :template:`message/user/assigned_bill.html`
 
     """
-    bill, error_resp = get_bill(pk, request.user)
-    if error_resp:
-        return error_resp
+
+    bill = get_object_or_404(Bills, pk=pk, header__user=request.user)
     # set bill to created
     bill.is_created = True
 
@@ -286,9 +281,8 @@ def delete(request: HttpRequest, pk: int) -> HttpResponse:
 
     """
     header = request.user
-    bill, error_resp = get_bill(pk, header)
-    if error_resp:
-        return error_resp
+
+    bill = get_object_or_404(Bills, pk=pk, header__user=header)
     # if anyone is paid or in pending status except header it will cant delete
     any_one_pay = any(
         payment.status in (Payment.Status_choice.PAID, Payment.Status_choice.PENDING)
@@ -332,9 +326,7 @@ def close(request: HttpRequest, pk: int) -> HttpResponse:
         pk {int} -- id of each bill
 
     """
-    bill, error_resp = get_bill(pk, request.user)
-    if error_resp:
-        return error_resp
+    bill = get_object_or_404(Bills, pk=pk, header__user=request.user)
     bill.is_closed = True
     bill.save()
 
