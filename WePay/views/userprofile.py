@@ -46,7 +46,7 @@ def fetch_key(request, *args, **kwargs):
         messages.info(
             request,
             "* No Chain found, make sure you follow this \
-                <a href='/instruction'>instructions</a> for appling a chain key",
+                <font color='blue'><a href='/instruction'>instructions</a></font> for appling a chain key",
             extra_tags="safe",
         )
 

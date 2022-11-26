@@ -12,11 +12,7 @@ class AddTopicView(LoginRequiredMixin, generic.DetailView):
     template_name: str = "Wepay/add_topic.html"
 
     def get(self, request: HttpRequest, *args, **kwargs):
-        try:
-            bill = get_object_or_404(Bills, pk=kwargs["pk"], header__user=request.user)
-        except Bills.DoesNotExist:
-            messages.warning(request, "Bill does not exist")
-            return HttpResponseRedirect(reverse("bills:bill"))
+        bill = get_object_or_404(Bills, pk=kwargs["pk"], header__user=request.user)
 
         if bill.is_created:
             messages.warning(request, "Bill is created")
@@ -47,11 +43,8 @@ class AddTopicView(LoginRequiredMixin, generic.DetailView):
 
 
 def delete_topic(request, pk):
-    try:
-        topic = Topic.objects.get(pk=pk)
-    except Topic.DoesNotExist:
-        messages.warning(request, "! Topic does not exist")
-        return HttpResponseRedirect(reverse("bills:bill"))
+    topic = get_object_or_404(Topic, pk=pk)
+
     bill = topic.bill
     if len(Topic.objects.filter(bill=bill)) == 1:
         messages.warning(request, "! Bill must have at least one topic")
