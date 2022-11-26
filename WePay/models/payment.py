@@ -13,6 +13,8 @@ from django.utils import timezone
 from ..utils import send_email
 from .bill import Bills
 from .userprofile import UserProfile
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context
 
 # set omise key
 omise.api_public = settings.OMISE_PUBLIC
