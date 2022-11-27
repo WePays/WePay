@@ -53,7 +53,7 @@
                                     {% endif %}
 
                                     {% if bill.status %}
-                                        <td class="px-8 py-4 text-sm text-green-500"><a href="{% url 'bills:close' bill.id %}">Verify</a></td>
+                                        <td class="px-8 py-4 text-sm text-green-500 underline"><a href="{% url 'bills:close' bill.id %}">Verify</a></td>
                                     {% else %}
                                         <td class="px-8 py-4 text-sm text-red-500">Not Verify</td>
                                     {% endif %}
