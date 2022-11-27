@@ -2,15 +2,17 @@
 
 {% block head_title %} Payments for {{payment.bill.name}}{% endblock head_title %}
 {% block body %}
+
     <h1 class="mt-32 ml-96 justify-center font-bold text-3xl">Select Payment method</h1>
-    <h3 class="mt-5 ml-96 font-bold text-[#171f99]">Pay to {{payment.bill.header}}</h3>
-    <h4 class="mt-5 ml-96">Status: {{status}}</h4>
+    <p class="mt-5 ml-96">Pay to: <a class="font-bold text-[#171f99] text-xl"> {{payment.bill.header}}</a></p>
+    <p class="mt-5 ml-96">Status: <a class="font-bold"> {{status}}</a></p>
 
     {% comment %}
 {{payment_type}}
     {% endcomment %}
 
-    <div><p class="mt-5 ml-96" for="payment">Select Payment type:</p>
+    <div>
+        <p class="mt-5 ml-96" for="payment">Select Payment type:</p>
         <form action="" method="post">
             {% csrf_token %}
             <select class="mt-3 ml-96 w-80" id="payment_type" name="payment_type" required>
@@ -25,6 +27,7 @@
             <div class="ml-80"><button class="mt-5 ml-80 bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded flex justify-center" type="submit" value="Pay">Pay</button></div>
         </form>
     </div>
+
 
 
     {% if messages %}

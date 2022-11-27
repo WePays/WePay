@@ -20,7 +20,6 @@
     <div class="mt-24 ml-28 justify-center flex flex-row">
 
         <div class="ml-48">
-            <p class="mt-3 font-bold">Total price: {{bill.total_price}} </p>
 
             <table class="divide-y divide-[#171f99] mt-3 overflow-scroll">
                 <thead class="bg-[#171f99]">
@@ -28,8 +27,8 @@
                         <th class="px-6 py-4 text-xl text-white">No</th>
                         <th class="px-10 py-4 text-xl text-white">Title</th>
                         <th class="px-6 py-4 text-xl text-white">Price</th>
-                        <th class="px-10 py-4 text-xl text-white">Assigned</th>
-                        <th class="px-6 py-4 text-xl text-white">Delete</th>
+                        <th class="px-6 py-4 text-xl text-white">Assigned</th>
+                        <th class="px-2 py-4 text-xl text-white"></th>
                     </tr>
                 </thead>
 
@@ -40,8 +39,8 @@
                             <td class="px-6 py-4">{{forloop.counter0|add:"1"}}</td>
                             <td class="px-10 py-4">{{topic.title}}</td>
                             <td class="px-6 py-4">{{topic.price}}</td>
-                            <td class="px-10 py-4">{{ topic.user.all| join:', '}}</td>
-                            <td class="px-6 py-4">
+                            <td class="px-6 py-4">{{ topic.user.all| join:', '}}</td>
+                            <td class="px-2 py-4">
                                 <a href="{% url 'topic:delete' topic.id %}">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -65,6 +64,7 @@
                 {% endfor %}
             </list>
         </table>
+        <p class="text-xl text-red-500 mt-3 font-bold absolute bottom-24 right-12">Total price: {{bill.total_price}} </p>
     </div>
 
 
