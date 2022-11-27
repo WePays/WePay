@@ -28,7 +28,7 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 SECRET_KEY = config("SECRET_KEY", cast=str, default="missing-secret-key")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config("DEBUG", cast=bool, default=False)
+DEBUG = config("DEBUG", cast=bool, default=True)
 
 ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=Csv(), default="")
 
@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
+    'cloudinary_storage',
     "django.contrib.staticfiles",
+    'cloudinary',
     "django.contrib.sites",
     "django.contrib.admindocs",
     "allauth",
@@ -55,6 +57,7 @@ INSTALLED_APPS = [
     "theme",
     "django_browser_reload",
     "WePay.apps.WepayConfig",
+
 ]
 
 TAILWIND_APP_NAME = "theme"
@@ -112,7 +115,7 @@ ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_VERIFICATION = "optional"
 ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 3
 ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 300
-ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https"
+# ACCOUNT_DEFAULT_HTTP_PROTOCOL='https'
 
 LOGIN_REDIRECT_URL = "/"
 
@@ -200,14 +203,29 @@ USE_THOUSAND_SEPARATOR = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-# STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATIC_URL = "/static/"
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
+# STATICFILES_DIRS = (
+#     os.path.join(BASE_DIR, 'static'),
+# )
+
+
+# Path where media is stored
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# Base url to serve media files
+MEDIA_URL = '/media/'
+
 
 # Enable WhiteNoise's GZip compression of static assets.
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': config('CLOUDINARY_CLOUD_NAME', cast=str, default=''),
+    'API_KEY': config('CLOUDINARY_API_KEY', cast=str, default=''),
+    'API_SECRET': config('CLOUDINARY_API_SECRET', cast=str, default=''),
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
