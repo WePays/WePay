@@ -54,6 +54,8 @@
                                                     </script>
                                                 {% endif %}
                                             {% endif %}
+                                            </p>
+                                        {% endfor %}
                                         </p>
                                     {% endif %}
                                 </form>
@@ -87,7 +89,7 @@
                                                     <a class="bi bi-x-circle-fill text-red-500" href="{% url 'payments:reject' price.id %}"></a></td>
                                             {% endif %}
                                         {% elif price.status == "PAID" %}
-                                                <td><a class="bi bi-check-circle-fill px-12 py-4 text-green-500 text-center justify-center"></a>
+                                                <td class="px-12 py-4 text-center"><a class="bi bi-check-circle-fill text-green-500"></a>
                                         {% else %}
                                             <td class="px-12 py-4 text-sm text-red-500 text-center font-bold"><a>-</a></td>
                                         {% endif %}

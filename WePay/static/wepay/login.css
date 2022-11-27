@@ -81,10 +81,6 @@ body {
   border-radius: 100px;
   box-shadow: 0 3px 6px 1px #042d4657;
   box-sizing: border-box;
-  display: grid;
-  grid-row: auto auto;
-  grid-column-gap: 20px;
-  grid-row-gap: 20px;
 }
 
 .box-form .left .overlay span a:nth-child(2){
@@ -126,7 +122,7 @@ body {
 }
 .box-form .right h1 {
   margin-top: auto;
-  font-size: 3vmax;
+  font-size: 2vmax;
   line-height: 0;
 }
 
