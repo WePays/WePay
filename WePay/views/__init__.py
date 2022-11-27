@@ -3,6 +3,7 @@ from .history import HistoryView
 from .payment import (
     PaymentDetailView,
     PaymentView,
+    QRViews,
     confirm_payment,
     reject,
     reset,
@@ -29,4 +30,5 @@ __all__ = [
     "reset",
     "reject",
     "delete_topic",
+    "QRViews",
 ]

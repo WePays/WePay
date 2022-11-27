@@ -26,7 +26,7 @@
                 <thead class="bg-[#171f99]">
                     <tr>
                         <th class="px-6 py-4 text-xl text-white">No</th>
-                        <th class="px-10 py-4 text-xl text-white">Title</th>
+                        <th class="px-10 py-4 text-xl text-white">Topic</th>
                         <th class="px-6 py-4 text-xl text-white">Price</th>
                         <th class="px-10 py-4 text-xl text-white">Assigned</th>
                         <th class="px-6 py-4 text-xl text-white">Delete</th>
@@ -74,11 +74,11 @@
 
         <p class="mt-5 text-xl">Name of Bill: {{bill.name}} </p>
 
-        <form action="" method="post", id='form'>
+        <form action="" method="post", id='form' onsubmit="create_button.disabled = true; return true;">
             {% csrf_token %}
             {{ form.as_p }}
-            <div class="mt-7">Name:<br>
-                <input class="w-80 rounded mt-5" type="text" name="topic_name" id="topic_name" maxlength="100" placeholder="Enter the topic name" required></div>
+            <div class="mt-7">Topic Name:<br>
+                <input class="w-80 rounded mt-5" type="text" name="topic_name" id="topic_name" placeholder="Enter the topic name" required></div>
             <div class="mt-7"> Price: <br>
                 <input class="w-80 rounded mt-5" type="number" min="0" name="topic_price" id="topic_price" max="9999999999" placeholder="Enter the topic price" required></div>
             <div class="mt-7 w-1/2">
@@ -116,7 +116,7 @@
 
                 </script>
 
-                <div class="mt-10 ml-56 rounded"><button class="bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded flex justify-center text-xl" type="submit" value="Add topic">Add topic</button></div>
+                <div class="mt-10 ml-56 rounded"><button class="bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded flex justify-center" type="submit" value="Add topic" name='create_button'>Add topic</button></div>
             </div>
         </div>
     </div>
