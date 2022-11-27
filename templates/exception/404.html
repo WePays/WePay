@@ -1,0 +1,12 @@
+{% extends "exception/base.html" %}
+{% load static %}
+
+{% block head_title %} Wrong address {% endblock head_title %}
+
+{% block body %}
+
+<h1 class="text-red-500 text-5xl font-bold grid h-screen place-items-center ml-56"> Oops! </h1>
+
+<img src="{% static 'wepay/webpages/not-found.gif' %}" alt="404" class='place-items-center'>
+
+{% endblock body %}

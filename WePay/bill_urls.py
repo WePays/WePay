@@ -5,7 +5,7 @@ from . import views
 
 app_name = "bills"
 urlpatterns = [
-    # path("", views.bill, name="bill"),
+    # path("", views.handler404, name="bill"),
     path("", views.BillView.as_view(), name="bill"),
     path("create/", views.BillCreateView.as_view(), name="create"),
     path("<int:pk>/add", views.AddTopicView.as_view(), name="add"),
