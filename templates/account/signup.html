@@ -1,8 +1,10 @@
 {% extends 'account/base.html' %}
-{% load static %}
+{% load i18n %}
 
 {% block head_title %}<a href="{% url 'account_signup' %}" class="signup"></a>{% endblock head_title%}
-{% load i18n %}
+{% block extra_head%}
+    {{block.super}}
+{% endblock extra_head%}
 {% block content %}
     <h1>{% trans "Sign Up" %}</h1>
 
