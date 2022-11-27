@@ -75,3 +75,4 @@ urllib3==1.26.12
 wcwidth==0.2.5
 whitenoise==6.2.0
 wsproto==1.2.0
+multitasking==0.0.11
