@@ -62,7 +62,7 @@ def fetch_key(request, *args, **kwargs):
         messages.info(
             request,
             "* No Chain found, make sure you follow this \
-                <font color='blue'><a href='/instruction'>instructions</a></font> for appling a chain key",
+                <font color='blue' text underline><a href='/instruction'>instructions</a></font> for appling a chain key",
             extra_tags="safe",
         )
     return HttpResponseRedirect(reverse("user-profile:userprofile"))

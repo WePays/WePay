@@ -15,7 +15,7 @@
 
                     <div class="inline-block text-2xl text-black mt-40 font-bold ml-72">Bill: {{bill.name}}</div>
 
-                    <div class="inline-block text-xl ml-80 font-bold">
+                    <div class="inline-block text-xl ml-80 font-bold text-red-500">
                         <form action="" method="post">
                             {% csrf_token %}
                             TotalPrice: {{bill.total_price}}
