@@ -31,7 +31,29 @@
         <div class="absolute bottom-10 right-10 font-bold text-red-500">
             {% for message in messages %}
                 <li class="{{ message.tags }}" class="color:firebrick">
-                    {% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}
+                    {% if 'safe' in message.tags %}
+                        {{ message|safe }}
+                    {% else %}
+                        {% if message.tags == 'warning' %}
+                            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                            <script>
+                                var msg = "{{ message }}";
+                                swal("Warning", msg, "warning")
+                            </script>
+                        {% elif message.tags == 'success' %}
+                            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                            <script>
+                                var msg = "{{ message }}";
+                                swal("Success", msg, "success")
+                            </script>
+                        {% else %}
+                            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                            <script>
+                                var msg = "{{ message }}";
+                                swal("Error", msg, "error")
+                            </script>
+                        {% endif %}
+                    {% endif %}
                 </li>
             {% endfor %}
         </div>

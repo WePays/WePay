@@ -1,28 +1,27 @@
 {% extends 'Wepay/base.html' %}
-{% tailwind_css %}
 
 {% block body %}
     <div class="grid h-screen place-items-center ml-80">
-    <h1 class="mt-10 justify-center font-bold text-3xl ">How to use omise -> Get chain ID </h1>
-    <p class="mt-5 text-[#171f99]">Follow the instructions below to enable account chaining: </p>
-    <div class="mt-5">
-        <ol>
-            <div><p class="">1. Sign up/ Sign in via Omise: <p class="text-red-700 text-sm"> <br> To Sign up or Sign in via Omise, you must use the same email address that you used to login to WePay.</p></p></div>
+        <h1 class="mt-10 justify-center font-bold text-3xl ">How to use omise -> Get chain ID </h1>
+        <p class="mt-5 text-[#171f99]">Follow the instructions below to enable account chaining: </p>
+        <div class="mt-5">
+            <ol>
+                <div><p class="">1. Sign up/ Sign in via Omise: <p class="text-red-700 text-sm"> <br> To Sign up or Sign in via Omise, you must use the same email address that you used to login to WePay.</p></p></div>
 
-            <p class="mt-10">2. Visit <a class="underline text-[#171f99]" href="https://dashboard.omise.co/test/settings"> Omise Dashboard Settings</a></p>
-            <div><img class="mt-3" width="941" alt="image" src="https://user-images.githubusercontent.com/90590580/200815785-9519c25e-cb51-4b2b-b9c9-d55ba174df2c.png"></div>
+                <p class="mt-10">2. Visit <a class="underline text-[#171f99]" href="https://dashboard.omise.co/test/settings"> Omise Dashboard Settings</a></p>
+                <div><img class="mt-3" width="941" alt="image" src="https://user-images.githubusercontent.com/90590580/200815785-9519c25e-cb51-4b2b-b9c9-d55ba174df2c.png"></div>
 
-            <p class="mt-10">3. Click the checkbox enabling account chaining, <br>and set the Return url to which the sub-merchant will be redirected after authorization.</p>
-            <div><img class="mt-3" width="842" alt="image" src="https://user-images.githubusercontent.com/90590580/200816712-acf34a7e-99d6-494b-8f7f-4add20940a2b.png"></div>
+                <p class="mt-10">3. Click the checkbox enabling account chaining, <br>and set the Return url to which the sub-merchant will be redirected after authorization.</p>
+                <div><img class="mt-3" width="842" alt="image" src="https://user-images.githubusercontent.com/90590580/200816712-acf34a7e-99d6-494b-8f7f-4add20940a2b.png"></div>
 
-            <p class="mt-10">4. Click Update settings and provide the generated Chain url to your sub-merchants so they can authorize account chaining.<br>Sub-merchants must
-                visit the Chain Authorization URI, read the terms, and click Authorize.</p>
-            <div><img class="mt-3" width="967" alt="image" src="https://user-images.githubusercontent.com/90590580/200820225-5efada82-36d7-431e-b7c0-2aa2075b9548.png"></div>
+                <p class="mt-10">4. Click Update settings and provide the generated Chain url to your sub-merchants so they can authorize account chaining.<br>Sub-merchants must
+                    visit the Chain Authorization URI, read the terms, and click Authorize.</p>
+                <div><img class="mt-3" width="967" alt="image" src="https://user-images.githubusercontent.com/90590580/200820225-5efada82-36d7-431e-b7c0-2aa2075b9548.png"></div>
 
-            <p class="mt-10">5. After that come back then select fetch button, the chain id will show up.</p>
-            <div><img class="mt-3" width="353" alt="image" src="https://user-images.githubusercontent.com/93331101/201012951-c846d094-89d6-4be9-b7af-9b7fda2677e4.png"></div>
+                <p class="mt-10">5. After that come back then select fetch button, the chain id will show up.</p>
+                <div><img class="mt-3" width="353" alt="image" src="https://user-images.githubusercontent.com/93331101/201012951-c846d094-89d6-4be9-b7af-9b7fda2677e4.png"></div>
 
-        </ol>
+            </ol>
+        </div>
     </div>
-</div>
 {% endblock body %}

@@ -1,11 +1,12 @@
 {% extends 'Wepay/base.html' %}
 {% load static %}
+{% load cloudinary %}
 
 {% block body%}
     <div class="mt-24 ml-28 justify-center flex flex-row">
         <div class="ml-20">
             <div class="container flex justify-center mx-auto">
-                <img src="{% static 'wepay/qr/'|add:payment.instance.qr_name %}" alt="image" width="80%" height="40%">
+                {% cloudinary payment.instance.qr.name width=300 height=100 %}
             </div>
 
 
@@ -20,19 +21,19 @@
             <div class="container flex justify-center mx-auto">
                 <form action="{% url 'payments:reset' payment.id %}" method="post" onsubmit="cancel_button.disabled = true; return true;">
                     {% csrf_token %}
-                <button class="bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded" name="cancel_button">
-                    Cancel
-                </button>
+                    <button class="bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded" name="cancel_button">
+                        Cancel
+                    </button>
                 </form>
             </div>
-        
+
 
             <div class="container flex justify-center mx-auto">
                 <form action="{% url 'payments:update' payment.id %}" method="post" onsubmit="mark_button.disabled = true; return true;">
                     {% csrf_token %}
-                <button class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded" name="mark_button">
-                    Mark as paid
-                </button>
+                    <button class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded" name="mark_button">
+                        Mark as paid
+                    </button>
                 </form>
             </div>
 
