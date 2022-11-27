@@ -10,7 +10,7 @@
         {% if not bill_history and not payment_history %}
             <h1  class="text-red-500 text-5xl font-bold grid h-screen place-items-center ml-56">No history available</h1>
         {% elif bill_history %}
-            <div class="">
+            <div class="mt-20">
                 <h2 class="text-xl font-bold">Bill History</h2>
                 <table class="divide-y divide-[#171f99] mt-5 overflow-scroll">
                     <thead class="bg-[#171f99]">
@@ -41,8 +41,8 @@
 
         {% elif payment_history %}
 
-            <div class="">
-                <h2 class="mt-12 text-xl font-bold">Payment History</h2>
+            <div class="mt-20">
+                <h2 class="text-xl font-bold">Payment History</h2>
                 <table class="divide-y divide-[#171f99] mt-5 overflow-scroll">
                     <thead class="bg-[#171f99]">
                         <tr>
