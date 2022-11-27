@@ -1,4 +1,4 @@
-{% load static %}
+{% load cloudinary_static %}
 {% load socialaccount %}
 
 
@@ -7,7 +7,7 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block head_title %} {% endblock head_title%}</title>
-        <link rel="stylesheet" href="{% static 'wepay/login.css' %}">
+        <link rel="stylesheet" href="{% cloudinary_static 'wepay/login.css' %}">
         <link rel="stylesheet" media="screen" href="https://fontlibrary.org//face/hk-grotesk" type="text/css"/>
 
         {% block extra_head %}{% endblock extra_head %}

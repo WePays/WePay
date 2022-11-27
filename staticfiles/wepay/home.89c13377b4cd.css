@@ -1,0 +1,108 @@
+body {
+	background: rgb(238,246,255);
+	background: linear-gradient(0deg, rgba(238,246,255,1) 10%, rgba(210,231,254,1) 26%, rgba(23,31,153,1) 90%);
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	margin: 0;
+	padding: 0;
+}
+
+.navbar {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background: #222A9B;
+	color: white;
+}
+
+.navbar {
+	font-size: 1.5rem;
+	margin: .5rem;
+}
+
+.nav-title {
+	color: white;
+	font-family: "HKGroteskRegular";
+	margin-left: 1%;
+}
+
+
+.logo-image {
+	width: 7%;
+	height: 7%;
+}
+
+.nav-menu ul{
+	margin: 0 auto;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	list-style: none;
+}
+
+.nav-menu li{
+	list-style: none;
+	float: left;
+}
+
+.nav-menu li a{
+	text-decoration: none;
+	color: white;
+	padding: 1rem;
+	display: block;
+}
+
+.nav-menu li:hover{
+	background: #171f99;
+}
+
+.nav-item {
+	position: absolute;
+	top: .75rem;
+	right: 1rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	width: 1.5rem;
+	height: 1.5rem;
+}
+
+.nav-item nav-item-bar {
+	height: 3px;
+	width: 100%;
+	background-color: white;
+	border-radius: 10px;
+}
+
+@media (max-width: 400px) {
+	.nav-item {
+		display: flex;
+	}
+
+	.nav-menu {
+		display: none;
+	}
+
+	.navbar {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.nav-menu {
+		width: 100%;
+		flex-direction: column;
+	}
+
+	.nav-menu li {
+		text-align: center;
+	}
+
+	.nav-menu li a {
+		padding: 5rem 1rem;
+	}
+
+	.nav-menu.active {
+		display: flex;
+	}
+}
+
