@@ -1,17 +1,20 @@
 import os
 from abc import abstractmethod
-from urllib.request import urlretrieve
 from typing import Any
+from urllib.request import urlretrieve
 
 import omise
 from django.conf import settings
+from django.core.files import File
 from django.db import models
 from django.template.loader import render_to_string
 from django.utils import timezone
 
+from ..utils import send_email
 from .bill import Bills
 from .userprofile import UserProfile
-from ..utils import send_email
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context
 
 # set omise key
 omise.api_public = settings.OMISE_PUBLIC
@@ -250,6 +253,9 @@ class OmisePayment(BasePayment):
         """pay by omise"""
         # amount must morethan 20
         if self.payment.status == self.payment.Status_choice.UNPAID:
+            print(self.payment.amount)
+            print(self.payment.price)
+            print(self.payment.payment_type)
             source = omise.Source.create(
                 type=self.payment_type,
                 amount=self.payment.amount,
@@ -297,6 +303,7 @@ class PromptPayPayment(OmisePayment):
     """Inherited model from :model:`OmisePayment` that type is promptpay"""
 
     payment_type = "promptpay"
+    qr = models.FileField(upload_to="qr/", null=True, blank=True)
 
     @property
     def qr_name(self) -> str:
@@ -323,10 +330,15 @@ class PromptPayPayment(OmisePayment):
         # if it exist it will exit the function
         if os.path.isfile(self.qr_path):
             return
+
+        if self.qr:
+            return
+
         # if charge exist it will download the qr in to path
         if charge := omise.Charge.retrieve(self.charge_id):
             uri = charge.source.scannable_code.image.download_uri
-            urlretrieve(uri, self.qr_path)
+            name, _ = urlretrieve(uri)
+            self.qr.save(self.qr_name, File(open(name, 'rb')))
 
     def pay(self) -> None:
         """pay to header"""
