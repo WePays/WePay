@@ -39,12 +39,15 @@ class UserProfileView(LoginRequiredMixin, DetailView):
     def post(self, request, *arg, **kwargs):
         user = request.user
         display_name = request.POST["display name"]
+        user.username = display_name
+
         try:
-            user.username = display_name
+            user.save()
         except IntegrityError:
             messages.error(request, "Username already exists")
-            return HttpResponseRedirect(reverse("userprofile"))
-        user.save()
+            return HttpResponseRedirect(reverse("user-profile:userprofile"))
+
+
         messages.success(request, f"* Display name has updated to {display_name}")
         return HttpResponseRedirect(reverse("user-profile:userprofile"))
 
