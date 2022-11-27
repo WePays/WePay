@@ -20,6 +20,7 @@
     <div class="mt-24 ml-28 justify-center flex flex-row">
 
         <div class="ml-48">
+            <p class="mt-5 text-2xl font-bold">Bill: {{bill.name}} </p>
 
             <table class="divide-y divide-[#171f99] mt-3 overflow-scroll">
                 <thead class="bg-[#171f99]">
@@ -64,7 +65,7 @@
                 {% endfor %}
             </list>
         </table>
-        <p class="text-xl text-red-500 mt-3 font-bold absolute bottom-24 right-12">Total price: {{bill.total_price}} </p>
+        <button class="text-xl text-[#171f99] mt-5 ml-80 font-bold bg-white py-1 px-2" disabled type="text" name="bill_total_price">Total price: {{bill.total_price}} </button>
     </div>
 
 
@@ -72,16 +73,14 @@
 
         <h1 class="text-4xl font-bold ">Add Topic</h1>
 
-        <p class="mt-5 text-xl">Name of Bill: {{bill.name}} </p>
-
         <form action="" method="post", id='form' onsubmit="create_button.disabled = true; return true;">
             {% csrf_token %}
             {{ form.as_p }}
-            <div class="mt-7">Topic Name:<br>
-                <input class="w-80 rounded mt-5" type="text" name="topic_name" id="topic_name" placeholder="Enter the topic name" required></div>
-            <div class="mt-7"> Price: <br>
-                <input class="w-80 rounded mt-5" type="number" min="0" name="topic_price" id="topic_price" max="9999999999" placeholder="Enter the topic price" required></div>
-            <div class="mt-7 w-1/2">
+            <div class="mt-7 text-xl">Topic Name:<br>
+                <input class="w-96 h-10 text-sm rounded mt-5" type="text" name="topic_name" id="topic_name" placeholder=" Enter topic name" required></div>
+            <div class="mt-7 text-xl"> Price: <br>
+                <input class="w-96 h-10 text-sm rounded mt-5" type="number" min="0" name="topic_price" id="topic_price" max="9999999999" placeholder=" Enter price" required></div>
+            <div class="mt-7 w-96 h-10 text-xl">
                 <label class="inline-block text-black" for="Multiselect"
                 >Enter user to assign:</label
                     >
@@ -92,6 +91,7 @@
                             multiple
                             autocomplete="on"
                             class="block w-full rounded cursor-pointer focus:outline-none mt-5"
+                            placeholder="Search user"
                             multiple
                             required
                         >
@@ -116,7 +116,7 @@
 
                 </script>
 
-                <div class="mt-10 ml-56 rounded"><button class="bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded flex justify-center" type="submit" value="Add topic" name='create_button'>Add topic</button></div>
+                <div class="mt-20 ml-72 rounded"><button class="bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded flex justify-center" type="submit" value="Add topic" name='create_button'>Add topic</button></div>
             </div>
         </div>
     </div>
@@ -163,7 +163,13 @@
     {% endif %}
     <form action="{% url 'bills:success' bill.id %}" method="post" onsubmit="create_button.disabled = true; return true;">
         {% csrf_token %}
-        <button class="absolute bottom-10 right-10 bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded flex justify-center text-2xl" type="submit" value="Create Bill" name="create_button"> Create Bill</button>
+        <button 
+            class="absolute bottom-10 right-10 bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded flex justify-center text-2xl" type="submit" value="Create Bill" name="create_button"> <span> Create Bill &nbsp;</span>
+            <svg class="mt-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-receipt-cutoff" viewBox="0 0 16 16">
+            <path d="M3 4.5a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zM11.5 4a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1h-1zm0 2a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1h-1zm0 2a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1h-1zm0 2a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1h-1zm0 2a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1h-1z"/>
+            <path d="M2.354.646a.5.5 0 0 0-.801.13l-.5 1A.5.5 0 0 0 1 2v13H.5a.5.5 0 0 0 0 1h15a.5.5 0 0 0 0-1H15V2a.5.5 0 0 0-.053-.224l-.5-1a.5.5 0 0 0-.8-.13L13 1.293l-.646-.647a.5.5 0 0 0-.708 0L11 1.293l-.646-.647a.5.5 0 0 0-.708 0L9 1.293 8.354.646a.5.5 0 0 0-.708 0L7 1.293 6.354.646a.5.5 0 0 0-.708 0L5 1.293 4.354.646a.5.5 0 0 0-.708 0L3 1.293 2.354.646zm-.217 1.198.51.51a.5.5 0 0 0 .707 0L4 1.707l.646.647a.5.5 0 0 0 .708 0L6 1.707l.646.647a.5.5 0 0 0 .708 0L8 1.707l.646.647a.5.5 0 0 0 .708 0L10 1.707l.646.647a.5.5 0 0 0 .708 0L12 1.707l.646.647a.5.5 0 0 0 .708 0l.509-.51.137.274V15H2V2.118l.137-.274z"/>
+          </svg> 
+        </button>
     </form>
 
 
