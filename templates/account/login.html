@@ -4,7 +4,7 @@
 {% load socialaccount %}
 {% load i18n %}
 
-{% block head_title %} Sign in{% endblock head_title %}
+{% block head_title %} Sign in {% endblock head_title %}
 
 {% block extra_head%}
     {{block.super}}
@@ -23,6 +23,6 @@
             <button class="primaryAction" type="submit" id="id_submit">{% trans "Login" %}</button>
         </form>
 
-
         <p>Don't have an account? <a href={% url 'account_signup' %}>Create Your Account</a> Click Signup for create account</p>
+    </div>
 {% endblock content%}

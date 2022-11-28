@@ -31,7 +31,6 @@
                         {% if 'safe' in message.tags %}
                             <script>
                                 var msg = "{{ message|safe}}";
-                                {% comment %} swal("Information", msg, "info") {% endcomment %}
                                 Swal.fire({
                                     title: 'No Key found!',
                                     html: msg,
@@ -55,7 +54,7 @@
                             {% elif message.tags == 'success' %}
                                 <script>
                                     Swal.fire({
-                                        title: 'Key found',
+                                        title: 'Success',
                                         text: msg,
                                         icon: 'success',
                                       })
