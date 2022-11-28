@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect, HttpResponse, HttpRequest
 from django.shortcuts import render, reverse
 from django.views.generic import DetailView
 from django.conf import settings
+from django.db import IntegrityError
 from ..models import UserProfile, omise
 
 
@@ -38,9 +39,15 @@ class UserProfileView(LoginRequiredMixin, DetailView):
     def post(self, request, *arg, **kwargs):
         user = request.user
         display_name = request.POST["display name"]
-
         user.username = display_name
-        user.save()
+
+        try:
+            user.save()
+        except IntegrityError:
+            messages.error(request, "Username already exists")
+            return HttpResponseRedirect(reverse("user-profile:userprofile"))
+
+
         messages.success(request, f"* Display name has updated to {display_name}")
         return HttpResponseRedirect(reverse("user-profile:userprofile"))
 
