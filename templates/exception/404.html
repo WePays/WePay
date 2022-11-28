@@ -5,9 +5,9 @@
 
 {% block body %}
 
-<div class='flex flex-col my-8'>
-<h1 class="text-red-500 text-5xl font-bold grid place-items-center ml-56"> ReQuEsT nOt FoUnD </h1>
+<div class='flex flex-col my-8 grid h-screen place-items-center'>
+<h1 class="text-red-500 text-5xl font-bold grid place-items-center ml-56"> 404 Not Found </h1>
 
-<img src="{% static 'wepay/webpages/not-found.gif' %}" alt="404" class='h-center place-items-center object-cover h-60 w-80'>
+<img class='object-cover w-6/12 h-6/12 ml-56 -mt-64 shadow-2xl shadow-red-500 md:shadow-xl' alt="404" src="{% static 'wepay/webpages/not-found.gif' %}">
 </div>
 {% endblock body %}
