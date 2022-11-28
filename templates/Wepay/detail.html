@@ -55,7 +55,7 @@
                                                 {% elif message.tags == 'success' %}
                                                     <script>
                                                         Swal.fire({
-                                                            title: 'Key found',
+                                                            title: 'Success',
                                                             text: msg,
                                                             icon: 'success',
                                                         })
@@ -71,10 +71,11 @@
                                                 {% endif %}
                                             {% endif %}
                                         </p>
-                                    {% endif %}
-                                </form>
-                            </div>
-                        </div>
+                                    {% endfor %}
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
 
 
                         <table class="divide-y divide-[#171f99] mt-5 ml-72 overflow-scroll rounded-lg">
