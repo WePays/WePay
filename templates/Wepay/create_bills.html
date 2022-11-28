@@ -48,7 +48,7 @@
                         <label class="inline-block text-sm text-gray-600" for="Multiselect"
                         >Enter user to assign:</label
                             >
-                            <div class="relative flex w-full">
+                            <div class="relative w-full">
                                 <select
                                     id="username"
                                     name="username[]"
@@ -68,7 +68,7 @@
                         <script>
 
                             var user_select =  new TomSelect('#username', {
-                                plugins:['remove_button', 'clear_button'],
+                                plugins:['remove_button', 'clear_button', 'caret_position'],
 
                                 render:{
                                     item: function(data, escape) {
