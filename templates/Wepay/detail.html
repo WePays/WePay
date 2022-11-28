@@ -32,14 +32,15 @@
                                     {% for message in messages %}
                                         <p class="absolute top-10 right-10">
                                             {% if 'safe' in message.tags %}
-                                                <script>
+                                            {{ message|safe}}
+                                                {% comment %} <script>
                                                     var msg = "{{ message|safe}}";
                                                     Swal.fire({
                                                         title: 'No Key found!',
                                                         html: msg,
                                                         icon: 'info',
                                                     })
-                                                </script>
+                                                </script> {% endcomment %}
                                             {% else %}
                                                 <script>
                                                     var msg = "{{ message }}";

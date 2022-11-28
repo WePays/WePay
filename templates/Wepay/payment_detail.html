@@ -32,14 +32,7 @@
             {% for message in messages %}
                 <li class="{{ message.tags }}" class="color:firebrick">
                     {% if 'safe' in message.tags %}
-                        <script>
-                            var msg = "{{ message|safe}}";
-                            Swal.fire({
-                                title: 'No Key found!',
-                                html: msg,
-                                icon: 'info',
-                            })
-                        </script>
+                        {{ message|safe}}
                     {% else %}
                         <script>
                             var msg = "{{ message }}";
