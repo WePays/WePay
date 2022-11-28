@@ -32,25 +32,41 @@
                                     {% for message in messages %}
                                         <p class="absolute top-10 right-10">
                                             {% if 'safe' in message.tags %}
-                                                {{ message|safe }}
+                                                <script>
+                                                    var msg = "{{ message|safe}}";
+                                                    Swal.fire({
+                                                        title: 'No Key found!',
+                                                        html: msg,
+                                                        icon: 'info',
+                                                    })
+                                                </script>
                                             {% else %}
+                                                <script>
+                                                    var msg = "{{ message }}";
+                                                </script>
                                                 {% if message.tags == 'warning' %}
-                                                    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
                                                     <script>
-                                                        var msg = "{{ message }}";
-                                                        swal("Warning", msg, "warning")
+                                                        Swal.fire({
+                                                            title: 'Warning',
+                                                            text: msg,
+                                                            icon: 'warning',
+                                                        })
                                                     </script>
                                                 {% elif message.tags == 'success' %}
-                                                    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
                                                     <script>
-                                                        var msg = "{{ message }}";
-                                                        swal("Success", msg, "success")
+                                                        Swal.fire({
+                                                            title: 'Key found',
+                                                            text: msg,
+                                                            icon: 'success',
+                                                        })
                                                     </script>
                                                 {% else %}
-                                                    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
                                                     <script>
-                                                        var msg = "{{ message }}";
-                                                        swal("Error", msg, "error")
+                                                        Swal.fire({
+                                                            title: 'ERROR',
+                                                            text: msg,
+                                                            icon: 'error',
+                                                        })
                                                     </script>
                                                 {% endif %}
                                             {% endif %}

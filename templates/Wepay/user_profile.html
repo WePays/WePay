@@ -31,7 +31,6 @@
                         {% if 'safe' in message.tags %}
                             <script>
                                 var msg = "{{ message|safe}}";
-                                {% comment %} swal("Information", msg, "info") {% endcomment %}
                                 Swal.fire({
                                     title: 'No Key found!',
                                     html: msg,
@@ -39,18 +38,16 @@
                                   })
                             </script>
                         {% else %}
-                        <script>
-                            var msg = "{{ message }}";
-                        </script>
-            
- 
+                            <script>
+                                var msg = "{{ message }}";
+                            </script>
                             {% if message.tags == 'warning' %}
                                 <script>
                                     Swal.fire({
                                         title: 'Warning',
                                         text: msg,
                                         icon: 'warning',
-                                      })
+                                    })
                                 </script>
                             {% elif message.tags == 'success' %}
                                 <script>

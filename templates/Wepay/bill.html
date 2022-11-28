@@ -103,45 +103,42 @@
                 {% for message in messages %}
                     <p class="text-red-500 absolute bottom-20 right-10">
                         {% if 'safe' in message.tags %}
-                            {% comment %} <div class="alert alert-{{ message.tags }}"> {% endcomment %}
-                            {% comment %} {{ message|safe }} {% endcomment %}
-                            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
                             <script>
-                                var msg = {{ message|safe }};
-                                swal("Information", msg, "info")
+                                var msg = "{{ message|safe }}";
+                                Swal.fire({
+                                    title: 'No Key found!',
+                                    html: msg,
+                                    icon: 'info',
+                                  })
                             </script>
-                            {% comment %} </div> {% endcomment %}
                         {% else %}
+                            <script>
+                                var msg = "{{ message }}";
+                            </script>
                             {% if message.tags == 'warning' %}
-                                {% comment %} <div class="bg-yellow-500 border-r-4 border-yellow-500 text-yellow-700 p-4" role="alert">
-                                    <p>Warning</p>
-                                    <p>{{ message }}</p>
-                                </div> {% endcomment %}
-                                <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
                                 <script>
-                                    var msg = "{{ message }}";
-                                    swal("Warning", msg, "warning")
+                                    Swal.fire({
+                                        title: 'Warning',
+                                        text: msg,
+                                        icon: 'warning',
+                                      })
                                 </script>
                             {% elif message.tags == 'success' %}
-                                {% comment %} <div class="bg-green-200 border-r-4 border-green-500 text-green-700 p-4" role="alert"> {% endcomment %}
-                                <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
                                 <script>
-                                    var msg = "{{ message }}";
-                                    swal("Success", msg, "success")
+                                    Swal.fire({
+                                        title: 'Key found',
+                                        text: msg,
+                                        icon: 'success',
+                                    })
                                 </script>
-                                {% comment %} <p>Success</p>
-                                    <p>{{ message }}</p> {% endcomment %}
-                                {% comment %} </div> {% endcomment %}
                             {% else %}
-                                {% comment %} <div class="bg-red-500 border-r-4 border-red-500 text-red-700 p-4" role="alert"> {% endcomment %}
-                                <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
                                 <script>
-                                    var msg = "{{ message }}";
-                                    swal("Error", msg, "error")
+                                    Swal.fire({
+                                        title: 'ERROR',
+                                        text: msg,
+                                        icon: 'error',
+                                    })
                                 </script>
-                                {% comment %} <p>Error</p>
-                                    <p>{{ message }}</p> {% endcomment %}
-                                {% comment %} </div> {% endcomment %}
                             {% endif %}
                         {% endif %}
                     </p>
