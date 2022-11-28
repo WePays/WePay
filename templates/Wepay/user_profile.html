@@ -38,18 +38,16 @@
                                   })
                             </script>
                         {% else %}
-                        <script>
-                            var msg = "{{ message }}";
-                        </script>
-            
- 
+                            <script>
+                                var msg = "{{ message }}";
+                            </script>
                             {% if message.tags == 'warning' %}
                                 <script>
                                     Swal.fire({
                                         title: 'Warning',
                                         text: msg,
                                         icon: 'warning',
-                                      })
+                                    })
                                 </script>
                             {% elif message.tags == 'success' %}
                                 <script>

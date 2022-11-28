@@ -32,35 +32,53 @@
                                     {% for message in messages %}
                                         <p class="absolute top-10 right-10">
                                             {% if 'safe' in message.tags %}
-                                                {{ message|safe }}
+                                            {{ message|safe}}
+                                                {% comment %} <script>
+                                                    var msg = "{{ message|safe}}";
+                                                    Swal.fire({
+                                                        title: 'No Key found!',
+                                                        html: msg,
+                                                        icon: 'info',
+                                                    })
+                                                </script> {% endcomment %}
                                             {% else %}
+                                                <script>
+                                                    var msg = "{{ message }}";
+                                                </script>
                                                 {% if message.tags == 'warning' %}
-                                                    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
                                                     <script>
-                                                        var msg = "{{ message }}";
-                                                        swal("Warning", msg, "warning")
+                                                        Swal.fire({
+                                                            title: 'Warning',
+                                                            text: msg,
+                                                            icon: 'warning',
+                                                        })
                                                     </script>
                                                 {% elif message.tags == 'success' %}
-                                                    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
                                                     <script>
-                                                        var msg = "{{ message }}";
-                                                        swal("Success", msg, "success")
+                                                        Swal.fire({
+                                                            title: 'Success',
+                                                            text: msg,
+                                                            icon: 'success',
+                                                        })
                                                     </script>
                                                 {% else %}
-                                                    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
                                                     <script>
-                                                        var msg = "{{ message }}";
-                                                        swal("Error", msg, "error")
+                                                        Swal.fire({
+                                                            title: 'ERROR',
+                                                            text: msg,
+                                                            icon: 'error',
+                                                        })
                                                     </script>
                                                 {% endif %}
                                             {% endif %}
                                             </p>
                                         {% endfor %}
                                         </p>
-                                    {% endif %}
-                                </form>
-                            </div>
-                        </div>
+                                    {% endfor %}
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
 
 
                         <table class="divide-y divide-[#171f99] mt-5 ml-72 overflow-scroll rounded-lg">
