@@ -3,21 +3,16 @@
 {% load cloudinary %}
 
 {% block body%}
-    <div class="mt-24 ml-28 justify-center flex flex-row">
-        <div class="ml-20">
-            <div class="container flex justify-center mx-auto">
-                {% cloudinary payment.instance.qr.name width=300 height=100 %}
-            </div>
-
-
+    <div class="grid h-screen place-items-center">
+        <h2 class="mt-3 font-bold text-2xl">Scan QR code for payment</h2>
+        <p class="mt-3 text-xl">Pay to: <font color='blue'>{{payment.bill.header}}</font></p>
+        <p class="mt-3 text-xl">Amount: <font color='blue'>{{payment.price}}</font> Baht</p>
+        <div class="container flex justify-center mx-auto">
+            {% cloudinary payment.instance.qr.name width=300 height=100 %}
         </div>
 
 
-        <div class="ml-48">
-            <h2 class="mt-3 font-bold text-2xl">Payment Detail</h2>
-            <p class="mt-3 text-xl">Pay for <font color='blue'>{{payment.bill.header}}</font></p>
-            <p class="mt-3 text-xl">Amount: <font color='blue'>{{payment.price}}</font> Baht</p>
-
+        <div class="flex flex-row">
             <div class="container flex justify-center mx-auto">
                 <form action="{% url 'payments:reset' payment.id %}" method="post" onsubmit="cancel_button.disabled = true; return true;">
                     {% csrf_token %}
@@ -26,7 +21,6 @@
                 </button>
                 </form>
             </div>
-        
 
             <div class="container flex justify-center mx-auto">
                 <form action="{% url 'payments:update' payment.id %}" method="post" onsubmit="mark_button.disabled = true; return true;">
@@ -36,10 +30,8 @@
                 </button>
                 </form>
             </div>
-
-
-
         </div>
+    </div>
 
 
 {% endblock body %}
