@@ -40,3 +40,4 @@ urlpatterns = [
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 handler404 = "WePay.views.handler404"
+handler500 = "WePay.views.handler500"

@@ -10,7 +10,7 @@ from django.db import models
 from django.template.loader import render_to_string
 from django.utils import timezone
 
-from ..utils import send_email
+from ..utils.mailing import send_email
 from .bill import Bills
 from .userprofile import UserProfile
 import ssl

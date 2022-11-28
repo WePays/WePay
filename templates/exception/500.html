@@ -5,9 +5,37 @@
 
 {% block body %}
 
-<div class='flex flex-col my-8'>
+{% comment %} <div class='flex flex-col my-8'>
 <h1 class="text-red-500 text-5xl font-bold grid place-items-center ml-56"> Internal Server Error </h1>
 
-<img src="{% static 'wepay/webpages/not-found.gif' %}" alt="505" class='h-center place-items-center object-cover h-60 w-80'>
-</div>
+{% comment %} <img src="{% static 'wepay/webpages/not-found.gif' %}" alt="505" class='h-center place-items-center object-cover h-60 w-80'> {% endcomment %}
+{% comment %} </div> {% endcomment %}
+
+<div class="full-screen">
+    <div class='container'>
+      <span class="error-num">5</span>
+      <div class='eye'></div>
+      <div class='eye'></div>
+
+      <p class="sub-text">Oh eyeballs! Something went wrong. We're <span class="italic">looking</span> to see what happened.</p>
+      <a href="">Go back</a>
+    </div>
+  </div>
+
+  <script>
+    $(".full-screen").mousemove(function(event) {
+        var eye = $(".eye");
+        var x = (eye.offset().left) + (eye.width() / 2);
+        var y = (eye.offset().top) + (eye.height() / 2);
+        var rad = Math.atan2(event.pageX - x, event.pageY - y);
+        var rot = (rad * (180 / Math.PI) * -1) + 180;
+        eye.css({
+          '-webkit-transform': 'rotate(' + rot + 'deg)',
+          '-moz-transform': 'rotate(' + rot + 'deg)',
+          '-ms-transform': 'rotate(' + rot + 'deg)',
+          'transform': 'rotate(' + rot + 'deg)'
+        });
+      });
+      
+  </script>
 {% endblock body %}

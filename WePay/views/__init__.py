@@ -11,7 +11,7 @@ from .payment import (
 )
 from .topic import AddTopicView, delete_topic
 from .userprofile import UserProfileView, fetch_key
-from .exception import handler404
+from .exception import handler404, handler500
 
 __all__ = [
     "BillView",
@@ -33,4 +33,5 @@ __all__ = [
     "delete_topic",
     "QRViews",
     "handler404",
+    "handler500",
 ]
