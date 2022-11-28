@@ -158,6 +158,13 @@
         <ul class="">
             {% for message in messages %}
                 <li {% if message.tags %} class="absolute right-10 top-10 text-red-500"{% endif %}>{{ message }}</li>
+                <script>
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        html: '{{ message }}',
+                    })
+                </script>
             {% endfor %}
         </ul>
     {% endif %}
