@@ -43,7 +43,7 @@
                                 <tr class="whitespace-nowrap">
 
                                     <td class="px-6 py-4 text-sm text-gray-600">{{forloop.counter0|add:"1"}}</td>
-                                    <td class="px-10 py-4 text-sm text-gray-900 font-bold underline"><a href="{% url 'bills:detail' bill.id %}"> {{ bill.name }}</a></td>
+                                    <td class="px-10 py-4 text-sm text-gray-900 font-bold underline hover:text-gray-600"><a href="{% url 'bills:detail' bill.id %}"> {{ bill.name }}</a></td>
                                     <td class="px-8 py-4 text-sm text-gray-900">{{ bill.total_price}}</td>
 
                                     {% if bill.status%}
@@ -53,7 +53,7 @@
                                     {% endif %}
 
                                     {% if bill.status %}
-                                        <td class="px-8 py-4 text-sm text-green-500 underline"><a href="{% url 'bills:close' bill.id %}">Verify</a></td>
+                                        <td class="px-8 py-4 text-sm text-black underline hover:text-green-500"><a href="{% url 'bills:close' bill.id %}">Verify</a></td>
                                     {% else %}
                                         <td class="px-8 py-4 text-sm text-red-500">Not Verify</td>
                                     {% endif %}
@@ -148,7 +148,12 @@
         {% endif %}
         <form action="" method="post">
             {% csrf_token %}
-            <button class="absolute bottom-10 right-10 bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded mt-64 flex justify-center text-2xl" type="submit">Create Bill</button>
+            <button class=" hover:text-green-500 text-[#171f99] text-xl font-bold rounded inline-flex items-center absolute bottom-12 right-12 ">
+                <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
+                  </svg>
+              </button>
+            {% comment %} <button class="absolute bottom-10 right-10 bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded mt-64 flex justify-center text-2xl" type="submit">Create Bill</button> {% endcomment %}
         </form>
 
     </div>

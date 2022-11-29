@@ -24,37 +24,37 @@
                     {% csrf_token %}
                     <div class="first-body">
 
-                        <div class="font-bold text-4xl text-[#171f99] mt-12 ml-32">Create Bill: </div>
+                        <div class="font-bold text-4xl text-[#171f99] ml-32">Create Bill: </div>
 
-                        <div class="mt-10 ml-36 text-xl"> Bill's title:
+                        <div class="mt-10 ml-36 text-xl"> Title :
                             <br>
-                            <input class="mt-5 w-96 rounded hover:bg-gray-100" type="text" name="title" id="title" maxlength="100" placeholder="Enter the title of the bill" required>
+                            <input class="mt-5 w-96 h-10 text-sm rounded hover:bg-gray-100" type="text" name="title" id="title" maxlength="100" placeholder=" Enter bill name" required>
                         </div>
                     </div>
 
-                    <div class="mt-10 ml-36 font-bold text-xl">Initial Topic</div>
 
-                    <div class="mt-5 ml-36">Topic Name:
+                    <div class="mt-5 ml-36 text-xl">Topic:
                         <br>
-                        <input class="mt-5 w-96 mt-3 rounded hover:bg-gray-100" type="text" name="topic_name" id="topic_name" maxlength="100" placeholder="Enter the topic name" required>
+                        <input class="mt-5 w-96 h-10 text-sm mt-3 rounded hover:bg-gray-100" type="text" name="topic_name" id="topic_name" maxlength="100" placeholder=" Enter topic name" required>
                     </div>
 
-                    <div class="mt-10 ml-36"> Price:
+                    <div class="mt-5 ml-36 text-xl"> Price:
                         <br>
-                        <input class="mt-3 rounded hover:bg-gray-100" type="number" min="0" name="topic_price" id="topic_price" max="9999999999" placeholder="Enter the topic price" required>
+                        <input class="mt-3 w-96 h-10 text-sm rounded hover:bg-gray-100 " type="number" min="0" name="topic_price" id="topic_price" max="9999999999" placeholder=" Enter price" required>
                     </div>
 
-                    <div class="mt-10 ml-36 w-1/2">
-                        <label class="inline-block text-sm text-gray-600" for="Multiselect"
+                    <div class="mt-5 ml-36 w-1/2 ">
+                        <label class="inline-block text-xl text-black " for="Multiselect"
                         >Enter user to assign:</label
                             >
-                            <div class="relative w-full">
+                            <div class="relative flex  mt-5 w-96 h-10 text-sm rounded ">
                                 <select
                                     id="username"
                                     name="username[]"
                                     multiple
                                     autocomplete="on"
                                     class="block w-full rounded-sm cursor-pointer focus:outline-none"
+                                    placeholder="Search user"
                                     multiple
                                     required
                                 >
@@ -88,7 +88,7 @@
                             </ul>
                         {% endif %}
                         <br>
-                        <button class="absolute bottom-10 right-10 bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded  flex justify-center text-xl"><input type="submit" name="create_title" value="Create Title"></button>
+                        <button class="absolute bottom-10 right-10 bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded  flex justify-center text-xl"><input type="submit" name="create_title" value="Next"></button>
 
                     </form>
                     <script>
