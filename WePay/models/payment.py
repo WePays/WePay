@@ -14,6 +14,7 @@ from ..utils.mailing import send_email
 from .bill import Bills
 from .userprofile import UserProfile
 import ssl
+
 ssl._create_default_https_context = ssl._create_unverified_context
 
 # set omise key
@@ -338,7 +339,7 @@ class PromptPayPayment(OmisePayment):
         if charge := omise.Charge.retrieve(self.charge_id):
             uri = charge.source.scannable_code.image.download_uri
             name, _ = urlretrieve(uri)
-            self.qr.save(self.qr_name, File(open(name, 'rb')))
+            self.qr.save(self.qr_name, File(open(name, "rb")))
 
     def pay(self) -> None:
         """pay to header"""

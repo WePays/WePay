@@ -1,4 +1,5 @@
 .full-screen {
+  background-color: #333333;
   /* background-color: #D2E7FE; */
   width: 100vw;
   height: 100vh;
@@ -16,13 +17,11 @@
 
 .error-num {
   font-size: 8em;
-  
 }
 
 .eye {
   background: #fff;
   border-radius: 50%;
-  border-color: black;
   display: inline-block;
   height: 100px;
   position: relative;
@@ -31,7 +30,6 @@
 .eye::after {
   background: #000;
   border-radius: 50%;
-  border-color: black;
   bottom: 56.1px;
   content: " ";
   height: 33px;

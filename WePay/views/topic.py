@@ -28,6 +28,7 @@ class AddTopicView(LoginRequiredMixin, generic.DetailView):
     :template:`Wepay/add_topic.html`
 
     """
+
     template_name: str = "Wepay/add_topic.html"
 
     def get(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:

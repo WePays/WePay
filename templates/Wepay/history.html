@@ -6,8 +6,8 @@
 
 {% block body %}
 
-<div class="flex flex-col h-screen place-items-center">
-        
+    <div class="flex flex-col h-screen place-items-center">
+
         {% if bill_history %}
             <div class="">
                 <h2 class="text-xl font-bold">Bill History</h2>
@@ -35,7 +35,7 @@
             </ul>
             </table>
             </div>
-            {% endif %}
+        {% endif %}
         {% if payment_history %}
 
             <div class="">
@@ -65,7 +65,7 @@
             </table>
             </div>
         {% endif %}
-    
+
         {% if not bill_history and not payment_history %}
             <h1  class="text-red-500 text-5xl font-bold grid h-screen place-items-center ml-56">No history available</h1>
         {% elif not bill_history %}
