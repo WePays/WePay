@@ -102,7 +102,46 @@
             <p class="messages">
                 {% for message in messages %}
                     <p class="text-red-500 absolute bottom-20 right-10">
-                        {% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}
+                        {% if 'safe' in message.tags %}
+                            {{ message|safe}}
+                            {% comment %} <script>
+                                var msg = "{{ message|safe }}";
+                                Swal.fire({
+                                    title: 'No Key found!',
+                                    html: msg,
+                                    icon: 'info',
+                                  })
+                            </script> {% endcomment %}
+                        {% else %}
+                            <script>
+                                var msg = "{{ message }}";
+                            </script>
+                            {% if message.tags == 'warning' %}
+                                <script>
+                                    Swal.fire({
+                                        title: 'Warning',
+                                        text: msg,
+                                        icon: 'warning',
+                                      })
+                                </script>
+                            {% elif message.tags == 'success' %}
+                                <script>
+                                    Swal.fire({
+                                        title: 'Success',
+                                        text: msg,
+                                        icon: 'success',
+                                    })
+                                </script>
+                            {% else %}
+                                <script>
+                                    Swal.fire({
+                                        title: 'ERROR',
+                                        text: msg,
+                                        icon: 'error',
+                                    })
+                                </script>
+                            {% endif %}
+                        {% endif %}
                     </p>
                 {% endfor %}
             </p>

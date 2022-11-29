@@ -23,24 +23,62 @@
                     <div class="w-full">
                         <div class="static">
 
-                            <div class="inline-block text-2xl text-black mt-40 font-bold ml-72">Bill: {{bill.name}}</div>
-
-                            <div class="inline-block text-xl ml-80 font-bold">
-                                <form action="" method="post">
-                                    {% csrf_token %}
-                                    TotalPrice: {{bill.total_price}}
-                                    {% if messages %}
-                                        <p class="messages">
-                                            {% for message in messages %}
-                                                <p class="absolute top-10 right-10">
-                                                    {% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}
-                                                </p>
-                                            {% endfor %}
+                    <div class="inline-block text-xl ml-80 font-bold">
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            TotalPrice: {{bill.total_price}}
+                            {% if messages %}
+                                <p class="messages">
+                                    {% for message in messages %}
+                                        <p class="absolute top-10 right-10">
+                                            {% if 'safe' in message.tags %}
+                                            {{ message|safe}}
+                                                {% comment %} <script>
+                                                    var msg = "{{ message|safe}}";
+                                                    Swal.fire({
+                                                        title: 'No Key found!',
+                                                        html: msg,
+                                                        icon: 'info',
+                                                    })
+                                                </script> {% endcomment %}
+                                            {% else %}
+                                                <script>
+                                                    var msg = "{{ message }}";
+                                                </script>
+                                                {% if message.tags == 'warning' %}
+                                                    <script>
+                                                        Swal.fire({
+                                                            title: 'Warning',
+                                                            text: msg,
+                                                            icon: 'warning',
+                                                        })
+                                                    </script>
+                                                {% elif message.tags == 'success' %}
+                                                    <script>
+                                                        Swal.fire({
+                                                            title: 'Success',
+                                                            text: msg,
+                                                            icon: 'success',
+                                                        })
+                                                    </script>
+                                                {% else %}
+                                                    <script>
+                                                        Swal.fire({
+                                                            title: 'ERROR',
+                                                            text: msg,
+                                                            icon: 'error',
+                                                        })
+                                                    </script>
+                                                {% endif %}
+                                            {% endif %}
+                                            </p>
+                                        {% endfor %}
                                         </p>
-                                    {% endif %}
-                                </form>
-                            </div>
-                        </div>
+                                    {% endfor %}
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
 
 
                         <table class="divide-y divide-[#171f99] mt-5 ml-72 overflow-scroll rounded-lg">
@@ -69,10 +107,9 @@
                                                     <a class="bi bi-x-circle-fill text-red-500" href="{% url 'payments:reject' price.id %}"></a></td>
                                             {% endif %}
                                         {% elif price.status == "PAID" %}
-                                            <td><a class="bi bi-check-circle-fill px-12 py-4 text-green-500 text-center"></a>
+                                                <td class="px-12 py-4 text-center"><a class="bi bi-check-circle-fill text-green-500"></a>
                                         {% else %}
                                             <td class="px-12 py-4 text-sm text-red-500 text-center font-bold"><a>-</a></td>
-
                                         {% endif %}
                                     </tr>
                                 </tbody>

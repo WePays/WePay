@@ -4,14 +4,10 @@
 {% load socialaccount %}
 {% load i18n %}
 
-{% block head_title %} Sign in{% endblock head_title %}
+{% block head_title %} Sign in {% endblock head_title %}
 
 {% block extra_head%}
     {{block.super}}
-    <script src="https://kit.fontawesome.com/17ced14600.js" crossorigin="anonymous"></script>
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-        rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
-        crossorigin="anonymous"><link rel="stylesheet" href="./style.css">
 {% endblock extra_head%}
 
 
@@ -27,6 +23,6 @@
             <button class="primaryAction" type="submit" id="id_submit">{% trans "Login" %}</button>
         </form>
 
-
         <p>Don't have an account? <a href={% url 'account_signup' %}>Create Your Account</a> Click Signup for create account</p>
+    </div>
 {% endblock content%}
