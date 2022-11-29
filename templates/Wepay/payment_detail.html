@@ -4,12 +4,9 @@
 {% block body %}
 
     <h1 class="mt-32 ml-96 justify-center font-bold text-3xl">Select Payment method</h1>
+    <p class="mt-5 ml-96">Bill: <a class="font-bold text-[#171f99] text-xl"> {{payment.bill.name}}</a></p>
     <p class="mt-5 ml-96">Pay to: <a class="font-bold text-[#171f99] text-xl"> {{payment.bill.header}}</a></p>
     <p class="mt-5 ml-96">Status: <a class="font-bold"> {{status}}</a></p>
-
-    {% comment %}
-{{payment_type}}
-    {% endcomment %}
 
     <div>
         <p class="mt-5 ml-96" for="payment">Select Payment type:</p>
