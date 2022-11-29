@@ -6,4 +6,4 @@ omise==0.11.0
 python-decouple==3.6
 selenium==4.6.1
 whitenoise==6.2.0
-cloudinary-storage==0.3.0
+cloudinary-storage
