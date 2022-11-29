@@ -233,6 +233,12 @@ def create(request: HttpRequest, pk: int) -> HttpResponse:
     """
 
     bill = get_object_or_404(Bills, pk=pk, header__user=request.user)
+    # if user assign bill to himself and only one it will thow a error message
+    # and redirect to add topic page as usual
+
+    if len(bill.all_user) == 1 and bill.all_user[0].user == request.user:
+        messages.error(request, "You can't create a bill with only yourself")
+        return HttpResponseRedirect(f"/bill/{bill.id}/add")
     # set bill to created
     bill.is_created = True
 
