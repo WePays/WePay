@@ -146,7 +146,7 @@ class Topic(models.Model):
         """
         # check whether is added
         if user in self.user.all():
-            messages.info("user already in this Topic")
+            logging.info("user already in this Topic")
             return
         self.user.add(user)
         self.save()

@@ -7,7 +7,7 @@
         <div>
             <form action="" method="post">
                 {% csrf_token %}
-                display name:
+                username:
                 <input type='text' name='display name' id='name' value={{user.username}}>
 
                 <div><button class="bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded flex justify-center ml-56 mt-5" type="submit" value="Update">Update</button></div>
@@ -15,18 +15,58 @@
         </div>
 
         <div class="mt-10">
-            <form action="{% url 'user-profile:fetch-key' %}" method="post">
+            <form action="{% url 'user-profile:fetch-key' %}" method-=-="post">
                 {% csrf_token %}
                 chain id:
                 <div class="text-[#171f99] flex flex-row ">{{chain_id}}</div>
                 <div class=""><button class="bg-[#171f99] hover:bg-green-500 text-white font-bold py-1 px-3 rounded flex justify-center text-sm ml-56 mt-5" type='submit', name='fetch-key', value='fetch'>fetch</button></div>
             </form>
         </div>
+
+
         {% if messages %}
             <ul class="messages">
                 {% for message in messages %}
                     <li class="text-red-500 font-bold text-sm absolute right-50 mt-10">
-                        {% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}
+                        {% if 'safe' in message.tags %}
+                            <script>
+                                var msg = "{{ message|safe}}";
+                                Swal.fire({
+                                    title: 'No Key found!',
+                                    html: msg,
+                                    icon: 'info',
+                                  })
+                            </script>
+                        {% else %}
+                            <script>
+                                var msg = "{{ message }}";
+                            </script>
+                            {% if message.tags == 'warning' %}
+                                <script>
+                                    Swal.fire({
+                                        title: 'Warning',
+                                        text: msg,
+                                        icon: 'warning',
+                                    })
+                                </script>
+                            {% elif message.tags == 'success' %}
+                                <script>
+                                    Swal.fire({
+                                        title: 'Success',
+                                        text: msg,
+                                        icon: 'success',
+                                      })
+                                </script>
+                            {% else %}
+                                <script>
+                                    Swal.fire({
+                                        title: 'ERROR',
+                                        text: msg,
+                                        icon: 'error',
+                                      })
+                                </script>
+                            {% endif %}
+                        {% endif %}
                     </li>
                 {% endfor %}
             </ul>

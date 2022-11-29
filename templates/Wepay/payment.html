@@ -10,7 +10,7 @@
                 <thead class="bg-[#171f99] text-white text-center">
                     <tr>
                         <th class="px-6 py-4 text-xl text-white">No</th>
-                        <th class="px-20 py-4 text-xl text-white">Bill topic</th>
+                        <th class="px-20 py-4 text-xl text-white">Bill</th>
                         <th class="px-6 py-4 text-xl text-white">Price</th>
                         <th class="px-8 py-4 text-xl text-white">Status</th>
                         <th class="px-12 py-4 text-xl text-white">Header</th>
@@ -27,7 +27,7 @@
                                 {% if payment.can_pay %}
                                     <a class="font-bold text-center text-black underline hover:text-green-500" href="{% url 'payments:detail' payment.id %}">Pay</a>
                                 {% else %}
-                                    <p class="text-center text-yellow-400">{{payment.status}} {% if payment.is_repayable %} <a href="{% url 'payments:reset' payment.id %}">repay?</a> {% endif %}</p>
+                                    <p class="text-center text-yellow-400">{{payment.status}} {% if payment.is_repayable %} <a class="underline" href="{% url 'payments:reset' payment.id %}">repay?</a> {% endif %}</p>
                                 {% endif %}
                             </td>
                             <td class="px-12 py-4 text-sm text-[#171f99]">{{payment.bill.header}} </td>

@@ -1,6 +1,5 @@
-{% load static %}
 {% load socialaccount %}
-
+{% load static %}
 
 <!DOCTYPE html>
 <html lang="en" >
@@ -10,7 +9,12 @@
         <link rel="stylesheet" href="{% static 'wepay/login.css' %}">
         <link rel="stylesheet" media="screen" href="https://fontlibrary.org//face/hk-grotesk" type="text/css"/>
 
-        {% block extra_head %}{% endblock extra_head %}
+        {% block extra_head %}
+        <script src="https://kit.fontawesome.com/17ced14600.js" crossorigin="anonymous"></script>
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+            rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+            crossorigin="anonymous"><link rel="stylesheet" href="./style.css">
+        {% endblock extra_head %}
     </head>
 
     <body class="bg-[#D2E7FE]">
@@ -29,14 +33,16 @@
             <!-- partial:index.partial.html -->
             <div class="box-form">
                 <div class="left" style="width: 60%;">
-                    {% block boxleft%}
+                    {% block boxleft %}
                         <div class="overlay">
-                            <h1>WePay</h1>
-                            <p>WePay is a web application for those who need to coordinate paying for a group.<br>
+                            <h1><a href="/">WePay</a></h1>
+                            <span>
+                            <p>WePay is a web application for those who need to coordinate paying for a group.
                                 WePay can help by charging or splitting bills, which makes it easier to collect money.</p>
+                            </span>
                             {% if not user.is_authenticated %}
                                 <span>
-                                    <p>Login with</p>
+                                    <h2>Login with</h2>
                                     <a href="{% provider_login_url 'github' %}"> <i class="fa fa-github" aria-hidden="true"></i>  GitHub </a>
                                     <a href="{% provider_login_url 'google' %}"><i class="fa fa-google" aria-hidden="true"></i>  Google  </a>
                                     <a href="{% provider_login_url 'line' %}"><i class="fa fa-line" aria-hidden="true"></i>  Line</a>
