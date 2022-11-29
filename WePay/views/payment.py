@@ -15,7 +15,7 @@ from django.template.loader import render_to_string
 from django.views import generic
 
 from ..models import CashPayment, OmisePayment, Payment, PromptPayPayment
-from ..utils import send_email
+from ..utils.mailing import send_email
 
 
 class PaymentView(LoginRequiredMixin, generic.ListView):

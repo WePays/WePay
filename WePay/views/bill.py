@@ -16,7 +16,7 @@ from django.urls import reverse
 from django.views import generic
 
 from ..models import Bills, OmisePayment, Payment, Topic, UserProfile
-from ..utils import send_email
+from ..utils.mailing import send_email
 
 
 # def get_bill(pk: int, header: User) -> Tuple[Bills, HttpResponse]:

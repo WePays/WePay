@@ -1,0 +1,25 @@
+{% extends 'exception/base.html' %}
+{% load static %}
+
+{% block extra_head %}
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel="stylesheet" href="{% static 'wepay/500.css' %}">
+{% endblock extra_head %}
+
+{% block body %}
+
+    <div class="full-screen w-auto grid h-screen place-items-center -mt-24 ml-56">
+        <div class="container">
+            <span class="error-num text-gray-600">5</span>
+            <div class="eye border-2 border-black border-light"></div>
+            <div class="eye border-2 border-black"></div>
+
+            <p class="sub-text text-gray-600 mb-10">Oh eyeballs! Something went wrong. We're <span class="italic">looking</span> to see what happened.</p>
+            <a class="text-gray-600 hover:text-red-500 underline" href="{% url 'bills:bill' %}">Go back</a>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="{% static 'wepay/500.js' %}"></script>
+
+{% endblock body %}

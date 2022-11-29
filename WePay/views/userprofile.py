@@ -10,7 +10,7 @@ from ..models import UserProfile, omise
 
 class UserProfileView(LoginRequiredMixin, DetailView):
     """Username change handler and fetch key
-    
+
     **Context**
 
     ``user``
@@ -27,7 +27,7 @@ class UserProfileView(LoginRequiredMixin, DetailView):
     template_name = "Wepay/user_profile.html"
     Model = UserProfile
 
-    def get(self, request: HttpRequest, *args, **kwargs) -> HttpRequest:
+    def get(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
         """
         get username and chainkey from user that authenticated
         """
@@ -36,7 +36,7 @@ class UserProfileView(LoginRequiredMixin, DetailView):
         chain_id = userprofile.chain_id
         return render(request, self.template_name, {"user": user, "chain_id": chain_id})
 
-    def post(self, request, *arg, **kwargs):
+    def post(self, request: HttpRequest, *arg, **kwargs) -> HttpResponse:
         user = request.user
         display_name = request.POST["display name"]
         user.username = display_name
@@ -52,7 +52,7 @@ class UserProfileView(LoginRequiredMixin, DetailView):
         return HttpResponseRedirect(reverse("user-profile:userprofile"))
 
 
-def fetch_key(request, *args, **kwargs):
+def fetch_key(request: HttpRequest, *args, **kwargs) -> HttpResponse:
     """Fetch chain key from user profile."""
     user = request.user
     userprofile = UserProfile.objects.get(user=user)

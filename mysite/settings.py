@@ -42,8 +42,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    'cloudinary_storage',
-    'cloudinary',
+    "cloudinary_storage",
+    "cloudinary",
     "django.contrib.sites",
     "django.contrib.admindocs",
     "allauth",
@@ -57,7 +57,6 @@ INSTALLED_APPS = [
     "theme",
     "django_browser_reload",
     "WePay.apps.WepayConfig",
-
 ]
 
 TAILWIND_APP_NAME = "theme"
@@ -115,7 +114,7 @@ ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_VERIFICATION = "optional"
 ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 3
 ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 300
-ACCOUNT_DEFAULT_HTTP_PROTOCOL='https'
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https"
 
 LOGIN_REDIRECT_URL = "/"
 
@@ -214,20 +213,20 @@ STATIC_URL = "/static/"
 
 
 # Path where media is stored
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 # Base url to serve media files
-MEDIA_URL = '/media/'
+MEDIA_URL = "/media/"
 
 
 # Enable WhiteNoise's GZip compression of static assets.
 
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': config('CLOUDINARY_CLOUD_NAME', cast=str, default=''),
-    'API_KEY': config('CLOUDINARY_API_KEY', cast=str, default=''),
-    'API_SECRET': config('CLOUDINARY_API_SECRET', cast=str, default=''),
+    "CLOUD_NAME": config("CLOUDINARY_CLOUD_NAME", cast=str, default=""),
+    "API_KEY": config("CLOUDINARY_API_KEY", cast=str, default=""),
+    "API_SECRET": config("CLOUDINARY_API_SECRET", cast=str, default=""),
 }
 
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

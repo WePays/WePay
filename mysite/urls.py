@@ -21,9 +21,6 @@ from django.conf import settings
 
 from .views import About, Instruction, Tailwind, signup
 
-# from django.conf.urls import url
-
-
 urlpatterns = [
     path("admin/doc/", include("django.contrib.admindocs.urls")),
     path("admin/", admin.site.urls),
@@ -40,3 +37,6 @@ urlpatterns = [
     path("__reload__/", include("django_browser_reload.urls")),
     path("tailwind/", Tailwind.as_view(), name="tailwind"),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+handler404 = "WePay.views.handler404"
+handler500 = "WePay.views.handler500"
