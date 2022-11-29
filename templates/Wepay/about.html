@@ -13,101 +13,46 @@
 {% block body %}
     {{block.super}}
     {% if user.is_authenticated %}
-
-        <section class="pt-16 bg-blueGray-50">
-            <div class="container ml-36">
-                <div class="flex flex-wrap items-center grid h-screen place-items-center">
-                    {% comment %} <div class="w-10/12 md:w-6/12 lg:w-4/12 px-12 md:px-4 mr-auto ml-auto -mt-78">
-              <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg bg-pink-500">
-                <img alt="..." src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=700&amp;q=80" class="w-full align-middle rounded-t-lg">
-                <blockquote class="relative p-8 mb-4">
-                  <svg preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 583 95" class="absolute left-0 w-full block h-95-px -top-94-px">
-                    <polygon points="-30,95 583,95 583,65" class="text-pink-500 fill-current"></polygon>
-                  </svg>
-                  <h4 class="text-xl font-bold text-white">
-                    Great for your awesome project
-                  </h4>
-                  <p class="text-md font-light mt-2 text-white">
-                    Putting together a page has never been easier than matching
-                    together pre-made components. From landing pages presentation
-                    to login areas, you can easily customise and built your pages.
-                  </p>
-                </blockquote>
-              </div>
-            </div>  {% endcomment %}
-
-                    <div class="w-full md:w-6/12 px-4">
-                        <div class="flex flex-wrap">
-                            <div class="w-full md:w-6/12 px-4">
-                                <div class="relative flex flex-row mt-4">
-                                    <div class="px-4 py-5 flex-auto">
-                                        <div>
-                                            <img src="https://avatars.githubusercontent.com/u/80502090?v=4"
-                                                class="items-center rounded-full">
-                                        </div>
-                                        <h6 class="text-xl mb-1 font-semibold text-center mt-5">Preawpan Thamapipol</h6>
-                                        <p class="mb-4 text-blueGray-500 text-center">
-                                            GitHub: @Tezigudo <br> preawpan.t@ku.th
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="relative flex flex-row min-w-0">
-                                    <div class="px-4 py-5 flex-auto">
-                                        <div class="text-blueGray-500 p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-white">
-                                            <i class="fas fa-drafting-compass"></i>
-                                        </div>
-                                        <h6 class="text-xl mb-1 font-semibold">
-                                            Thanida Chaiwongnon
-                                        </h6>
-                                        <p class="mb-4 text-blueGray-500">
-                                            GitHub: @thanidacwn
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="w-full md:w-6/12 px-4">
-                                <div class="relative flex flex-row min-w-0 mt-4">
-                                    <div class="px-4 py-5 flex-auto">
-                                        <div>
-                                            <img src="https://avatars.githubusercontent.com/u/93331101?v=4"
-                                                class="items-center rounded-full">
-                                        </div>
-                                        <h6 class="text-xl mb-1 font-semibold text-center mt-5">Siravich</h6>
-                                        <p class="mb-4 text-blueGray-500 text-center">
-                                            GitHub: @koonwill <br> siravich.te@ku.th
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="relative flex flex-row min-w-0">
-                                    <div class="px-4 py-5 flex-auto">
-                                        <div>
-                                            <img src="https://avatars.githubusercontent.com/u/90590580?v=4"
-                                                class="items-center rounded-full">
-                                        </div>
-                                        <h6 class="text-xl mb-1 font-semibold text-center mt-5">Thanadol</h6>
-                                        <p class="mb-4 text-blueGray-500 text-center">
-                                            GitHub: @ThanadolU
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    <div class="2xl:container 2xl:mx-auto lg:py-16 lg:px-20 md:py-12 md:px-6 py-9 px-4">
+      <h1 class="ml-64 mb-10 text-4xl font-bold" >About Us</h1>
+            <div class="grid shadow-lg rounded-md ml-64 px-12 py-6 bg-white">
+                <div class="text-[#171f99] font-bold text-2xl">What is WePay?</div>
+                <div class="mt-5 text-[#171f99]">
+                  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                  WePay is a web application for those who need to coordinate paying for a group. 
+                  WePay can help by charging or splitting bills, which makes it easier to collect money. 
+                  In this app, users can select to split a bill equally or separate a bill for each person. 
+                  Then you can coordinate intra-group, making payment more accurate and easier.
                 </div>
+                {% comment %} <img class="w-64 h-64" src="" alt="logo" /> {% endcomment %}
             </div>
-            <footer class="relative bg-blueGray-50 pt-8 pb-6 mt-2">
-                <div class="container mx-auto px-4">
-                    <div class="flex flex-wrap items-center md:justify-between justify-center">
-                        <div class="w-full md:w-6/12 px-4 mx-auto text-center">
-                            {% comment %} <div class="text-sm text-blueGray-500 font-semibold py-1">
-                  Made with <a href="https://www.creative-tim.com/product/notus-js" class="text-blueGray-500 hover:text-gray-800" target="_blank">Notus JS</a> by <a href="https://www.creative-tim.com" class="text-blueGray-500 hover:text-blueGray-800" target="_blank"> Creative Tim</a>.
-                </div> {% endcomment %}
-                        </div>
-                    </div>
-                </div>
-            </footer>
-        </section>
 
+          <div class="w-full lg:w-10/12 lg:pt-8 ml-64 bg-white mt-10 rounded px-12 py-12">
+            <p class="text-xl font-bold mb-5">Developers</p>
+              <div class="grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 lg:gap-4 shadow-lg rounded-md bg-gray">
+                  <div class="p-4 pb-6 flex justify-center flex-col items-center">
+                      <img class="object-cover h-48 w-96" src="https://cloudbox.ku.ac.th/index.php/s/C7YYskLsxs7LJxL/preview" alt="Alexa featured Image" />
+                      <p class="font-medium text-xl leading-5 text-gray-800 dark:text-white mt-4">Thanadol</p>
+                      <p class="font-medium text-sm leading-5 text-gray-800 dark:text-white mt-4">GitHub: @ThanadolU</p>
+                  </div>
+                  <div class="p-4 pb-6 flex justify-center flex-col items-center">
+                      <img class="object-cover h-48 w-96" src="https://cloudbox.ku.ac.th/index.php/s/eTSHxfdHiyJc7Ne/preview" alt="Olivia featured Image" />
+                      <p class="font-medium text-xl leading-5 text-gray-800 dark:text-white mt-4">Thanida</p>
+                      <p class="font-medium text-sm leading-5 text-gray-800 dark:text-white mt-4">GitHub: @thanidacwn</p>
+                  </div>
+                  <div class="p-4 pb-6 flex justify-center flex-col items-center">
+                      <img class="object-cover h-48 w-96" src="https://cloudbox.ku.ac.th/index.php/s/isGxQsQ8SnnF4Ct/preview" alt="Liam featued Image" />
+                      <p class="font-medium text-xl leading-5 text-gray-800 dark:text-white mt-4">Preawpan</p>
+                      <p class="font-medium text-sm leading-5 text-gray-800 dark:text-white mt-4">GitHub: @tezigudo</p>
+                  </div>
+                  <div class="p-4 pb-6 flex justify-center flex-col items-center">
+                      <img class="object-cover h-48 w-96" src="https://cloudbox.ku.ac.th/index.php/s/8QydeeDsYLDEHXp/preview" alt="Elijah featured image" />
+                      <p class="font-medium text-xl leading-5 text-gray-800 dark:text-white mt-4">Siravich</p>
+                      <p class="font-medium text-sm leading-5 text-gray-800 dark:text-white mt-4">GitHub: @koonwill</p>
+                  </div>
+              </div>
+          </div>
+    </div>
     {% else %}
         <a href="/accounts/login/">Sign Up</a>
     {% endif %}
