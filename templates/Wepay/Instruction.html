@@ -2,29 +2,72 @@
 
 {% block body %}
 <h1 class="mt-12 justify-center font-bold text-2xl ml-96 text-[#171f99]">How to use WePay</h1>
-<li class="justify-center font-bold text-sm underline ml-96 mt-3 text-[#171f99]"><a href="#fetch_omise">How to create bill</a></li>
-<li class="justify-center font-bold text-sm underline ml-96 mt-3 text-[#171f99]"><a href="#fetch_omise">How to pay by cash</a></li>
-<li class="justify-center font-bold text-sm underline ml-96 mt-3 text-[#171f99]"><a href="#fetch_omise">How to pay by Internet Banking</a></li>
+<li class="justify-center font-bold text-sm underline ml-96 mt-3 text-[#171f99]"><a href="#how_create_bill">How to create bill</a></li>
+<li class="justify-center font-bold text-sm underline ml-96 mt-3 text-[#171f99]"><a href="#how_pay_cash">How to pay by cash</a></li>
+<li class="justify-center font-bold text-sm underline ml-96 mt-3 text-[#171f99]"><a href="#how_pay_online">How to pay by Internet Banking</a></li>
 <li class="justify-center font-bold text-sm underline ml-96 mt-3 text-[#171f99]"><a href="#fetch_omise">How to fetch chain id via omise</a></li>
     <div class="grid h-screen place-items-center ml-80">
         <div class="mt-5">
-            <h1 class="mt-12 justify-center font-bold text-3xl">How to create bill </h1>
+            <h1 class="mt-12 justify-center font-bold text-3xl" id="how_create_bill">How to create bill </h1>
+            <p class="mt-3 text-[#171f99]">Follow the instructions to create bill: </p>
             <ol>
+                <div class="mt-10"><p>1. User can create bill by click + button at bottom right</p></div>
+                <div><img class="mt-3" width=941 alt="image" src="https://user-images.githubusercontent.com/93331101/204645829-85591054-96c1-48a3-9ac5-9bf75020b73f.png"></div>
 
+                <div class="mt-10"><p>2. Add all of the detail of bill</p></div>
+                <div><img class="mt-3" width=941 alt="image" src="https://user-images.githubusercontent.com/93331101/204646426-cab347fc-7b25-42e5-8b44-1e5533688ae8.png"></div>
+
+                <div class="mt-10"><p>3. User can more than one topic.</p></div>
+                <div><img class="mt-3" width=941 alt="image" src="https://user-images.githubusercontent.com/93331101/204646888-7e7e64d6-3a11-40a4-b398-6799f2d2d3d6.png"></div>
+
+                <div class="mt-10"><p>4. User can create bill by clicking create button at bottom right.</p></div>
+                <div><img class="mt-3" width=941 alt="image" src="https://user-images.githubusercontent.com/93331101/204647173-a894e293-34db-4dde-b439-699c668b0194.png"></div>
+
+                <div class="mt-10"><p>5. Bill will show up on the bill list and send an email to notify a payers.</p></div>
+                <div><img class="mt-3" width=941 alt="image" src="https://user-images.githubusercontent.com/93331101/204647435-640fc4ca-4090-4bd7-91da-a412e253ebb6.png"></div>
             </ol>
         </div>
 
         <div class="mt-5">
-            <h1 class="mt-12 justify-center font-bold text-3xl">How to pay by cash </h1>
+            <h1 class="mt-12 justify-center font-bold text-3xl" id="how_pay_cash">How to pay by cash </h1>
             <ol>
-                
+                <div class="mt-10"><p>1. Click pay button on the payment page</p></div>
+                <div><img class="mt-3" width=941 alt="image" src="https://user-images.githubusercontent.com/93331101/204647435-640fc4ca-4090-4bd7-91da-a412e253ebb6.png"></div>
+
+                <div class="mt-10"><p>2. Select payment type to cash then click pay button.</p></div>
+                <div><img class="mt-3" width=941 alt="image" src="https://user-images.githubusercontent.com/93331101/204649624-36bb0ad5-e59f-4be3-a8fe-3034a7a55f0a.png"></div>
+
+                <div class="mt-10"><p>3. Status will change to PENDING.</p></div>
+                <div><img class="mt-3" width=941 alt="image" src="https://user-images.githubusercontent.com/93331101/204649813-4735e78e-f71c-4fa4-9039-c944d42a1d7f.png"></div>
+
+                <div class="mt-10"><p>4. Header needs to verify the bill by confirm or reject.</p></div>
+                <div><img class="mt-3" width=941 alt="image" src="https://user-images.githubusercontent.com/93331101/204650262-d9c3e648-bce6-4f67-b571-e37ca7311650.png"></div>
+
+                <div class="mt-10"><p>5. After confirm the bill.</p></div>
+                <div><img class="mt-3" width=941 alt="image" src="https://user-images.githubusercontent.com/93331101/204650365-1266033b-ec7a-4059-a68a-07dc57332ad5.png"></div>
+
+                <div class="mt-10"><p>6. Status will change to paid and needed to click verify to closed the bill.</p></div>
+                <div><img class="mt-3" width=941 alt="image" src="https://user-images.githubusercontent.com/93331101/204650595-57419c9b-bf0e-4997-8c04-f0a5ccbab8aa.png"></div>
+
+                <div class="mt-10"><p>7. It will move to bill history page.</p></div>
+                <div><img class="mt-3" width=941 alt="image" src="https://user-images.githubusercontent.com/93331101/204650896-f389914a-01dc-4588-a9ee-b0dd40efa4a1.png"></div>
             </ol>
         </div>
 
         <div class="mt-5">
-            <h1 class="mt-12 justify-center font-bold text-3xl">How to pay by Internet Banking</h1>
+            <h1 class="mt-12 justify-center font-bold text-3xl" id="how_pay_online">How to pay by Internet Banking</h1>
             <ol>
-                
+                <div class="mt-10"><p>1. Header must have the chain id first </p><p><a class="underline text-[#171f99]" href="#fetch_omise">(How to fetch chain id)</a></p></div>
+                <div><img class="mt-3" width=941 alt="image" src="https://user-images.githubusercontent.com/93331101/201012951-c846d094-89d6-4be9-b7af-9b7fda2677e4.png"></div>
+
+                <div class="mt-10"><p>2. After header have chain id payers can now select more payment type.</p></div>
+                <div><img class="mt-3" width=941 alt="image" src="https://user-images.githubusercontent.com/93331101/204650896-f389914a-01dc-4588-a9ee-b0dd40efa4a1.png"></div>
+
+                <p class="mt-10">3. After select pay, It will bring payer to Omise payment page.</p>
+                <div><img class="mt-3" width="353" alt="image" src="https://user-images.githubusercontent.com/93331101/204655098-b82d1f85-1bd6-44bc-b2e6-394f395b3659.png"></div>
+
+                <p class="mt-10">4. Payment success, the bill that we have paid will disappeared and showed on history page.</p>
+                <div><img class="mt-3" width="353" alt="image" src="https://user-images.githubusercontent.com/93331101/204656517-9e5a2441-433e-4342-b04a-78940ea50bce.png"></div>
             </ol>
         </div>
 
@@ -46,7 +89,6 @@
 
                 <p class="mt-10">5. After that come back then select fetch button, the chain id will show up.</p>
                 <div><img class="mt-3" width="353" alt="image" src="https://user-images.githubusercontent.com/93331101/201012951-c846d094-89d6-4be9-b7af-9b7fda2677e4.png"></div>
-
             </ol>
         </div>
     </div>
