@@ -10,5 +10,5 @@ def handler404(request, *args, **argv):
 
 def handler500(request, *args, **kwargs):
     response = render(request, 'exception/500.html')
-    response.status_code = 500
+    # response.status_code = 500
     return response

@@ -20,7 +20,6 @@ from django.views.generic import RedirectView
 from django.conf import settings
 
 from .views import About, Instruction, Tailwind, signup
-# from django.conf.urls import url
 
 urlpatterns = [
     path("admin/doc/", include("django.contrib.admindocs.urls")),

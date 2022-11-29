@@ -1,41 +1,25 @@
-{% extends "exception/base.html" %}
+{% extends 'exception/base.html' %}
 {% load static %}
 
-{% block head_title %} Internal server error {% endblock head_title %}
+{% block extra_head %}
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <link rel="stylesheet" href="{% static 'wepay/500.css' %}">
+  {% endblock extra_head %}
 
 {% block body %}
-
-{% comment %} <div class='flex flex-col my-8'>
-<h1 class="text-red-500 text-5xl font-bold grid place-items-center ml-56"> Internal Server Error </h1>
-
-{% comment %} <img src="{% static 'wepay/webpages/not-found.gif' %}" alt="505" class='h-center place-items-center object-cover h-60 w-80'> {% endcomment %}
-{% comment %} </div> {% endcomment %}
-
+　
 <div class="full-screen">
-    <div class='container'>
-      <span class="error-num">5</span>
-      <div class='eye'></div>
-      <div class='eye'></div>
+  <div class="container">
+    <span class="error-num">5</span>
+    <div class="eye"></div>
+    <div class="eye"></div>
 
-      <p class="sub-text">Oh eyeballs! Something went wrong. We're <span class="italic">looking</span> to see what happened.</p>
-      <a href="">Go back</a>
-    </div>
+    <p class="sub-text">Oh eyeballs! Something went wrong. We're <span class="italic">looking</span> to see what happened.</p>
+    <a href="{% url 'bills:bill' %}">Go back</a>
   </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="{% static 'wepay/500.js' %}"></script>
 
-  <script>
-    $(".full-screen").mousemove(function(event) {
-        var eye = $(".eye");
-        var x = (eye.offset().left) + (eye.width() / 2);
-        var y = (eye.offset().top) + (eye.height() / 2);
-        var rad = Math.atan2(event.pageX - x, event.pageY - y);
-        var rot = (rad * (180 / Math.PI) * -1) + 180;
-        eye.css({
-          '-webkit-transform': 'rotate(' + rot + 'deg)',
-          '-moz-transform': 'rotate(' + rot + 'deg)',
-          '-ms-transform': 'rotate(' + rot + 'deg)',
-          'transform': 'rotate(' + rot + 'deg)'
-        });
-      });
-      
-  </script>
 {% endblock body %}
