@@ -887,7 +887,7 @@
   "pk": 1,
   "fields": {
     "password": "pbkdf2_sha256$390000$NercnoZWBjlaP01PuQhKdl$K36YqFgs+gGTIlkGxzur5knOL+tZMWcmjC3tgCdlCUo=",
-    "last_login": "2022-11-30T04:08:49.078Z",
+    "last_login": "2022-11-30T04:39:22.625Z",
     "is_superuser": true,
     "username": "wepay",
     "first_name": "",
@@ -1092,14 +1092,6 @@
   "fields": {
     "app_label": "WePay",
     "model": "ktbpayment"
-  }
-},
-{
-  "model": "sessions.session",
-  "pk": "op2sof090h2fs58b37mxti31ou0bqknr",
-  "fields": {
-    "session_data": ".eJxVjMsOwiAQRf-FtSEMMjy6dN9vIDwmFjVgSptojP-uTbrQ7T3nnhfzYV0mv3aafclsYMAOv1sM6Up1A_kS6rnx1Ooyl8g3he-087Flup129y8whT593zIgolQR8ChdjEmB1YqSAJ0cAGiJKmUnMOlMUWAwzliKlowj7QzZLdqp99Kqp8e9zE82iPcHU1g-Xw:1p0EOv:uw2ukuzmv8hRg1lu8mPspNc57DxJcN5fagj619Fpas8",
-    "expire_date": "2022-12-14T04:08:49.081Z"
   }
 },
 {
