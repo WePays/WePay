@@ -23,8 +23,9 @@
                     <div class="w-full">
                         <div class="static">
 
-                    <div class="inline-block text-xl ml-80 font-bold">
-                        <form action="" method="post">
+                    <div class="inline-block text-xl ml-72 mt-24">
+                        <h1 class="text-3xl font-bold">Bill: {{bill.name}}</h1>
+                        <form action="" method="post" class="text-3xl font-bold mt-5 text-red-500">
                             {% csrf_token %}
                             TotalPrice: {{bill.total_price}}
                             {% if messages %}
