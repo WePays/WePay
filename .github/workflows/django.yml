@@ -25,13 +25,19 @@ jobs:
           envkey_TIME_ZONE: ${{ secrets.TIME_ZONE }}
           envkey_OMISE_PUBLIC: ${{ secrets.OMISE_PUBLIC }}
           envkey_OMISE_SECRET: ${{ secrets.OMISE_SECRET }}
+          envkey_EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
+          envkey_EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
+          envkey_CLOUDINARY_CLOUD_NAME: ${{ secrets.CLOUDINARY_CLOUD_NAME }}
+          envkey_CLOUDINARY_API_KEY: ${{ secrets.CLOUDINARY_API_KEY }}
+          envkey_CLOUDINARY_API_SECRET: ${{ secrets.CLOUDINARY_API_SECRET }}
+          CLOUDINARY_URL: ${{ secrets.CLOUDINARY_URL }}
 
 
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install coverage
+          pip install coverage selenium
       - name: Run Tests
         run: |
           coverage run manage.py test
