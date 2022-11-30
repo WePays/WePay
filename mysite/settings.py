@@ -114,7 +114,7 @@ ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_VERIFICATION = "optional"
 ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 3
 ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 300
-ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https"
+# ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https"
 
 LOGIN_REDIRECT_URL = "/"
 
@@ -256,8 +256,8 @@ EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", cast=str, default="")
 OMISE_PUBLIC = config("OMISE_PUBLIC", cast=str, default="missing-omise-public")
 OMISE_SECRET = config("OMISE_SECRET", cast=str, default="missing-omise-secret")
 
-if not DEBUG:
-    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-    SECURE_SSL_REDIRECT = True
+# if not DEBUG:
+#     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+#     SECURE_SSL_REDIRECT = True
 
 django_heroku.settings(locals())

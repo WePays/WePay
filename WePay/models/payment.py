@@ -270,7 +270,7 @@ class OmisePayment(BasePayment):
                 currency="thb",
                 source=source.id,
                 # return_uri=f"https:///wepays.herokuapp.com/payment/{self.payment.id}/update",
-                return_uri=f"http:///127.0.0.1:8000/payment/{self.payment.id}/update",
+                return_uri=f"https:///wepays.herokuapp.com/payment/{self.payment.id}/update",
             )
             # assign charge id  and uri to payment
             self.charge_id = charge.id
