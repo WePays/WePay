@@ -887,7 +887,7 @@
   "pk": 1,
   "fields": {
     "password": "pbkdf2_sha256$390000$NercnoZWBjlaP01PuQhKdl$K36YqFgs+gGTIlkGxzur5knOL+tZMWcmjC3tgCdlCUo=",
-    "last_login": "2022-11-30T04:39:22.625Z",
+    "last_login": "2022-11-30T09:33:14.875Z",
     "is_superuser": true,
     "username": "wepay",
     "first_name": "",
@@ -914,6 +914,24 @@
     "is_staff": false,
     "is_active": true,
     "date_joined": "2022-11-30T04:07:46.017Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 3,
+  "fields": {
+    "password": "!Nac9US8k1KxUOHDpXcnKbu4f44qyqh6QPaxqCpA4",
+    "last_login": "2022-11-30T09:33:13.404Z",
+    "is_superuser": false,
+    "username": "preawpan",
+    "first_name": "Preawpan",
+    "last_name": "THAMAPIPOL",
+    "email": "preawpan.t@ku.th",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2022-11-30T09:33:13.382Z",
     "groups": [],
     "user_permissions": []
   }
@@ -1095,6 +1113,22 @@
   }
 },
 {
+  "model": "sessions.session",
+  "pk": "6upn38ioiok0q24d17wexfc8u7z1rhni",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAQRf-FtSEMMjy6dN9vIDwmFjVgSptojP-uTbrQ7T3nnhfzYV0mv3aafclsYMAOv1sM6Up1A_kS6rnx1Ooyl8g3he-087Flup129y8whT593zIgolQR8ChdjEmB1YqSAJ0cAGiJKmUnMOlMUWAwzliKlowj7QzZLdqp99Kqp8e9zE82iPcHU1g-Xw:1p0JSs:aR4m3lf-8vmPcQ6vxGNzz9gpmxv9UMORxRTSXKIBaPo",
+    "expire_date": "2022-12-14T09:33:14.877Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "tevmv2rzlg9y9sjoc3nsga3kzsrzlzhm",
+  "fields": {
+    "session_data": ".eJxVjM0OwiAQhN-Fs2na7Q_Qm74IWXaXlIg0seDF-O5a00uP883M91ZItNZc3EueMURhJw-MSc25pnRRDmtZXN3k6SKrWfXqxDzSXfJeYEo7bg5d898c9dZcf0lyiYQlrvl2vE6qBbdl97BBE7xnJNtD0GMLCHbSXcuGWzHdQNoK6IlGQDsSs6DWAhSg6wfj1ecLnrZIQg:1p0JSr:YoH2heF4cXV0DRnMbGdBei-v-IUYStvh5Yb79PH_A7g",
+    "expire_date": "2022-12-14T09:33:13.408Z"
+  }
+},
+{
   "model": "sites.site",
   "pk": 1,
   "fields": {
@@ -1117,6 +1151,16 @@
     "user": 2,
     "email": "demo@wepay.com",
     "verified": false,
+    "primary": true
+  }
+},
+{
+  "model": "account.emailaddress",
+  "pk": 2,
+  "fields": {
+    "user": 3,
+    "email": "preawpan.t@ku.th",
+    "verified": true,
     "primary": true
   }
 },
@@ -1181,6 +1225,29 @@
   }
 },
 {
+  "model": "socialaccount.socialaccount",
+  "pk": 1,
+  "fields": {
+    "user": 3,
+    "provider": "google",
+    "uid": "102104040772931581028",
+    "last_login": "2022-11-30T09:33:13.393Z",
+    "date_joined": "2022-11-30T09:33:13.393Z",
+    "extra_data": "{\"id\": \"102104040772931581028\", \"email\": \"preawpan.t@ku.th\", \"verified_email\": true, \"name\": \"Preawpan THAMAPIPOL\", \"given_name\": \"Preawpan\", \"family_name\": \"THAMAPIPOL\", \"picture\": \"https://lh3.googleusercontent.com/a/ALm5wu0rEvngsMVcCZdRhTo-1vzjnmZ5Lugfw--rEar2=s96-c\", \"locale\": \"en\", \"hd\": \"ku.th\"}"
+  }
+},
+{
+  "model": "socialaccount.socialtoken",
+  "pk": 1,
+  "fields": {
+    "app": 3,
+    "account": 1,
+    "token": "ya29.a0AeTM1ifrKhDIb3vl_FHaNjyYi2iEjG0_dZGdSJM2vtba4WVweBZ4E8h6N1UAhwfJ6cRAfZmY3Oak2FJDObXcxoomiQHh9JiUCkNd8H4q0b_DNPENL4KZZG12jTP-uYuo4YO4WkxcKO05n99JR_QGbC3NXXaS0AaCgYKAa4SARMSFQHWtWOm2rJD_Jb-6sY4GWRzjOljZw0165",
+    "token_secret": "",
+    "expires_at": "2022-11-30T10:33:11.856Z"
+  }
+},
+{
   "model": "WePay.userprofile",
   "pk": 1,
   "fields": {
@@ -1194,6 +1261,84 @@
   "fields": {
     "user": 1,
     "chain_id": ""
+  }
+},
+{
+  "model": "WePay.userprofile",
+  "pk": 3,
+  "fields": {
+    "user": 3,
+    "chain_id": "acch_test_5tl5qdsa0cbli76hwoj"
+  }
+},
+{
+  "model": "WePay.bills",
+  "pk": 1,
+  "fields": {
+    "header": 3,
+    "name": "egew",
+    "pub_date": "2022-11-30T09:33:05Z",
+    "is_created": true,
+    "is_closed": false
+  }
+},
+{
+  "model": "WePay.topic",
+  "pk": 1,
+  "fields": {
+    "title": "fweff",
+    "price": 2332,
+    "bill": 1,
+    "user": [
+      1,
+      2,
+      3
+    ]
+  }
+},
+{
+  "model": "WePay.payment",
+  "pk": 1,
+  "fields": {
+    "user": 1,
+    "date": "2022-11-30T09:33:05Z",
+    "bill": 1,
+    "uri": null,
+    "status": "UNPAID",
+    "payment_type": "Cash"
+  }
+},
+{
+  "model": "WePay.payment",
+  "pk": 2,
+  "fields": {
+    "user": 2,
+    "date": "2022-11-30T09:33:05Z",
+    "bill": 1,
+    "uri": "https://pay.omise.co/payments/pay2_test_5tz6buuy9ux9cjij471/authorize",
+    "status": "UNPAID",
+    "payment_type": "PromptPay"
+  }
+},
+{
+  "model": "WePay.payment",
+  "pk": 3,
+  "fields": {
+    "user": 3,
+    "date": "2022-11-30T09:33:05Z",
+    "bill": 1,
+    "uri": null,
+    "status": "PAID",
+    "payment_type": "Cash"
+  }
+},
+{
+  "model": "WePay.promptpaypayment",
+  "pk": 1,
+  "fields": {
+    "payment": 2,
+    "charge_id": "chrg_test_5tz6buuwbsz45c3875i",
+    "qr": "media/qr/promptpay2_h66krl"
   }
 }
 ]
