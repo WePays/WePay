@@ -257,7 +257,7 @@ OMISE_PUBLIC = config("OMISE_PUBLIC", cast=str, default="missing-omise-public")
 OMISE_SECRET = config("OMISE_SECRET", cast=str, default="missing-omise-secret")
 
 # if not DEBUG:
-#     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-#     SECURE_SSL_REDIRECT = True
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+SECURE_SSL_REDIRECT = True
 
 django_heroku.settings(locals())
