@@ -145,6 +145,8 @@ SOCIALACCOUNT_PROVIDERS = {
 
 # Database
 # https://docs.djangoperoject.com/en/4.1/ref/settings/#databases
+ON_HEROKU = config('LIVE', cast=bool, default=False)
+
 
 DATABASES = {
     "default": {
@@ -220,13 +222,15 @@ MEDIA_URL = "/media/"
 
 # Enable WhiteNoise's GZip compression of static assets.
 
-CLOUDINARY_STORAGE = {
-    "CLOUD_NAME": config("CLOUDINARY_CLOUD_NAME", cast=str, default=""),
-    "API_KEY": config("CLOUDINARY_API_KEY", cast=str, default=""),
-    "API_SECRET": config("CLOUDINARY_API_SECRET", cast=str, default=""),
-}
 
-DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+if ON_HEROKU:
+    CLOUDINARY_STORAGE = {
+        "CLOUD_NAME": config("CLOUDINARY_CLOUD_NAME", cast=str, default=""),
+        "API_KEY": config("CLOUDINARY_API_KEY", cast=str, default=""),
+        "API_SECRET": config("CLOUDINARY_API_SECRET", cast=str, default=""),
+    }
+
+    DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -246,15 +250,17 @@ if "CI" in os.environ:
 
 NPM_BIN_PATH = "/usr/local/bin/npm"
 
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = config("EMAIL_HOST_USER", cast=str, default="")
-EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", cast=str, default="")
+USE_EMAIL_HOST = config('USER_EMAIL_HOST', default=False)
 
-OMISE_PUBLIC = config("OMISE_PUBLIC", cast=str, default="missing-omise-public")
-OMISE_SECRET = config("OMISE_SECRET", cast=str, default="missing-omise-secret")
+if (DEBUG or ON_HEROKU) and USE_EMAIL_HOST:
+    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+    EMAIL_HOST = "smtp.gmail.com"
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
+    EMAIL_HOST_USER = config("EMAIL_HOST_USER", cast=str, default="")
+    EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", cast=str, default="")
+else:
+    EMAIL_BACKEND = "django.core.mail.backends.dummy.EmailBackend"
 
 
 django_heroku.settings(locals())
