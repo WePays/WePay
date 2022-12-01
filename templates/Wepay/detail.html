@@ -27,7 +27,7 @@
                         <h1 class="text-3xl font-bold">Bill: {{bill.name}}</h1>
                         <form action="" method="post" class="text-3xl font-bold mt-5 text-red-500">
                             {% csrf_token %}
-                            TotalPrice: {{bill.total_price}}
+                            TotalPrice: {{bill.total_price}} ฿
                             {% if messages %}
                                 <p class="messages">
                                     {% for message in messages %}
@@ -97,7 +97,7 @@
                                     <tr class="whitespace-nowrap">
                                         <td class="px-6 py-4 text-sm text-gray-600">{{forloop.counter0|add:"1"}}</td>
                                         <td class="px-12 py-4 text-sm text-gray-900 font-bold">{{price.user.name}}</td>
-                                        <td class="px-6 py-4 text-sm text-gray-900">{{price.price}}</td>
+                                        <td class="px-6 py-4 text-sm text-gray-900">{{price.price}} ฿</td>
                                         <td class="px-8 py-4 text-sm text-gray-900">{{price.status}}</td>
                                         {% if price.is_confirmable %}
                                             {% if price.payment_type != 'Cash' %}

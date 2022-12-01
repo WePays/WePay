@@ -4,7 +4,6 @@ from typing import List
 import omise
 from django.db import models
 from django.utils import timezone
-from django.contrib import messages
 
 from .userprofile import UserProfile
 
@@ -134,9 +133,10 @@ class Topic(models.Model):
         """calculate price for each person in topic
 
         Returns:
-            float -- price for each person
+            float -- price for each person in 2 decimal degit
         """
-        return self.price / len(self.user.all())
+        price = self.price / len(self.user.all())
+        return round(price, 2)
 
     def add_user(self, user: UserProfile) -> None:
         """add user to topic
