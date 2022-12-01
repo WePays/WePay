@@ -4,7 +4,6 @@ from typing import List
 import omise
 from django.db import models
 from django.utils import timezone
-from django.contrib import messages
 
 from .userprofile import UserProfile
 
