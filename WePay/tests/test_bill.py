@@ -156,10 +156,9 @@ class DetailViewTest(BaseViewTest):
         self.assertEqual(response.status_code, 302)
 
     def test_bill_not_exist(self):
-        """test navigation if go to bill that does not exist it will return to bill page"""
+        """test navigation if go to bill that does not exist it will 404"""
         response = self.client.get(reverse("bills:detail", kwargs={"pk": 1000}))
         self.assertEqual(response.status_code, 404)
-        self.assertRedirects(response, "/bill/", 302, 200) #TODO change this to 404 page.
 
 
 class AddTopicView(BaseViewTest):

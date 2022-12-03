@@ -122,7 +122,7 @@ class TestPayment(TestCase):
     def test_payment_doesnt_exist(self):
         """get payment that not exist will not have detail"""
         resp = self.client.get(reverse("payments:detail", kwargs={"pk": 100}))
-        self.assertEqual(resp.status_code, 302)
+        self.assertEqual(resp.status_code, 404)
 
     def test_cash_only_payment(self):
         """when pay lessthan 20 baht or morethan 150k baht it need to pay cash only"""
@@ -216,7 +216,7 @@ class TestPayment(TestCase):
         # self.assertEqual(self.user2_bill1_payment.status, Payment.Status_choice.PAID)
 
     def test_pay_redirect_on_promptpay_payment(self):
-        """testing whether pay truly redirect on PromptPayPayment"""
+        """when click pay it will redirect to qr pages"""
         self.client.logout()
         self.client.force_login(self.user3.user)
         resp = self.client.post(
@@ -227,7 +227,7 @@ class TestPayment(TestCase):
         self.assertEqual(resp1.context["payment_type"], "PromptPay")
         self.assertRedirects(
             resp,
-            resp1.context["payment"].uri,
+            '/payment/8/qr',
             status_code=302,
             fetch_redirect_response=False,
         )
