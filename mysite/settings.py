@@ -13,7 +13,6 @@ import os
 from pathlib import Path
 
 import dj_database_url
-import django_heroku
 from decouple import Csv, config
 from django.test.runner import DiscoverRunner
 
@@ -28,7 +27,7 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 SECRET_KEY = config("SECRET_KEY", cast=str, default="missing-secret-key")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config("DEBUG", cast=bool, default=True)
+DEBUG = config("DEBUG", cast=bool, default=False)
 
 ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=Csv(), default="")
 
@@ -62,8 +61,8 @@ INSTALLED_APPS = [
 TAILWIND_APP_NAME = "theme"
 
 MIDDLEWARE = [
-    # "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -145,6 +144,8 @@ SOCIALACCOUNT_PROVIDERS = {
 
 # Database
 # https://docs.djangoperoject.com/en/4.1/ref/settings/#databases
+ON_HEROKU = config('LIVE', cast=bool, default=False)
+
 
 DATABASES = {
     "default": {
@@ -153,7 +154,8 @@ DATABASES = {
     }
 }
 
-DATABASES["default"].update(dj_database_url.config(conn_max_age=500, ssl_require=True))
+if ON_HEROKU:
+    DATABASES["default"].update(dj_database_url.config(conn_max_age=500, ssl_require=True))
 
 
 # Password validation
@@ -176,13 +178,13 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # Test Runner Config
-class HerokuDiscoverRunner(DiscoverRunner):
-    """Test Runner for Heroku CI, which provides a database for you.
-    This requires you to set the TEST database (done for you by settings().)"""
+# class HerokuDiscoverRunner(DiscoverRunner):
+#     """Test Runner for Heroku CI, which provides a database for you.
+#     This requires you to set the TEST database (done for you by settings().)"""
 
-    def setup_databases(self, **kwargs):
-        self.keepdb = True
-        return super(HerokuDiscoverRunner, self).setup_databases(**kwargs)
+#     def setup_databases(self, **kwargs):
+#         self.keepdb = True
+#         return super(HerokuDiscoverRunner, self).setup_databases(**kwargs)
 
 
 # Internationalization
@@ -209,24 +211,24 @@ STATIC_URL = "/static/"
 # )
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # STATIC_URL = '/static/'
-# STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'
-
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Path where media is stored
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 # Base url to serve media files
 MEDIA_URL = "/media/"
 
-
 # Enable WhiteNoise's GZip compression of static assets.
 
-CLOUDINARY_STORAGE = {
-    "CLOUD_NAME": config("CLOUDINARY_CLOUD_NAME", cast=str, default=""),
-    "API_KEY": config("CLOUDINARY_API_KEY", cast=str, default=""),
-    "API_SECRET": config("CLOUDINARY_API_SECRET", cast=str, default=""),
-}
 
-DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+if ON_HEROKU:
+    CLOUDINARY_STORAGE = {
+        "CLOUD_NAME": config("CLOUDINARY_CLOUD_NAME", cast=str, default=""),
+        "API_KEY": config("CLOUDINARY_API_KEY", cast=str, default=""),
+        "API_SECRET": config("CLOUDINARY_API_SECRET", cast=str, default=""),
+    }
+
+    DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -240,21 +242,24 @@ INTERNAL_IPS = ["127.0.0.1", "*"]
 
 CSRF_TRUSTED_ORIGINS = ["https://wepays.herokuapp.com", "http://127.0.0.1"]
 
-if "CI" in os.environ:
-    TEST_RUNNER = "gettingstarted.settings.HerokuDiscoverRunner"
-
 
 NPM_BIN_PATH = "/usr/local/bin/npm"
 
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = config("EMAIL_HOST_USER", cast=str, default="")
-EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", cast=str, default="")
+USE_EMAIL_HOST = config('USER_EMAIL_HOST', default=False)
+
+if (DEBUG or ON_HEROKU) and USE_EMAIL_HOST:
+    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+    EMAIL_HOST = "smtp.gmail.com"
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
+    EMAIL_HOST_USER = config("EMAIL_HOST_USER", cast=str, default="")
+    EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", cast=str, default="")
+else:
+    EMAIL_BACKEND = "django.core.mail.backends.dummy.EmailBackend"
 
 OMISE_PUBLIC = config("OMISE_PUBLIC", cast=str, default="missing-omise-public")
 OMISE_SECRET = config("OMISE_SECRET", cast=str, default="missing-omise-secret")
 
-
-django_heroku.settings(locals())
+if ON_HEROKU:
+    import django_heroku
+    django_heroku.settings(locals())

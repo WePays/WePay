@@ -3,20 +3,20 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 from WePay.models.userprofile import UserProfile
 from ..models import Bills, Topic, Payment
+from .utlis import create_user
 
 
 class BaseSetUp(TestCase):
     def setUp(self):
         """Setup before running a tests."""
-        header = User.objects.create_user(
-            username="header", email="header@example.com", password="header123"
-        )
-        self.header = UserProfile.objects.create(
-            user=header, chain_id="acch_test_5tl5qdsa0cbli76hwoj"
-        )
-        self.header.save()
+        # header = User.objects.create_user(
+        #     username="header", email="header@example.com", password="header123"
+        # )
+        # self.header = UserProfile.objects.create(
+        #     user=header, chain_id="acch_test_5tl5qdsa0cbli76hwoj"
+        # )
 
-        # header = create_user('header', 'header123, ''header@exmple.com')
+        self.header = create_user('header', 'header123', 'header@exmple.com')
 
         user1 = User.objects.create_user(
             username="test_user1", email="user1@example.com", password="user1"

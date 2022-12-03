@@ -1,16 +1,15 @@
-from unittest import skip
-
 from django.contrib.auth.models import User
-from django.test import Client, LiveServerTestCase
+from django.test import Client, LiveServerTestCase, tag
 from django.urls import reverse
-from selenium.webdriver import Chrome, ChromeOptions
+from selenium.webdriver import Chrome
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
 
 from WePay.models.userprofile import UserProfile
 
 
 class E2ETestLocal(LiveServerTestCase):
+    
+    @tag('e2e')
     def setUp(self):
         self.client = Client()
         header = User.objects.create_user(
@@ -34,6 +33,7 @@ class E2ETestLocal(LiveServerTestCase):
         self.browser.set_page_load_timeout(30)
         self.browser.get(self.live_server_url)
 
+    @tag('e2e')
     def login(self):
         self.client.login(username=self.header.name, password="header123")
         cookie = self.client.cookies['sessionid']
@@ -48,6 +48,7 @@ class E2ETestLocal(LiveServerTestCase):
         self.browser.refresh()
 
     # @skip("Temporalily skip")
+    @tag('e2e')
     def test_login(self):
         # url to visit
         # self.browser.get("http://127.0.0.1:8000/accounts/login/")
@@ -66,6 +67,7 @@ class E2ETestLocal(LiveServerTestCase):
     #     assert "header" in self.browser.page_source
 
     # @skip("it still not work, i will try later after reading a selenium docs")
+    @tag('e2e')
     def test_initial_bill(self):
 
         self.login()
@@ -84,13 +86,13 @@ class E2ETestLocal(LiveServerTestCase):
         name.send_keys('Test Food')
         price.send_keys(100)
         assign_to_users.send_keys(self.user.name)
-        # print(assign_to_users.text)
         # users = assign_to_users.text.split('\n')
         self.assertIn('test_user', assign_to_users.text.split('\n'))
         # self.assertEqual('test_user', users[len(users) - 1])
 
         create_title.click()
 
+    @tag('e2e')
     def test_create_bill(self):
 
         self.login()
@@ -103,21 +105,25 @@ class E2ETestLocal(LiveServerTestCase):
         # assign_to_users = self.browser.find_element(By.TAG_NAME, 'select')
         # create_title = self.browser.find_element(By.NAME, 'create_title')
 
-        self.browser.find_element(By.XPATH, "//input[@id='title']").send_keys('Test Title') # Bill title
-        self.browser.find_element(By.ID, 'topic_name').send_keys('Test Food') # Topic name
-        self.browser.find_element(By.ID, 'topic_price').send_keys(100) # Topic price
-        self.assertIn('test_user', self.browser.find_element(By.TAG_NAME, 'select').text.split('\n')) # Assign to user
+        self.browser.find_element(
+            By.XPATH, "//input[@id='title']").send_keys('Test Title')  # Bill title
+        self.browser.find_element(By.ID, 'topic_name').send_keys('Test Food')  # Topic name
+        self.browser.find_element(By.ID, 'topic_price').send_keys(100)  # Topic price
+        self.assertIn('test_user', self.browser.find_element(
+            By.TAG_NAME, 'select').text.split('\n'))  # Assign to user
 
         self.browser.find_element(By.NAME, 'create_title').click()
 
-        self.browser.find_element(By.NAME, 'topic_name').send_keys('Test Food') # Topic name
-        self.browser.find_element(By.NAME, 'topic_price').send_keys(100) # Topic price
-        self.browser.find_element(By.TAG_NAME, 'select').send_keys(self.user.name) # Assign to user (topic)
+        self.browser.find_element(By.NAME, 'topic_name').send_keys('Test Food')  # Topic name
+        self.browser.find_element(By.NAME, 'topic_price').send_keys(100)  # Topic price
+        self.browser.find_element(By.TAG_NAME, 'select').send_keys(
+            self.user.name)  # Assign to user (topic)
 
-        self.browser.find_element(By.TAG_NAME, 'button').click() # Create topic
+        self.browser.find_element(By.TAG_NAME, 'button').click()  # Create topic
 
-        self.browser.find_element(By.NAME, 'create_button').click() # Create bill
+        self.browser.find_element(By.NAME, 'create_button').click()  # Create bill
 
+    @tag('e2e')
     def test_delete_topic(self):
 
         self.test_initial_bill()
@@ -129,21 +135,24 @@ class E2ETestLocal(LiveServerTestCase):
 
         # self.browser.find_element(By.NAME, 'create_title').click()
 
-        self.browser.find_element(By.NAME, 'topic_name').send_keys('Test Food') # Topic name
-        self.browser.find_element(By.NAME, 'topic_price').send_keys(100) # Topic price
-        self.browser.find_element(By.TAG_NAME, 'select').send_keys(self.user.name) # Assign to user (topic)
+        self.browser.find_element(By.NAME, 'topic_name').send_keys('Test Food')  # Topic name
+        self.browser.find_element(By.NAME, 'topic_price').send_keys(100)  # Topic price
+        self.browser.find_element(By.TAG_NAME, 'select').send_keys(
+            self.user.name)  # Assign to user (topic)
 
-        self.browser.find_element(By.TAG_NAME, 'button').click() # Create topic
+        self.browser.find_element(By.TAG_NAME, 'button').click()  # Create topic
 
-        self.browser.find_element(By.XPATH, 'html/body/div[2]/div/table/tbody[1]/tr/td[5]/a').click() # Delete Topic
+        self.browser.find_element(
+            By.XPATH, 'html/body/div[2]/div/table/tbody[1]/tr/td[5]/a').click()  # Delete Topic
 
+    @tag('e2e')
     def test_delete_bill(self):
 
         self.test_create_bill()
 
-        self.browser.find_element(By.XPATH, 
-            "/html/body/div[2]/div/div/table/tbody[1]/tr/td[6]/a").click() # Delete bill
+        self.browser.find_element(By.XPATH,
+                                  "/html/body/div[2]/div/div/table/tbody[1]/tr/td[6]/a").click()  # Delete bill
 
-
+    @tag('e2e')
     def tearDown(self):
         self.browser.close()
