@@ -38,9 +38,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install coverage selenium
-      - name: Collecstatic
-        run: |
-          python manage.py collectstatic
       - name: Run Tests
         run: |
           coverage run manage.py test WePay.tests --exclude-tag=e2e
