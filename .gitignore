@@ -136,7 +136,9 @@ setup(dev).
 WePay/static/wepay/qr/*
 
 node_modules/
+
 # staticfiles/
 media/qr/*
 
 .DS_Store
+
