@@ -242,9 +242,6 @@ INTERNAL_IPS = ["127.0.0.1", "*"]
 
 CSRF_TRUSTED_ORIGINS = ["https://wepays.herokuapp.com", "http://127.0.0.1"]
 
-if "CI" in os.environ:
-    TEST_RUNNER = "gettingstarted.settings.HerokuDiscoverRunner"
-
 
 NPM_BIN_PATH = "/usr/local/bin/npm"
 
