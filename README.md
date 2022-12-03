@@ -37,7 +37,7 @@ next, you have to create file name `.env` to configuration **note that you may g
 
 by running [`setup.sh`](setup.sh) will set everythings ready for you to running the application by typing this command
 
-you can initialize the polls by
+you can initialize the program by
 
 ```sh
 bash setup.sh
