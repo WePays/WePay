@@ -84,7 +84,6 @@ class E2ETestLocal(LiveServerTestCase):
         name.send_keys('Test Food')
         price.send_keys(100)
         assign_to_users.send_keys(self.user.name)
-        # print(assign_to_users.text)
         # users = assign_to_users.text.split('\n')
         self.assertIn('test_user', assign_to_users.text.split('\n'))
         # self.assertEqual('test_user', users[len(users) - 1])
