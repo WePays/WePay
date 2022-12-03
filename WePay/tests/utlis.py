@@ -1,5 +1,6 @@
 from ..models import UserProfile, Bills, Topic, Payment
 from django.contrib.auth.models import User
+from typing import List
 
 
 def create_user(username: str, password: str, email: str, chain_id: str = "") -> UserProfile:
@@ -24,7 +25,7 @@ def create_topic(title: str, price: int, bill: Bills)-> Topic:
     topic.save()
     return topic
 
-def add_user_topic(topic: Topic, lst_user: list[UserProfile]):
+def add_user_topic(topic: Topic, lst_user: List[UserProfile]):
     """add user to topic"""
     for user in lst_user:
         topic.add_user(user)
