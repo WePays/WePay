@@ -219,7 +219,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 # Base url to serve media files
 MEDIA_URL = "/media/"
 
-
 # Enable WhiteNoise's GZip compression of static assets.
 
 
@@ -262,5 +261,7 @@ if (DEBUG or ON_HEROKU) and USE_EMAIL_HOST:
 else:
     EMAIL_BACKEND = "django.core.mail.backends.dummy.EmailBackend"
 
+OMISE_PUBLIC = config("OMISE_PUBLIC", cast=str, default="missing-omise-public")
+OMISE_SECRET = config("OMISE_SECRET", cast=str, default="missing-omise-secret")
 
 django_heroku.settings(locals())
