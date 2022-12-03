@@ -8,7 +8,7 @@ class UserProfileViewTest(BaseSetUp):
     def setUp(self):
         """Setup before test"""
         super(UserProfileViewTest, self).setUp()
-        self.test_header = create_user("test_header", "header123", "example@example.com", "acch_test_5tl5qdsa0cbli76hwoj")
+        self.test_header = create_user("test_header", "header123", "will32672@hotmail.com")
         self.test_user = create_user("test_user", "1234", "user@example.com")
         self.client.force_login(self.test_header.user)
 
@@ -36,4 +36,4 @@ class UserProfileViewTest(BaseSetUp):
         response = self.client.post(reverse("user-profile:fetch-key"))
         self.assertEqual(response.status_code, 302)
         response2 = self.client.get(reverse("user-profile:userprofile"))
-        self.assertEqual(response2.context["chain_id"], "acch_test_5tl5qdsa0cbli76hwoj")
+        self.assertEqual(response2.context["chain_id"], "acch_test_5tmytw2wqewbq05abwu")
