@@ -44,7 +44,7 @@
 
                                     <td class="px-6 py-4 text-sm text-gray-600">{{forloop.counter0|add:"1"}}</td>
                                     <td class="px-10 py-4 text-sm text-gray-900 font-bold underline hover:text-gray-600"><a href="{% url 'bills:detail' bill.id %}"> {{ bill.name }}</a></td>
-                                    <td class="px-8 py-4 text-sm text-gray-900">{{ bill.total_price}}</td>
+                                    <td class="px-8 py-4 text-sm text-gray-900">{{ bill.total_price}} ฿</td>
 
                                     {% if bill.status%}
                                         <td class="px-10 py-4 text-sm text-green-500">PAID</td>

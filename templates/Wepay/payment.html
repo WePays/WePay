@@ -22,7 +22,7 @@
                         <tr class="whitespace-nowrap">
                             <td class="px-6 py-4 text-sm text-gray-600">{{forloop.counter0|add:"1"}}</td>
                             <td class="px-12 py-4 text-sm text-black font-bold">{{payment.bill.name}}</td>
-                            <td class="px-6 py-4 text-sm text-black">{{payment.price}}</td>
+                            <td class="px-6 py-4 text-sm text-black">{{payment.price}} ฿</td>
                             <td class="px-8 py-4 text-sm">
                                 {% if payment.can_pay %}
                                     <a class="font-bold text-center text-black underline hover:text-green-500" href="{% url 'payments:detail' payment.id %}">Pay</a>
@@ -39,7 +39,7 @@
         </table>
         </div>
     {% else %}
-        <h1 class="text-red-500 text-5xl font-bold grid h-screen place-items-center ml-56"> No Payment Avalible </h1>
+        <h1 class="text-red-500 text-5xl font-bold grid h-screen place-items-center ml-56"> No Payment Avaliable </h1>
     {% endif %}
 
 {% endblock body%}

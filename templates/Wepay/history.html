@@ -26,7 +26,7 @@
                             <tr class="whitespace-nowrap">
                                 <td class="px-6 py-4">{{forloop.counter0|add:"1"}}</td>
                                 <td class="px-8 py-4">{{bill.name}}</td> <!-- this will link to detail bill page-->
-                                <td class="px-8 py-4">{{bill.total_price}}</td>
+                                <td class="px-8 py-4">{{bill.total_price}} ฿</td>
                                 <td class="px-8 py-4">{{bill.pub_date}}</td>
                             </tr>
                         </tbody>
@@ -55,7 +55,7 @@
                             <tr>
                                 <td class="px-6 py-4">{{forloop.counter0|add:"1"}}</td>
                                 <td class="px-8 py-4">{{payment.bill.name}}</td> <!-- this will link to detail bill page-->
-                                <td class="px-8 py-4">{{payment.price}}</td>
+                                <td class="px-8 py-4">{{payment.price}} ฿</td>
                                 <td class="px-8 py-4">{{payment.date}}</td>
                             </tr>
                         </tbody>

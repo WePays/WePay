@@ -39,7 +39,7 @@
                         <tr class="whitespace-nowrap">
                             <td class="px-6 py-4">{{forloop.counter0|add:"1"}}</td>
                             <td class="px-10 py-4">{{topic.title}}</td>
-                            <td class="px-6 py-4">{{topic.price}}</td>
+                            <td class="px-6 py-4">{{topic.price}} ฿</td>
                             {% if topic.user.all|length > 3 %}
                                 <td class="px-10 py-4">{{ topic.user.all|first }}, {{topic.user.all.1}}, ...,{{topic.user.all.last}}</td>
                             {% else %}
@@ -69,7 +69,7 @@
                 {% endfor %}
             </list>
         </table>
-        <button class="text-xl text-[#171f99] mt-5 ml-80 font-bold bg-white py-1 px-2" disabled type="text" name="bill_total_price">Total price: {{bill.total_price}} </button>
+        <button class="text-xl text-[#171f99] mt-5 ml-80 font-bold bg-white py-1 px-2" disabled type="text" name="bill_total_price">Total price: {{bill.total_price}} ฿ </button>
     </div>
 
 
