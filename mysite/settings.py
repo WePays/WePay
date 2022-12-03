@@ -155,7 +155,8 @@ DATABASES = {
     }
 }
 
-DATABASES["default"].update(dj_database_url.config(conn_max_age=500, ssl_require=True))
+if ON_HEROKU:
+    DATABASES["default"].update(dj_database_url.config(conn_max_age=500, ssl_require=True))
 
 
 # Password validation
