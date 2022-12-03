@@ -1,6 +1,4 @@
-from django.urls import reverse
-
-from WePay.models.payment import AlreadyPayError
+from .utlis import create_user, add_user_topic
 from .setUp import BaseSetUp
 from django.contrib.auth.models import User
 from WePay.models.userprofile import UserProfile
@@ -23,9 +21,8 @@ class BillModelTest(BaseSetUp):
 
     def test_calculate_price(self):
         """test calculate price for each user."""
-        self.pepsi.add_user(self.user1)
-        self.pepsi.add_user(self.user2)
-        self.coke.add_user(self.user2)
+        add_user_topic(self.pepsi, [self.user1, self.user2])
+        add_user_topic(self.coke, [self.user2])
         self.assertEqual(self.bill.calculate_price(person=self.user1), 10.0)
         self.assertEqual(self.bill.calculate_price(person=self.user2), 25.0)
 
@@ -35,8 +32,8 @@ class BillModelTest(BaseSetUp):
 
     def test_all_user(self):
         """test all user."""
-        self.pepsi.add_user(user=self.user1)
-        self.coke.add_user(user=self.user2)
+        add_user_topic(self.pepsi, [self.user1])
+        add_user_topic(self.coke, [self.user2])
         self.assertListEqual(
             self.bill.all_user,
             list(set(self.pepsi.user.all()).union(set(self.coke.user.all()))),
@@ -44,9 +41,8 @@ class BillModelTest(BaseSetUp):
 
     def test_duplicate_user(self):
         """test when you add duplicate user."""
-        self.pepsi.add_user(user=self.user1)
-        self.pepsi.add_user(user=self.user1)
-        self.coke.add_user(user=self.user2)
+        add_user_topic(self.pepsi, [self.user1, self.user1])
+        add_user_topic(self.coke, [self.user2])
         self.assertEqual(self.bill.calculate_price(person=self.user1), 20)
         self.assertEqual(self.bill.calculate_price(person=self.user2), 15)
 
@@ -56,22 +52,18 @@ class TopicModelTest(BaseSetUp):
 
     def test_each_price(self):
         """test food price for each user."""
-        self.pepsi.add_user(user=self.user1)
-        self.pepsi.add_user(user=self.user2)
+        add_user_topic(self.pepsi, [self.user1, self.user2])
         self.assertEqual(self.pepsi.calculate_price(), 10)
 
     def test_add_user(self):
         """test add user to Food.user.all()"""
-        self.pepsi.add_user(user=self.user1)
-        self.pepsi.add_user(user=self.user2)
+        add_user_topic(self.pepsi, [self.user1, self.user2])
         self.assertIn(self.user1, self.pepsi.user.all())
         self.assertIn(self.user2, self.pepsi.user.all())
 
     def test_add_duplicate_user(self):
         """test add duplicate user to that food."""
-        self.pepsi.add_user(user=self.user1)
-        self.pepsi.add_user(user=self.user1)
-        self.pepsi.add_user(user=self.user2)
+        add_user_topic(self.pepsi, [self.user1, self.user1, self.user2])
         check = sum(user == self.user1 for user in self.pepsi.user.all())
         self.assertEqual(check, 1)
 
@@ -81,11 +73,7 @@ class PaymentModelTest(BaseSetUp):
 
     def setUp(self):
         """SetUp before test"""
-        test_header = User.objects.create(
-            username="test_header", password="1234", email="test@example.com"
-        )
-        self.test_header = UserProfile.objects.create(user=test_header)
-        self.test_header.save()
+        self.test_header = create_user("test_header", "1234", "test@example.com", "acch_test_5tl5qdsa0cbli76hwoj")
         self.client.force_login(self.test_header.user)
 
     @skip("AttributeError: 'PaymentModelTest' object has no attribute 'cash_payment'")

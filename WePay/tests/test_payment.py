@@ -1,125 +1,61 @@
 from unittest import skip
 
-from django.contrib.auth.models import User
 from django.shortcuts import reverse
 from django.test import TestCase
 
-from WePay.models.userprofile import UserProfile
-
+from .utlis import create_user, create_payment, create_bill, create_topic, add_user_topic
 from ..models import Bills, Payment, Topic
 
 
 class TestPayment(TestCase):
     def setUp(self):
         """Setup before running a tests."""
-        header1 = User.objects.create_user(
-            username="header1", email="header1@example.com", password="header123"
-        )
-        self.header1 = UserProfile.objects.create(user=header1)
-        self.header1.save()
+        self.header1 = create_user("header1", "header123", "header1@example.com")
+        self.header2 = create_user("header2", "header123",
+                                   "header2@example.com", "acch_test_5tl5qdsa0cbli76hwoj")
+        self.user1 = create_user("test_user1", "user1", "user1@example.com")
+        self.user2 = create_user("test_user2", "user2", "user2@example.com")
+        self.user3 = create_user("test_user3", "user3", "user3@example.com")
+        self.user4 = create_user("test_user4", "user4", "user4@example.com")
+        self.user5 = create_user("test_user5", "user5", "user5@example.com")
+        self.user6 = create_user("test_user6", "user6", "user6@example.com")
 
-        header2 = User.objects.create_user(
-            username="header2", email="header2@example.com", password="header123"
-        )
-        self.header2 = UserProfile.objects.create(
-            user=header2, chain_id="acch_test_5tl5qdsa0cbli76hwoj"
-        )
-        self.header2.save()
-
-        user1 = User.objects.create_user(
-            username="test_user1", email="user1@example.com", password="user1"
-        )
-        self.user1 = UserProfile.objects.create(user=user1)
-        self.user1.save()
-
-        user2 = User.objects.create_user(
-            username="test_user2", email="user2@example.com", password="user2"
-        )
-        self.user2 = UserProfile.objects.create(user=user2)
-        self.user2.save()
-
-        user3 = User.objects.create_user(
-            username="test_user3", email="user3@example.com", password="user3"
-        )
-        self.user3 = UserProfile.objects.create(user=user3)
-        self.user3.save()
-
-        user4 = User.objects.create_user(
-            username="test_user4", email="user4@example.com", password="user4"
-        )
-        self.user4 = UserProfile.objects.create(user=user4)
-        self.user4.save()
-
-        user5 = User.objects.create_user(
-            username="test_user5", email="user5@example.com", password="user5"
-        )
-        self.user5 = UserProfile.objects.create(user=user5)
-        self.user5.save()
-
-        self.user_tup = (self.user1, self.user2, self.user3, self.user4, self.user5)
+        self.user_tup = (self.user1, self.user2, self.user3, self.user4, self.user5, self.user6)
 
         # bill1
-        self.bill = Bills.objects.create(header=self.header1, name="Food Bill")
-        self.pepsi = Topic.objects.create(title="Pepsi", price=50)
-        self.coke = Topic.objects.create(title="Coke", price=20)
-        self.salmon = Topic.objects.create(title="Salmon", price=500)
+        self.bill = create_bill(header=self.header1, name="Food Bill")
+        self.pepsi = create_topic(title="Pepsi", price=50, bill=self.bill)
+        self.coke = create_topic(title="Coke", price=20, bill=self.bill)
+        self.salmon = create_topic(title="Salmon", price=500, bill=self.bill)
 
-        self.pepsi.add_user(self.user1)
-        self.pepsi.add_user(self.user3)
-
-        self.coke.add_user(self.header1)
-        self.coke.add_user(self.user2)
-
-        self.salmon.add_user(self.header1)
-        self.salmon.add_user(self.user1)
-        self.salmon.add_user(self.user3)
-
-        self.bill.add_topic(self.pepsi)
-        self.bill.add_topic(self.coke)
-        self.bill.add_topic(self.salmon)
+        add_user_topic(self.pepsi, [self.user1, self.user3])
+        add_user_topic(self.coke, [self.header1, self.user2])
+        add_user_topic(self.salmon, [self.header1, self.user1, self.user3])
         self.bill.save()
 
         # bill2
-        self.bill1 = Bills.objects.create(header=self.header2, name="Bowling bill")
+        self.bill1 = create_bill(header=self.header2, name="Bowling bill")
 
-        socks = Topic.objects.create(title="Socks", price=100)
-        bowling = Topic.objects.create(title="bowling 2 game", price="300")
-        socks.add_user(self.user1)
-        socks.add_user(self.user5)
-        socks.add_user(self.user4)
-        bowling.add_user(self.user2)
-        bowling.add_user(self.header2)
-        bowling.add_user(self.user1)
-        bowling.add_user(self.user3)
-        self.bill1.add_topic(socks)
-        self.bill1.add_topic(bowling)
+        socks = create_topic(title="Socks", price=100, bill=self.bill1)
+        bowling = create_topic(title="bowling 2 game", price=300, bill=self.bill1)
+        add_user_topic(socks, [self.user1, self.user5, self.user4])
+        add_user_topic(bowling, [self.user2, self.header2, self.user1, self.user3])
         self.bill1.save()
 
         self.client.force_login(self.header1.user)
 
-        self.header_payment = Payment.objects.create(user=self.header1, bill=self.bill)
-        self.user1_payment = Payment.objects.create(user=self.user1, bill=self.bill)
-        self.user2_payment = Payment.objects.create(user=self.user2, bill=self.bill)
-        self.user3_payment = Payment.objects.create(user=self.user3, bill=self.bill)
+        self.header_payment = create_payment(user=self.header1, bill=self.bill)
+        self.user1_payment = create_payment(user=self.user1, bill=self.bill)
+        self.user2_payment = create_payment(user=self.user2, bill=self.bill)
+        self.user3_payment = create_payment(user=self.user3, bill=self.bill)
 
-        self.header2_payment = Payment.objects.create(
-            user=self.header2, bill=self.bill1
-        )
-        self.user1_bill1_payment = Payment.objects.create(
-            user=self.user1, bill=self.bill1
-        )
-        self.user2_bill1_payment = Payment.objects.create(
-            user=self.user2, bill=self.bill1
-        )
-        self.user3_bill1_payment = Payment.objects.create(
-            user=self.user3, bill=self.bill1
-        )
-        self.user4_bill1_payment = Payment.objects.create(
-            user=self.user4, bill=self.bill1
-        )
-        self.user5_bill1_payment = Payment.objects.create(
-            user=self.user5, bill=self.bill1
-        )
+        self.header2_payment = create_payment(user=self.header2, bill=self.bill1)
+        self.user1_bill1_payment = create_payment(user=self.user1, bill=self.bill1)
+        self.user2_bill1_payment = create_payment(user=self.user2, bill=self.bill1)
+        self.user3_bill1_payment = create_payment(user=self.user3, bill=self.bill1)
+        self.user4_bill1_payment = create_payment(user=self.user4, bill=self.bill1)
+        self.user5_bill1_payment = create_payment(user=self.user5, bill=self.bill1)
+        self.user6_bill1_payment = create_payment(user=self.user6, bill=self.bill1)
 
     def test_payment_doesnt_exist(self):
         """get payment that not exist will not have detail"""
