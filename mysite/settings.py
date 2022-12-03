@@ -13,7 +13,6 @@ import os
 from pathlib import Path
 
 import dj_database_url
-import django_heroku
 from decouple import Csv, config
 from django.test.runner import DiscoverRunner
 
@@ -62,8 +61,8 @@ INSTALLED_APPS = [
 TAILWIND_APP_NAME = "theme"
 
 MIDDLEWARE = [
-    # "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -212,8 +211,7 @@ STATIC_URL = "/static/"
 # )
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # STATIC_URL = '/static/'
-# STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'
-
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Path where media is stored
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
@@ -266,4 +264,5 @@ OMISE_PUBLIC = config("OMISE_PUBLIC", cast=str, default="missing-omise-public")
 OMISE_SECRET = config("OMISE_SECRET", cast=str, default="missing-omise-secret")
 
 if ON_HEROKU:
+    import django_heroku
     django_heroku.settings(locals())
