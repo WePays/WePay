@@ -3,9 +3,11 @@ from selenium.common.exceptions import NoSuchElementException
 from django.test import LiveServerTestCase
 from selenium.webdriver import Chrome, ChromeOptions
 from selenium.webdriver.common.by import By
+from django.test import tag
 
 
 class E2ETestDeploy(LiveServerTestCase):
+    @tag('e2e')
     def setUp(self):
         """Setup before test"""
         options = ChromeOptions()
@@ -13,6 +15,7 @@ class E2ETestDeploy(LiveServerTestCase):
         self.browser = Chrome(options=options)
 
     # Test with deploy web
+    @tag('e2e')
     def login_with_deploy_web(self):
         """login function"""
         username = "wepay"
@@ -22,11 +25,13 @@ class E2ETestDeploy(LiveServerTestCase):
         self.browser.find_element(By.ID, "id_password").send_keys(password)
         self.browser.find_element(By.ID, "id_submit").click()
 
+    @tag('e2e')
     def test_login_with_deploy_web(self):
         """Test login with deploy web."""
         self.login_with_deploy_web()
         self.assertEqual(self.browser.current_url, "https://wepays.herokuapp.com/bill/")
 
+    @tag('e2e')
     def test_navigation_in_bill_page_with_deploy_web(self):
         """Test navigation in bill page with deploy web"""
         self.login_with_deploy_web()
@@ -53,6 +58,7 @@ class E2ETestDeploy(LiveServerTestCase):
         self.browser.find_element(By.XPATH, "/html/body/div/div[2]/form/button").click()
         self.assertEqual(self.browser.current_url, "https://wepays.herokuapp.com/accounts/login/")
 
+    @tag('e2e')
     def test_update_display(self):
         """Test for update display"""
         self.login_with_deploy_web()
@@ -68,6 +74,7 @@ class E2ETestDeploy(LiveServerTestCase):
         self.browser.find_element(By.XPATH, "/html/body/div[2]/div[1]/form/div/button").click() #update userprofile
         self.assertEqual(self.browser.find_element(By.NAME, "display name").is_displayed(), True)
 
+    @tag('e2e')
     def test_create_bill_and_add_topic_with_deploy_web(self):
         """Test create bill & add topic with deploy web"""
         self.login_with_deploy_web()
@@ -105,12 +112,14 @@ class E2ETestDeploy(LiveServerTestCase):
         # redirect back to bills page
         self.assertEqual(self.browser.current_url, "https://wepays.herokuapp.com/bill/")
 
+    @tag('e2e')
     def test_payment_and_verify(self):
         """Test payment and verify"""
         #TODO try to add user toastwepay in test_create_bill_and_add_topic_with_deploy_web
         username1 = "toastwepay"
         password1 = "wepay123"
 
+    @tag('e2e')
     def test_delete_button(self):
         """Test delete button"""
         self.test_create_bill_and_add_topic_with_deploy_web()

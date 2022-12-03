@@ -1,9 +1,10 @@
 from unittest import skip
+from django.test import tag
 
 from django.contrib.auth.models import User
 from django.test import Client, LiveServerTestCase
 from django.urls import reverse
-from selenium.webdriver import Chrome, ChromeOptions
+from selenium.webdriver import Chrome
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 
@@ -11,6 +12,7 @@ from WePay.models.userprofile import UserProfile
 
 
 class E2ETestLocal(LiveServerTestCase):
+    @tag('e2e')
     def setUp(self):
         self.client = Client()
         header = User.objects.create_user(
@@ -34,6 +36,7 @@ class E2ETestLocal(LiveServerTestCase):
         self.browser.set_page_load_timeout(30)
         self.browser.get(self.live_server_url)
 
+    @tag('e2e')
     def login(self):
         self.client.login(username=self.header.name, password="header123")
         cookie = self.client.cookies['sessionid']
@@ -48,6 +51,7 @@ class E2ETestLocal(LiveServerTestCase):
         self.browser.refresh()
 
     # @skip("Temporalily skip")
+    @tag('e2e')
     def test_login(self):
         # url to visit
         # self.browser.get("http://127.0.0.1:8000/accounts/login/")
@@ -66,6 +70,7 @@ class E2ETestLocal(LiveServerTestCase):
     #     assert "header" in self.browser.page_source
 
     # @skip("it still not work, i will try later after reading a selenium docs")
+    @tag('e2e')
     def test_initial_bill(self):
 
         self.login()
@@ -90,6 +95,7 @@ class E2ETestLocal(LiveServerTestCase):
 
         create_title.click()
 
+    @tag('e2e')
     def test_create_bill(self):
 
         self.login()
@@ -117,6 +123,7 @@ class E2ETestLocal(LiveServerTestCase):
 
         self.browser.find_element(By.NAME, 'create_button').click() # Create bill
 
+    @tag('e2e')
     def test_delete_topic(self):
 
         self.test_initial_bill()
@@ -136,6 +143,7 @@ class E2ETestLocal(LiveServerTestCase):
 
         self.browser.find_element(By.XPATH, 'html/body/div[2]/div/table/tbody[1]/tr/td[5]/a').click() # Delete Topic
 
+    @tag('e2e')
     def test_delete_bill(self):
 
         self.test_create_bill()
@@ -143,6 +151,6 @@ class E2ETestLocal(LiveServerTestCase):
         self.browser.find_element(By.XPATH, 
             "/html/body/div[2]/div/div/table/tbody[1]/tr/td[6]/a").click() # Delete bill
 
-
+    @tag('e2e')
     def tearDown(self):
         self.browser.close()
