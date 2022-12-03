@@ -1,17 +1,14 @@
-from unittest import skip
-from django.test import tag
-
 from django.contrib.auth.models import User
-from django.test import Client, LiveServerTestCase
+from django.test import Client, LiveServerTestCase, tag
 from django.urls import reverse
 from selenium.webdriver import Chrome
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
 
 from WePay.models.userprofile import UserProfile
 
 
 class E2ETestLocal(LiveServerTestCase):
+    
     @tag('e2e')
     def setUp(self):
         self.client = Client()
@@ -108,20 +105,23 @@ class E2ETestLocal(LiveServerTestCase):
         # assign_to_users = self.browser.find_element(By.TAG_NAME, 'select')
         # create_title = self.browser.find_element(By.NAME, 'create_title')
 
-        self.browser.find_element(By.XPATH, "//input[@id='title']").send_keys('Test Title') # Bill title
-        self.browser.find_element(By.ID, 'topic_name').send_keys('Test Food') # Topic name
-        self.browser.find_element(By.ID, 'topic_price').send_keys(100) # Topic price
-        self.assertIn('test_user', self.browser.find_element(By.TAG_NAME, 'select').text.split('\n')) # Assign to user
+        self.browser.find_element(
+            By.XPATH, "//input[@id='title']").send_keys('Test Title')  # Bill title
+        self.browser.find_element(By.ID, 'topic_name').send_keys('Test Food')  # Topic name
+        self.browser.find_element(By.ID, 'topic_price').send_keys(100)  # Topic price
+        self.assertIn('test_user', self.browser.find_element(
+            By.TAG_NAME, 'select').text.split('\n'))  # Assign to user
 
         self.browser.find_element(By.NAME, 'create_title').click()
 
-        self.browser.find_element(By.NAME, 'topic_name').send_keys('Test Food') # Topic name
-        self.browser.find_element(By.NAME, 'topic_price').send_keys(100) # Topic price
-        self.browser.find_element(By.TAG_NAME, 'select').send_keys(self.user.name) # Assign to user (topic)
+        self.browser.find_element(By.NAME, 'topic_name').send_keys('Test Food')  # Topic name
+        self.browser.find_element(By.NAME, 'topic_price').send_keys(100)  # Topic price
+        self.browser.find_element(By.TAG_NAME, 'select').send_keys(
+            self.user.name)  # Assign to user (topic)
 
-        self.browser.find_element(By.TAG_NAME, 'button').click() # Create topic
+        self.browser.find_element(By.TAG_NAME, 'button').click()  # Create topic
 
-        self.browser.find_element(By.NAME, 'create_button').click() # Create bill
+        self.browser.find_element(By.NAME, 'create_button').click()  # Create bill
 
     @tag('e2e')
     def test_delete_topic(self):
@@ -135,21 +135,23 @@ class E2ETestLocal(LiveServerTestCase):
 
         # self.browser.find_element(By.NAME, 'create_title').click()
 
-        self.browser.find_element(By.NAME, 'topic_name').send_keys('Test Food') # Topic name
-        self.browser.find_element(By.NAME, 'topic_price').send_keys(100) # Topic price
-        self.browser.find_element(By.TAG_NAME, 'select').send_keys(self.user.name) # Assign to user (topic)
+        self.browser.find_element(By.NAME, 'topic_name').send_keys('Test Food')  # Topic name
+        self.browser.find_element(By.NAME, 'topic_price').send_keys(100)  # Topic price
+        self.browser.find_element(By.TAG_NAME, 'select').send_keys(
+            self.user.name)  # Assign to user (topic)
 
-        self.browser.find_element(By.TAG_NAME, 'button').click() # Create topic
+        self.browser.find_element(By.TAG_NAME, 'button').click()  # Create topic
 
-        self.browser.find_element(By.XPATH, 'html/body/div[2]/div/table/tbody[1]/tr/td[5]/a').click() # Delete Topic
+        self.browser.find_element(
+            By.XPATH, 'html/body/div[2]/div/table/tbody[1]/tr/td[5]/a').click()  # Delete Topic
 
     @tag('e2e')
     def test_delete_bill(self):
 
         self.test_create_bill()
 
-        self.browser.find_element(By.XPATH, 
-            "/html/body/div[2]/div/div/table/tbody[1]/tr/td[6]/a").click() # Delete bill
+        self.browser.find_element(By.XPATH,
+                                  "/html/body/div[2]/div/div/table/tbody[1]/tr/td[6]/a").click()  # Delete bill
 
     @tag('e2e')
     def tearDown(self):

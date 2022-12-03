@@ -1,10 +1,12 @@
+from unittest import skip
+
 from django.contrib.auth.models import User
 from django.shortcuts import reverse
-from WePay.models.userprofile import UserProfile
-from ..models import Bills, Topic, CashPayment, Payment
-from .setUp import BaseSetUp
 from django.test import TestCase
-from unittest import skip
+
+from WePay.models.userprofile import UserProfile
+
+from ..models import Bills, Payment, Topic
 
 
 class TestPayment(TestCase):
