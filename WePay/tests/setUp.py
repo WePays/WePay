@@ -3,75 +3,31 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 from WePay.models.userprofile import UserProfile
 from ..models import Bills, Topic, Payment
-from .utlis import create_user
+from .utlis import create_user, create_bill, create_topic, create_payment
 
 
 class BaseSetUp(TestCase):
     def setUp(self):
         """Setup before running a tests."""
-        # header = User.objects.create_user(
-        #     username="header", email="header@example.com", password="header123"
-        # )
-        # self.header = UserProfile.objects.create(
-        #     user=header, chain_id="acch_test_5tl5qdsa0cbli76hwoj"
-        # )
+        self.header = create_user('header', 'header123', 'header@exmple.com', "acch_test_5tl5qdsa0cbli76hwoj")
+        self.user1 = create_user("test_user1", "user1", "user1@example.com")
+        self.user2 = create_user("test_user2", "user2", "user2@example.com")
+        self.user3 = create_user("test_user3", "user3", "user3@example.com")
+        self.user4 = create_user("test_user4", "user4", "user4@example.com")
+        self.user5 = create_user("test_user5", "user5", "user5@example.com")
+        self.user6 = create_user("test_user6", "user6", "user6@example.com")
 
-        self.header = create_user('header', 'header123', 'header@exmple.com')
-
-        user1 = User.objects.create_user(
-            username="test_user1", email="user1@example.com", password="user1"
-        )
-        self.user1 = UserProfile.objects.create(user=user1)
-        self.user1.save()
-
-        user2 = User.objects.create_user(
-            username="test_user2", email="user2@example.com", password="user2"
-        )
-        self.user2 = UserProfile.objects.create(user=user2)
-        self.user2.save()
-
-        user3 = User.objects.create_user(
-            username="test_user3", email="user3@example.com", password="user3"
-        )
-        self.user3 = UserProfile.objects.create(user=user3)
-        self.user3.save()
-
-        user4 = User.objects.create_user(
-            username="test_user4", email="user4@example.com", password="user4"
-        )
-        self.user4 = UserProfile.objects.create(user=user4)
-        self.user4.save()
-
-        user5 = User.objects.create_user(
-            username="test_user5", email="user5@example.com", password="user5"
-        )
-        self.user5 = UserProfile.objects.create(user=user5)
-        self.user5.save()
-
-        user6 = User.objects.create_user(
-            username="test_user6", email="user6@example.com", password="user6"
-        )
-        self.user6 = UserProfile.objects.create(user=user6)
-        self.user6.save()
-
-        self.bill = Bills.objects.create(header=self.header, name="Food Bill")
-        self.pepsi = Topic.objects.create(title="Pepsi", price=20, bill=self.bill)
-        self.coke = Topic.objects.create(title="Coke", price=15, bill=self.bill)
+        self.bill = create_bill(self.header, "Food Bill")
+        self.pepsi = create_topic("Pepsi", 20, self.bill)
+        self.coke = create_topic("Coke", 15, self.bill)
 
         # Set up for payment
-
-        self.cash_payment = Payment.objects.create(bill=self.bill, user=self.user1)
-        self.cash_payment.payment_type = "Cash"
-        self.promptpay_payment = Payment.objects.create(bill=self.bill, user=self.user2)
-        self.promptpay_payment.payment_type = "PromptPay"
-        self.scb_payment = Payment.objects.create(bill=self.bill, user=self.user3)
-        self.scb_payment.payment_type = "SCB"
-        self.ktb_payment = Payment.objects.create(bill=self.bill, user=self.user4)
-        self.ktb_payment.payment_type = "KTB"
-        self.bay_payment = Payment.objects.create(bill=self.bill, user=self.user5)
-        self.bay_payment.payment_type = "BAY"
-        self.bbl_payment = Payment.objects.create(bill=self.bill, user=self.user6)
-        self.bbl_payment.payment_type = "BBL"
+        self.cash_payment = create_payment(self.bill, self.user1, "Cash")
+        self.promptpay_payment = create_payment(self.bill, self.user2, "PromptPay")
+        self.scb_payment = create_payment(self.bill, self.user3, "SCB")
+        self.ktb_payment = create_payment(self.bill, self.user4, "KTB")
+        self.bay_payment = create_payment(self.bill, self.user5, "BAY")
+        self.bbl_payment = create_payment(self.bill, self.user6, "BBL")
 
         self.lst_payment = [
             self.cash_payment,

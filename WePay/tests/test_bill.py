@@ -2,25 +2,17 @@ from django.urls import reverse
 
 from WePay.models.bill import Topic
 from .setUp import BaseSetUp
-from django.contrib.auth.models import User
-from ..models import UserProfile, Bills, Payment
-from ..views import create
-from django.utils import timezone
+from ..models import Bills
 from unittest import skip
+from .utlis import create_user, create_topic, add_user_topic
 
 
 class BaseViewTest(BaseSetUp):
     def setUp(self):
         """Setup before running a tests."""
         super(BaseViewTest, self).setUp()
-        self.test_header = User.objects.create(
-            username="test_header", email="test@example.com"
-        )
-        self.test_header.set_password("header123")
-        self.test_header.save()
-        self.user_profile = UserProfile.objects.create(user=self.test_header)
-        self.user_profile.save()
-        self.client.force_login(self.test_header)
+        self.test_header = create_user(username="test_header", password="header123", email="test@example.com")
+        self.client.force_login(self.test_header.user)
 
     def test_logout(self):
         """After logout bring user back to login page."""
@@ -112,17 +104,12 @@ class BillCreateViewTest(BaseViewTest):
     def test_create_bill_with_more_topic(self):
         """test create a bill with initial topic and add more topic."""
         self.new_bill = Bills.objects.create(
-            header=self.user_profile, name="Beverage(s)"
+            header=self.test_header, name="Beverage(s)"
         )
-        self.est = Topic.objects.create(title="Est", price=20, bill=self.new_bill)
-        self.est.add_user(self.user1)
-        self.est.add_user(self.user2)
-        self.new_bill.add_topic(self.est)
+        self.est = create_topic(title="Est", price=20, bill=self.new_bill)
+        add_user_topic(self.est, [self.user1, self.user2])
         self.fanta = Topic.objects.create(title="Fanta", price=30, bill=self.new_bill)
-        self.fanta.add_user(self.user1)
-        self.fanta.add_user(self.user2)
-        self.fanta.add_user(self.user3)
-        self.new_bill.add_topic(self.fanta)
+        add_user_topic(self.fanta, [self.user1, self.user2, self.user3])
         self.assertEqual(Bills.objects.get(pk=2), self.new_bill)
         self.assertEqual(Bills.objects.get(pk=2).name, self.new_bill.name)
         self.assertEqual(Topic.objects.get(pk=3).title, self.est.title)
