@@ -80,3 +80,6 @@ You can view Project Documentation [here](https://github.com/WePays/WePay/wiki/h
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE) File for more information.
+
+## Contributing
+tba
